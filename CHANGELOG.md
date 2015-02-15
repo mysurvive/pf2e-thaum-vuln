@@ -2,9 +2,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- Thaumaturge Archetype
+
 ### Changed
 
 - Updated the checks.yml github workflow
+- Start following SemVer properly
 
 ## [0.18.2] - 2015-02-15
 
