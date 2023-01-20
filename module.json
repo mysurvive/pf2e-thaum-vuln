@@ -41,5 +41,8 @@
 		"module/thaum-vuln.js"
     ],
     "styles": [
-    ]
+    ],
+	"packs":[
+		"packs/mysurvives-thaumaturge-macros.db"
+	]
 }
