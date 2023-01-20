@@ -38,7 +38,8 @@
     "bugs": "",
     "changelog": "",
     "esmodules": [
-		"module/exploit-vulnerability.js"
+		"module/exploit-vulnerability.js",
+		"module/config.js"
     ],
     "styles": [
     ],
