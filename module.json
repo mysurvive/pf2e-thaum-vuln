@@ -38,7 +38,7 @@
     "bugs": "",
     "changelog": "",
     "esmodules": [
-		"module/thaum-vuln.js"
+		"module/exploit-vulnerability.js"
     ],
     "styles": [
     ],
