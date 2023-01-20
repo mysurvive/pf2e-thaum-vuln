@@ -38,6 +38,7 @@
     "bugs": "",
     "changelog": "",
     "esmodules": [
+		"module/thaum-vuln.js"
     ],
     "styles": [
     ]
