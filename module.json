@@ -1,0 +1,44 @@
+{
+    "id": "pf2e-thaum-vuln",
+    "title": "PF2e Thaumaturge Vulnerabilities",
+    "description": "Improvement for Thaumaturge Exploit Vulnerability",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "MySurvive",
+            "flags": {}
+        }
+    ],
+    "compatibility": {
+        "minimum": "10",
+        "verified": "10"
+    },
+    "relationships": {
+        "systems": [
+            {
+                "id": "pf2e",
+                "type": "system",
+                "compatibility": {
+                    "minimum": "4.6.4"
+                }
+            }
+        ]
+    },
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "languages/en.json"
+        }
+    ],
+    "url": "",
+    "manifest": "",
+    "download": "",
+    "readme": "",
+    "bugs": "",
+    "changelog": "",
+    "esmodules": [
+    ],
+    "styles": [
+    ]
+}
