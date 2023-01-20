@@ -1,4 +1,4 @@
-import { exploitVulnerability } from "./explot-vulnerability.js"
+import { exploitVulnerability } from "./exploit-vulnerability.js"
 
 Hooks.on(
 	"init",
