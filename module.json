@@ -43,6 +43,14 @@
     "styles": [
     ],
 	"packs":[
-		"packs/mysurvives-thaumaturge-macros.db"
+		{
+			"name": "MySurvive's Thaumaturge Macros",
+			"label": "MySurvive's Thaumaturge Macros",
+			"system": "pf2e",
+			"path": "packs/mysurvives-thaumaturge-macros.db",
+			"type": "Macro",
+			"private": false,
+			"flags": {}
+    },
 	]
 }
