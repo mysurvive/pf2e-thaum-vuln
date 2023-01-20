@@ -42,7 +42,7 @@
     ],
     "styles": [
     ],
-	"packs":[
+	"packs": [
 		{
 			"name": "MySurvive's Thaumaturge Macros",
 			"label": "MySurvive's Thaumaturge Macros",
@@ -51,6 +51,6 @@
 			"type": "Macro",
 			"private": false,
 			"flags": {}
-    }
+		}
 	]
 }
