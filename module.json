@@ -31,8 +31,8 @@
             "path": "languages/en.json"
         }
     ],
-    "url": "",
-    "manifest": "",
+    "url": "https://github.com/mysurvive/pf2e-thaum-vuln.git",
+    "manifest": "https://raw.githubusercontent.com/mysurvive/pf2e-thaum-vuln/main/module.json",
     "download": "",
     "readme": "",
     "bugs": "",
