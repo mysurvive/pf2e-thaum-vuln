@@ -1,10 +1,10 @@
-import { exploitVuln } from "./exploit-vulnerability.js"
+import { exploitVuln } from "./exploit-vulnerability.js";
 
 Hooks.on(
 	"init",
 	() => {
 		game.pf2eThaumVuln = {
-			exploitVulnerability
+			exploitVuln
 		};
 	}
 );
