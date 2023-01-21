@@ -2,7 +2,7 @@
     "id": "pf2e-thaum-vuln",
     "title": "PF2e Thaumaturge Vulnerabilities",
     "description": "Improvement for Thaumaturge Exploit Vulnerability",
-    "version": "0.0.3",
+    "version": "0.1.2",
     "authors": [
         {
             "name": "MySurvive",
@@ -50,6 +50,15 @@
 			"system": "pf2e",
 			"path": "packs/mysurvives-thaumaturge-macros.db",
 			"type": "Macro",
+			"private": false,
+			"flags": {}
+		},
+		{
+			"name": "Thaumaturge Effects",
+			"label": "Thaumaturge Effects",
+			"system": "pf2e",
+			"path": "packs/thaumaturge-effects.db",
+			"type": "Item",
 			"private": false,
 			"flags": {}
 		}
