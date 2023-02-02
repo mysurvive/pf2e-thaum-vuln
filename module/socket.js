@@ -8,6 +8,7 @@ let socket;
 Hooks.once("socketlib.ready", () => {
 	socket = socketlib.registerModule("pf2e-thaum-vuln");
 	socket.register("createEffectOnTarget", _socketCreateEffectOnTarget);
+	socket.register("updateEVEffect", _socketUpdateEVEffect);
 });
 
 export function createEffectOnTarget(a, t, effect) {
@@ -16,6 +17,10 @@ export function createEffectOnTarget(a, t, effect) {
 	let eID = effect.uuid;
 	return socket.executeAsGM(_socketCreateEffectOnTarget, aID, tID, eID);
 }	
+
+export function updateEVEffect(a, flag) {
+	return socket.executeAsGM(_socketUpdateEVEffect, a, flag);
+}
 
 async function _socketCreateEffectOnTarget(aID, tID, eID) {
 	
@@ -52,4 +57,40 @@ async function _socketCreateEffectOnTarget(aID, tID, eID) {
 	a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
 	await t.actor.createEmbeddedDocuments('Item', [eff]);
 	return;
+}
+
+async function _socketUpdateEVEffect(a, flag) {
+	let eff;
+	let tKey
+	const trueThaum = canvas.tokens.objects.children.find(token => token.actor.items.find(item => item.getFlag("core","sourceId") === MORTAL_WEAKNESS_EFFECT_SOURCEID ? item : item.getFlag("core","sourceId") ===  PERSONAL_ANTITHESIS_EFFECT_SOURCEID)).actor;
+	const evM = trueThaum.getFlag("pf2e-thaum-vuln","EVMode");
+	const t = await fromUuid(trueThaum.getFlag("pf2e-thaum-vuln","EVTargetID"));
+	const act = canvas.tokens.objects.children.find(token => token.actor.id === a).actor;
+	const value = act.getFlag("pf2e-thaum-vuln","EVValue");
+	if(evM === "mortal-weakness") {
+		tKey = t.actor.items.find(item => item.getFlag("core","sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID)._id;
+	} else if(evM === "personal-antithesis"){
+		tKey = t.actor.items.find(item => item.getFlag("core","sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID)._id;
+	} else {return}
+
+	if(flag) {
+		eff = trueThaum.getFlag("pf2e-thaum-vuln","EVValue");
+	} else {eff = 0}
+	let updates = {
+		_id:tKey,
+		system: {
+			rules: [
+				{
+					key: "Weakness",
+					type: "physical",
+					value: eff,
+					predicate: [
+						""
+					]
+				}
+			]
+		}
+	};
+	
+	await t.actor.updateEmbeddedDocuments('Item', [updates]);
 }
