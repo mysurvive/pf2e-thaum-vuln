@@ -32,7 +32,7 @@ export function getGreatestIWR(iwr) {
 }
 
 //Creates the dialog box when a success or crit success on Esoteric Lore is rolled
-export function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent) {
+export function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent, rollDOS) {
 	const aLevel = sa.level;
 	const paDmg = 2 + Math.floor(aLevel / 2);
 	return new Dialog({
@@ -41,11 +41,11 @@ export function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent
 		buttons: {
 			pa: {
 				label: "Personal Antithesis",
-				callback: () => {createEffectOnActor(sa, t, paEffectSource);}
+				callback: () => {createEffectOnActor(sa, t, paEffectSource, rollDOS);}
 			},
 			mw: {
 				label: "Mortal Weakness",
-				callback: () => {createEffectOnActor(sa, t, mwEffectSource);}
+				callback: () => {createEffectOnActor(sa, t, mwEffectSource, rollDOS);}
 			}
 		},
 		default: "pa",

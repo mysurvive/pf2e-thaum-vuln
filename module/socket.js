@@ -12,11 +12,11 @@ Hooks.once("socketlib.ready", () => {
 	socket.register("deleteEVEffect", _socketDeleteEVEffect);
 });
 
-export function createEffectOnTarget(a, t, effect) {
+export function createEffectOnTarget(a, t, effect, evTargets) {
 	let aID = a.uuid;
 	let tID = t.actor.uuid;
 	let eID = effect.uuid;
-	return socket.executeAsGM(_socketCreateEffectOnTarget, aID, tID, eID);
+	return socket.executeAsGM(_socketCreateEffectOnTarget, aID, tID, eID, evTargets);
 }	
 
 export function updateEVEffect(a, flag) {
@@ -26,15 +26,14 @@ export function updateEVEffect(a, flag) {
 export function deleteEVEffect(a) {
 	if(getActorEVEffect(a)){
 		let targ = new Array;
-		targ.push(a.getFlag("pf2e-thaum-vuln", "EVTargetID"));
+		a.getFlag("pf2e-thaum-vuln","EVTargetID").map(t => targ.push(t));
 		targ.push(a.uuid);
 		
 		return socket.executeAsGM(_socketDeleteEVEffect, targ);
 	}
 }
 
-async function _socketCreateEffectOnTarget(aID, tID, eID) {
-	
+async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 	const a = await fromUuid(aID);
 	const t = await fromUuid(tID);
 	const e = await fromUuid(eID);	
@@ -57,27 +56,75 @@ async function _socketCreateEffectOnTarget(aID, tID, eID) {
 		eff.system.rules[0].value = Math.floor(a.level / 2)+2;
 	}
 	a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
-	await t.actor.createEmbeddedDocuments('Item', [eff]);
+	for(let targ of evTargets) {
+		const tg = await fromUuid(targ);
+		tg.actor.createEmbeddedDocuments('Item', [eff]);
+	}
 	return;
 }
 
-//This is a temporary fix until the next pf2e system update. The function hooks on renderChatMessage attack-rolls
+//This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 async function _socketUpdateEVEffect(a, flag) {
 	let eff;
-	let tKey
+	let tKey;
+	let targs = new Array;
 	const trueThaum = canvas.tokens.objects.children.find(token => token.actor.items.find(item => item.getFlag("core","sourceId") === MORTAL_WEAKNESS_EFFECT_SOURCEID ? item : item.getFlag("core","sourceId") ===  PERSONAL_ANTITHESIS_EFFECT_SOURCEID)).actor;
 	const evM = trueThaum.getFlag("pf2e-thaum-vuln","EVMode");
-	const t = await fromUuid(trueThaum.getFlag("pf2e-thaum-vuln","EVTargetID"));
+	trueThaum.getFlag("pf2e-thaum-vuln","EVTargetID").map(tg => targs.push(tg));
 	const act = canvas.tokens.objects.children.find(token => token.actor.id === a).actor;
 	const value = act.getFlag("pf2e-thaum-vuln","EVValue");
 	if(evM === "mortal-weakness") {
-		tKey = t.actor.items.find(item => item.getFlag("core","sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID)._id;
+		for (let t of targs){
+			let tg = await fromUuid(t);
+			tKey = tg.actor.items.find(item => item.getFlag("core","sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID)._id;
+			if(flag) {
+				eff = trueThaum.getFlag("pf2e-thaum-vuln","EVValue");
+			} else {eff = 0}
+			let updates = {
+				_id:tKey,
+				system: {
+					rules: [
+						{
+							key: "Weakness",
+							type: "physical",
+							value: eff,
+							predicate: [
+								""
+							]
+						}
+					]
+				}
+			};
+			await tg.actor.updateEmbeddedDocuments('Item', [updates]);
+		}
 	} else if(evM === "personal-antithesis"){
-		tKey = t.actor.items.find(item => item.getFlag("core","sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID)._id;
+		for (let t of targs){
+			let tg = await fromUuid(t);
+			tKey = tg.actor.items.find(item => item.getFlag("core","sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID)._id;
+			if(flag) {
+				eff = trueThaum.getFlag("pf2e-thaum-vuln","EVValue");
+			} else {eff = 0}
+			let updates = {
+				_id:tKey,
+				system: {
+					rules: [
+						{
+							key: "Weakness",
+							type: "physical",
+							value: eff,
+							predicate: [
+								""
+							]
+						}
+					]
+				}
+			};
+			await tg.actor.updateEmbeddedDocuments('Item', [updates]);
+		}
 	} else {return}
-
+/*
 	if(flag) {
 		eff = trueThaum.getFlag("pf2e-thaum-vuln","EVValue");
 	} else {eff = 0}
@@ -96,8 +143,11 @@ async function _socketUpdateEVEffect(a, flag) {
 			]
 		}
 	};
-	
-	await t.actor.updateEmbeddedDocuments('Item', [updates]);
+	for(let t of targs) {
+		let tg = await fromUuid(t);
+		await tg.actor.updateEmbeddedDocuments('Item', [updates]);
+	}
+	*/
 }
 
 //Deletes the effect from the actor passed to the method
