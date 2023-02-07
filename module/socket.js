@@ -23,14 +23,50 @@ export function updateEVEffect(a, flag) {
 	return socket.executeAsGM(_socketUpdateEVEffect, a, flag);
 }
 
-export function deleteEVEffect(a) {
-	if(getActorEVEffect(a)){
-		let targ = new Array;
-		a.getFlag("pf2e-thaum-vuln","EVTargetID").map(t => targ.push(t));
-		targ.push(a.uuid);
+export function deleteEVEffect(a, sa) {
+	let targ = new Array;
+	if (sa === undefined) {
+		for (let tg of a) {
+			if (tg.actor) {
+				if (getActorEVEffect(tg.actor)) {
+					targ.push(tg.actor.uuid);
+				}
+			} else {
+				if (getActorEVEffect(tg)) {
+
+					targ.push(tg.uuid);
+				}
+			}
+		}
+	} else {
+		let actorID = sa.uuid;
+		let effect;
+		for (let tg of a) {
+			if (tg.actor) {
+				if (getActorEVEffect(tg.actor)) {
+					effect = getActorEVEffect(tg.actor);
+					if (effect.system.rules[1].option.split(":")[2] === actorID) {
+						targ.push(tg.actor.uuid);
+                    }
+				}
+			}
+			else {
+				if (getActorEVEffect(tg)) {
+					if (tg.uuid != actorID) {
+						effect = getActorEVEffect(tg);
+						if (effect.system.rules[1].option.split(":")[2] === actorID) {
+							targ.push(tg.uuid);
+						}
+					} else {
+						targ.push(actorID);
+                    }
+					
+				}
+			}
+		}
 		
-		return socket.executeAsGM(_socketDeleteEVEffect, targ);
-	}
+    }
+	return socket.executeAsGM(_socketDeleteEVEffect, targ, sa.uuid);
 }
 
 async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
@@ -56,6 +92,8 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 		eff.system.rules[0].value = Math.floor(a.level / 2)+2;
 	}
 	a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
+	eff.system.rules[1].option = `origin:id:${a.uuid}`;
+	eff.name = eff.name + ` (${a.name})`
 	for(let targ of evTargets) {
 		const tg = await fromUuid(targ);
 		tg.actor.createEmbeddedDocuments('Item', [eff]);
@@ -67,97 +105,73 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 async function _socketUpdateEVEffect(a, flag) {
-	let eff;
+	let updates;
 	let tKey;
-	let targs = new Array;
-	const trueThaum = canvas.tokens.objects.children.find(token => token.actor.items.find(item => item.getFlag("core","sourceId") === MORTAL_WEAKNESS_EFFECT_SOURCEID ? item : item.getFlag("core","sourceId") ===  PERSONAL_ANTITHESIS_EFFECT_SOURCEID)).actor;
-	const evM = trueThaum.getFlag("pf2e-thaum-vuln","EVMode");
-	trueThaum.getFlag("pf2e-thaum-vuln","EVTargetID").map(tg => targs.push(tg));
-	const act = canvas.tokens.objects.children.find(token => token.actor.id === a).actor;
-	const value = act.getFlag("pf2e-thaum-vuln","EVValue");
-	if(evM === "mortal-weakness") {
-		for (let t of targs){
-			let tg = await fromUuid(t);
-			tKey = tg.actor.items.find(item => item.getFlag("core","sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID)._id;
-			if(flag) {
-				eff = trueThaum.getFlag("pf2e-thaum-vuln","EVValue");
-			} else {eff = 0}
-			let updates = {
-				_id:tKey,
-				system: {
-					rules: [
-						{
-							key: "Weakness",
-							type: "physical",
-							value: eff,
-							predicate: [
-								""
+	let value;
+	let origin;
+	let rollOptionData;
+	if (flag) {
+		for (let act of canvas.tokens.placeables) {
+			if (act.actor.uuid != a.uuid) {
+				for (let effect of getActorEVEffect(act.actor, "*")) {
+					if (effect?.rules[1]?.option.split(":")[2] != a.uuid && effect?.rules[1]?.option) {
+						value = 0;
+					} else if (effect?.rules[1]?.option){
+						let acts = effect.rules[1].option.split(":")[2];
+						origin = await fromUuid(acts);
+						value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
+					}
+					tKey = effect._id;
+					rollOptionData = effect.rules[1]?.option;
+					updates = {
+						_id: tKey,
+						system: {
+							rules: [
+								{
+									key: "Weakness",
+									type: "physical",
+									value: value,
+									predicate: [
+										""
+									]
+								},
+								{
+									key: "RollOption",
+									domain: "damage-roll",
+									option: rollOptionData
+								}
 							]
 						}
-					]
-				}
-			};
-			await tg.actor.updateEmbeddedDocuments('Item', [updates]);
+					};
+					await act.actor.updateEmbeddedDocuments('Item', [updates]);
+                }
+			}
 		}
-	} else if(evM === "personal-antithesis"){
-		for (let t of targs){
-			let tg = await fromUuid(t);
-			tKey = tg.actor.items.find(item => item.getFlag("core","sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID)._id;
-			if(flag) {
-				eff = trueThaum.getFlag("pf2e-thaum-vuln","EVValue");
-			} else {eff = 0}
-			let updates = {
-				_id:tKey,
-				system: {
-					rules: [
-						{
-							key: "Weakness",
-							type: "physical",
-							value: eff,
-							predicate: [
-								""
-							]
-						}
-					]
-				}
-			};
-			await tg.actor.updateEmbeddedDocuments('Item', [updates]);
-		}
-	} else {return}
-/*
-	if(flag) {
-		eff = trueThaum.getFlag("pf2e-thaum-vuln","EVValue");
-	} else {eff = 0}
-	let updates = {
-		_id:tKey,
-		system: {
-			rules: [
-				{
-					key: "Weakness",
-					type: "physical",
-					value: eff,
-					predicate: [
-						""
-					]
-				}
-			]
-		}
-	};
-	for(let t of targs) {
-		let tg = await fromUuid(t);
-		await tg.actor.updateEmbeddedDocuments('Item', [updates]);
 	}
-	*/
 }
 
 //Deletes the effect from the actor passed to the method
-async function _socketDeleteEVEffect(targ) {
+async function _socketDeleteEVEffect(targ, actorID) {
 	let eff;
-	for(let act of targ){
-		let a = await fromUuid(act);
-		if(a.actor) {
-			eff = getActorEVEffect(a.actor);
-		} else {eff = getActorEVEffect(a);}
-		eff.delete();
-	}
+	if (actorID === undefined) {
+		for (let act of targ) {
+			let a = await fromUuid(act);
+			if (a.actor) {
+				eff = getActorEVEffect(a.actor);
+			} else { eff = getActorEVEffect(a); }
+			eff.delete();
+		}
+	} else {
+		for (let act of targ) {
+			let a = await fromUuid(act);
+			if (a.uuid != actorID) {
+				if (a.actor) {
+					eff = getActorEVEffect(a.actor, actorID);
+				} else { eff = getActorEVEffect(a, actorID); }
+			} else {
+				eff = getActorEVEffect(a);
+			}
+			eff.delete();
+		}
+    }
 }

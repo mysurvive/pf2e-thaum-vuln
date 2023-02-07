@@ -13,10 +13,24 @@ import {createEffectOnActor} from "./exploit-vulnerability.js";
 
 
 //Gets the effects of Personal Antithesis or Mortal Weakness from the character
-export function getActorEVEffect(a){
-	return a.items.find(item => item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_EFFECT_SOURCEID || item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
-						item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID || item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID) ;
-}
+export function getActorEVEffect(a, targetID) {
+	if (targetID === undefined) {
+		return a.items.find(item => item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_EFFECT_SOURCEID || item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
+			item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID || item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID);
+	} else if (targetID === "*") {
+		let effects = new Array;
+		for (let item of a.items) {
+
+			if (item?.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID ||
+				item?.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID) {
+				effects.push(item);
+            }
+		}
+		return effects
+	} else	{
+		return a.items.find(item => (item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID && item?.rules[1]?.option === `origin:id:${targetID}`) || (item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID && item?.rules[1]?.option === `origin:id:${targetID}`));
+    }
+	}
 
 //Gets the highest IWR value from an array that is passed in
 export function getGreatestIWR(iwr) {
@@ -32,7 +46,7 @@ export function getGreatestIWR(iwr) {
 }
 
 //Creates the dialog box when a success or crit success on Esoteric Lore is rolled
-export function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent, rollDOS) {
+export function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent) {
 	const aLevel = sa.level;
 	const paDmg = 2 + Math.floor(aLevel / 2);
 	return new Dialog({
@@ -41,11 +55,11 @@ export function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent
 		buttons: {
 			pa: {
 				label: "Personal Antithesis",
-				callback: () => {createEffectOnActor(sa, t, paEffectSource, rollDOS);}
+				callback: () => {createEffectOnActor(sa, t, paEffectSource);}
 			},
 			mw: {
 				label: "Mortal Weakness",
-				callback: () => {createEffectOnActor(sa, t, mwEffectSource, rollDOS);}
+				callback: () => {createEffectOnActor(sa, t, mwEffectSource);}
 			}
 		},
 		default: "pa",
