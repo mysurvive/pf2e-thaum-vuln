@@ -20,8 +20,22 @@ There is currently no functionality with feats related to exploit vulnerability.
   
   Critical Failure: A flat-footed effect will be applied to the player that will drop off at the beginning of their next turn.
   
+  ![Apply Effect](assets/applyEffect.gif)
+  
 5. In the event that the player chooses to exploit a Mortal Weakness (or the sympathetic weakness feat), there is another macro for GMs to use that will apply the Mortal Weakness effect to additional targets that fit the criteria "enemies of the exact same type." Since Paizo doesn't explicitly state what qualifies as a creature type, or "exact same type," this has been provided in a macro for GMs to use at their discretion. Simply target the actors that should have the effect (I recommend using shift+T to target multiple targets), select the thaumaturge that created the effect, and then run the "Force EV" macro from the "MySurvive's Thaumaturge Macros" compendium.
+
+	![Force EV](assets/forceEV)
+
 6. When the thaumaturge attacks, the value of the exploit vulnerability will only be added to their attacks, taking IWR into account.
+![Apply Damage](assets/applyDamage.gif)
 
 ## Reporting Issues ##
 Please report any issues you find. I can't guarantee that I can get to them extremely quickly, but I will do my best.
+
+### More Usage Clips ###
+![Re-apply Effect](assets/reAplyEffect.gif)
+
+![Force EV with Personal Antithesis](assets/moreForceEV.gif)
+
+![Apply Damage](assets/applyDamage.gif)
+
