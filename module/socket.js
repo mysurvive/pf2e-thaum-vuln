@@ -1,5 +1,5 @@
-import {MORTAL_WEAKNESS_TARGET_SOURCEID, MORTAL_WEAKNESS_TARGET_UUID, PERSONAL_ANTITHESIS_TARGET_SOURCEID, PERSONAL_ANTITHESIS_TARGET_UUID,
-		MORTAL_WEAKNESS_EFFECT_UUID, PERSONAL_ANTITHESIS_EFFECT_UUID, MORTAL_WEAKNESS_EFFECT_SOURCEID, PERSONAL_ANTITHESIS_EFFECT_SOURCEID} from "./utils.js";
+import {MORTAL_WEAKNESS_TARGET_UUID, PERSONAL_ANTITHESIS_TARGET_UUID,
+		MORTAL_WEAKNESS_EFFECT_SOURCEID, PERSONAL_ANTITHESIS_EFFECT_SOURCEID} from "./utils.js";
 
 import {getActorEVEffect, getGreatestIWR} from "./utils.js";
 
@@ -19,11 +19,11 @@ export function createEffectOnTarget(a, t, effect, evTargets) {
 	return socket.executeAsGM(_socketCreateEffectOnTarget, aID, tID, eID, evTargets);
 }	
 
-export function updateEVEffect(a, flag) {
-	return socket.executeAsGM(_socketUpdateEVEffect, a, flag);
+export function updateEVEffect(a) {
+	return socket.executeAsGM(_socketUpdateEVEffect, a);
 }
 
-export function deleteEVEffect(a, sa) {
+export function deleteEVEffect(a, sa = undefined) {
 	let targ = new Array;
 	if (sa === undefined) {
 		for (let tg of a) {
@@ -38,15 +38,19 @@ export function deleteEVEffect(a, sa) {
 				}
 			}
 		}
+		return socket.executeAsGM(_socketDeleteEVEffect, targ);
 	} else {
 		let actorID = sa.uuid;
 		let effect;
 		for (let tg of a) {
-			if (tg.actor) {
+
+			if (tg?.actor) {
 				if (getActorEVEffect(tg.actor)) {
 					effect = getActorEVEffect(tg.actor);
-					if (effect.system.rules[1].option.split(":")[2] === actorID) {
+					if (effect.system?.rules[1]?.option?.split(":")[2] === actorID) {
 						targ.push(tg.actor.uuid);
+					} else if(tg.actor === sa){
+						targ.push(tg.actor.uuid)
                     }
 				}
 			}
@@ -60,13 +64,11 @@ export function deleteEVEffect(a, sa) {
 					} else {
 						targ.push(actorID);
                     }
-					
 				}
 			}
 		}
-		
+		return socket.executeAsGM(_socketDeleteEVEffect, targ, actorID);
     }
-	return socket.executeAsGM(_socketDeleteEVEffect, targ, sa.uuid);
 }
 
 async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
@@ -104,54 +106,52 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
-async function _socketUpdateEVEffect(a, flag) {
+async function _socketUpdateEVEffect(a) {
 	let updates;
 	let tKey;
 	let value;
 	let origin;
 	let rollOptionData;
-	if (flag) {
-		for (let act of canvas.tokens.placeables) {
-			if (act.actor.uuid != a.uuid) {
-				for (let effect of getActorEVEffect(act.actor, "*")) {
-					if (effect?.rules[1]?.option.split(":")[2] != a.uuid && effect?.rules[1]?.option) {
-						value = 0;
-					} else if (effect?.rules[1]?.option){
-						let acts = effect.rules[1].option.split(":")[2];
-						origin = await fromUuid(acts);
-						value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
+	for (let act of canvas.tokens.placeables) {
+		if (act.actor.uuid != a.uuid) {
+			for (let effect of getActorEVEffect(act.actor, "*")) {
+				if (effect?.rules[1]?.option.split(":")[2] != `Actor.${a}` && effect?.rules[1]?.option) {
+					value = 0;
+				} else if (effect?.rules[1]?.option){
+					let acts = effect.rules[1].option.split(":")[2];
+					origin = await fromUuid(acts);
+					value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
+				}
+				tKey = effect._id;
+				rollOptionData = effect.rules[1]?.option;
+				updates = {
+					_id: tKey,
+					system: {
+						rules: [
+							{
+								key: "Weakness",
+								type: "physical",
+								value: value,
+								predicate: [
+									""
+								]
+							},
+							{
+								key: "RollOption",
+								domain: "damage-roll",
+								option: rollOptionData
+							}
+						]
 					}
-					tKey = effect._id;
-					rollOptionData = effect.rules[1]?.option;
-					updates = {
-						_id: tKey,
-						system: {
-							rules: [
-								{
-									key: "Weakness",
-									type: "physical",
-									value: value,
-									predicate: [
-										""
-									]
-								},
-								{
-									key: "RollOption",
-									domain: "damage-roll",
-									option: rollOptionData
-								}
-							]
-						}
-					};
-					await act.actor.updateEmbeddedDocuments('Item', [updates]);
-                }
-			}
+				};
+				await act.actor.updateEmbeddedDocuments('Item', [updates]);
+            }
 		}
 	}
 }
 
 //Deletes the effect from the actor passed to the method
-async function _socketDeleteEVEffect(targ, actorID) {
+async function _socketDeleteEVEffect(targ, actorID = undefined) {
 	let eff;
 	if (actorID === undefined) {
 		for (let act of targ) {
