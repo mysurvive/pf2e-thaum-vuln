@@ -27,8 +27,8 @@ export function getActorEVEffect(a, targetID) {
             }
 		}
 		return effects
-	} else	{
-		return a.items.find(item => (item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID && item?.rules[1]?.option === `origin:id:${targetID}`) || (item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID && item?.rules[1]?.option === `origin:id:${targetID}`));
+	} else {
+		return a.items.find(item => (item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID && item?.rules[1]?.option === "origin:id:" + targetID.split('.').join("")) || (item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID && item?.rules[1]?.option === "origin:id:" + targetID.split('.').join("")));
     }
 	}
 

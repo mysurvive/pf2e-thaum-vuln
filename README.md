@@ -1,4 +1,4 @@
-# pf2e-thaum-vuln
+# PF2e Exploit Vulnerability
 Improvement for Thaumaturge Exploit Vulnerability
 
 This project is a carryover until the pf2e system for Foundry VTT implements Thaumaturge Exploit Vulnerability
