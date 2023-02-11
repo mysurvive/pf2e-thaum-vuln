@@ -115,10 +115,11 @@ async function _socketUpdateEVEffect(a) {
 	for (let act of canvas.tokens.placeables) {
 		if (act.actor.uuid != a.uuid) {
 			for (let effect of getActorEVEffect(act.actor, "*")) {
-				if (effect?.rules[1]?.option.split(":")[2] != `Actor.${a}` && effect?.rules[1]?.option) {
+				if (effect?.rules[1]?.option.split(":")[2] != `Actor${a}` && effect?.rules[1]?.option) {
 					value = 0;
 				} else if (effect?.rules[1]?.option){
 					let acts = effect.rules[1].option.split(":")[2];
+					acts = acts.replace("Actor", "Actor.");
 					origin = await fromUuid(acts);
 					value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
 				}
