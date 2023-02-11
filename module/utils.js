@@ -8,6 +8,9 @@ export const MORTAL_WEAKNESS_TARGET_SOURCEID = "Item.8z4Q1PuKb13GJMPR";
 export const MORTAL_WEAKNESS_TARGET_UUID = "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.q2TMJ31MwLNJV1jA";
 export const PERSONAL_ANTITHESIS_TARGET_SOURCEID = "Item.5QgPHAdpsUHJmCkX";
 export const PERSONAL_ANTITHESIS_TARGET_UUID = "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.dNpf1EDKJ6fgNL42";
+export const BREACHED_DEFENSES_SOURCEID = "Compendium.pf2e.feats-srd.5EzJVhiHQvr3v72n";
+export const BREACHED_DEFENSES_EFFECT_SOURCEID = "Item.9ZJclirw6zHSkk0n";
+export const BREACHED_DEFENSES_EFFECT_UUID = "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.xL79ewLohxDzpICy";
 
 import {createEffectOnActor} from "./exploit-vulnerability.js";
 
@@ -46,10 +49,10 @@ export function getGreatestIWR(iwr) {
 }
 
 //Creates the dialog box when a success or crit success on Esoteric Lore is rolled
-export function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent) {
+export async function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent, rollDOS) {
 	const aLevel = sa.level;
 	const paDmg = 2 + Math.floor(aLevel / 2);
-	return new Dialog({
+	let dg = new Dialog({
 		title: "Exploit Vulnerability",
 		content: html => "<p>Choose whether to exploit a Personal Antithesis or Mortal Weakness</p><br>" + iwrContent + `<p>Personal Antithesis Bonus Damage: ${paDmg}</p>`,
 		buttons: {
@@ -66,6 +69,16 @@ export function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent
 		render: html => console.log("Register interactivity in the rendered dialog"),
 		close: html => console.log("This always is logged no matter which option is chosen")
 	});
+	if (sa.items.find(item => item.getFlag("core", "sourceId") === BREACHED_DEFENSES_SOURCEID) && (rollDOS === 2 || rollDOS === 3)) {
+		let bdEffectSource = await fromUuid(BREACHED_DEFENSES_EFFECT_UUID);
+		dg.data.buttons = {...dg.data.buttons,
+			bd: {
+				label: "Breached Defenses",
+				callback: () => { createEffectOnActor(sa, t, bdEffectSource); }
+			}
+		};
+    }
+	return dg;
 }
 
 //Creates the IWR content box content
