@@ -8,7 +8,7 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 There is currently no functionality with feats related to exploit vulnerability. This is a work in progress.
 
 ## IMPORTANT!!! ##
-<strong>IWR must be turned on in the PF2e Core Automation Settings or damage will not be applied properly</strong>
+<strong>IWR must be turned on in the PF2e Core Automation Settings or damage will not be applied properly</strong><br>
 <strong>A thaumaturge's Esoteric Lore entry must be listed as Esoteric Lore or it will not work</strong>
 ![Esoteric Lore Skill](assets/esotericLore.png)
 
