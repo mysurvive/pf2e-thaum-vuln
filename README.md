@@ -10,7 +10,7 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 
 ## Functionality ##
 
-# Feats #
+### Feats ###
 
 <ul>
 <li> Diverse Lore: A secret message is sent to the GM on a successful or critically successful Exploit Vulnerability roll, comparing the result of the roll to the hard DC for the creature and providing guidance per the CRB,
