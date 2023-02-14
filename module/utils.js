@@ -10,28 +10,87 @@ export const PERSONAL_ANTITHESIS_TARGET_SOURCEID = "Item.5QgPHAdpsUHJmCkX";
 export const PERSONAL_ANTITHESIS_TARGET_UUID = "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.dNpf1EDKJ6fgNL42";
 export const BREACHED_DEFENSES_SOURCEID = "Compendium.pf2e.feats-srd.5EzJVhiHQvr3v72n";
 export const BREACHED_DEFENSES_EFFECT_SOURCEID = "Item.9ZJclirw6zHSkk0n";
-export const BREACHED_DEFENSES_EFFECT_UUID = "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.xL79ewLohxDzpICy";
+export const BREACHED_DEFENSES_EFFECT_UUID = "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.FMw5IpJdA6eOgtv1";
+export const BREACHED_DEFENSES_TARGET_UUID = "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.E38yjK1tdr579dJy";
+export const BREACHED_DEFENSES_TARGET_SOURCEID = "Item.aasC0M4NDDjR84UI";
+export const DIVERSE_LORE_SOURCEID = "Compendium.pf2e.feats-srd.KlqKpeq5OmTRxVHb";
+export const ADJUSTMENT_TYPES = {
+	materials: {
+		propLabel: "materials",
+		data: [
+			"abysium",
+			"adamantine",
+			"cold-iron",
+			"darkwood",
+			"djezet",
+			"dragonhide",
+			"grisantian-pelt",
+			"inubrix",
+			"mithral",
+			"noqual",
+			"orichalcum",
+			"peachwood",
+			"siccatite",
+			"silver",
+			"sisterstone-dusk",
+			"sisterstone-scarlet",
+			"sovereign-steel",
+			"warpglass"
+		]
+	},
+	traits: {
+		propLabel: "traits",
+		data: [
+			"chaotic",
+			"evil",
+			"good",
+			"lawful",
+			"air",
+			"earth",
+			"fire",
+			"metal",
+			"water",
+			"acid",
+			"cold",
+			"electricity",
+			"fire",
+			"force",
+			"negative",
+			"positive",
+			"sonic"
+		]
+	},
+	"weapon-traits": {
+		propLabel: "weapon-traits",
+		data: [
+			"magical"
+		]
+	}
+}
 
 import {createEffectOnActor} from "./exploit-vulnerability.js";
-
 
 //Gets the effects of Personal Antithesis or Mortal Weakness from the character
 export function getActorEVEffect(a, targetID) {
 	if (targetID === undefined) {
 		return a.items.find(item => item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_EFFECT_SOURCEID || item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
-			item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID || item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID);
+			item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID || item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID ||
+			item.getFlag("core", "sourceId") === BREACHED_DEFENSES_EFFECT_SOURCEID || item.getFlag("core", "sourceId") === BREACHED_DEFENSES_TARGET_SOURCEID);
 	} else if (targetID === "*") {
 		let effects = new Array;
 		for (let item of a.items) {
 
 			if (item?.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID ||
-				item?.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID) {
+				item?.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID ||
+				item?.sourceId === BREACHED_DEFENSES_TARGET_SOURCEID) {
 				effects.push(item);
             }
 		}
 		return effects
 	} else {
-		return a.items.find(item => (item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID && item?.rules[1]?.option === "origin:id:" + targetID.split('.').join("")) || (item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID && item?.rules[1]?.option === "origin:id:" + targetID.split('.').join("")));
+		return a.items.find(item => (item.getFlag("core", "sourceId") === PERSONAL_ANTITHESIS_TARGET_SOURCEID && item?.rules[1]?.option === "origin:id:" + targetID.split('.').join("")) ||
+			(item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID && item?.rules[1]?.option === "origin:id:" + targetID.split('.').join("")) ||
+			(item.getFlag("core", "sourceId") === BREACHED_DEFENSES_TARGET_SOURCEID && item?.rules.find(rules => rules.key === "RollOption" && rules.option === ("origin:id:" + targetID.split('.').join("")))));
     }
 	}
 
@@ -48,36 +107,70 @@ export function getGreatestIWR(iwr) {
 	} 
 }
 
+export function BDGreatestBypassableResistance(r) {
+	if (r) {
+		
+		let bypassResists = new Array;
+		for (let resist of r) {
+			if (resist.exceptions.length != 0) {
+				bypassResists.push(resist);
+            }
+		}
+		if (bypassResists.length != 0) {
+			let gBD = bypassResists[0];
+			for (let resist of bypassResists) {
+				if (resist.value >= gBD.value) {
+					gBD = resist;
+                }
+			}
+			return gBD;
+        }
+	}
+	return "none"
+}
+
 //Creates the dialog box when a success or crit success on Esoteric Lore is rolled
 export async function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent, rollDOS) {
 	const aLevel = sa.level;
 	const paDmg = 2 + Math.floor(aLevel / 2);
-	let dg = new Dialog({
-		title: "Exploit Vulnerability",
-		content: html => "<p>Choose whether to exploit a Personal Antithesis or Mortal Weakness</p><br>" + iwrContent + `<p>Personal Antithesis Bonus Damage: ${paDmg}</p>`,
-		buttons: {
-			pa: {
-				label: "Personal Antithesis",
-				callback: () => {createEffectOnActor(sa, t, paEffectSource);}
-			},
-			mw: {
-				label: "Mortal Weakness",
-				callback: () => {createEffectOnActor(sa, t, mwEffectSource);}
-			}
+	let dgContent = "<p>Choose the vulnerability to exploit.</p><br>" + iwrContent + `<p>Personal Antithesis Bonus Damage: ${paDmg}</p>`;
+	let dgBtns = {
+		pa: {
+			label: "Personal Antithesis",
+			callback: () => { createEffectOnActor(sa, t, paEffectSource); }
 		},
-		default: "pa",
-		render: html => console.log("Register interactivity in the rendered dialog"),
-		close: html => console.log("This always is logged no matter which option is chosen")
-	});
+		mw: {
+			label: "Mortal Weakness",
+			callback: () => { createEffectOnActor(sa, t, mwEffectSource); }
+		}
+	}
 	if (sa.items.find(item => item.getFlag("core", "sourceId") === BREACHED_DEFENSES_SOURCEID) && (rollDOS === 2 || rollDOS === 3)) {
 		let bdEffectSource = await fromUuid(BREACHED_DEFENSES_EFFECT_UUID);
-		dg.data.buttons = {...dg.data.buttons,
+		let tRes;
+		if (t.actor.system?.attributes?.resistances) {
+			tRes = t.actor.system?.attributes?.resistances;
+		} else if (t.document.actorData.system?.attributes?.resistances) {
+			tRes = t.document.actorData.system?.attributes?.resistances;
+		}
+		let gBD = BDGreatestBypassableResistance(tRes).type + ", bypassed by " + BDGreatestBypassableResistance(tRes).exceptions;
+		dgContent = dgContent + "<p>Highest Bypassable Resistance: " + gBD + "<p>";
+		dgBtns = {
+			...dgBtns,
 			bd: {
 				label: "Breached Defenses",
 				callback: () => { createEffectOnActor(sa, t, bdEffectSource); }
 			}
 		};
-    }
+	}
+	let dg = new Dialog({
+		title: "Exploit Vulnerability",
+		content: html => dgContent,
+		buttons: dgBtns,
+		default: "pa",
+		render: html => console.log("Register interactivity in the rendered dialog"),
+		close: html => console.log("This always is logged no matter which option is chosen")
+	});
+	
 	return dg;
 }
 
