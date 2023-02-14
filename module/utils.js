@@ -94,7 +94,7 @@ export function getActorEVEffect(a, targetID) {
     }
 	}
 
-//Gets the highest IWR value from an array that is passed in
+//Gets and returns the highest IWR value from an array that is passed in
 export function getGreatestIWR(iwr) {
 	if (iwr) {
 		let gIWR = iwr[0];
@@ -107,15 +107,19 @@ export function getGreatestIWR(iwr) {
 	} 
 }
 
-export function BDGreatestBypassableResistance(r) {
+//gets and returns the greatest bypassable resistance
+export function BDGreatestBypassableResistance(t) {
+	const r = getIWR(t).resistances;
+	console.log(["value of r:", r]);
 	if (r) {
-		
 		let bypassResists = new Array;
 		for (let resist of r) {
 			if (resist.exceptions.length != 0) {
+				console.log(["value of resist", r[resist]]);
 				bypassResists.push(resist);
             }
 		}
+		console.log(["value of bypassResists", bypassResists]);
 		if (bypassResists.length != 0) {
 			let gBD = bypassResists[0];
 			for (let resist of bypassResists) {
@@ -126,13 +130,27 @@ export function BDGreatestBypassableResistance(r) {
 			return gBD;
         }
 	}
-	return "none"
+}
+
+//gets and returns the IWR information from from the selected token or actor
+export function getIWR(a) {
+	if (a.actor) {
+		a = a.actor;
+	}
+	const iwr = (() => {
+		return {
+			resistances: a.attributes?.resistances,
+			weaknesses: a.attributes?.weaknesses,
+			immunities: a.attributes?.immunities
+		}
+	})()
+	return iwr;
 }
 
 //Creates the dialog box when a success or crit success on Esoteric Lore is rolled
-export async function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrContent, rollDOS) {
-	const aLevel = sa.level;
-	const paDmg = 2 + Math.floor(aLevel / 2);
+export async function createEVDialog(sa, t, paEffectSource, mwEffectSource, rollDOS) {
+	const paDmg = 2 + Math.floor(sa.level / 2);
+	const iwrContent = createIWRContent(rollDOS, t)
 	let dgContent = "<p>Choose the vulnerability to exploit.</p><br>" + iwrContent + `<p>Personal Antithesis Bonus Damage: ${paDmg}</p>`;
 	let dgBtns = {
 		pa: {
@@ -146,13 +164,14 @@ export async function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrC
 	}
 	if (sa.items.find(item => item.getFlag("core", "sourceId") === BREACHED_DEFENSES_SOURCEID) && (rollDOS === 2 || rollDOS === 3)) {
 		let bdEffectSource = await fromUuid(BREACHED_DEFENSES_EFFECT_UUID);
-		let tRes;
-		if (t.actor.system?.attributes?.resistances) {
-			tRes = t.actor.system?.attributes?.resistances;
-		} else if (t.document.actorData.system?.attributes?.resistances) {
-			tRes = t.document.actorData.system?.attributes?.resistances;
-		}
-		let gBD = BDGreatestBypassableResistance(tRes).type + ", bypassed by " + BDGreatestBypassableResistance(tRes).exceptions;
+		const tRes = getIWR(t).resistances;
+		let gBD;
+		if (tRes.length != 0) {
+			gBD = BDGreatestBypassableResistance(t)?.type + ", bypassed by " + BDGreatestBypassableResistance(t)?.exceptions;
+		} else {
+			gBD = "none";
+        }
+		 
 		dgContent = dgContent + "<p>Highest Bypassable Resistance: " + gBD + "<p>";
 		dgBtns = {
 			...dgBtns,
@@ -175,19 +194,17 @@ export async function createEVDialog(sa, t, paEffectSource, mwEffectSource, iwrC
 }
 
 //Creates the IWR content box content
-export function createIWRContent(rollDOS, w, r, i) {
+export function createIWRContent(rollDOS, a) {
 	let iwrContent;
-	if(w == ''){w = false;}
-	if(r == ''){r = false;}
-	if(i == ''){i = false;}
+	const iwrData = getIWR(a);
 	if(rollDOS === 2) {
-		let weakness = !w ? "None" : `${getGreatestIWR(w).type} - ${getGreatestIWR(w).value}`;
+		let weakness = !iwrData.weaknesses ? "None" : `${getGreatestIWR(iwrData.weaknesses)?.type} - ${getGreatestIWR(iwrData.weaknesses)?.value}`;
 		iwrContent = `<p>Highest Weakness: ${weakness}</p>`;
 	}
 	if(rollDOS === 3) {
-		let weakness = !w ? "None" : stitchIWR(w);
-		let resist = !r ? "None" : stitchIWR(r);
-		let immune = !i ? "None" : stitchIWR(i);
+		let weakness = iwrData.weaknesses.length === 0 ? "None" : stitchIWR(iwrData.weaknesses);
+		let resist = iwrData.resistances.length === 0 ? "None" : stitchIWR(iwrData.resistances);
+		let immune = iwrData.immunities.length === 0 ? "None" : stitchIWR(iwrData.immunities);
 		iwrContent = `<div class="grid-container"><div class="grid-item"><p>Weaknesses: <ul>${weakness}</ul></p></div><div class="grid-item"><p>Resistances: <ul>${resist}</ul></p></div><div class="grid-item"><p>Immunities: <ul>${immune}</ul></p></div></div>`;
 	}
 	return iwrContent;
