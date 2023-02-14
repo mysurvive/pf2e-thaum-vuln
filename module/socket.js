@@ -1,5 +1,6 @@
 import {MORTAL_WEAKNESS_TARGET_UUID, PERSONAL_ANTITHESIS_TARGET_UUID,
-		MORTAL_WEAKNESS_EFFECT_SOURCEID, PERSONAL_ANTITHESIS_EFFECT_SOURCEID} from "./utils.js";
+		MORTAL_WEAKNESS_EFFECT_SOURCEID, PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
+		BREACHED_DEFENSES_TARGET_UUID, BREACHED_DEFENSES_EFFECT_SOURCEID} from "./utils.js";
 
 import {getActorEVEffect, getGreatestIWR} from "./utils.js";
 
@@ -10,7 +11,12 @@ Hooks.once("socketlib.ready", () => {
 	socket.register("createEffectOnTarget", _socketCreateEffectOnTarget);
 	socket.register("updateEVEffect", _socketUpdateEVEffect);
 	socket.register("deleteEVEffect", _socketDeleteEVEffect);
+	socket.register("createSecretMessage", _socketCreateSecretMessage);
 });
+
+export function createSecretMessage(message) {
+	return socket.executeAsGM(_socketCreateSecretMessage, message);
+}
 
 export function createEffectOnTarget(a, t, effect, evTargets) {
 	let aID = a.uuid;
@@ -47,7 +53,7 @@ export function deleteEVEffect(a, sa = undefined) {
 			if (tg?.actor) {
 				if (getActorEVEffect(tg.actor)) {
 					effect = getActorEVEffect(tg.actor);
-					if (effect.system?.rules[1]?.option?.split(":")[2] === actorID) {
+					if (effect.system?.rules.find(rules => rules.key === "RollOption")?.option?.split(":")[2] === actorID) {
 						targ.push(tg.actor.uuid);
 					} else if(tg.actor === sa){
 						targ.push(tg.actor.uuid)
@@ -58,7 +64,7 @@ export function deleteEVEffect(a, sa = undefined) {
 				if (getActorEVEffect(tg)) {
 					if (tg.uuid != actorID) {
 						effect = getActorEVEffect(tg);
-						if (effect.system.rules[1].option.split(":")[2] === actorID) {
+						if (effect.system.rules.find(rules => rules.key === "RollOption").option.split(":")[2] === actorID) {
 							targ.push(tg.uuid);
 						}
 					} else {
@@ -77,24 +83,33 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 	const e = await fromUuid(eID);	
 
 	let eff = e.toObject();
-	
+
 	const m = await fromUuid(MORTAL_WEAKNESS_TARGET_UUID);
 	const p = await fromUuid(PERSONAL_ANTITHESIS_TARGET_UUID);
+	const b = await fromUuid(BREACHED_DEFENSES_TARGET_UUID);
 	
-	if(eff.flags.core.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID) {
+	if (eff.flags.core.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID) {
 		eff = m.toObject();
-		if(t.system?.attributes?.weaknesses){
+		if (t.system?.attributes?.weaknesses) {
 			eff.system.rules[0].value = getGreatestIWR(t.actor.system?.attributes?.weaknesses).value;
 		} else if (t.actor.system?.attributes?.weaknesses) {
-		eff.system.rules[0].value = getGreatestIWR(t.actor.system?.attributes?.weaknesses).value;
+			eff.system.rules[0].value = getGreatestIWR(t.actor.system?.attributes?.weaknesses).value;
 		}
+		a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
 
-	}else if(eff.flags.core.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID) {
+	} else if (eff.flags.core.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID) {
 		eff = p.toObject();
-		eff.system.rules[0].value = Math.floor(a.level / 2)+2;
+		eff.system.rules[0].value = Math.floor(a.level / 2) + 2;
+		a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
+	} else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
+		eff = b.toObject();
+		a.setFlag("pf2e-thaum-vuln", "EVValue", `${e.system.rules.find(rules => rules.slug === "breached-defenses-bypass").value}`);
 	}
-	a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
-	eff.system.rules[1].option = `origin:id:${a.uuid}`;
+	if (eff.system?.rules[0]?.value) {
+		a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
+	}
+	eff.system.rules.find(rules => rules.key === "RollOption").option = `origin:id:${a.uuid}`;
+	
 	eff.name = eff.name + ` (${a.name})`
 	for(let targ of evTargets) {
 		const tg = await fromUuid(targ);
@@ -112,47 +127,49 @@ async function _socketUpdateEVEffect(a) {
 	let value;
 	let origin;
 	let rollOptionData;
-	for (let act of canvas.tokens.placeables) {
-		if (act.actor.uuid != a.uuid) {
-			for (let effect of getActorEVEffect(act.actor, "*")) {
-				if (effect?.rules[1]?.option.split(":")[2] != `Actor${a}` && effect?.rules[1]?.option) {
-					value = 0;
-				} else if (effect?.rules[1]?.option){
-					let acts = effect.rules[1].option.split(":")[2];
-					acts = acts.replace("Actor", "Actor.");
-					origin = await fromUuid(acts);
-					value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
-				}
-				tKey = effect._id;
-				rollOptionData = effect.rules[1]?.option;
-				updates = {
-					_id: tKey,
-					system: {
-						rules: [
-							{
-								key: "Weakness",
-								type: "physical",
-								value: value,
-								predicate: [
-									""
-								]
-							},
-							{
-								key: "RollOption",
-								domain: "damage-roll",
-								option: rollOptionData
-							}
-						]
+	if (!a.getFlag("pf2e-thaum-vuln", "EVMode") === "breached-defenses") {
+		for (let act of canvas.tokens.placeables) {
+			if (act.actor.uuid != a.uuid) {
+				for (let effect of getActorEVEffect(act.actor, "*")) {
+					if (effect?.rules[1]?.option.split(":")[2] != `Actor${a}` && effect?.rules[1]?.option) {
+						value = 0;
+					} else if (effect?.rules[1]?.option) {
+						let acts = effect.rules[1].option.split(":")[2];
+						acts = acts.replace("Actor", "Actor.");
+						origin = await fromUuid(acts);
+						value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
 					}
-				};
-				await act.actor.updateEmbeddedDocuments('Item', [updates]);
-            }
+					tKey = effect._id;
+					rollOptionData = effect.rules[1]?.option;
+					updates = {
+						_id: tKey,
+						system: {
+							rules: [
+								{
+									key: "Weakness",
+									type: "physical",
+									value: value,
+									predicate: [
+										""
+									]
+								},
+								{
+									key: "RollOption",
+									domain: "damage-roll",
+									option: rollOptionData
+								}
+							]
+						}
+					};
+					await act.actor.updateEmbeddedDocuments('Item', [updates]);
+				}
+			}
 		}
 	}
 }
 
 //Deletes the effect from the actor passed to the method
-async function _socketDeleteEVEffect(targ, actorID = undefined) {
+async function _socketDeleteEVEffect(targ, actorID) {
 	let eff;
 	if (actorID === undefined) {
 		for (let act of targ) {
@@ -170,9 +187,13 @@ async function _socketDeleteEVEffect(targ, actorID = undefined) {
 					eff = getActorEVEffect(a.actor, actorID);
 				} else { eff = getActorEVEffect(a, actorID); }
 			} else {
-				eff = getActorEVEffect(a);
+				eff = getActorEVEffect(a, undefined);
 			}
 			eff.delete();
 		}
     }
+}
+
+async function _socketCreateSecretMessage(message) {
+	await ChatMessage.create(message)
 }
