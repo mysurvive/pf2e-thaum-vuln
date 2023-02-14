@@ -3,12 +3,21 @@ Improvement for Thaumaturge Exploit Vulnerability
 
 This project is a carryover until the pf2e system for Foundry VTT implements Thaumaturge Exploit Vulnerability
 
-## Functionality ##
-
-There is currently no functionality with feats related to exploit vulnerability. This is a work in progress.
 
 <strong>IMPORTANT!!! A thaumaturge's Esoteric Lore entry must be listed as Esoteric Lore or it will not work</strong>
 ![Esoteric Lore Skill](assets/esotericLore.png)
+
+
+## Functionality ##
+
+# Feats #
+
+<ul>
+<li> Diverse Lore: A secret message is sent to the GM on a successful or critically successful Exploit Vulnerability roll, comparing the result of the roll to the hard DC for the creature and providing guidance per the CRB,
+<li> Breached Defenses: Mostly works except in cases where the highest bypassable resistance is a combination of two traits (such as an adamantine golem's resistance to Vorpal Adamantine damage) or when the damage is not part of the PF2E system's known traits'
+</ul>
+
+ This is a work in progress.
 
 1. Import the Exploit Vulnerability macro from the "MySurvive's Thaumaturge Macros" compendium and give the player the proper permissions to execute the macro.
 2. The player should drag the macro onto their hotbar.
