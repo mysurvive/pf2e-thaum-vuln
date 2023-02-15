@@ -2,7 +2,7 @@ import {MORTAL_WEAKNESS_TARGET_UUID, PERSONAL_ANTITHESIS_TARGET_UUID,
 		MORTAL_WEAKNESS_EFFECT_SOURCEID, PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
 		BREACHED_DEFENSES_TARGET_UUID, BREACHED_DEFENSES_EFFECT_SOURCEID} from "./utils.js";
 
-import {getActorEVEffect, getGreatestIWR} from "./utils.js";
+import {getActorEVEffect, getGreatestIWR, getIWR} from "./utils.js";
 
 let socket;
 
@@ -87,14 +87,14 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 	const m = await fromUuid(MORTAL_WEAKNESS_TARGET_UUID);
 	const p = await fromUuid(PERSONAL_ANTITHESIS_TARGET_UUID);
 	const b = await fromUuid(BREACHED_DEFENSES_TARGET_UUID);
+
+	const iwrData = getIWR(t);
 	
 	if (eff.flags.core.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID) {
 		eff = m.toObject();
-		if (t.system?.attributes?.weaknesses) {
-			eff.system.rules[0].value = getGreatestIWR(t.actor.system?.attributes?.weaknesses).value;
-		} else if (t.actor.system?.attributes?.weaknesses) {
-			eff.system.rules[0].value = getGreatestIWR(t.actor.system?.attributes?.weaknesses).value;
-		}
+		if (iwrData.weaknesses.length != 0) {
+			eff.system.rules[0].value = getGreatestIWR(iwrData.weaknesses)?.value;
+		} 
 		a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
 
 	} else if (eff.flags.core.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID) {
@@ -122,14 +122,17 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 async function _socketUpdateEVEffect(a) {
+	let sa = await fromUuid(`Actor.${a}`)
 	let updates;
 	let tKey;
 	let value;
 	let origin;
 	let rollOptionData;
-	if (!a.getFlag("pf2e-thaum-vuln", "EVMode") === "breached-defenses") {
+	if (!(sa.getFlag("pf2e-thaum-vuln", "EVMode") === "breached-defenses")) {
+
 		for (let act of canvas.tokens.placeables) {
 			if (act.actor.uuid != a.uuid) {
+				
 				for (let effect of getActorEVEffect(act.actor, "*")) {
 					if (effect?.rules[1]?.option.split(":")[2] != `Actor${a}` && effect?.rules[1]?.option) {
 						value = 0;

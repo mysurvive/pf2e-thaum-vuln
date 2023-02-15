@@ -110,16 +110,13 @@ export function getGreatestIWR(iwr) {
 //gets and returns the greatest bypassable resistance
 export function BDGreatestBypassableResistance(t) {
 	const r = getIWR(t).resistances;
-	console.log(["value of r:", r]);
 	if (r) {
 		let bypassResists = new Array;
 		for (let resist of r) {
 			if (resist.exceptions.length != 0) {
-				console.log(["value of resist", r[resist]]);
 				bypassResists.push(resist);
             }
 		}
-		console.log(["value of bypassResists", bypassResists]);
 		if (bypassResists.length != 0) {
 			let gBD = bypassResists[0];
 			for (let resist of bypassResists) {
@@ -198,13 +195,13 @@ export function createIWRContent(rollDOS, a) {
 	let iwrContent;
 	const iwrData = getIWR(a);
 	if(rollDOS === 2) {
-		let weakness = !iwrData.weaknesses ? "None" : `${getGreatestIWR(iwrData.weaknesses)?.type} - ${getGreatestIWR(iwrData.weaknesses)?.value}`;
+		let weakness = iwrData.weaknesses.length == 0 ? "None" : `${getGreatestIWR(iwrData.weaknesses)?.type} - ${getGreatestIWR(iwrData.weaknesses)?.value}`;
 		iwrContent = `<p>Highest Weakness: ${weakness}</p>`;
 	}
 	if(rollDOS === 3) {
-		let weakness = iwrData.weaknesses.length === 0 ? "None" : stitchIWR(iwrData.weaknesses);
-		let resist = iwrData.resistances.length === 0 ? "None" : stitchIWR(iwrData.resistances);
-		let immune = iwrData.immunities.length === 0 ? "None" : stitchIWR(iwrData.immunities);
+		let weakness = iwrData.weaknesses.length == 0 ? "None" : stitchIWR(iwrData.weaknesses);
+		let resist = iwrData.resistances.length == 0 ? "None" : stitchIWR(iwrData.resistances);
+		let immune = iwrData.immunities.length == 0 ? "None" : stitchIWR(iwrData.immunities);
 		iwrContent = `<div class="grid-container"><div class="grid-item"><p>Weaknesses: <ul>${weakness}</ul></p></div><div class="grid-item"><p>Resistances: <ul>${resist}</ul></p></div><div class="grid-item"><p>Immunities: <ul>${immune}</ul></p></div></div>`;
 	}
 	return iwrContent;
