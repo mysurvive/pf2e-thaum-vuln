@@ -564,7 +564,7 @@ async function createEffectOnActor(sa, t, effect) {
     effSlug = "personal-antithesis-effect-magical";
     evMode = "personal-antithesis";
 
-    //breached defenses logic. It mostly works... there are a few weird cases where it doesn't work such as when the highest
+    //breached defenses logic. It mostly works.... there are a few weird cases where it doesn't work such as when the highest
     //resistance that can be bypassed is a combination of two traits (see adamantine golem's resistance bypass from vorpal-adamantine)
     //or if the trait that bypasses it is not in the system/on my list
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
