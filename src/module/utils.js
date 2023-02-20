@@ -24,58 +24,6 @@ export const BREACHED_DEFENSES_TARGET_UUID =
 export const BREACHED_DEFENSES_TARGET_SOURCEID = "Item.aasC0M4NDDjR84UI";
 export const DIVERSE_LORE_SOURCEID =
   "Compendium.pf2e.feats-srd.KlqKpeq5OmTRxVHb";
-export const ADJUSTMENT_TYPES = {
-  materials: {
-    propLabel: "materials",
-    data: [
-      "abysium",
-      "adamantine",
-      "cold-iron",
-      "darkwood",
-      "djezet",
-      "dragonhide",
-      "grisantian-pelt",
-      "inubrix",
-      "mithral",
-      "noqual",
-      "orichalcum",
-      "peachwood",
-      "siccatite",
-      "silver",
-      "sisterstone-dusk",
-      "sisterstone-scarlet",
-      "sovereign-steel",
-      "warpglass",
-    ],
-  },
-  traits: {
-    propLabel: "traits",
-    data: [
-      "chaotic",
-      "evil",
-      "good",
-      "lawful",
-      "air",
-      "earth",
-      "fire",
-      "metal",
-      "water",
-      "acid",
-      "cold",
-      "electricity",
-      "fire",
-      "force",
-      "negative",
-      "positive",
-      "sonic",
-    ],
-  },
-  "weapon-traits": {
-    propLabel: "weapon-traits",
-    data: ["magical"],
-  },
-};
-
 import { createEffectOnActor } from "./exploit-vulnerability.js";
 
 //Gets the effects of Personal Antithesis or Mortal Weakness from the character

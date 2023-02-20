@@ -22,57 +22,6 @@ const BREACHED_DEFENSES_EFFECT_UUID =
 const BREACHED_DEFENSES_TARGET_UUID =
   "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.E38yjK1tdr579dJy";
 const BREACHED_DEFENSES_TARGET_SOURCEID = "Item.aasC0M4NDDjR84UI";
-const ADJUSTMENT_TYPES = {
-  materials: {
-    propLabel: "materials",
-    data: [
-      "abysium",
-      "adamantine",
-      "cold-iron",
-      "darkwood",
-      "djezet",
-      "dragonhide",
-      "grisantian-pelt",
-      "inubrix",
-      "mithral",
-      "noqual",
-      "orichalcum",
-      "peachwood",
-      "siccatite",
-      "silver",
-      "sisterstone-dusk",
-      "sisterstone-scarlet",
-      "sovereign-steel",
-      "warpglass",
-    ],
-  },
-  traits: {
-    propLabel: "traits",
-    data: [
-      "chaotic",
-      "evil",
-      "good",
-      "lawful",
-      "air",
-      "earth",
-      "fire",
-      "metal",
-      "water",
-      "acid",
-      "cold",
-      "electricity",
-      "fire",
-      "force",
-      "negative",
-      "positive",
-      "sonic",
-    ],
-  },
-  "weapon-traits": {
-    propLabel: "weapon-traits",
-    data: ["magical"],
-  },
-};
 
 //Gets the effects of Personal Antithesis or Mortal Weakness from the character
 function getActorEVEffect(a, targetID) {
@@ -418,19 +367,20 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
     eff = b.toObject();
-    a.setFlag(
-      "pf2e-thaum-vuln",
-      "EVValue",
-      `${
-        e.system.rules.find(
-          (rules) => rules.slug === "breached-defenses-bypass"
-        ).value
-      }`
-    );
+    // a.setFlag(
+    //  "pf2e-thaum-vuln",
+    // "EVValue",
+    //`${
+    // e.system.rules.find(
+    //  (rules) => rules.slug === "breached-defenses-bypass"
+    //).value
+    //}`
+    //);
+    //}
   }
-  if (eff.system?.rules[0]?.value) {
-    a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
-  }
+  //if (eff.system?.rules[0]?.value) {
+  //  a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
+  //}
   eff.system.rules.find(
     (rules) => rules.key === "RollOption"
   ).option = `origin:id:${a.uuid}`;
@@ -568,34 +518,59 @@ async function createEffectOnActor(sa, t, effect) {
     //resistance that can be bypassed is a combination of two traits (see adamantine golem's resistance bypass from vorpal-adamantine)
     //or if the trait that bypasses it is not in the system/on my list
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
+    const ADJUSTMENT_TYPES = {
+      materials: {
+        propLabel: "materials",
+        data: CONFIG.PF2E.preciousMaterials,
+      },
+      traits: {
+        propLabel: "traits",
+        data: CONFIG.PF2E.damageTraits,
+      },
+      "weapon-traits": {
+        propLabel: "weapon-traits",
+        data: CONFIG.PF2E.weaponTraits,
+      },
+      "property-runes": {
+        propLabel: "property-runes",
+        data: CONFIG.PF2E.runes.weapon.property,
+      },
+    };
+
     evMode = "breached-defenses";
-    effPredicate =
-      `target:effect:Breached Defenses Target ${sa.name}`.slugify();
+    effPredicate = [
+      `target:effect:Breached Defenses Target ${sa.name}`.slugify(),
+    ];
     effSlug = "breached-defenses-bypass";
     const bypassable = BDGreatestBypassableResistance(t);
+
+    //force ghost touch property rune on things that are immune to it
+    if (bypassable.exceptions.includes("ghost-touch")) {
+      bypassable.exceptions[0] = "ghostTouch";
+    }
+
     const exception = (() => {
-      let property;
-      for (const prop in ADJUSTMENT_TYPES) {
-        for (const excp of ADJUSTMENT_TYPES[prop].data) {
-          if (excp === bypassable.exceptions[0]) {
-            property = ADJUSTMENT_TYPES[prop].propLabel;
-          }
+      for (const types in ADJUSTMENT_TYPES) {
+        if (
+          ADJUSTMENT_TYPES[types].data.hasOwnProperty(bypassable.exceptions[0])
+        ) {
+          return {
+            property: ADJUSTMENT_TYPES[types].propLabel,
+            exception: bypassable.exceptions[0],
+          };
         }
       }
-      return {
-        property: property,
-        exception: bypassable.exceptions[0],
-      };
     })();
     eff.system.rules.find(
       (rules) => rules.slug === "breached-defenses-bypass"
-    ).value = exception.exception;
+    ).value = exception?.exception;
     eff.system.rules.find(
       (rules) => rules.slug === "breached-defenses-bypass"
-    ).property = exception.property;
+    ).property = exception?.property;
     eff.system.rules.find(
       (rules) => rules.slug === "breached-defenses-bypass"
     ).predicate = `target:effect:Breached Defenses Target ${sa.name}`.slugify();
+    await sa.setFlag("pf2e-thaum-vuln", "EVValue", exception?.exception);
   }
   eff.system.rules.find((rules) => rules.slug === effSlug).predicate =
     effPredicate;
