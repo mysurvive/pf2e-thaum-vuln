@@ -22,6 +22,8 @@ const BREACHED_DEFENSES_EFFECT_UUID =
 const BREACHED_DEFENSES_TARGET_UUID =
   "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.E38yjK1tdr579dJy";
 const BREACHED_DEFENSES_TARGET_SOURCEID = "Item.aasC0M4NDDjR84UI";
+const ESOTERIC_WARDEN_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.EFGVyeixeMT4I8TB";
 
 //Gets the effects of Personal Antithesis or Mortal Weakness from the character
 function getActorEVEffect(a, targetID) {
@@ -131,6 +133,7 @@ async function createEVDialog(
 ) {
   const paDmg = 2 + Math.floor(sa.level / 2);
   const iwrContent = createIWRContent(rollDOS, t);
+
   let dgContent =
     "<p>Choose the vulnerability to exploit.</p><br>" +
     iwrContent +
@@ -139,13 +142,13 @@ async function createEVDialog(
     pa: {
       label: "Personal Antithesis",
       callback: () => {
-        createEffectOnActor(sa, t, paEffectSource);
+        createEffectOnActor(sa, t, paEffectSource, rollDOS);
       },
     },
     mw: {
       label: "Mortal Weakness",
       callback: () => {
-        createEffectOnActor(sa, t, mwEffectSource);
+        createEffectOnActor(sa, t, mwEffectSource, rollDOS);
       },
     },
   };
@@ -367,20 +370,7 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
     eff = b.toObject();
-    // a.setFlag(
-    //  "pf2e-thaum-vuln",
-    // "EVValue",
-    //`${
-    // e.system.rules.find(
-    //  (rules) => rules.slug === "breached-defenses-bypass"
-    //).value
-    //}`
-    //);
-    //}
   }
-  //if (eff.system?.rules[0]?.value) {
-  //  a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
-  //}
   eff.system.rules.find(
     (rules) => rules.key === "RollOption"
   ).option = `origin:id:${a.uuid}`;
@@ -484,17 +474,30 @@ Hooks.on("init", () => {
     exploitVuln,
     forceEVTarget,
   };
+  libWrapper.register(
+    "pf2e-thaum-vuln",
+    "game.pf2e.actions.restForTheNight",
+    function (wrapper, ...args) {
+      const a = args[0].actors[0];
+      a.unsetFlag("pf2e-thaum-vuln", "EWImmuneTargs");
+      wrapper(args);
+    },
+    "WRAPPER"
+  );
 });
 
 //Creates the passed effect document on the actor
-async function createEffectOnActor(sa, t, effect) {
+async function createEffectOnActor(sa, t, effect, rollDOS) {
   let eff = effect.toObject();
   let creatureType;
   let evMode;
   let effSlug;
   let effPredicate;
+  let EWPredicate;
+  const hasEsotericWarden = sa.items.some((i) => i.slug === "esoteric-warden");
   let evTargets = new Array();
   if (eff.flags.core.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID) {
+    EWPredicate = "mortal-weakness-target";
     if (getIWR(t).weaknesses.length === 0) {
       return ui.notifications.warn(
         "There are no weaknesses on this creature to exploit a Mortal Weakness against."
@@ -509,6 +512,7 @@ async function createEffectOnActor(sa, t, effect) {
     effSlug = "mortal-weakness-effect-magical";
     evMode = "mortal-weakness";
   } else if (eff.flags.core.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID) {
+    EWPredicate = "personal-antithesis-target";
     effPredicate =
       `target:effect:Personal Antithesis Target ${sa.name}`.slugify();
     effSlug = "personal-antithesis-effect-magical";
@@ -572,6 +576,37 @@ async function createEffectOnActor(sa, t, effect) {
     ).predicate = `target:effect:Breached Defenses Target ${sa.name}`.slugify();
     await sa.setFlag("pf2e-thaum-vuln", "EVValue", exception?.exception);
   }
+  let EWEffect;
+  if (hasEsotericWarden) {
+    EWEffect = await fromUuid(ESOTERIC_WARDEN_EFFECT_UUID);
+    EWEffect = EWEffect.toObject();
+    const bonus = rollDOS === 2 ? 1 : 2;
+    EWEffect.system.rules[0].value = bonus;
+    EWEffect.system.rules[1].value = bonus;
+    EWEffect.system.rules[0].predicate = [
+      ("origin:effect:" + EWPredicate + ` ${sa.name}`).slugify(),
+    ];
+    EWEffect.system.rules[1].predicate = [
+      ("origin:effect:" + EWPredicate + ` ${sa.name}`).slugify(),
+    ];
+
+    //makes sure a player can't use Esoteric Warden on the same creature twice
+    if (
+      !sa.getFlag("pf2e-thaum-vuln", "EWImmuneTargs")?.includes(t.actor.uuid)
+    ) {
+      await sa.createEmbeddedDocuments("Item", [EWEffect]);
+    }
+    let EWImmuneTargs = new Array();
+    EWImmuneTargs = EWImmuneTargs.concat(
+      sa.getFlag("pf2e-thaum-vuln", "EWImmuneTargs")
+    );
+    if (!EWImmuneTargs.some((i) => i === t.actor.uuid)) {
+      EWImmuneTargs.push(t.actor.uuid);
+    }
+
+    await sa.setFlag("pf2e-thaum-vuln", "EWImmuneTargs", EWImmuneTargs);
+  }
+
   eff.system.rules.find((rules) => rules.slug === effSlug).predicate =
     effPredicate;
 
@@ -584,7 +619,6 @@ async function createEffectOnActor(sa, t, effect) {
   await sa.setFlag("pf2e-thaum-vuln", "EVMode", `${evMode}`);
   await sa.createEmbeddedDocuments("Item", [eff]);
 }
-
 async function exploitVuln() {
   //grab the selected token and the targeted token
   const a = canvas.tokens.controlled;
@@ -614,6 +648,12 @@ async function exploitVuln() {
 
   //deletes Exploit Vulnerability effect if it already exists on the actor
   await deleteEVEffect(canvas.tokens.placeables, sa);
+  let EWEffect = sa.items.find(
+    (item) => item.name === "Esoteric Warden Effect"
+  );
+  if (EWEffect) {
+    EWEffect.delete();
+  }
 
   // From https://gist.github.com/stwlam/01c2506e93c298b01ad83c182b245144 by somebody, Supe, and stwlam
   const skill = sa.system.skills["esoteric-lore"];
@@ -653,6 +693,15 @@ async function exploitVuln() {
     text,
     outcome: [outcome],
   }));
+
+  const hasEsotericWarden = sa.items.some((i) => i.slug === "esoteric-warden");
+  if (hasEsotericWarden) {
+    notes.push({
+      title: "Esoteric Warden",
+      text: "When you apply antithetical material against a creature successfully, you also ward yourself against its next attacks. When you succeed at your check to Exploit a Vulnerability, you gain a +1 status bonus to your AC against the creature's next attack and a +1 status bonus to your next saving throw against the creature; if you critically succeed, these bonuses are +2 instead. You can gain these bonuses only once per day against a particular creature, and the benefit ends if you Exploit Vulnerability again.",
+      outcome: ["success", "criticalSuccess"],
+    });
+  }
 
   const hasDiverseLore = sa.items.some((i) => i.slug === "diverse-lore");
   if (hasDiverseLore) {
@@ -703,9 +752,9 @@ async function exploitVuln() {
   const flatFootedEffect = await fromUuid(FLAT_FOOTED_EFFECT_UUID);
 
   let evDialog;
-
+  const rollDOS = evRoll.degreeOfSuccess;
   //Apply effect based on Degrees of success
-  switch (evRoll.degreeOfSuccess) {
+  switch (rollDOS) {
     case 0:
       //critical failure. Apply flatfooted condition for one round.
       await sa.createEmbeddedDocuments("Item", [flatFootedEffect.toObject()]);
@@ -716,6 +765,7 @@ async function exploitVuln() {
       break;
     case 2:
       //normal success. Learns highest weakness. Can apply Mortal Weakness or Personal Antithesis
+
       evDialog = await createEVDialog(sa, t, paEffectSource, mwEffectSource, 2);
       evDialog.render(true);
       break;
@@ -771,21 +821,93 @@ async function forceEVTarget() {
 Hooks.on(
   "renderChatMessage",
   (message) => {
-    if (
-      message.speaker.actor &&
-      message.flags?.pf2e?.context?.type === "attack-roll" &&
-      canvas.initialized
-    ) {
-      let a = canvas.tokens.placeables.find(
-        (act) => act.actor.id === message.speaker.actor
+    if (message.speaker.actor && canvas.initialized) {
+      const a = canvas.tokens.placeables.find(
+        (act) => act.id === message.speaker.token
       ).actor;
-      if (a.type === "character") {
-        updateEVEffect(message.speaker.actor);
+      let t;
+      let EWEffect;
+      if (message.flags?.pf2e?.context?.type === "attack-roll") {
+        t = canvas.tokens.placeables.find(
+          (targ) => targ.actor.id === message.target.actor.id
+        );
+        EWEffect = t.actor.items.find(
+          (item) => item.name === "Esoteric Warden Effect"
+        );
+        if (a.type === "character") {
+          updateEVEffect(message.speaker.actor);
+        }
+
+        if (
+          EWEffect &&
+          t.actor.getFlag("pf2e-thaum-vuln", "EVTargetID").includes(a.uuid)
+        ) {
+          removeEWOption(EWEffect, t, "ac");
+        }
+      } else if (message.flags?.pf2e?.context?.type === "saving-throw") {
+        if (
+          message
+            .getFlag("pf2e", "modifiers")
+            .some((i) => i.label === "Esoteric Warden Effect")
+        ) {
+          t = a.getFlag("pf2e-thaum-vuln", "EVTarget");
+          EWEffect = a.items.find(
+            (item) => item.name === "Esoteric Warden Effect"
+          );
+          if (EWEffect) {
+            removeEWOption(EWEffect, a, "save");
+          }
+        }
       }
     }
   },
   { once: false }
 );
+
+async function removeEWOption(EWEffect, t, choice) {
+  const tKey = EWEffect._id;
+  const EWRule1 = EWEffect.system.rules[0];
+  const EWRule2 = EWEffect.system.rules[1];
+  let updates = {
+    _id: tKey,
+    system: {
+      rules: [
+        {
+          key: EWRule1.key,
+          selector: EWRule1.selector,
+          value: EWRule1.value,
+          type: EWRule1.type,
+          slug: EWRule1.slug,
+          predicate: EWRule1.predicate,
+        },
+        {
+          key: EWRule2.key,
+          selector: EWRule2.selector,
+          value: EWRule2.value,
+          type: EWRule2.type,
+          slug: EWRule2.slug,
+          predicate: EWRule2.predicate,
+        },
+      ],
+    },
+  };
+  if (choice === "ac" && EWEffect.system.rules[0].value != 0) {
+    updates.system.rules[0].value = 0;
+  } else if (choice === "save" && EWEffect.system.rules[1].value != 0) {
+    updates.system.rules[1].value = 0;
+  }
+  if (
+    updates.system.rules[0].value === 0 &&
+    updates.system.rules[1].value === 0
+  ) {
+    EWEffect.delete();
+  } else {
+    if (t.actor) {
+      t = t.actor;
+    }
+    await t.updateEmbeddedDocuments("Item", [updates]);
+  }
+}
 
 export { createEffectOnActor, exploitVuln, forceEVTarget };
 //# sourceMappingURL=pf2e-thaum-vuln.js.map

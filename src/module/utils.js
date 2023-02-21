@@ -24,6 +24,9 @@ export const BREACHED_DEFENSES_TARGET_UUID =
 export const BREACHED_DEFENSES_TARGET_SOURCEID = "Item.aasC0M4NDDjR84UI";
 export const DIVERSE_LORE_SOURCEID =
   "Compendium.pf2e.feats-srd.KlqKpeq5OmTRxVHb";
+export const ESOTERIC_WARDEN_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.EFGVyeixeMT4I8TB";
+export const ESOTERIC_WARDEN_EFFECT_SOURCEID = "Item.uKh4kjbl4arTnzC4";
 import { createEffectOnActor } from "./exploit-vulnerability.js";
 
 //Gets the effects of Personal Antithesis or Mortal Weakness from the character
@@ -134,6 +137,7 @@ export async function createEVDialog(
 ) {
   const paDmg = 2 + Math.floor(sa.level / 2);
   const iwrContent = createIWRContent(rollDOS, t);
+
   let dgContent =
     "<p>Choose the vulnerability to exploit.</p><br>" +
     iwrContent +
@@ -142,13 +146,13 @@ export async function createEVDialog(
     pa: {
       label: "Personal Antithesis",
       callback: () => {
-        createEffectOnActor(sa, t, paEffectSource);
+        createEffectOnActor(sa, t, paEffectSource, rollDOS);
       },
     },
     mw: {
       label: "Mortal Weakness",
       callback: () => {
-        createEffectOnActor(sa, t, mwEffectSource);
+        createEffectOnActor(sa, t, mwEffectSource, rollDOS);
       },
     },
   };

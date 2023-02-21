@@ -20,7 +20,7 @@
         "type": "system",
         "compatibility": {
           "minimum": "4.6.4",
-          "verified": "4.7.1"
+          "verified": "4.7.4"
         }
       }
     ],
@@ -29,7 +29,19 @@
         "id": "socketlib",
         "type": "module",
         "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/master/module.json",
-        "compatibility": {}
+        "compatibility": {
+          "minimum": "1.0.12",
+          "verified": "1.0.12"
+        }
+      },
+      {
+        "id": "lib-wrapper",
+        "type": "module",
+        "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+        "compatibility": {
+          "minimum": "1.0.0.0",
+          "verified": "1.12.12.0"
+        }
       }
     ]
   },

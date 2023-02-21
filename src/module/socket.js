@@ -118,20 +118,7 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
     eff = b.toObject();
-    // a.setFlag(
-    //  "pf2e-thaum-vuln",
-    // "EVValue",
-    //`${
-    // e.system.rules.find(
-    //  (rules) => rules.slug === "breached-defenses-bypass"
-    //).value
-    //}`
-    //);
-    //}
   }
-  //if (eff.system?.rules[0]?.value) {
-  //  a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
-  //}
   eff.system.rules.find(
     (rules) => rules.key === "RollOption"
   ).option = `origin:id:${a.uuid}`;
