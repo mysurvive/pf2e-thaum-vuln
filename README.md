@@ -16,7 +16,9 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 
 <ul>
 <li> Diverse Lore: A secret message is sent to the GM on a successful or critically successful Exploit Vulnerability roll, comparing the result of the roll to the hard DC for the creature and providing guidance per the CRB,
-<li> Breached Defenses: Mostly works except in cases where the highest bypassable resistance is a combination of two traits (such as an adamantine golem's resistance to Vorpal Adamantine damage) or when the damage is not part of the PF2E system's known traits'
+<li> Breached Defenses: Mostly works except in cases where the highest bypassable resistance is a combination of two traits (such as an adamantine golem's resistance to Vorpal Adamantine damage) or when the damage is not part of the PF2E system's known traits
+<li> Esoteric Warden: Benefits granted upon a successful or critically successful Exploit Vulnerability roll. Per the rules, you cannot gain the benefit of Esoteric Warden from the same creature until you rest for the night.
+<li> Sympathetic Vulnerabilities: Mortal Weakness or Personal Antithesis are automatically applied to all appropriate tokens on the scene. You can disable this by turning off the "Use Exploit Vulnerability Automation" setting in the module Settings.
 </ul>
 
 This is a work in progress.
@@ -36,12 +38,19 @@ Critical Failure: A flat-footed effect will be applied to the player that will d
 
 ![Apply Effect](src/assets/applyEffect.gif)
 
-5. In the event that the player chooses to exploit a Mortal Weakness (or the sympathetic weakness feat), there is another macro for GMs to use that will apply the Mortal Weakness effect to additional targets that fit the criteria "enemies of the exact same type." Since Paizo doesn't explicitly state what qualifies as a creature type, or "exact same type," this has been provided in a macro for GMs to use at their discretion. Simply target the actors that should have the effect (I recommend using shift+T to target multiple targets), select the thaumaturge that created the effect, and then run the "Force EV" macro from the "MySurvive's Thaumaturge Macros" compendium.
+5. In the event that the player chooses to exploit a Mortal Weakness (or the sympathetic weakness feat), there is another macro for GMs to use that will apply the Mortal Weakness effect to additional targets that fit the criteria "enemies of the exact same type." Since Paizo doesn't explicitly state what qualifies as a creature type, or "exact same type," this has been provided in a macro for GMs to use at their discretion. However, the default behavior is for the module to apply the effect to all targets of the same name in the scene. Simply target the actors that should have the effect (I recommend using shift+T to target multiple targets), select the thaumaturge that created the effect, and then run the "Force EV" macro from the "MySurvive's Thaumaturge Macros" compendium.
 
    ![Force EV](src/assets/forceEV.gif)
 
 6. When the thaumaturge attacks, the value of the exploit vulnerability will only be added to their attacks, taking IWR into account.
    ![Apply Damage](src/assets/applyDamage.gif)
+
+## Settings
+
+There are settings to turn on/off the
+
+- Exploit Vulnerability automation: (On by default) This will stop the module from applying the effects of Personal Antithesis or Mortal Weakness to valid tokens on the scene. This setting is useful for if you want to manually set the Exploit Vulnerability targets via the forceEV macro.
+- IWR Value Mystification: (Off by default) This will mystify the weakness values in the dialog box after using the Exploit Vulnerability macro.
 
 ## Reporting Issues
 

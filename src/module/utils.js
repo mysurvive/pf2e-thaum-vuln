@@ -224,10 +224,13 @@ export function createIWRContent(rollDOS, a) {
 
 //stitches together the IWR information to help create the content for the dialog box
 export function stitchIWR(p) {
+  const mystifyNumbers = game.settings.get("pf2e-thaum-vuln", "mystifyNumbers");
   let s = "";
   for (const n of p) {
     if (n.value) {
-      s = s + `<li>${n.type} - ${n.value}</li>`;
+      mystifyNumbers
+        ? (s = s + `<li>${n.type}</li>`)
+        : (s = s + `<li>${n.type} - ${n.value}</li>`);
       if (n.exceptions.length != 0) {
         s = s + "Except: ";
         for (const e of n.exceptions) {
