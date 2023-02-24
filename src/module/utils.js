@@ -25,7 +25,7 @@ export const BREACHED_DEFENSES_TARGET_SOURCEID = "Item.aasC0M4NDDjR84UI";
 export const DIVERSE_LORE_SOURCEID =
   "Compendium.pf2e.feats-srd.KlqKpeq5OmTRxVHb";
 export const ESOTERIC_WARDEN_EFFECT_UUID =
-  "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.EFGVyeixeMT4I8TB";
+  "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.fufcXy1CEMvxmgWt";
 export const ESOTERIC_WARDEN_EFFECT_SOURCEID = "Item.uKh4kjbl4arTnzC4";
 import { createEffectOnActor } from "./exploit-vulnerability.js";
 

@@ -10,12 +10,10 @@ Hooks.on("init", () => {
     "game.pf2e.actions.restForTheNight",
     function (wrapper, ...args) {
       for (let ar of args) {
-        console.log(ar);
       }
       const a = args[0].actors[0];
       a.unsetFlag("pf2e-thaum-vuln", "EWImmuneTargs");
       for (let ar of args) {
-        console.log(ar);
       }
       wrapper(...args);
     },
