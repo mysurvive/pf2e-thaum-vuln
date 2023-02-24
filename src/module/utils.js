@@ -32,7 +32,7 @@ import { createEffectOnActor } from "./exploit-vulnerability.js";
 //Gets the effects of Personal Antithesis or Mortal Weakness from the character
 export function getActorEVEffect(a, targetID) {
   if (targetID === undefined) {
-    return a.items.find(
+    return a.items?.find(
       (item) =>
         item.getFlag("core", "sourceId") ===
           PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
@@ -57,7 +57,7 @@ export function getActorEVEffect(a, targetID) {
     }
     return effects;
   } else {
-    return a.items.find(
+    return a.items?.find(
       (item) =>
         (item.getFlag("core", "sourceId") ===
           PERSONAL_ANTITHESIS_TARGET_SOURCEID &&
