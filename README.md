@@ -1,5 +1,7 @@
 # PF2e Exploit Vulnerability
 
+Project manifest URL: https://github.com/mysurvive/pf2e-thaum-vuln/releases/latest/download/module.json
+<br><br>
 Improvement for Thaumaturge Exploit Vulnerability
 
 This project is a carryover until the pf2e system for Foundry VTT implements Thaumaturge Exploit Vulnerability
