@@ -16,6 +16,7 @@ Hooks.on("init", () => {
     "WRAPPER"
   );
 
+  //game settings
   game.settings.register("pf2e-thaum-vuln", "useEVAutomation", {
     name: "Use Exploit Vulnerability Automation",
     hint: "If true, the module will automatically mark all valid targets for Mortal Weakness, Sympathetic Vulnerabilities, etc. on the current scene. Set to false if you would like to manually update targets using the forceEV macro. You may want to turn this off if you apply the Exploit Vulnerability effects differently than described RAW.",
