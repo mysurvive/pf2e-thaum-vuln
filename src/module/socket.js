@@ -19,10 +19,6 @@ Hooks.once("socketlib.ready", () => {
   socket.register("createSecretMessage", _socketCreateSecretMessage);
 });
 
-export function createSecretMessage(message) {
-  return socket.executeAsGM(_socketCreateSecretMessage, message);
-}
-
 export function createEffectOnTarget(a, t, effect, evTargets) {
   let aID = a.uuid;
   let tID = t.actor.uuid;
@@ -125,8 +121,11 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 
   eff.name = eff.name + ` (${a.name})`;
   for (let targ of evTargets) {
-    const tg = await fromUuid(targ);
-    tg.actor.createEmbeddedDocuments("Item", [eff]);
+    let tg = await fromUuid(targ);
+    if (tg.actor) {
+      tg = tg.actor;
+    }
+    tg.createEmbeddedDocuments("Item", [eff]);
   }
   return;
 }
@@ -211,8 +210,4 @@ async function _socketDeleteEVEffect(targ, actorID) {
       eff.delete();
     }
   }
-}
-
-async function _socketCreateSecretMessage(message) {
-  await ChatMessage.create(message);
 }
