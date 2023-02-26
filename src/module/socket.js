@@ -16,7 +16,6 @@ Hooks.once("socketlib.ready", () => {
   socket.register("createEffectOnTarget", _socketCreateEffectOnTarget);
   socket.register("updateEVEffect", _socketUpdateEVEffect);
   socket.register("deleteEVEffect", _socketDeleteEVEffect);
-  socket.register("createSecretMessage", _socketCreateSecretMessage);
 });
 
 export function createEffectOnTarget(a, t, effect, evTargets) {
