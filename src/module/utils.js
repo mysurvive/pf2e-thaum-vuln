@@ -207,32 +207,38 @@ export function createIWRContent(rollDOS, a) {
       iwrData.weaknesses.length == 0
         ? "None"
         : `${getGreatestIWR(iwrData.weaknesses)?.type} `;
-    if (!mystifyNumbers) {
+    if (!mystifyNumbers || rollDOS === 3) {
       weakness = weakness + `- ${getGreatestIWR(iwrData.weaknesses)?.value}`;
     }
     iwrContent = `<p>Highest Weakness: ${weakness}</p>`;
   }
   if (rollDOS === 3) {
     let weakness =
-      iwrData.weaknesses.length == 0 ? "None" : stitchIWR(iwrData.weaknesses);
+      iwrData.weaknesses.length == 0
+        ? "None"
+        : stitchIWR(iwrData.weaknesses, rollDOS);
     let resist =
-      iwrData.resistances.length == 0 ? "None" : stitchIWR(iwrData.resistances);
+      iwrData.resistances.length == 0
+        ? "None"
+        : stitchIWR(iwrData.resistances, rollDOS);
     let immune =
-      iwrData.immunities.length == 0 ? "None" : stitchIWR(iwrData.immunities);
+      iwrData.immunities.length == 0
+        ? "None"
+        : stitchIWR(iwrData.immunities, rollDOS);
     iwrContent = `<div class="grid-container"><div class="grid-item"><p>Weaknesses: <ul>${weakness}</ul></p></div><div class="grid-item"><p>Resistances: <ul>${resist}</ul></p></div><div class="grid-item"><p>Immunities: <ul>${immune}</ul></p></div></div>`;
   }
   return iwrContent;
 }
 
 //stitches together the IWR information to help create the content for the dialog box
-export function stitchIWR(p) {
+export function stitchIWR(p, rollDOS) {
   const mystifyNumbers = game.settings.get("pf2e-thaum-vuln", "mystifyNumbers");
   let s = "";
   for (const n of p) {
     if (n.value) {
-      mystifyNumbers
-        ? (s = s + `<li>${n.type}</li>`)
-        : (s = s + `<li>${n.type} - ${n.value}</li>`);
+      !mystifyNumbers || rollDOS === 3
+        ? (s = s + `<li>${n.type} - ${n.value}</li>`)
+        : (s = s + `<li>${n.type}</li>`);
       if (n.exceptions.length != 0) {
         s = s + "Except: ";
         for (const e of n.exceptions) {
