@@ -133,15 +133,59 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 async function _socketUpdateEVEffect(a) {
-  let sa = await fromUuid(`Actor.${a}`);
   let updates;
   let tKey;
   let value;
   let origin;
   let rollOptionData;
+  if (a === undefined) {
+    for (let act of canvas.tokens.placeables) {
+      if (act.actor) {
+        for (let effect of getActorEVEffect(act.actor, "*")) {
+          if (
+            effect?.rules[1]?.option.split(":")[2] != `Actor${a}` &&
+            effect?.rules[1]?.option
+          ) {
+            value = 0;
+          } else if (effect?.rules[1]?.option) {
+            let acts = effect.rules[1].option.split(":")[2];
+            acts = acts.replace("Actor", "Actor.");
+            origin = await fromUuid(acts);
+            value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
+          }
+          tKey = effect._id;
+          rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
+          updates = {
+            _id: tKey,
+            system: {
+              rules: [
+                {
+                  key: "Weakness",
+                  type: "physical",
+                  value: 0,
+                  predicate: [""],
+                  slug: effect.rules[0].slug,
+                },
+                {
+                  key: "RollOption",
+                  domain: "damage-roll",
+                  option: rollOptionData,
+                },
+              ],
+            },
+          };
+
+          await act.actor.updateEmbeddedDocuments("Item", [updates]);
+        }
+      }
+    }
+    return;
+  }
+  let sa = await fromUuid(`Actor.${a}`);
+
   if (!(sa.getFlag("pf2e-thaum-vuln", "EVMode") === "breached-defenses")) {
     for (let act of canvas.tokens.placeables) {
-      if (act.actor.uuid != a.uuid) {
+      if (act.actor?.uuid != a.uuid) {
         for (let effect of getActorEVEffect(act.actor, "*")) {
           if (
             effect?.rules[1]?.option.split(":")[2] != `Actor${a}` &&
@@ -165,6 +209,7 @@ async function _socketUpdateEVEffect(a) {
                   type: "physical",
                   value: value,
                   predicate: [""],
+                  slug: effect.rules[0].slug,
                 },
                 {
                   key: "RollOption",
