@@ -200,14 +200,16 @@ export async function createEVDialog(
 //Creates the IWR content box content
 export function createIWRContent(rollDOS, a) {
   let iwrContent;
+  const mystifyNumbers = game.settings.get("pf2e-thaum-vuln", "mystifyNumbers");
   const iwrData = getIWR(a);
   if (rollDOS === 2) {
     let weakness =
       iwrData.weaknesses.length == 0
         ? "None"
-        : `${getGreatestIWR(iwrData.weaknesses)?.type} - ${
-            getGreatestIWR(iwrData.weaknesses)?.value
-          }`;
+        : `${getGreatestIWR(iwrData.weaknesses)?.type} `;
+    if (!mystifyNumbers) {
+      weakness = weakness + `- ${getGreatestIWR(iwrData.weaknesses)?.value}`;
+    }
     iwrContent = `<p>Highest Weakness: ${weakness}</p>`;
   }
   if (rollDOS === 3) {
