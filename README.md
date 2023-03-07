@@ -8,6 +8,7 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 
 ## IMPORTANT!!!
 
+<strong>Make sure actors are assigned to players!</strong><br>
 <strong>IWR must be turned on in the PF2e Core Automation Settings or damage will not be applied properly</strong><br>
 <strong>A thaumaturge's Esoteric Lore entry must be listed as Esoteric Lore or it will not work</strong>
 ![Esoteric Lore Skill](src/assets/esotericLore.png)
@@ -21,6 +22,7 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 <li> Breached Defenses: Mostly works except in cases where the highest bypassable resistance is a combination of two traits (such as an adamantine golem's resistance to Vorpal Adamantine damage) or when the damage is not part of the PF2E system's known traits
 <li> Esoteric Warden: Benefits granted upon a successful or critically successful Exploit Vulnerability roll. Per the rules, you cannot gain the benefit of Esoteric Warden from the same creature until you rest for the night.
 <li> Sympathetic Vulnerabilities: Mortal Weakness or Personal Antithesis are automatically applied to all appropriate tokens on the scene. You can disable this by turning off the "Use Exploit Vulnerability Automation" setting in the module Settings.
+<li> Share Weakness: A dialog box with buttons to choose party members to share weakness with. It grabs all allied tokens on the scene, so if the token you are looking for isn't in the dialog box check its alliance status.
 </ul>
 
 This is a work in progress.
@@ -46,6 +48,11 @@ Critical Failure: A flat-footed effect will be applied to the player that will d
 
 6. When the thaumaturge attacks, the value of the exploit vulnerability will only be added to their attacks, taking IWR into account.
    ![Apply Damage](src/assets/applyDamage.gif)
+
+<br>
+Relevant actions have buttons on their chat cards to run their respective macros (currently only Exploit Vulnerability and Share Weakness). See the below example:
+<br>
+![Share Weakness Chat Button](src/assets/chatcardbutton.webp)
 
 ## Settings
 
