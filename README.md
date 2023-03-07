@@ -52,6 +52,7 @@ Critical Failure: A flat-footed effect will be applied to the player that will d
 <br>
 Relevant actions have buttons on their chat cards to run their respective macros (currently only Exploit Vulnerability and Share Weakness). See the below example:
 <br>
+
 ![Share Weakness Chat Button](src/assets/chatcardbutton.webp)
 
 ## Settings
