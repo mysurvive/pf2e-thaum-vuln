@@ -29,29 +29,33 @@ export const ESOTERIC_WARDEN_EFFECT_UUID =
 export const ESOTERIC_WARDEN_EFFECT_SOURCEID = "Item.uKh4kjbl4arTnzC4";
 import { createEffectOnActor } from "./exploit-vulnerability.js";
 
-//Gets the effects of Personal Antithesis or Mortal Weakness from the character
+const HelpfulEffectSourceIDs = new Array(
+  MORTAL_WEAKNESS_EFFECT_SOURCEID,
+  PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
+  BREACHED_DEFENSES_EFFECT_SOURCEID
+);
+
+const TargetEffectSourceIDs = new Array(
+  PERSONAL_ANTITHESIS_TARGET_SOURCEID,
+  MORTAL_WEAKNESS_TARGET_SOURCEID,
+  BREACHED_DEFENSES_TARGET_SOURCEID
+);
+
+//Gets the thaum effects from the character
 export function getActorEVEffect(a, targetID) {
   if (targetID === undefined) {
-    return a.items?.find(
-      (item) =>
-        item.getFlag("core", "sourceId") ===
-          PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
-        item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
-        item.getFlag("core", "sourceId") ===
-          PERSONAL_ANTITHESIS_TARGET_SOURCEID ||
-        item.getFlag("core", "sourceId") === MORTAL_WEAKNESS_TARGET_SOURCEID ||
-        item.getFlag("core", "sourceId") ===
-          BREACHED_DEFENSES_EFFECT_SOURCEID ||
-        item.getFlag("core", "sourceId") === BREACHED_DEFENSES_TARGET_SOURCEID
-    );
+    return a.items?.find((item) => {
+      if (
+        HelpfulEffectSourceIDs.includes(item.getFlag("core", "sourceId")) ||
+        TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId"))
+      ) {
+        return item;
+      }
+    });
   } else if (targetID === "*") {
     let effects = new Array();
     for (let item of a.items) {
-      if (
-        item?.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID ||
-        item?.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID ||
-        item?.sourceId === BREACHED_DEFENSES_TARGET_SOURCEID
-      ) {
+      if (TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId"))) {
         effects.push(item);
       }
     }

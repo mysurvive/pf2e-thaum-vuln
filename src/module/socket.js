@@ -16,6 +16,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("createEffectOnTarget", _socketCreateEffectOnTarget);
   socket.register("updateEVEffect", _socketUpdateEVEffect);
   socket.register("deleteEVEffect", _socketDeleteEVEffect);
+  socket.register("applySWEffect", _socketApplySWEffect);
 });
 
 export function createEffectOnTarget(a, t, effect, evTargets) {
@@ -29,6 +30,10 @@ export function createEffectOnTarget(a, t, effect, evTargets) {
     eID,
     evTargets
   );
+}
+
+export async function applySWEffect(sa, selectedAlly, EVEffect) {
+  return socket.executeAsGM(_socketApplySWEffect, sa, selectedAlly, EVEffect);
 }
 
 export function updateEVEffect(a) {
@@ -163,7 +168,8 @@ async function _socketUpdateEVEffect(a) {
                   key: "Weakness",
                   type: "physical",
                   value: 0,
-                  predicate: [""],
+                  predicate: [],
+                  //this is a problem
                   slug: effect.rules[0].slug,
                 },
                 {
@@ -188,15 +194,19 @@ async function _socketUpdateEVEffect(a) {
       if (act.actor?.uuid != a.uuid) {
         for (let effect of getActorEVEffect(act.actor, "*")) {
           if (
-            effect?.rules[1]?.option.split(":")[2] != `Actor${a}` &&
+            (effect?.rules[1]?.option.split(":")[2] === `Actor${a}` ||
+              sa.getFlag("pf2e-thaum-vuln", "effectSource") ===
+                effect?.rules[1]?.option
+                  .split(":")[2]
+                  .replace("Actor", "Actor.")) &&
             effect?.rules[1]?.option
           ) {
-            value = 0;
-          } else if (effect?.rules[1]?.option) {
             let acts = effect.rules[1].option.split(":")[2];
             acts = acts.replace("Actor", "Actor.");
             origin = await fromUuid(acts);
             value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
+          } else if (effect?.rules[1]?.option) {
+            value = 0;
           }
           tKey = effect._id;
           rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
@@ -208,7 +218,7 @@ async function _socketUpdateEVEffect(a) {
                   key: "Weakness",
                   type: "physical",
                   value: value,
-                  predicate: [""],
+                  predicate: [],
                   slug: effect.rules[0].slug,
                 },
                 {
@@ -240,6 +250,13 @@ async function _socketDeleteEVEffect(targ, actorID) {
       eff.delete();
     }
   } else {
+    for (let token of canvas.scene.tokens) {
+      if (token.actor?.getFlag("pf2e-thaum-vuln", "effectSource") === actorID) {
+        eff = getActorEVEffect(token.actor);
+        token.actor.unsetFlag("pf2e-thaum-vuln", "effectSource");
+        eff.delete();
+      }
+    }
     for (let act of targ) {
       let a = await fromUuid(act);
       if (a.uuid != actorID) {
@@ -254,4 +271,14 @@ async function _socketDeleteEVEffect(targ, actorID) {
       eff.delete();
     }
   }
+}
+
+async function _socketApplySWEffect(saUuid, selectedAlly, EVEffect) {
+  const ally = await fromUuid(selectedAlly);
+  const sa = await fromUuid(saUuid);
+  const EVValue = sa.getFlag("pf2e-thaum-vuln", "EVValue");
+  ally.createEmbeddedDocuments("Item", [EVEffect]);
+  ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
+  ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);
+  return;
 }
