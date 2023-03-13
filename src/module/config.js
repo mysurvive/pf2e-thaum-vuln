@@ -1,6 +1,6 @@
 import { exploitVuln, forceEVTarget } from "./exploit-vulnerability.js";
 
-Hooks.on("init", () => {
+Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
     exploitVuln,
     forceEVTarget,

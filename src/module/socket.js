@@ -175,7 +175,6 @@ async function _socketUpdateEVEffect(a) {
                     type: "physical",
                     value: 0,
                     predicate: [],
-                    //this is a problem
                     slug: effect.rules[0].slug,
                   },
                   {
