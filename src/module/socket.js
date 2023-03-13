@@ -5,6 +5,8 @@ import {
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_TARGET_UUID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
+  CURSED_EFFIGY_UUID,
+  CURSED_EFFIGY_SOURCEID,
 } from "./utils.js";
 
 import { getActorEVEffect, getGreatestIWR, getIWR } from "./utils.js";
@@ -103,6 +105,7 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
   const m = await fromUuid(MORTAL_WEAKNESS_TARGET_UUID);
   const p = await fromUuid(PERSONAL_ANTITHESIS_TARGET_UUID);
   const b = await fromUuid(BREACHED_DEFENSES_TARGET_UUID);
+  const ce = await fromUuid(CURSED_EFFIGY_UUID);
 
   const iwrData = getIWR(t);
 
@@ -118,6 +121,8 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
     eff = b.toObject();
+  } else if (eff.flags.core.sourceId === CURSED_EFFIGY_SOURCEID) {
+    eff = ce.toObject();
   }
   eff.system.rules.find(
     (rules) => rules.key === "RollOption"
@@ -147,41 +152,43 @@ async function _socketUpdateEVEffect(a) {
     for (let act of canvas.tokens.placeables) {
       if (act.actor) {
         for (let effect of getActorEVEffect(act.actor, "*")) {
-          if (
-            effect?.rules[1]?.option.split(":")[2] != `Actor${a}` &&
-            effect?.rules[1]?.option
-          ) {
-            value = 0;
-          } else if (effect?.rules[1]?.option) {
-            let acts = effect.rules[1].option.split(":")[2];
-            acts = acts.replace("Actor", "Actor.");
-            origin = await fromUuid(acts);
-            value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
-          }
-          tKey = effect._id;
-          rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
-          updates = {
-            _id: tKey,
-            system: {
-              rules: [
-                {
-                  key: "Weakness",
-                  type: "physical",
-                  value: 0,
-                  predicate: [],
-                  //this is a problem
-                  slug: effect.rules[0].slug,
-                },
-                {
-                  key: "RollOption",
-                  domain: "damage-roll",
-                  option: rollOptionData,
-                },
-              ],
-            },
-          };
+          if (effect?.rules.find((r) => r.key === "Weakness")) {
+            if (
+              effect?.rules[1]?.option.split(":")[2] != `Actor${a}` &&
+              effect?.rules[1]?.option
+            ) {
+              value = 0;
+            } else if (effect?.rules[1]?.option) {
+              let acts = effect.rules[1].option.split(":")[2];
+              acts = acts.replace("Actor", "Actor.");
+              origin = await fromUuid(acts);
+              value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
+            }
+            tKey = effect._id;
+            rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
+            updates = {
+              _id: tKey,
+              system: {
+                rules: [
+                  {
+                    key: "Weakness",
+                    type: "physical",
+                    value: 0,
+                    predicate: [],
+                    //this is a problem
+                    slug: effect.rules[0].slug,
+                  },
+                  {
+                    key: "RollOption",
+                    domain: "damage-roll",
+                    option: rollOptionData,
+                  },
+                ],
+              },
+            };
 
-          await act.actor.updateEmbeddedDocuments("Item", [updates]);
+            await act.actor.updateEmbeddedDocuments("Item", [updates]);
+          }
         }
       }
     }
@@ -193,43 +200,45 @@ async function _socketUpdateEVEffect(a) {
     for (let act of canvas.tokens.placeables) {
       if (act.actor?.uuid != a.uuid) {
         for (let effect of getActorEVEffect(act.actor, "*")) {
-          if (
-            (effect?.rules[1]?.option.split(":")[2] === `Actor${a}` ||
-              sa.getFlag("pf2e-thaum-vuln", "effectSource") ===
-                effect?.rules[1]?.option
-                  .split(":")[2]
-                  .replace("Actor", "Actor.")) &&
-            effect?.rules[1]?.option
-          ) {
-            let acts = effect.rules[1].option.split(":")[2];
-            acts = acts.replace("Actor", "Actor.");
-            origin = await fromUuid(acts);
-            value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
-          } else if (effect?.rules[1]?.option) {
-            value = 0;
+          if (effect?.rules.find((r) => r.key === "Weakness")) {
+            if (
+              (effect?.rules[1]?.option.split(":")[2] === `Actor${a}` ||
+                sa.getFlag("pf2e-thaum-vuln", "effectSource") ===
+                  effect?.rules[1]?.option
+                    .split(":")[2]
+                    .replace("Actor", "Actor.")) &&
+              effect?.rules[1]?.option
+            ) {
+              let acts = effect.rules[1].option.split(":")[2];
+              acts = acts.replace("Actor", "Actor.");
+              origin = await fromUuid(acts);
+              value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
+            } else if (effect?.rules[1]?.option) {
+              value = 0;
+            }
+            tKey = effect._id;
+            rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
+            updates = {
+              _id: tKey,
+              system: {
+                rules: [
+                  {
+                    key: "Weakness",
+                    type: "physical",
+                    value: value,
+                    predicate: [],
+                    slug: effect.rules[0].slug,
+                  },
+                  {
+                    key: "RollOption",
+                    domain: "damage-roll",
+                    option: rollOptionData,
+                  },
+                ],
+              },
+            };
+            await act.actor.updateEmbeddedDocuments("Item", [updates]);
           }
-          tKey = effect._id;
-          rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
-          updates = {
-            _id: tKey,
-            system: {
-              rules: [
-                {
-                  key: "Weakness",
-                  type: "physical",
-                  value: value,
-                  predicate: [],
-                  slug: effect.rules[0].slug,
-                },
-                {
-                  key: "RollOption",
-                  domain: "damage-roll",
-                  option: rollOptionData,
-                },
-              ],
-            },
-          };
-          await act.actor.updateEmbeddedDocuments("Item", [updates]);
         }
       }
     }
@@ -239,14 +248,14 @@ async function _socketUpdateEVEffect(a) {
 //Deletes the effect from the actor passed to the method
 async function _socketDeleteEVEffect(targ, actorID) {
   let eff;
+  let a;
   if (actorID === undefined) {
     for (let act of targ) {
-      let a = await fromUuid(act);
+      a = await fromUuid(act);
       if (a.actor) {
-        eff = getActorEVEffect(a.actor);
-      } else {
-        eff = getActorEVEffect(a);
+        a = a.actor;
       }
+      eff = getActorEVEffect(a);
       eff.delete();
     }
   } else {
@@ -258,17 +267,21 @@ async function _socketDeleteEVEffect(targ, actorID) {
       }
     }
     for (let act of targ) {
-      let a = await fromUuid(act);
+      a = await fromUuid(act);
       if (a.uuid != actorID) {
         if (a.actor) {
-          eff = getActorEVEffect(a.actor, actorID);
-        } else {
-          eff = getActorEVEffect(a, actorID);
+          a = a.actor;
         }
+        eff = getActorEVEffect(a, actorID);
+        for (let e of eff) {
+          await e.delete();
+        }
+
+        //TODO double check there's nothing else to delete
       } else {
         eff = getActorEVEffect(a, undefined);
+        eff.delete();
       }
-      eff.delete();
     }
   }
 }

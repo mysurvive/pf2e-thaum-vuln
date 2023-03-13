@@ -27,6 +27,9 @@ export const DIVERSE_LORE_SOURCEID =
 export const ESOTERIC_WARDEN_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.fufcXy1CEMvxmgWt";
 export const ESOTERIC_WARDEN_EFFECT_SOURCEID = "Item.uKh4kjbl4arTnzC4";
+export const CURSED_EFFIGY_UUID =
+  "Compendium.pf2e-thaum-vuln.Thaumaturge Effects.s0NI9gKZygLUunOg";
+export const CURSED_EFFIGY_SOURCEID = "Item.XDXJA884X2AYJ0RO";
 import { createEffectOnActor } from "./exploit-vulnerability.js";
 
 const HelpfulEffectSourceIDs = new Array(
@@ -38,7 +41,8 @@ const HelpfulEffectSourceIDs = new Array(
 const TargetEffectSourceIDs = new Array(
   PERSONAL_ANTITHESIS_TARGET_SOURCEID,
   MORTAL_WEAKNESS_TARGET_SOURCEID,
-  BREACHED_DEFENSES_TARGET_SOURCEID
+  BREACHED_DEFENSES_TARGET_SOURCEID,
+  CURSED_EFFIGY_SOURCEID
 );
 
 //Gets the thaum effects from the character
@@ -61,7 +65,33 @@ export function getActorEVEffect(a, targetID) {
     }
     return effects;
   } else {
-    return a.items?.find(
+    let effects = new Array();
+
+    for (let item of a.items) {
+      console.log(
+        "debug return values",
+        TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId")),
+        item?.rules.find(
+          (rules) =>
+            rules.key === "RollOption" &&
+            rules.option === "origin:id:" + targetID.split(".").join("")
+        ),
+        item,
+        a
+      );
+      if (
+        TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId")) &&
+        item?.rules.find(
+          (rules) =>
+            rules.key === "RollOption" &&
+            rules.option === "origin:id:" + targetID.split(".").join("")
+        )
+      ) {
+        effects.push(item);
+      }
+    }
+    return effects;
+    /*return a.items?.find(
       (item) =>
         (item.getFlag("core", "sourceId") ===
           PERSONAL_ANTITHESIS_TARGET_SOURCEID &&
@@ -76,8 +106,15 @@ export function getActorEVEffect(a, targetID) {
             (rules) =>
               rules.key === "RollOption" &&
               rules.option === "origin:id:" + targetID.split(".").join("")
+          )) ||
+        (item.getFlag("core", "sourceId") === CURSED_EFFIGY_SOURCEID &&
+          item?.rules.find(
+            (rules) =>
+              rules.key === "RollOption" &&
+              rules.option === "origin:id:" + targetID.split(".").join("")
           ))
     );
+    */
   }
 }
 

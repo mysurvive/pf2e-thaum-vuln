@@ -18,7 +18,7 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 ### Feats
 
 <ul>
-<li> Diverse Lore: A secret message is sent to the GM on a successful or critically successful Exploit Vulnerability roll, comparing the result of the roll to the hard DC for the creature and providing guidance per the CRB,
+<li> Diverse Lore: A secret message is sent to the GM on a successful or critically successful Exploit Vulnerability roll, comparing the result of the roll to Recall Knowledge DC for the creature and providing guidance per the CRB,
 <li> Breached Defenses: Mostly works except in cases where the highest bypassable resistance is a combination of two traits (such as an adamantine golem's resistance to Vorpal Adamantine damage) or when the damage is not part of the PF2E system's known traits
 <li> Esoteric Warden: Benefits granted upon a successful or critically successful Exploit Vulnerability roll. Per the rules, you cannot gain the benefit of Esoteric Warden from the same creature until you rest for the night.
 <li> Sympathetic Vulnerabilities: Mortal Weakness or Personal Antithesis are automatically applied to all appropriate tokens on the scene. You can disable this by turning off the "Use Exploit Vulnerability Automation" setting in the module Settings.
