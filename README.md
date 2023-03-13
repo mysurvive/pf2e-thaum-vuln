@@ -23,6 +23,8 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 <li> Esoteric Warden: Benefits granted upon a successful or critically successful Exploit Vulnerability roll. Per the rules, you cannot gain the benefit of Esoteric Warden from the same creature until you rest for the night.
 <li> Sympathetic Vulnerabilities: Mortal Weakness or Personal Antithesis are automatically applied to all appropriate tokens on the scene. You can disable this by turning off the "Use Exploit Vulnerability Automation" setting in the module Settings.
 <li> Share Weakness: A dialog box with buttons to choose party members to share weakness with. It grabs all allied tokens on the scene, so if the token you are looking for isn't in the dialog box check its alliance status.
+<li> Cursed Effigy: After clicking the action in the actor's sheet, the "Use Cursed Effigy" button will show on the chat card. Click this to apply the effect to the target.
+<li> Twin Weakness: A toggleable roll option needs to be checked above the strikes in the actions tab on the character sheet for damage to apply.
 </ul>
 
 This is a work in progress.
@@ -32,7 +34,7 @@ This is a work in progress.
 3. The player must target exactly one enemy on the screen, then run the macro.
 4. The macro will roll the Esoteric Lore check and compare it to the target's level DC. It will determine the degree of success and automate the effects.
 
-Critical Success: The player will receive a dialog window that provides all weaknesses, resistances, and immunities, if there are any. They will be able to choose whether they want to exploit a personal antithesis or a mortal weakness, providing them with values at a quick glance to show which is higher. Making a choice will apply an effect to them (Exploit Mortal Weakness TARGET NAME or Exploit Personal Antithesis TARGET NAME) and to the enemeny (Mortal Weakness Effect (SOURCE NAME) or Personal Antithesis Effect (SOURCE NAME)).
+Critical Success: The player will receive a dialog window that provides all weaknesses, resistances, and immunities, if there are any. They will be able to choose whether they want to exploit a personal antithesis or a mortal weakness, providing them with values at a quick glance to show which is higher. Making a choice will apply an effect to them (Exploit Mortal Weakness or Exploit Personal Antithesis) and to the enemy (Mortal Weakness Effect (SOURCE NAME) or Personal Antithesis Effect (SOURCE NAME)).
 
 Success: The player will receive a dialog window that provides the highest weakness of the target, if there is one. Like on a critical success, it will provide values at a quick glance that will show which is higher and apply appropriate effects based on choice in the dialog.
 
@@ -50,7 +52,7 @@ Critical Failure: A flat-footed effect will be applied to the player that will d
    ![Apply Damage](src/assets/applyDamage.gif)
 
 <br>
-Relevant actions have buttons on their chat cards to run their respective macros (currently only Exploit Vulnerability and Share Weakness). See the below example:
+Relevant actions have buttons on their chat cards to run their respective macros (currently only Exploit Vulnerability, Share Weakness, and Cursed Effigy). See the below example:
 <br>
 
 ![Share Weakness Chat Button](src/assets/chatcardbutton.webp)
