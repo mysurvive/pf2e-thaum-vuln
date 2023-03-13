@@ -19,6 +19,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("updateEVEffect", _socketUpdateEVEffect);
   socket.register("deleteEVEffect", _socketDeleteEVEffect);
   socket.register("applySWEffect", _socketApplySWEffect);
+  socket.register("sharedWarding", _socketSharedWarding);
 });
 
 export function createEffectOnTarget(a, t, effect, evTargets) {
@@ -32,6 +33,10 @@ export function createEffectOnTarget(a, t, effect, evTargets) {
     eID,
     evTargets
   );
+}
+
+export function sharedWarding(eff) {
+  return socket.executeAsGM(_socketSharedWarding, eff);
 }
 
 export async function applySWEffect(sa, selectedAlly, EVEffect) {
@@ -275,8 +280,6 @@ async function _socketDeleteEVEffect(targ, actorID) {
         for (let e of eff) {
           await e.delete();
         }
-
-        //TODO double check there's nothing else to delete
       } else {
         eff = getActorEVEffect(a, undefined);
         eff.delete();
@@ -293,4 +296,19 @@ async function _socketApplySWEffect(saUuid, selectedAlly, EVEffect) {
   ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
   ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);
   return;
+}
+
+async function _socketSharedWarding(eff) {
+  const a = canvas.tokens.controlled[0];
+  const allTokens = canvas.tokens.placeables;
+
+  const affectedTokens = allTokens.filter(
+    (token) => a.distanceTo(token) <= 30 && token.actor.alliance === "party"
+  );
+  for (let token of affectedTokens) {
+    if (token != a) {
+      await token.actor.createEmbeddedDocuments("Item", [eff]);
+      token.actor.setFlag("pf2e-thaum-vuln", "EWSourceActor", a.actor.uuid);
+    }
+  }
 }

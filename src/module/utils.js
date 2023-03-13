@@ -68,17 +68,6 @@ export function getActorEVEffect(a, targetID) {
     let effects = new Array();
 
     for (let item of a.items) {
-      console.log(
-        "debug return values",
-        TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId")),
-        item?.rules.find(
-          (rules) =>
-            rules.key === "RollOption" &&
-            rules.option === "origin:id:" + targetID.split(".").join("")
-        ),
-        item,
-        a
-      );
       if (
         TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId")) &&
         item?.rules.find(
