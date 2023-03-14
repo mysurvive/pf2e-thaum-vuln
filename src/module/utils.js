@@ -145,18 +145,24 @@ export async function createEVDialog(
   const iwrContent = createIWRContent(rollDOS, t);
 
   let dgContent =
-    "<p>Choose the vulnerability to exploit.</p><br>" +
+    `<p>${game.i18n.localize(
+      "pf2e-thaum-vuln.exploitVulnerability.dialog.prompt"
+    )}</p><br>` +
     iwrContent +
-    `<p>Personal Antithesis Bonus Damage: ${paDmg}</p>`;
+    `<p${
+      game.i18n.localize(
+        "pf2e-thaum-exploitVuln.exploitVulnerability.dialog.paBonusLabel"
+      ) + paDmg
+    }</p>`;
   let dgBtns = {
     pa: {
-      label: "Personal Antithesis",
+      label: game.i18n.localize("pf2e-thaum-vuln.personalAntithesis.name"),
       callback: () => {
         createEffectOnActor(sa, t, paEffectSource, rollDOS);
       },
     },
     mw: {
-      label: "Mortal Weakness",
+      label: game.i18n.localize("pf2e-thaum-vuln.mortalWeakness.name"),
       callback: () => {
         createEffectOnActor(sa, t, mwEffectSource, rollDOS);
       },
@@ -172,19 +178,23 @@ export async function createEVDialog(
     const tRes = getIWR(t).resistances;
     let gBD;
     if (tRes.length != 0) {
-      gBD =
-        BDGreatestBypassableResistance(t)?.type +
-        ", bypassed by " +
-        BDGreatestBypassableResistance(t)?.exceptions;
+      gBD = game.i18n.format("pf2e-thaum-vuln.breachedDefenses.bypassLine", {
+        type: BDGreatestBypassableResistance(t)?.type,
+        exception: BDGreatestBypassableResistance(t)?.exceptions,
+      });
     } else {
-      gBD = "none";
+      gBD = game.i18n.localize("pf2e-thaum-vuln.dialog.none");
     }
 
-    dgContent = dgContent + "<p>Highest Bypassable Resistance: " + gBD + "<p>";
+    dgContent =
+      dgContent +
+      game.i18n.localize("pf2e-thaum-vuln.breachedDefenses.bypassableLabel") +
+      gBD +
+      "<p>";
     dgBtns = {
       ...dgBtns,
       bd: {
-        label: "Breached Defenses",
+        label: game.i18n.localize("pf2e-thaum-vuln.breachedDefenses.name"),
         callback: () => {
           createEffectOnActor(sa, t, bdEffectSource);
         },
@@ -192,7 +202,7 @@ export async function createEVDialog(
     };
   }
   let dg = new Dialog({
-    title: "Exploit Vulnerability",
+    title: game.i18n.localize("pf2e-thaum-vuln.exploitVulnerability.name"),
     content: () => dgContent,
     buttons: dgBtns,
     default: "pa",
@@ -211,7 +221,7 @@ export function createIWRContent(rollDOS, a) {
   if (rollDOS === 2) {
     let weakness =
       iwrData.weaknesses.length == 0
-        ? "None"
+        ? game.i18n.localize("pf2e-thaum-vuln.dialog.none")
         : `${getGreatestIWR(iwrData.weaknesses)?.type} `;
     if (!mystifyNumbers || rollDOS === 3) {
       weakness = weakness + `- ${getGreatestIWR(iwrData.weaknesses)?.value}`;
@@ -221,17 +231,23 @@ export function createIWRContent(rollDOS, a) {
   if (rollDOS === 3) {
     let weakness =
       iwrData.weaknesses.length == 0
-        ? "None"
+        ? game.i18n.localize("pf2e-thaum-vuln.dialog.none")
         : stitchIWR(iwrData.weaknesses, rollDOS);
     let resist =
       iwrData.resistances.length == 0
-        ? "None"
+        ? game.i18n.localize("pf2e-thaum-vuln.dialog.none")
         : stitchIWR(iwrData.resistances, rollDOS);
     let immune =
       iwrData.immunities.length == 0
-        ? "None"
+        ? game.i18n.localize("pf2e-thaum-vuln.dialog.none")
         : stitchIWR(iwrData.immunities, rollDOS);
-    iwrContent = `<div class="grid-container"><div class="grid-item"><p>Weaknesses: <ul>${weakness}</ul></p></div><div class="grid-item"><p>Resistances: <ul>${resist}</ul></p></div><div class="grid-item"><p>Immunities: <ul>${immune}</ul></p></div></div>`;
+    iwrContent = `<div class="grid-container"><div class="grid-item"><p>${game.i18n.localize(
+      "pf2e-thaum-vuln.exploitVulnerability.dialog.weaknessLabel"
+    )}<ul>${weakness}</ul></p></div><div class="grid-item"><p>${game.i18n.localize(
+      "pf2e-thaum-vuln.exploitVulnerability.dialog.resistanceLabel"
+    )}<ul>${resist}</ul></p></div><div class="grid-item"><p>${game.i18n.localize(
+      "pf2e-thaum-vuln.exploitVulnerability.dialog.immunityLabel"
+    )}<ul>${immune}</ul></p></div></div>`;
   }
   return iwrContent;
 }
@@ -246,7 +262,11 @@ export function stitchIWR(p, rollDOS) {
         ? (s = s + `<li>${n.type} - ${n.value}</li>`)
         : (s = s + `<li>${n.type}</li>`);
       if (n.exceptions.length != 0) {
-        s = s + "Except: ";
+        s =
+          s +
+          game.i18n.localize(
+            "pf2e-thaum-vuln.exploitVulnerability.dialog.except"
+          );
         for (const e of n.exceptions) {
           if (e === n.exceptions[n.exceptions.length - 1]) {
             s = s + `${e}`;
@@ -260,7 +280,11 @@ export function stitchIWR(p, rollDOS) {
         n.doubleVs = false;
       }
       if (n.doubleVs) {
-        s = s + "Double vs.: ";
+        s =
+          s +
+          game.i18n.localize(
+            "pf2e-thaum-vuln.exploitVulnerability.dialog.doublevs"
+          );
         for (const d of n.doubleVs) {
           if (d === n.doubleVs[n.doubleVs.length - 1]) {
             s = s + `${d}`;
@@ -272,7 +296,11 @@ export function stitchIWR(p, rollDOS) {
     } else {
       s = s + `<li>${n.type}</li>`;
       if (n.exceptions.length != 0) {
-        s = s + "Except: ";
+        s =
+          s +
+          game.i18n.localize(
+            "pf2e-thaum-vuln.exploitVulnerability.dialog.except"
+          );
         for (const e of n.exceptions) {
           if (e === n.exceptions[n.exceptions.length - 1]) {
             s = s + `${e}`;
