@@ -20,6 +20,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("deleteEVEffect", _socketDeleteEVEffect);
   socket.register("applySWEffect", _socketApplySWEffect);
   socket.register("sharedWarding", _socketSharedWarding);
+  socket.register("ubiquitousWeakness", _socketUbiquitousWeakness);
 });
 
 export function createEffectOnTarget(a, t, effect, evTargets) {
@@ -33,6 +34,80 @@ export function createEffectOnTarget(a, t, effect, evTargets) {
     eID,
     evTargets
   );
+}
+
+export function ubiquitousWeakness(eff) {
+  const a = canvas.tokens.controlled[0];
+  const allies = canvas.tokens.placeables.filter(
+    (token) => token.actor?.alliance === "party" && a.distanceTo(token) <= 30
+  );
+
+  const dgContent = $(
+    `<div>You've nurtured your bonds with your comrades, allowing you to share the benefits of your esoterica. When you use Exploit Vulnerability and choose mortal weakness, select any number of allies within 30 feet of you. Their Strikes apply the weakness from mortal weakness the same way your Strikes do. This benefit ends when you stop benefiting from Exploit Vulnerability. Since this effect depends on magically strengthening your bond to your allies, only allies with whom you've developed a rapport over the course of one or more days gain the benefit.</div>`
+  );
+  const dgInnerContent = $(
+    `<div class="flex-container" style="display: flex; flex-wrap: wrap; justify-content: space-around"></div>`
+  );
+
+  let selectedAlly = new Array();
+  for (let ally of allies) {
+    if (ally.actor.uuid != game.user.character.uuid) {
+      const allyWrapper = $(
+        `<div class="pf2e-ev" style="padding: 0.5rem;"></div>`
+      );
+      const allyBtn = $(
+        `<button style="background: url(${ally.document.texture.src}); background-size:contain; width:10rem; height:10rem;" class="ally-button" id=${ally.actor.uuid}>`
+      );
+      const allyName = $(
+        `<p style="text-align: center">${ally.actor.name}</p>`
+      );
+
+      $(document).ready(function () {
+        $(".ally-button")
+          .off("click")
+          .on("click", function (e) {
+            if (!selectedAlly.includes(e.target.attributes.allyuuid.value)) {
+              $(e.currentTarget).css("background-color", "red");
+              selectedAlly.push(e.target.attributes.allyuuid.value);
+            } else {
+              $(e.currentTarget).css("background-color", "rgba(0,0,0,0)");
+              let index = selectedAlly.indexOf(
+                e.target.attributes.allyuuid.value
+              );
+              selectedAlly.splice(index, 1);
+            }
+          });
+      });
+
+      allyBtn.attr("allyuuid", ally.actor.uuid);
+      allyBtn.appendTo(allyWrapper);
+      allyName.appendTo(allyWrapper);
+      allyWrapper.appendTo(dgInnerContent);
+    }
+  }
+  dgInnerContent.appendTo(dgContent);
+
+  let dg = new Dialog({
+    title: "Ubiquitous Weakness",
+    content: dgContent.html(),
+    buttons: {
+      confirm: {
+        label: "Confirm",
+        callback: async () => {
+          await socket.executeAsGM(
+            _socketUbiquitousWeakness,
+            selectedAlly,
+            a.actor.uuid,
+            eff
+          );
+        },
+      },
+    },
+    default: "confirm",
+    render: () => {},
+    close: () => {},
+  });
+  dg.render(true);
 }
 
 export function sharedWarding(eff) {
@@ -296,6 +371,17 @@ async function _socketApplySWEffect(saUuid, selectedAlly, EVEffect) {
   ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
   ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);
   return;
+}
+
+async function _socketUbiquitousWeakness(allies, saUuid, EVEffect) {
+  const sa = await fromUuid(saUuid);
+  const EVValue = sa.getFlag("pf2e-thaum-vuln", "EVValue");
+  for (let ally of allies) {
+    ally = await fromUuid(ally);
+    ally.createEmbeddedDocuments("Item", [EVEffect]);
+    ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
+    ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);
+  }
 }
 
 async function _socketSharedWarding(eff) {
