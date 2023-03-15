@@ -24,7 +24,6 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 <li> Sympathetic Vulnerabilities: Mortal Weakness or Personal Antithesis are automatically applied to all appropriate tokens on the scene. You can disable this by turning off the "Use Exploit Vulnerability Automation" setting in the module Settings.
 <li> Share Weakness: A dialog box with buttons to choose party members to share weakness with. It grabs all allied tokens on the scene, so if the token you are looking for isn't in the dialog box check its alliance status.
 <li> Cursed Effigy: After clicking the action in the actor's sheet, the "Use Cursed Effigy" button will show on the chat card. Click this to apply the effect to the target.
-<li> Twin Weakness: A toggleable roll option needs to be checked above the strikes in the actions tab on the character sheet for damage to apply.
 <li> Shared Warding: A dialog asking to apply to nearby allies when Esoteric Warden is available. If chosen yes, all allies within 30 feet will have the Esoteric Warden effect applied to them.
 <li> Ubiquitous Weakness: After choosing Mortal Weakness when exploiting vulnerability, a dialog box will appear asking if you would like to apply your Mortal Weakness Effect to all allies within 30 ft. If yes, another dialog box will appear, giving you the option to choose any allies within 30 ft. to apply the effect to.
 </ul>

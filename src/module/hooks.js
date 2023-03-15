@@ -124,6 +124,8 @@ Hooks.on("deleteItem", async (item) => {
   }
 });
 
+//TODO: Actually fix Twin Weakness to work properly
+/*
 //Sets the rules for Twin Weakness when the canvas is loaded (sets the rules in case the feat was added prior to installing the module)
 Hooks.on(
   "canvasReady",
@@ -183,3 +185,4 @@ Hooks.on("createItem", async (item) => {
     });
   }
 });
+*/
