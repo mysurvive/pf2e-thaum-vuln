@@ -25,6 +25,7 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 <li> Share Weakness: A dialog box with buttons to choose party members to share weakness with. It grabs all allied tokens on the scene, so if the token you are looking for isn't in the dialog box check its alliance status.
 <li> Cursed Effigy: After clicking the action in the actor's sheet, the "Use Cursed Effigy" button will show on the chat card. Click this to apply the effect to the target.
 <li> Shared Warding: A dialog asking to apply to nearby allies when Esoteric Warden is available. If chosen yes, all allies within 30 feet will have the Esoteric Warden effect applied to them.
+<li> Twin Weakness: Click the action in your actions tab on your character sheet, then click the button in the chat card. You will be prompted for the weapon you wish to attack with and your current map. On any roll but a critical failure, a damage roll will be put in the chat based on your current Exploit Vulnerability value.
 <li> Ubiquitous Weakness: After choosing Mortal Weakness when exploiting vulnerability, a dialog box will appear asking if you would like to apply your Mortal Weakness Effect to all allies within 30 ft. If yes, another dialog box will appear, giving you the option to choose any allies within 30 ft. to apply the effect to.
 </ul>
 

@@ -33,6 +33,11 @@
         "shareWeakness": {
           "noAbility": "The actor does not have the ability to share weakness",
           "noActiveMW": "The actor does not have a Mortal Weakness effect active"
+        },
+        "twinWeakness": {
+          "noValidEV": "Your target must be affected by Personal Antithesis or Mortal Weakness in order to use Twin Weakness",
+          "invalidTargetCount": "Select only one target to use Twin Weakness against",
+          "invalidTarget": "The target of Twin Weakness must also be the target of Personal Antithesis or Mortal Weakness"
         }
       }
     },
@@ -101,10 +106,16 @@
       "prompt": "Would you like to apply your Mortal Weakness effect to all allies within 30 ft.?"
     },
 
+    "twinWeakness": {
+      "name": "Twin Weakness",
+      "chatCardHeader": "Damage: Twin Weakness"
+    },
+
     "dialog": {
       "yes": "Yes",
       "no": "No",
       "confirm": "Confirm",
+      "cancel": "Cancel",
       "none": "none"
     },
 
