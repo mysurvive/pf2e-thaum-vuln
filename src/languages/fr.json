@@ -2,8 +2,91 @@
   "pf2e-thaum-vuln": {
     "settings": {
       "EVAutomation": {
-        "name": "Utiliser l'automatisation d'Exploiter la vulnérabilité"
+        "name": "Utiliser l'automatisation d'Exploiter la vulnérabilité",
+        "hint": "Si coché, le module marquera automatiquement toutes les cibles valides pour Faiblesse mortelle, Vulnérabilités sympathiques, etc. sur la scène active. Décochez si vous préférez actualiser manuellement les cibles en utilisant la macro forceEV. Vous pourriez vouloir désactiver ceci si vous appliquez Exploiter la vulnérabilité différemment de la manière RAW."
+      },
+      "mystifyNumbers": {
+        "name": "Mystifier les valeurs IWR (Immunités, faiblesses, résistances)",
+        "hint": "Si coché, fait en sorte que la boite de dialogue n'apparait pas lorsque vous Exploiter la vulnérabilité - Montre seulement le type de dégâts"
       }
+    },
+    "notifications": {
+      "warn": {
+        "exploitVulnerability": {
+          "targetCount": "Sélectionnez un pion Thaumaturge et ciblez une créature.",
+          "noExploitVulnerability": "Cet acteur n'a pas la capacité Exploiter la vulnérabilité",
+          "noEsotericLoreSkill": "Cet acteur n'a pas la connaissance \"Esoteric Lore\" (Ne fonctionne qu'avec le nom en VO)",
+          "noMatchingDC": "Aucun DD correspondant pour la cible"
+        },
+        "cursedEffigy": {
+          "noAbility": "Vous n'avez pas la capacité pour créé une effigie maudite",
+          "invalidTarget": "Ciblez seulement la cible de votre Exploiter la vulnérabilité pour créé une effigie maudite"
+        },
+        "forceEV": {
+          "invalidTargets": "Sélectionnez un pion Thaumaturge et ciblez une ou plusieurs créatures",
+          "eVNotActivated": "Le pion sélectionné n'a pas activer Exploiter la vulnérabilité"
+        },
+        "shareWeakness": {
+          "noAbility": "Cet acteur n'a pas la capacité de Partager la faiblesse",
+          "noActiveMW": "Cet acteur n'a pas d'effet de Faiblesse mortelle actif"
+        },
+        "twinWeakness": {
+          "noValidEV": "Votre cible doit être affectée par Antithèse personnelle ou Faiblesse mortel pour pouvoir utiliser Faiblesse jumelle",
+          "invalidTarget": "La cible de Faiblesse jumelle doit aussi être la cible de Antithèse personnelle ou Faiblesse mortelle",
+          "invalidTargetCount": "Sélectionnez uniquement une cible pour utiliser Faiblesse jumelle"
+        },
+        "mortalWeakness": {
+          "noWeakness": "Il n'y a pas de faiblesses sur cette créature pour exploiter une Faiblesse mortelle."
+        }
+      }
+    },
+    "exploitVulnerability": {
+      "name": "Exploiter la vulnérabilité",
+      "frequency": {
+        "label": "Fréquence",
+        "text": "une fois par round"
+      },
+      "requirements": {
+        "label": "Conditions",
+        "text": "Vous tenez votre implément"
+      },
+      "dialog": {
+        "prompt": "Choisissez la vulnérabilité à exploiter.",
+        "paBonusLabel": "Dégâts bonus d'Antithèse personnelle : ",
+        "weaknessLabel": "Faiblesses : ",
+        "resistanceLabel": "Résistances : ",
+        "immunityLabel": "Immunités : ",
+        "except": "Sauf : ",
+        "doublevs": "Double contre : "
+      },
+      "flavor": "Vous fouillez dans vos expériences et votre apprentissage pour identifier quelque chose qui pourrait repousser votre ennemi. Vous récupérez un objet parmi vos ésotéricas avec les qualités surnaturelles appropriées puis utilisez votre implément pour rallumer les vestiges de son pouvoir et en faire un brasier. Sélectionnez une créature que vous pouvez voir et tentez un test de Connaissance ésotérique contre un DD standard pour son niveau tout en récupérant le bon objet parmi vos ésotéricas et utilisez votre implément pour lui donner du pouvoir. Vous bénéficiez des effets suivants jusqu'à ce que vous Exploitiez les vulnérabilités de nouveau."
+    },
+    "personalAntithesis": {
+      "name": "Antithèse personnelle"
+    },
+    "mortalWeakness": {
+      "name": "Faiblesse mortelle"
+    },
+    "breachedDefenses": {
+      "name": "Brèche dans la défense",
+      "bypassableLabel": "Résistance la plus élevée contournable : ",
+      "bypassLine": "{type}, contourné par {exception}"
+    },
+    "esotericWarden": {
+      "name": "Gardien ésotérique",
+      "flavor": "Lorsque vous appliquez avec succès une matière antithétique contre une créature, vous vous prémunissez également contre ses prochaines attaques. Lorsque vous réussissez votre test pour Exploiter la vulnérabilité, vous obtenez un bonus de statut de +1 à votre CA contre la prochaine attaque de la créature et un bonus de statut de +1 à votre prochain jet de sauvegarde contre la créature. Si vous obtenez un succès critique, ces bonus sont de +2 à la place. Vous ne pouvez gagner ces bonus qu'une fois par jour contre une créature particulière, et cet avantage prend fin si vous Exploitez la vulnérabilité de nouveau."
+    },
+    "diverseLore": {
+      "name": "Connaissance diversifiée",
+      "flavor": "Lorsque vous obtenez un succès sur votre test pour Exploiter la vulnérabilité, comparez le résultat de votre test de Connaissances ésotériques au DD pour vous souvenir de cette créature ; si ce nombre vous aurait permis d'atteindre un succès ou un succès critique, vous obtenez des informations comme si vous aviez réussi le test pour Vous souvenir. "
+    },
+    "sharedWarding": {
+      "name": "Protection partagée",
+      "flavor": "Vous protégez vos allié des attaques de vos ennemis lorsque vous appliquez ces protections à vous-même. Lorsque vous obtenez un bonus de statut à la CA et aux jets de sauvegarde de Gardien ésotérique, vous pouvez choisir pour accorder le même avantage à tous les alliés dans un rayon de 9 m.",
+      "prompt": "Voulez-vous appliquer l'effet de votre Gardien ésotérique à tous les alliés dans les 9 m. ?"
+    },
+    "shareWeakness": {
+      "name": "Partager la faiblesse"
     }
   }
 }
