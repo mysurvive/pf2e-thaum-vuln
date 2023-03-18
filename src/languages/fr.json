@@ -86,7 +86,28 @@
       "prompt": "Voulez-vous appliquer l'effet de votre Gardien ésotérique à tous les alliés dans les 9 m ?"
     },
     "shareWeakness": {
-      "name": "Partager la faiblesse"
+      "name": "Partager la faiblesse",
+      "flavor": "Vous choisissez un objet parmi vos ésotéricas qui possède une grande valeur personnelle pour vous, comme un médaillon ou une bague précieuse et vous la confiez à un allié, établissant un lien personnel qui permet à votre allié d'affecter un ennemi comme s'il était vous. Les Frappes de l'allié appliquent la faiblesse de votre faiblesse mortelle de la même manière que vos propres frappes. Cet avantage prend fin lorsque votre capacité Exploiter la vulnérabilité prend fin ou que vous utilisez de nouveau Partager la faiblesse.",
+      "prompt": "Choisissez un allié avec lequel partager votre effet de faiblesse mortelle."
+    },
+    "ubiquitousWeakness": {
+      "name": "Faiblesse omniprésente",
+      "flavor": "Vous avez nourri vos liens avec vos camarades, ce qui vous permet de partager les avantages de votre ésotérica. Lorsque vous utilisez Exploiter la vulnérabilité et que vous choisissez faiblesse mortelle, sélectionnez un nombre quelconque d'alliés dans un rayon de 9 mètres autour de vous. Leurs Frappes appliquent la faiblesse de faiblesse mortelle de la même manière que vos Frappes. Cet avantage prend fin lorsque vous cessez de bénéficier de la capacité Exploiter la vulnérabilité. Comme cet effet dépend du renforcement magique de votre lien avec vos alliés, seuls les alliés avec lesquels vous avez développé une relation au cours d'un ou plusieurs jours bénéficient de cet avantage.",
+      "prompt": "Voulez-vous appliquer l'effet de votre Faiblesse mortelle à tous les alliés dans les 9 m. ?"
+    },
+    "twinWeakness": {
+      "name": "Faiblesse jumelle",
+      "chatCardHeader": "Dommage : Faiblesse jumelle"
+    },
+    "dialog": {
+      "yes": "Oui",
+      "no": "Non",
+      "confirm": "Confirmer",
+      "cancel": "Annuler",
+      "none": "Aucun"
+    },
+    "chatCard": {
+      "use": "Utiliser {action}"
     }
   }
 }
