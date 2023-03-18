@@ -92,12 +92,12 @@
     },
     "ubiquitousWeakness": {
       "name": "Faiblesse omniprésente",
-      "flavor": "Vous avez nourri vos liens avec vos camarades, ce qui vous permet de partager les avantages de votre ésotérica. Lorsque vous utilisez Exploiter la vulnérabilité et que vous choisissez faiblesse mortelle, sélectionnez un nombre quelconque d'alliés dans un rayon de 9 mètres autour de vous. Leurs Frappes appliquent la faiblesse de faiblesse mortelle de la même manière que vos Frappes. Cet avantage prend fin lorsque vous cessez de bénéficier de la capacité Exploiter la vulnérabilité. Comme cet effet dépend du renforcement magique de votre lien avec vos alliés, seuls les alliés avec lesquels vous avez développé une relation au cours d'un ou plusieurs jours bénéficient de cet avantage.",
-      "prompt": "Voulez-vous appliquer l'effet de votre Faiblesse mortelle à tous les alliés dans les 9 m. ?"
+      "flavor": "Vous avez nourri vos liens avec vos camarades, vous permettant de partager les avantages de votre ésotérica. Lorsque vous utilisez Exploiter la vulnérabilité et que vous choisissez faiblesse mortelle, sélectionnez un nombre quelconque d'alliés dans un rayon de 9 mètres autour de vous. Leurs Frappes appliquent la faiblesse de faiblesse mortelle de la même manière que vos Frappes. Cet avantage prend fin lorsque vous cessez de bénéficier de la capacité Exploiter la vulnérabilité. Comme cet effet dépend du renforcement magique de votre lien avec vos alliés, seuls les alliés avec lesquels vous avez développé une relation au cours d'un ou plusieurs jours bénéficient de cet avantage.",
+      "prompt": "Voulez-vous appliquer l'effet de votre Faiblesse mortelle à tous les alliés dans les 9 m ?"
     },
     "twinWeakness": {
       "name": "Faiblesse jumelle",
-      "chatCardHeader": "Dommage : Faiblesse jumelle"
+      "chatCardHeader": "Dégâts : Faiblesse jumelle"
     },
     "dialog": {
       "yes": "Oui",
