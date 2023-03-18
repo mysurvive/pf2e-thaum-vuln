@@ -33,7 +33,7 @@
         "twinWeakness": {
           "noValidEV": "Votre cible doit être affectée par Antithèse personnelle ou Faiblesse mortel pour pouvoir utiliser Faiblesse jumelle",
           "invalidTarget": "La cible de Faiblesse jumelle doit aussi être la cible de Antithèse personnelle ou Faiblesse mortelle",
-          "invalidTargetCount": "Sélectionnez uniquement une cible pour utiliser Faiblesse jumelle"
+          "invalidTargetCount": "Choisir seulement une cible contre laquelle utiliser Faiblesse jumelle"
         },
         "mortalWeakness": {
           "noWeakness": "Il n'y a pas de faiblesses sur cette créature pour exploiter une Faiblesse mortelle."
@@ -74,16 +74,16 @@
     },
     "esotericWarden": {
       "name": "Gardien ésotérique",
-      "flavor": "Lorsque vous appliquez avec succès une matière antithétique contre une créature, vous vous prémunissez également contre ses prochaines attaques. Lorsque vous réussissez votre test pour Exploiter la vulnérabilité, vous obtenez un bonus de statut de +1 à votre CA contre la prochaine attaque de la créature et un bonus de statut de +1 à votre prochain jet de sauvegarde contre la créature. Si vous obtenez un succès critique, ces bonus sont de +2 à la place. Vous ne pouvez gagner ces bonus qu'une fois par jour contre une créature particulière, et cet avantage prend fin si vous Exploitez la vulnérabilité de nouveau."
+      "flavor": "Lorsque vous appliquez avec succès une matière antithétique contre une créature, vous vous prémunissez également contre ses prochaines attaques. Lorsque vous réussissez votre test pour Exploiter la vulnérabilité, vous obtenez un bonus de statut de +1 à la CA contre la prochaine attaque de la créature et un bonus de statut de +1 à votre prochain jet de sauvegarde contre la créature. Si vous obtenez un succès critique, ces bonus sont de +2 à la place. Vous ne pouvez gagner ces bonus qu'une fois par jour contre une créature particulière et cet avantage prend fin si vous Exploitez la vulnérabilité de nouveau."
     },
     "diverseLore": {
       "name": "Connaissance diversifiée",
-      "flavor": "Lorsque vous obtenez un succès sur votre test pour Exploiter la vulnérabilité, comparez le résultat de votre test de Connaissances ésotériques au DD pour vous souvenir de cette créature ; si ce nombre vous aurait permis d'atteindre un succès ou un succès critique, vous obtenez des informations comme si vous aviez réussi le test pour Vous souvenir. "
+      "flavor": "Lorsque vous obtenez un succès sur votre test pour Exploiter la vulnérabilité, comparez le résultat de votre test de Connaissances ésotériques au DD pour Vous souvenir de cette créature. Si ce résultat vous aurait permis d'atteindre un succès ou un succès critique, vous obtenez des informations comme si vous aviez réussi le test pour Vous souvenir. "
     },
     "sharedWarding": {
       "name": "Protection partagée",
-      "flavor": "Vous protégez vos allié des attaques de vos ennemis lorsque vous appliquez ces protections à vous-même. Lorsque vous obtenez un bonus de statut à la CA et aux jets de sauvegarde de Gardien ésotérique, vous pouvez choisir pour accorder le même avantage à tous les alliés dans un rayon de 9 m.",
-      "prompt": "Voulez-vous appliquer l'effet de votre Gardien ésotérique à tous les alliés dans les 9 m. ?"
+      "flavor": "Vous protégez vos alliés des attaques de vos ennemis lorsque vous appliquez ces protections à vous-même. Lorsque vous obtenez un bonus de statut à la CA et aux jets de sauvegarde de Gardien ésotérique, vous pouvez choisir d'accorder le même avantage à tous les alliés dans un rayon de 9 m.",
+      "prompt": "Voulez-vous appliquer l'effet de votre Gardien ésotérique à tous les alliés dans les 9 m ?"
     },
     "shareWeakness": {
       "name": "Partager la faiblesse"
