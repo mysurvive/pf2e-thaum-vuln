@@ -7,7 +7,7 @@
       },
       "mystifyNumbers": {
         "name": "Mystifier les valeurs IWR (Immunités, faiblesses, résistances)",
-        "hint": "Si coché, fait en sorte que la boite de dialogue n'apparait pas lorsque vous Exploiter la vulnérabilité - Montre seulement le type de dégâts"
+        "hint": "Si coché, fait en sorte que la boite de dialogue n'apparait pas lorsque vous Exploiter la vulnérabilité - Montre seulement le type de dégâts."
       }
     },
     "notifications": {
