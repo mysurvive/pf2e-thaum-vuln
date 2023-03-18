@@ -1,1 +1,9 @@
-{}
+{
+  "pf2e-thaum-vuln": {
+    "settings": {
+      "EVAutomation": {
+        "name": "Utiliser l'automatisation d'Exploiter la vulnérabilité"
+      }
+    }
+  }
+}
