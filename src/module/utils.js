@@ -149,11 +149,12 @@ export async function createEVDialog(
       "pf2e-thaum-vuln.exploitVulnerability.dialog.prompt"
     )}</p><br>` +
     iwrContent +
-    `<p${
+    `<p>${
       game.i18n.localize(
-        "pf2e-thaum-exploitVuln.exploitVulnerability.dialog.paBonusLabel"
+        "pf2e-thaum-vuln.exploitVulnerability.dialog.paBonusLabel"
       ) + paDmg
     }</p>`;
+
   let dgBtns = {
     pa: {
       label: game.i18n.localize("pf2e-thaum-vuln.personalAntithesis.name"),
