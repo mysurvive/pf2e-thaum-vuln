@@ -32,7 +32,8 @@
         },
         "shareWeakness": {
           "noAbility": "The actor does not have the ability to share weakness",
-          "noActiveMW": "The actor does not have a Mortal Weakness effect active"
+          "noActiveMW": "The actor does not have a Mortal Weakness effect active",
+          "invalidActorCount": "Select only the Thaumaturge using Share Weakness and try again."
         },
         "twinWeakness": {
           "noValidEV": "Your target must be affected by Personal Antithesis or Mortal Weakness in order to use Twin Weakness",
