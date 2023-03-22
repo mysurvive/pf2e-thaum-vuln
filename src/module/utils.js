@@ -87,10 +87,17 @@ export function getActorEVEffect(a, targetID) {
 export function getGreatestIWR(iwr) {
   if (iwr) {
     let gIWR = iwr[0];
+    let allGIWR = [];
     for (const n of iwr) {
       if (n.value >= gIWR.value) {
+        if (n.value === gIWR.value) {
+          allGIWR.push(n);
+        }
         gIWR = n;
       }
+    }
+    if (allGIWR.length > 1) {
+      gIWR = allGIWR[Math.floor(Math.random() * allGIWR.length)];
     }
     return gIWR;
   }
