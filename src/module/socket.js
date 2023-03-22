@@ -120,8 +120,8 @@ export async function applySWEffect(sa, selectedAlly, EVEffect) {
   return socket.executeAsGM(_socketApplySWEffect, sa, selectedAlly, EVEffect);
 }
 
-export function updateEVEffect(a) {
-  return socket.executeAsGM(_socketUpdateEVEffect, a);
+export function updateEVEffect(a, damageType) {
+  return socket.executeAsGM(_socketUpdateEVEffect, a, damageType);
 }
 
 export function deleteEVEffect(a, sa = undefined) {
@@ -224,7 +224,7 @@ async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
-async function _socketUpdateEVEffect(a) {
+async function _socketUpdateEVEffect(a, damageType) {
   let updates;
   let tKey;
   let value;
@@ -305,7 +305,7 @@ async function _socketUpdateEVEffect(a) {
                 rules: [
                   {
                     key: "Weakness",
-                    type: "physical",
+                    type: `${damageType}`,
                     value: value,
                     predicate: [],
                     slug: effect.rules[0].slug,

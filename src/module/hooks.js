@@ -37,7 +37,11 @@ Hooks.on(
         message.isDamageRoll
       ) {
         if (a.type === "character") {
-          updateEVEffect(message.speaker?.actor);
+          console.log("message attack", message);
+          const weapon = await fromUuid(message.flags.pf2e.origin.uuid);
+          console.log("weapon attacked with", weapon);
+          const damageType = weapon.system.damage.damageType;
+          updateEVEffect(message.speaker?.actor, damageType);
         }
 
         for (let target of message.getFlag("pf2e-thaum-vuln", "targets")) {
