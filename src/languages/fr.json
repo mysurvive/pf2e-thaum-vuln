@@ -28,7 +28,8 @@
         },
         "shareWeakness": {
           "noAbility": "Cet acteur n'a pas la capacité de Partager la faiblesse",
-          "noActiveMW": "Cet acteur n'a pas d'effet de Faiblesse mortelle actif"
+          "noActiveMW": "Cet acteur n'a pas d'effet de Faiblesse mortelle actif",
+          "invalidActorCount": "Sélectionnez seulement le thaumaturge qui utilise Partager les faiblesses et essayez de nouveau."
         },
         "twinWeakness": {
           "noValidEV": "Votre cible doit être affectée par Antithèse personnelle ou Faiblesse mortel pour pouvoir utiliser Faiblesse jumelle",
