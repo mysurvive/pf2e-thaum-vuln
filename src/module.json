@@ -44,7 +44,7 @@
       "flags": {}
     },
     {
-      "lang": "zh-Hans",
+      "lang": "cn",
       "name": "中文（简体）",
       "path": "languages/zh_Hans.json"
     },
@@ -58,9 +58,7 @@
   "url": "https://github.com/mysurvive/pf2e-thaum-vuln",
   "manifest": "https://github.com/mysurvive/pf2e-thaum-vuln/releases/latest/download/module.json",
   "download": "https://github.com/mysurvive/pf2e-thaum-vuln/archive/main.zip",
-  "esmodules": [
-    "module/pf2e-thaum-vuln.js"
-  ],
+  "esmodules": ["module/pf2e-thaum-vuln.js"],
   "packs": [
     {
       "name": "MySurvive's Thaumaturge Macros",
