@@ -39,6 +39,9 @@
           "noValidEV": "Your target must be affected by Personal Antithesis or Mortal Weakness in order to use Twin Weakness",
           "invalidTargetCount": "Select only one target to use Twin Weakness against",
           "invalidTarget": "The target of Twin Weakness must also be the target of Personal Antithesis or Mortal Weakness"
+        },
+        "strike": {
+          "invalidDamageType": "Weapon's damage type is set to Untyped which is an invalid damage type for the purposes of Exploit Vulnerability. Weakness will not be applied."
         }
       }
     },

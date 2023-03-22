@@ -37,9 +37,7 @@ Hooks.on(
         message.isDamageRoll
       ) {
         if (a.type === "character") {
-          console.log("message attack", message);
           const weapon = await fromUuid(message.flags.pf2e.origin.uuid);
-          console.log("weapon attacked with", weapon);
           const damageType = weapon.system.damage.damageType;
           updateEVEffect(message.speaker?.actor, damageType);
         }

@@ -298,6 +298,15 @@ async function _socketUpdateEVEffect(a, damageType) {
               value = 0;
             }
             tKey = effect._id;
+            let attackDamageType = damageType;
+            if (attackDamageType === "untyped") {
+              ui.notifications.warn(
+                game.i18n.localize(
+                  "pf2e-thaum-vuln.notifications.warn.strike.invalidDamageType"
+                )
+              );
+              attackDamageType = "physical";
+            }
             rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
             updates = {
               _id: tKey,
@@ -305,7 +314,7 @@ async function _socketUpdateEVEffect(a, damageType) {
                 rules: [
                   {
                     key: "Weakness",
-                    type: `${damageType}`,
+                    type: `${attackDamageType}`,
                     value: value,
                     predicate: [],
                     slug: effect.rules[0].slug,
