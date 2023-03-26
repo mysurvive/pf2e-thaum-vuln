@@ -53,7 +53,7 @@ export function ubiquitousWeakness(eff) {
 
   let selectedAlly = new Array();
   for (let ally of allies) {
-    if (ally.actor.uuid != game.user.character.uuid) {
+    if (ally.actor.uuid != game.user.character?.uuid) {
       const allyWrapper = $(
         `<div class="pf2e-ev" style="padding: 0.5rem;"></div>`
       );
@@ -277,6 +277,10 @@ async function _socketUpdateEVEffect(a, damageType) {
   }
   let sa = await fromUuid(`Actor.${a}`);
 
+  if (!sa) {
+    return;
+  }
+
   if (!(sa.getFlag("pf2e-thaum-vuln", "EVMode") === "breached-defenses")) {
     for (let act of canvas.tokens.placeables) {
       if (act.actor?.uuid != a.uuid) {
@@ -298,15 +302,7 @@ async function _socketUpdateEVEffect(a, damageType) {
               value = 0;
             }
             tKey = effect._id;
-            let attackDamageType = damageType;
-            if (attackDamageType === "untyped") {
-              ui.notifications.warn(
-                game.i18n.localize(
-                  "pf2e-thaum-vuln.notifications.warn.strike.invalidDamageType"
-                )
-              );
-              attackDamageType = "physical";
-            }
+
             rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
             updates = {
               _id: tKey,
@@ -314,7 +310,7 @@ async function _socketUpdateEVEffect(a, damageType) {
                 rules: [
                   {
                     key: "Weakness",
-                    type: `${attackDamageType}`,
+                    type: `${damageType}`.slugify(),
                     value: value,
                     predicate: [],
                     slug: effect.rules[0].slug,

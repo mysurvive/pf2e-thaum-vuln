@@ -38,7 +38,18 @@ Hooks.on(
       ) {
         if (a.type === "character") {
           const weapon = await fromUuid(message.flags.pf2e.origin.uuid);
-          const damageType = weapon.system.damage.damageType;
+          if (weapon.type === "consumable") {
+            return;
+          }
+          let damageType = weapon.system.damage?.damageType;
+          if (damageType === "untyped" || damageType === undefined) {
+            ui.notifications.warn(
+              game.i18n.localize(
+                "pf2e-thaum-vuln.notifications.warn.strike.invalidDamageType"
+              )
+            );
+            damageType = "physical";
+          }
           updateEVEffect(message.speaker?.actor, damageType);
         }
 
