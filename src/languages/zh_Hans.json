@@ -31,7 +31,8 @@
         },
         "shareWeakness": {
           "noAbility": "该角色没有共享弱点专长",
-          "noActiveMW": "该角色身上没有正在生效的凡体弱点效果"
+          "noActiveMW": "该角色身上没有正在生效的凡体弱点效果",
+          "invalidActorCount": "只选择使用共享弱点的奇术师，然后再尝试一次。"
         },
         "twinWeakness": {
           "invalidTargetCount": "选择要使用孪生弱点的一个目标，且仅选择一个",
