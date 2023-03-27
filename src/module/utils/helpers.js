@@ -6,7 +6,12 @@ import {
   ESOTERIC_WARDEN_EFFECT_UUID,
 } from ".";
 import { BDGreatestBypassableResistance } from "../utils";
-import { createEffectOnTarget, ubiquitousWeakness } from "../socket";
+import {
+  createEffectOnTarget,
+  ubiquitousWeakness,
+  sharedWarding,
+} from "../socket";
+import { getIWR } from "../utils";
 
 function getMWTargets(t) {
   let targs = new Array();

@@ -1,4 +1,8 @@
 import { SupportedActions } from "./index.js";
+import { exploitVuln } from "../feats/exploitVulnerability.js";
+import { shareWeakness } from "../feats/shareWeakness.js";
+import { cursedEffigy } from "../feats/cursedEffigy.js";
+import { twinWeakness } from "../feats/twinWeakness.js";
 
 //Creates the button in the chat tile for actions and feats
 async function createChatCardButton(message, html) {

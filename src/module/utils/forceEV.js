@@ -1,3 +1,10 @@
+import {
+  MORTAL_WEAKNESS_TARGET_UUID,
+  PERSONAL_ANTITHESIS_TARGET_UUID,
+} from ".";
+import { getActorEVEffect } from "../utils";
+import { deleteEVEffect } from "../socket";
+
 //macro that allows GMs to apply the same exploit vulnerability on a target
 async function forceEVTarget() {
   const m = await fromUuid(MORTAL_WEAKNESS_TARGET_UUID);
