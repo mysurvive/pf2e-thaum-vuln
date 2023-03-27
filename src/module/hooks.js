@@ -38,7 +38,7 @@ Hooks.on(
       ) {
         if (a.type === "character") {
           const weapon = await fromUuid(message.flags.pf2e.origin.uuid);
-          if (weapon.type === "consumable") {
+          if (weapon?.system.consumableType?.value === "potion") {
             return;
           }
           let damageType = weapon.system.damage?.damageType;
