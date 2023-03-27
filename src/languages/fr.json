@@ -38,6 +38,9 @@
         },
         "mortalWeakness": {
           "noWeakness": "Il n'y a pas de faiblesses sur cette créature pour exploiter une Faiblesse mortelle."
+        },
+        "strike": {
+          "invalidDamageType": "Le type de dégâts de l'arme est défini sur Untyped, ce qui est un type de dégâts non valide dans le cadre de Exploit Vulnerability. La faiblesse ne sera pas appliquée."
         }
       }
     },
