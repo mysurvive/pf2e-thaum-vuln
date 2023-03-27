@@ -1,3 +1,4 @@
+import { getGreatestIWR } from "../utils";
 function getSVTargets(t, effect) {
   let targs = new Array();
   if (effect.name.includes("Exploit Mortal Weakness")) {

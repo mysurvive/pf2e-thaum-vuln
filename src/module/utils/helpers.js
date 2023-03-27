@@ -1,3 +1,13 @@
+import { getSVTargets } from "../feats/sympatheticVulnerabilities";
+import {
+  PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
+  MORTAL_WEAKNESS_EFFECT_SOURCEID,
+  BREACHED_DEFENSES_EFFECT_SOURCEID,
+  ESOTERIC_WARDEN_EFFECT_UUID,
+} from ".";
+import { BDGreatestBypassableResistance } from "../utils";
+import { createEffectOnTarget, ubiquitousWeakness } from "../socket";
+
 function getMWTargets(t) {
   let targs = new Array();
   for (let token of canvas.tokens.objects.children) {
