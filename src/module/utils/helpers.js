@@ -104,6 +104,7 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     effRuleSlug = "breached-defenses-bypass";
     const bypassable = BDGreatestBypassableResistance(t);
 
+    console.log("bypassable stuff", bypassable);
     //force ghost touch property rune on things that are immune to it
     if (bypassable.exceptions.includes("ghost-touch")) {
       bypassable.exceptions[0] = "ghostTouch";

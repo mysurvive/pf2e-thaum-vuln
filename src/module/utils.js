@@ -169,6 +169,15 @@ export async function createEVDialog(
         type: BDGreatestBypassableResistance(t)?.type,
         exception: BDGreatestBypassableResistance(t)?.exceptions,
       });
+      dgBtns = {
+        ...dgBtns,
+        bd: {
+          label: game.i18n.localize("pf2e-thaum-vuln.breachedDefenses.name"),
+          callback: () => {
+            createEffectOnActor(sa, t, bdEffectSource);
+          },
+        },
+      };
     } else {
       gBD = game.i18n.localize("pf2e-thaum-vuln.dialog.none");
     }
@@ -178,15 +187,6 @@ export async function createEVDialog(
       game.i18n.localize("pf2e-thaum-vuln.breachedDefenses.bypassableLabel") +
       gBD +
       "<p>";
-    dgBtns = {
-      ...dgBtns,
-      bd: {
-        label: game.i18n.localize("pf2e-thaum-vuln.breachedDefenses.name"),
-        callback: () => {
-          createEffectOnActor(sa, t, bdEffectSource);
-        },
-      },
-    };
   }
   let dg = new Dialog({
     title: game.i18n.localize("pf2e-thaum-vuln.exploitVulnerability.name"),
