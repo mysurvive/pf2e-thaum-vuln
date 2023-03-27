@@ -1,4 +1,5 @@
-import { exploitVuln, forceEVTarget } from "./exploit-vulnerability.js";
+import { exploitVuln } from "./feats/exploitVulnerability.js";
+import { forceEVTarget } from "./utils/forceEV.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {

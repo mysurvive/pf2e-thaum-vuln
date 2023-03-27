@@ -7,7 +7,7 @@ import {
   BREACHED_DEFENSES_EFFECT_SOURCEID,
   CURSED_EFFIGY_UUID,
   CURSED_EFFIGY_SOURCEID,
-} from "./utils.js";
+} from "./utils/index.js";
 
 import { getActorEVEffect, getGreatestIWR, getIWR } from "./utils.js";
 

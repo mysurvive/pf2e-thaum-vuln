@@ -1,7 +1,7 @@
 const DamageRoll = CONFIG.Dice.rolls.find((r) => r.name === "DamageRoll");
 
 //Twin Weakness macro. Borrowed heavily from Symon's Flurry of Blows macro https://gitlab.com/symonsch/my-foundryvtt-macros/-/blob/main/PF2e/Retired%20V10/Flurry%20of%20Blows.js
-export async function twinWeakness() {
+async function twinWeakness() {
   //Sets the actor and token variables
   const a = canvas.tokens.controlled[0].actor;
   const evMode = a.getFlag("pf2e-thaum-vuln", "EVMode");
@@ -105,3 +105,5 @@ export async function twinWeakness() {
     }
   }
 }
+
+export { twinWeakness };

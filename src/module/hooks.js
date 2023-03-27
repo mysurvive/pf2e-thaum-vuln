@@ -2,14 +2,12 @@ import {
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
-} from "./utils";
+} from "./utils/index.js";
 
 import { updateEVEffect } from "./socket.js";
 
-import {
-  removeEWOption,
-  createChatCardButton,
-} from "./exploit-vulnerability.js";
+import { createChatCardButton } from "./utils/chatCard.js";
+import { removeEWOption } from "./feats/esotericWarden.js";
 
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
@@ -41,7 +39,7 @@ Hooks.on(
           if (weapon?.system.consumableType?.value === "potion") {
             return;
           }
-          let damageType = weapon.system.damage?.damageType;
+          let damageType = weapon?.system.damage?.damageType;
           if (damageType === "untyped" || damageType === undefined) {
             ui.notifications.warn(
               game.i18n.localize(
