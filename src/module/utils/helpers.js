@@ -5,9 +5,10 @@ import {
   BREACHED_DEFENSES_EFFECT_SOURCEID,
 } from ".";
 import { BDGreatestBypassableResistance, getGreatestIWR } from "../utils";
-import { createEffectOnTarget, ubiquitousWeakness } from "../socket";
+import { createEffectOnTarget } from "../socket";
 import { getIWR } from "../utils";
 import { createEsotericWarden } from "../feats/esotericWarden";
+import { createUWDialog } from "../feats/ubiquitousWeakness";
 
 function getMWTargets(t) {
   let targs = new Array();
@@ -22,11 +23,8 @@ function getMWTargets(t) {
 //Creates the passed effect document on the actor
 async function createEffectOnActor(sa, t, effect, rollDOS) {
   let eff = effect.toObject();
-  let evMode;
-  let EWPredicate;
-  let effRuleSlug;
-  let effPredicate;
-  let effSlug;
+  let evMode, EWPredicate, effRuleSlug, effPredicate, effSlug;
+
   const gIWR = getGreatestIWR(t.actor.attributes.weaknesses);
   const useEVAutomation = game.settings.get(
     "pf2e-thaum-vuln",
@@ -39,6 +37,7 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   const hasSympatheticVulnerabilities = sa.items.some(
     (i) => i.slug === "sympathetic-vulnerabilities"
   );
+
   let evTargets = new Array();
   if (eff.flags.core.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID) {
     EWPredicate = "mortal-weakness-target";
@@ -149,33 +148,7 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
 
   await sa.createEmbeddedDocuments("Item", [eff]);
   if (hasUbiquitousWeakness && evMode === "mortal-weakness") {
-    let dg = new Dialog({
-      title: game.i18n.localize("pf2e-thaum-vuln.ubiquitousWeakness.name"),
-      content: () =>
-        `<p>${game.i18n.localize(
-          "pf2e-thaum-vuln.ubiquitousWeakness.flavor"
-        )} <br><br>${game.i18n.localize(
-          "pf2e-thaum-vuln.ubiquitousWeakness.prompt"
-        )} </p>`,
-      buttons: {
-        yes: {
-          label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
-          callback: () => {
-            ubiquitousWeakness(eff);
-          },
-        },
-        no: {
-          label: game.i18n.localize("pf2e-thaum-vuln.dialog.no"),
-          callback: () => {
-            return;
-          },
-        },
-      },
-      default: "yes",
-      render: () => {},
-      close: () => {},
-    });
-    await dg.render(true);
+    createUWDialog(eff);
   }
 }
 
