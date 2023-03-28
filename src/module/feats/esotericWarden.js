@@ -1,3 +1,42 @@
+import { ESOTERIC_WARDEN_EFFECT_UUID } from "../utils/index.js";
+import { sharedWardingDialog } from "./sharedWarding.js";
+
+async function createEsotericWarden(rollDOS, EWPredicate, sa, t) {
+  const hasSharedWarding = sa.items.some((i) => i.slug === "shared-warding");
+
+  let EWEffect = await fromUuid(ESOTERIC_WARDEN_EFFECT_UUID);
+
+  EWEffect = EWEffect.toObject();
+  const bonus = rollDOS === 3 ? 2 : rollDOS === 2 ? 1 : 0;
+  EWEffect.system.rules[0].value = bonus;
+  EWEffect.system.rules[1].value = bonus;
+  EWEffect.system.rules[0].predicate = [
+    ("origin:effect:" + EWPredicate + ` ${sa.name}`).slugify(),
+  ];
+  EWEffect.system.rules[1].predicate = [
+    ("origin:effect:" + EWPredicate + ` ${sa.name}`).slugify(),
+  ];
+
+  //makes sure a player can't use Esoteric Warden on the same creature twice
+  if (!sa.getFlag("pf2e-thaum-vuln", "EWImmuneTargs")?.includes(t.actor.uuid)) {
+    await sa.createEmbeddedDocuments("Item", [EWEffect]);
+
+    if (hasSharedWarding) {
+      sharedWardingDialog(EWEffect);
+    }
+  }
+
+  let EWImmuneTargs = new Array();
+  EWImmuneTargs = EWImmuneTargs.concat(
+    sa.getFlag("pf2e-thaum-vuln", "EWImmuneTargs")
+  );
+  if (!EWImmuneTargs.some((i) => i === t.actor.uuid)) {
+    EWImmuneTargs.push(t.actor.uuid);
+  }
+
+  await sa.setFlag("pf2e-thaum-vuln", "EWImmuneTargs", EWImmuneTargs);
+}
+
 //removes the corresponding option from Esoteric Warden. If the thaum is targeted with
 //a strike, they lose the AC bonus. If they are targeted with a save, they lose the save
 //bonus
@@ -47,4 +86,4 @@ async function removeEWOption(EWEffect, t, choice) {
   }
 }
 
-export { removeEWOption };
+export { removeEWOption, createEsotericWarden };

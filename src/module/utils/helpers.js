@@ -3,15 +3,11 @@ import {
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
-  ESOTERIC_WARDEN_EFFECT_UUID,
 } from ".";
 import { BDGreatestBypassableResistance } from "../utils";
-import {
-  createEffectOnTarget,
-  ubiquitousWeakness,
-  sharedWarding,
-} from "../socket";
+import { createEffectOnTarget, ubiquitousWeakness } from "../socket";
 import { getIWR } from "../utils";
+import { createEsotericWarden } from "../feats/esotericWarden";
 
 function getMWTargets(t) {
   let targs = new Array();
@@ -27,16 +23,15 @@ function getMWTargets(t) {
 async function createEffectOnActor(sa, t, effect, rollDOS) {
   let eff = effect.toObject();
   let evMode;
+  let EWPredicate;
   let effRuleSlug;
   let effPredicate;
-  let EWPredicate;
   let effSlug;
   const useEVAutomation = game.settings.get(
     "pf2e-thaum-vuln",
     "useEVAutomation"
   );
   const hasEsotericWarden = sa.items.some((i) => i.slug === "esoteric-warden");
-  const hasSharedWarding = sa.items.some((i) => i.slug === "shared-warding");
   const hasUbiquitousWeakness = sa.items.some(
     (i) => i.slug === "ubiquitous-weakness"
   );
@@ -104,7 +99,6 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     effRuleSlug = "breached-defenses-bypass";
     const bypassable = BDGreatestBypassableResistance(t);
 
-    console.log("bypassable stuff", bypassable);
     //force ghost touch property rune on things that are immune to it
     if (bypassable.exceptions.includes("ghost-touch")) {
       bypassable.exceptions[0] = "ghostTouch";
@@ -133,65 +127,9 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     ).predicate = `target:effect:Breached Defenses Target ${sa.name}`.slugify();
     await sa.setFlag("pf2e-thaum-vuln", "EVValue", exception?.exception);
   }
-  let EWEffect;
+
   if (hasEsotericWarden && rollDOS > 1) {
-    EWEffect = await fromUuid(ESOTERIC_WARDEN_EFFECT_UUID);
-    EWEffect = EWEffect.toObject();
-    const bonus = rollDOS === 3 ? 2 : rollDOS === 2 ? 1 : 0;
-    EWEffect.system.rules[0].value = bonus;
-    EWEffect.system.rules[1].value = bonus;
-    EWEffect.system.rules[0].predicate = [
-      ("origin:effect:" + EWPredicate + ` ${sa.name}`).slugify(),
-    ];
-    EWEffect.system.rules[1].predicate = [
-      ("origin:effect:" + EWPredicate + ` ${sa.name}`).slugify(),
-    ];
-
-    //makes sure a player can't use Esoteric Warden on the same creature twice
-    if (
-      !sa.getFlag("pf2e-thaum-vuln", "EWImmuneTargs")?.includes(t.actor.uuid)
-    ) {
-      await sa.createEmbeddedDocuments("Item", [EWEffect]);
-
-      if (hasSharedWarding) {
-        let dg = new Dialog({
-          title: game.i18n.localize("pf2e-thaum-vuln.sharedWarding.name"),
-          content: () =>
-            `<p>${game.i18n.localize(
-              "pf2e-thaum-vuln.sharedWarding.flavor"
-            )} <br><br>${game.i18n.localize(
-              "pf2e-thaum-vuln.sharedWarding.prompt"
-            )} </p>`,
-          buttons: {
-            yes: {
-              label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
-              callback: () => {
-                sharedWarding(EWEffect);
-              },
-            },
-            no: {
-              label: game.i18n.localize("pf2e-thaum-vuln.dialog.no"),
-              callback: () => {
-                return;
-              },
-            },
-          },
-          default: "yes",
-          render: () => {},
-          close: () => {},
-        });
-        await dg.render(true);
-      }
-    }
-    let EWImmuneTargs = new Array();
-    EWImmuneTargs = EWImmuneTargs.concat(
-      sa.getFlag("pf2e-thaum-vuln", "EWImmuneTargs")
-    );
-    if (!EWImmuneTargs.some((i) => i === t.actor.uuid)) {
-      EWImmuneTargs.push(t.actor.uuid);
-    }
-
-    await sa.setFlag("pf2e-thaum-vuln", "EWImmuneTargs", EWImmuneTargs);
+    createEsotericWarden(rollDOS, EWPredicate, sa, t);
   }
 
   eff.slug = effSlug;
