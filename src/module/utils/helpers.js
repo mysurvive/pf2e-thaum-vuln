@@ -4,7 +4,7 @@ import {
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
 } from ".";
-import { BDGreatestBypassableResistance } from "../utils";
+import { BDGreatestBypassableResistance, getGreatestIWR } from "../utils";
 import { createEffectOnTarget, ubiquitousWeakness } from "../socket";
 import { getIWR } from "../utils";
 import { createEsotericWarden } from "../feats/esotericWarden";
@@ -27,6 +27,7 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   let effRuleSlug;
   let effPredicate;
   let effSlug;
+  const gIWR = getGreatestIWR(t.actor.attributes.weaknesses);
   const useEVAutomation = game.settings.get(
     "pf2e-thaum-vuln",
     "useEVAutomation"
@@ -51,7 +52,7 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     if (useEVAutomation) {
       evTargets = getMWTargets(t);
       if (hasSympatheticVulnerabilities) {
-        evTargets = evTargets.concat(getSVTargets(t, eff));
+        evTargets = evTargets.concat(getSVTargets(t, eff, gIWR));
       }
     }
     effPredicate = `target:effect:Mortal Weakness Target ${sa.name}`.slugify();
@@ -61,7 +62,7 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     evMode = "mortal-weakness";
   } else if (eff.flags.core.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID) {
     if (hasSympatheticVulnerabilities && useEVAutomation) {
-      evTargets = evTargets.concat(getSVTargets(t, eff));
+      evTargets = evTargets.concat(getSVTargets(t, eff, gIWR));
     }
     EWPredicate = "personal-antithesis-target";
     effPredicate =
