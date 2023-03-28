@@ -4,11 +4,11 @@ import {
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
 } from ".";
-import { BDGreatestBypassableResistance, getGreatestIWR } from "../utils";
+import { getGreatestIWR, getIWR } from "../utils";
 import { createEffectOnTarget } from "../socket";
-import { getIWR } from "../utils";
 import { createEsotericWarden } from "../feats/esotericWarden";
 import { createUWDialog } from "../feats/ubiquitousWeakness";
+import { createBreachedDefenses } from "../feats/breachedDefenses";
 
 function getMWTargets(t) {
   let targs = new Array();
@@ -73,59 +73,10 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     //resistance that can be bypassed is a combination of two traits (see adamantine golem's resistance bypass from vorpal-adamantine)
     //or if the trait that bypasses it is not in the system/on my list
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
-    const ADJUSTMENT_TYPES = {
-      materials: {
-        propLabel: "materials",
-        data: CONFIG.PF2E.preciousMaterials,
-      },
-      traits: {
-        propLabel: "traits",
-        data: CONFIG.PF2E.damageTraits,
-      },
-      "weapon-traits": {
-        propLabel: "weapon-traits",
-        data: CONFIG.PF2E.weaponTraits,
-      },
-      "property-runes": {
-        propLabel: "property-runes",
-        data: CONFIG.PF2E.runes.weapon.property,
-      },
-    };
-
-    evMode = "breached-defenses";
-    effPredicate = [
-      `target:effect:Breached Defenses Target ${sa.name}`.slugify(),
-    ];
-    effRuleSlug = "breached-defenses-bypass";
-    const bypassable = BDGreatestBypassableResistance(t);
-
-    //force ghost touch property rune on things that are immune to it
-    if (bypassable.exceptions.includes("ghost-touch")) {
-      bypassable.exceptions[0] = "ghostTouch";
-    }
-
-    const exception = (() => {
-      for (const types in ADJUSTMENT_TYPES) {
-        if (
-          Object.hasOwn(ADJUSTMENT_TYPES[types].data, bypassable.exceptions[0])
-        ) {
-          return {
-            property: ADJUSTMENT_TYPES[types].propLabel,
-            exception: bypassable.exceptions[0],
-          };
-        }
-      }
-    })();
-    eff.system.rules.find(
-      (rules) => rules.slug === "breached-defenses-bypass"
-    ).value = exception?.exception;
-    eff.system.rules.find(
-      (rules) => rules.slug === "breached-defenses-bypass"
-    ).property = exception?.property;
-    eff.system.rules.find(
-      (rules) => rules.slug === "breached-defenses-bypass"
-    ).predicate = `target:effect:Breached Defenses Target ${sa.name}`.slugify();
-    await sa.setFlag("pf2e-thaum-vuln", "EVValue", exception?.exception);
+    let bDData = await createBreachedDefenses(sa, t, eff);
+    evMode = bDData.evMode;
+    effPredicate = bDData.effPredicate;
+    effRuleSlug = bDData.effRuleSlug;
   }
 
   if (hasEsotericWarden && rollDOS > 1) {
