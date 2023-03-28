@@ -41,13 +41,15 @@ Hooks.on(
           if (weapon?.system.consumableType?.value === "potion") {
             return;
           }
+
           let damageType = weapon.system.damage?.damageType;
           if (damageType === "untyped" || damageType === undefined) {
-            ui.notifications.warn(
+            //TODO: quick fix patching out this error. Will revisit after refactor
+            /*ui.notifications.warn(
               game.i18n.localize(
                 "pf2e-thaum-vuln.notifications.warn.strike.invalidDamageType"
               )
-            );
+            );*/
             damageType = "physical";
           }
           updateEVEffect(message.speaker?.actor, damageType);
