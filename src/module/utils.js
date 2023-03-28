@@ -2,6 +2,8 @@ import { createEffectOnActor } from "./utils/helpers.js";
 import {
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
+  PERSONAL_ANTITHESIS_EFFECT_UUID,
+  MORTAL_WEAKNESS_EFFECT_UUID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
   PERSONAL_ANTITHESIS_TARGET_SOURCEID,
   MORTAL_WEAKNESS_TARGET_SOURCEID,
@@ -120,13 +122,9 @@ export function getIWR(a) {
 }
 
 //Creates the dialog box when a success or crit success on Esoteric Lore is rolled
-export async function createEVDialog(
-  sa,
-  t,
-  paEffectSource,
-  mwEffectSource,
-  rollDOS
-) {
+export async function createEVDialog(sa, t, rollDOS) {
+  const paEffectSource = await fromUuid(PERSONAL_ANTITHESIS_EFFECT_UUID);
+  const mwEffectSource = await fromUuid(MORTAL_WEAKNESS_EFFECT_UUID);
   const paDmg = 2 + Math.floor(sa.level / 2);
   const iwrContent = createIWRContent(rollDOS, t);
 
@@ -188,16 +186,14 @@ export async function createEVDialog(
       gBD +
       "<p>";
   }
-  let dg = new Dialog({
+  new Dialog({
     title: game.i18n.localize("pf2e-thaum-vuln.exploitVulnerability.name"),
     content: () => dgContent,
     buttons: dgBtns,
     default: "pa",
     render: () => {},
     close: () => {},
-  });
-
-  return dg;
+  }).render(true);
 }
 
 //Creates the IWR content box content
