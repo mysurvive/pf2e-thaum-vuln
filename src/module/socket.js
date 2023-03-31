@@ -9,7 +9,7 @@ import {
   CURSED_EFFIGY_SOURCEID,
 } from "./utils/index.js";
 
-import { getActorEVEffect, getGreatestIWR, getIWR } from "./utils.js";
+import { getIWR, getGreatestIWR, getActorEVEffect } from "./utils/helpers.js";
 
 let socket;
 

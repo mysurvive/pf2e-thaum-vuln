@@ -36,6 +36,19 @@ const SupportedActions = [
   "twin-weakness",
 ];
 
+const HelpfulEffectSourceIDs = new Array(
+  MORTAL_WEAKNESS_EFFECT_SOURCEID,
+  PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
+  BREACHED_DEFENSES_EFFECT_SOURCEID
+);
+
+const TargetEffectSourceIDs = new Array(
+  PERSONAL_ANTITHESIS_TARGET_SOURCEID,
+  MORTAL_WEAKNESS_TARGET_SOURCEID,
+  BREACHED_DEFENSES_TARGET_SOURCEID,
+  CURSED_EFFIGY_SOURCEID
+);
+
 export {
   SupportedActions,
   EXPLOIT_VULNERABILITY_ACTION_ID,
@@ -58,4 +71,6 @@ export {
   ESOTERIC_WARDEN_EFFECT_UUID,
   CURSED_EFFIGY_SOURCEID,
   CURSED_EFFIGY_UUID,
+  HelpfulEffectSourceIDs,
+  TargetEffectSourceIDs,
 };

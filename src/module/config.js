@@ -1,4 +1,4 @@
-import { exploitVuln } from "./feats/exploitVulnerability.js";
+import { exploitVuln } from "./feats/exploit-vulnerability/exploitVulnerability.js";
 import { forceEVTarget } from "./utils/forceEV.js";
 
 Hooks.on("init", async () => {

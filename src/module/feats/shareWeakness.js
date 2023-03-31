@@ -1,5 +1,5 @@
 import { MORTAL_WEAKNESS_EFFECT_SOURCEID } from "../utils/index.js";
-import { getActorEVEffect } from "../utils";
+import { getActorEVEffect } from "../utils/helpers.js";
 import { applySWEffect } from "../socket.js";
 //Share Weakness macro
 function shareWeakness() {

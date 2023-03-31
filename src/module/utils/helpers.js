@@ -3,8 +3,9 @@ import {
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
+  HelpfulEffectSourceIDs,
+  TargetEffectSourceIDs,
 } from ".";
-import { getGreatestIWR, getIWR } from "../utils";
 import { createEffectOnTarget } from "../socket";
 import { createEsotericWarden } from "../feats/esotericWarden";
 import { createUWDialog } from "../feats/ubiquitousWeakness";
@@ -103,4 +104,83 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   }
 }
 
-export { getMWTargets, createEffectOnActor };
+//Gets and returns the highest IWR value from an array that is passed in
+function getGreatestIWR(iwr) {
+  if (iwr) {
+    let gIWR = iwr[0];
+    let allGIWR = [];
+    for (const n of iwr) {
+      if (n.value >= gIWR.value) {
+        if (n.value === gIWR.value) {
+          allGIWR.push(n);
+        }
+        gIWR = n;
+      }
+    }
+    if (allGIWR.length > 1) {
+      gIWR = allGIWR[Math.floor(Math.random() * allGIWR.length)];
+    }
+    return gIWR;
+  }
+}
+
+//gets and returns the IWR information from from the selected token or actor
+function getIWR(a) {
+  if (a.actor) {
+    a = a.actor;
+  }
+  const iwr = (() => {
+    return {
+      resistances: a.attributes?.resistances,
+      weaknesses: a.attributes?.weaknesses,
+      immunities: a.attributes?.immunities,
+    };
+  })();
+  return iwr;
+}
+
+//Gets the thaum effects from the character
+function getActorEVEffect(a, targetID) {
+  if (targetID === undefined) {
+    return a.items?.find((item) => {
+      if (
+        HelpfulEffectSourceIDs.includes(item.getFlag("core", "sourceId")) ||
+        TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId"))
+      ) {
+        return item;
+      }
+    });
+  } else if (targetID === "*") {
+    let effects = new Array();
+    for (let item of a.items) {
+      if (TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId"))) {
+        effects.push(item);
+      }
+    }
+    return effects;
+  } else {
+    let effects = new Array();
+
+    for (let item of a.items) {
+      if (
+        TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId")) &&
+        item?.rules.find(
+          (rules) =>
+            rules.key === "RollOption" &&
+            rules.option === "origin:id:" + targetID.split(".").join("")
+        )
+      ) {
+        effects.push(item);
+      }
+    }
+    return effects;
+  }
+}
+
+export {
+  getMWTargets,
+  createEffectOnActor,
+  getGreatestIWR,
+  getIWR,
+  getActorEVEffect,
+};

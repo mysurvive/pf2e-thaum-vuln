@@ -1,5 +1,5 @@
 import { SupportedActions } from "./index.js";
-import { exploitVuln } from "../feats/exploitVulnerability.js";
+import { exploitVuln } from "../feats/exploit-vulnerability/exploitVulnerability.js";
 import { shareWeakness } from "../feats/shareWeakness.js";
 import { cursedEffigy } from "../feats/cursedEffigy.js";
 import { twinWeakness } from "../feats/twinWeakness.js";
