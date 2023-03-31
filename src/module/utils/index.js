@@ -36,11 +36,13 @@ const SupportedActions = [
   "twin-weakness",
 ];
 
+//Might not be useful anymore
+/*
 const HelpfulEffectSourceIDs = new Array(
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID
-);
+);*/
 
 const TargetEffectSourceIDs = new Array(
   PERSONAL_ANTITHESIS_TARGET_SOURCEID,

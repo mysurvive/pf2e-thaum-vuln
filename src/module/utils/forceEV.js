@@ -1,3 +1,5 @@
+//TODO this needs a lot of love
+/*
 import {
   MORTAL_WEAKNESS_TARGET_UUID,
   PERSONAL_ANTITHESIS_TARGET_UUID,
@@ -37,7 +39,7 @@ async function forceEVTarget() {
   eff.name += " (" + a.actor.name + ")";
   for (let targ of tar) {
     if (getActorEVEffect(targ.actor)) {
-      const deleteEffectTargs = preDeleteEffect(canvas.tokens.placeables, sa);
+      const deleteEffectTargs = preDeleteEffect([targ], sa);
       await deleteEVEffect(deleteEffectTargs.targ, deleteEffectTargs.actorID);
     } else {
       await targ.actor.createEmbeddedDocuments("Item", [eff]);
@@ -46,56 +48,20 @@ async function forceEVTarget() {
 }
 
 function preDeleteEffect(a, sa = undefined) {
-  let targ = new Array();
-  if (sa === undefined) {
-    for (let tg of a) {
-      if (tg.actor) {
-        if (getActorEVEffect(tg.actor)) {
-          targ.push(tg.actor.uuid);
-        }
-      } else {
-        if (getActorEVEffect(tg)) {
-          targ.push(tg.uuid);
-        }
+  let effects = new Array();
+  for (let token of a) {
+    token = token.actor ?? token;
+    const effs = getActorEVEffect(token, sa?.uuid);
+    for (const effect of effs) {
+      if (
+        effect.flags["pf2e-thaum-vuln"]?.EffectOrigin === sa?.uuid ||
+        effect.flags["pf2e-thaum-vuln"]?.EffectOrigin === token?.uuid
+      ) {
+        effects.push(effect);
       }
     }
-    return { targ: targ };
-  } else {
-    let actorID = sa.uuid;
-    let effect;
-    for (let tg of a) {
-      if (tg?.actor) {
-        if (getActorEVEffect(tg.actor)) {
-          effect = getActorEVEffect(tg.actor);
-          if (
-            effect.system?.rules
-              .find((rules) => rules.key === "RollOption")
-              ?.option?.split(":")[2] === actorID
-          ) {
-            targ.push(tg.actor.uuid);
-          } else if (tg.actor === sa) {
-            targ.push(tg.actor.uuid);
-          }
-        }
-      } else {
-        if (getActorEVEffect(tg)) {
-          if (tg.uuid != actorID) {
-            effect = getActorEVEffect(tg);
-            if (
-              effect.system.rules
-                .find((rules) => rules.key === "RollOption")
-                .option.split(":")[2] === actorID
-            ) {
-              targ.push(tg.uuid);
-            }
-          } else {
-            targ.push(actorID);
-          }
-        }
-      }
-    }
-    return { targ: targ, actorID: actorID };
   }
+  return effects;
 }
 
-export { forceEVTarget };
+export { forceEVTarget };*/

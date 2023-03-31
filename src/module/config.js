@@ -4,7 +4,7 @@ import { forceEVTarget } from "./utils/forceEV.js";
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
     exploitVuln,
-    forceEVTarget,
+    //Force EV is disabled until it's fixed forceEVTarget,
   };
 
   //game settings
