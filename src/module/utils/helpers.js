@@ -3,7 +3,6 @@ import {
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
-  HelpfulEffectSourceIDs,
   TargetEffectSourceIDs,
 } from ".";
 import { createEffectOnTarget } from "../socket";
