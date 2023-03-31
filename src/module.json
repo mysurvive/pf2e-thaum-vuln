@@ -52,6 +52,11 @@
       "lang": "fr",
       "name": "Français",
       "path": "languages/fr.json"
+    },
+    {
+      "lang": "zh-tw",
+      "name": "正體中文",
+      "path": "languages/zh-tw.json"
     }
   ],
   "socket": true,
