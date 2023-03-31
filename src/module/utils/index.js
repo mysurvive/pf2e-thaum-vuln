@@ -73,6 +73,5 @@ export {
   ESOTERIC_WARDEN_EFFECT_UUID,
   CURSED_EFFIGY_SOURCEID,
   CURSED_EFFIGY_UUID,
-  HelpfulEffectSourceIDs,
   TargetEffectSourceIDs,
 };
