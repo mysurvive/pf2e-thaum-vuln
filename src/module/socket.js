@@ -9,7 +9,7 @@ import {
   CURSED_EFFIGY_SOURCEID,
 } from "./utils/index.js";
 
-import { getIWR, getGreatestIWR, getActorEVEffect } from "./utils/helpers.js";
+import { getActorEVEffect } from "./utils/helpers.js";
 
 let socket;
 
@@ -23,16 +23,14 @@ Hooks.once("socketlib.ready", () => {
   socket.register("ubiquitousWeakness", _socketUbiquitousWeakness);
 });
 
-export function createEffectOnTarget(a, t, effect, evTargets) {
+export function createEffectOnTarget(a, effect, evTargets, iwrData) {
   let aID = a.uuid;
-  let tID = t.actor.uuid;
-  let eID = effect.uuid;
   return socket.executeAsGM(
     _socketCreateEffectOnTarget,
     aID,
-    tID,
-    eID,
-    evTargets
+    effect,
+    evTargets,
+    iwrData
   );
 }
 
@@ -57,99 +55,30 @@ export function updateEVEffect(a, damageType) {
   return socket.executeAsGM(_socketUpdateEVEffect, a, damageType);
 }
 
-export function deleteEVEffect(a, sa = undefined) {
-  let targ = new Array();
-  if (sa === undefined) {
-    for (let tg of a) {
-      if (tg.actor) {
-        if (getActorEVEffect(tg.actor)) {
-          targ.push(tg.actor.uuid);
-        }
-      } else {
-        if (getActorEVEffect(tg)) {
-          targ.push(tg.uuid);
-        }
-      }
-    }
-    return socket.executeAsGM(_socketDeleteEVEffect, targ);
-  } else {
-    let actorID = sa.uuid;
-    let effect;
-    for (let tg of a) {
-      if (tg?.actor) {
-        if (getActorEVEffect(tg.actor)) {
-          effect = getActorEVEffect(tg.actor);
-          if (
-            effect.system?.rules
-              .find((rules) => rules.key === "RollOption")
-              ?.option?.split(":")[2] === actorID
-          ) {
-            targ.push(tg.actor.uuid);
-          } else if (tg.actor === sa) {
-            targ.push(tg.actor.uuid);
-          }
-        }
-      } else {
-        if (getActorEVEffect(tg)) {
-          if (tg.uuid != actorID) {
-            effect = getActorEVEffect(tg);
-            if (
-              effect.system.rules
-                .find((rules) => rules.key === "RollOption")
-                .option.split(":")[2] === actorID
-            ) {
-              targ.push(tg.uuid);
-            }
-          } else {
-            targ.push(actorID);
-          }
-        }
-      }
-    }
-    return socket.executeAsGM(_socketDeleteEVEffect, targ, actorID);
-  }
+export function deleteEVEffect(effects) {
+  return socket.executeAsGM(_socketDeleteEVEffect, effects);
 }
 
-async function _socketCreateEffectOnTarget(aID, tID, eID, evTargets) {
+async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
   const a = await fromUuid(aID);
-  const t = await fromUuid(tID);
-  const e = await fromUuid(eID);
 
-  let eff = e.toObject();
-
-  const m = await fromUuid(MORTAL_WEAKNESS_TARGET_UUID);
-  const p = await fromUuid(PERSONAL_ANTITHESIS_TARGET_UUID);
-  const b = await fromUuid(BREACHED_DEFENSES_TARGET_UUID);
-  const ce = await fromUuid(CURSED_EFFIGY_UUID);
-
-  const iwrData = getIWR(t);
-
-  if (eff.flags.core.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID) {
-    eff = m.toObject();
-    if (iwrData.weaknesses.length != 0) {
-      eff.system.rules[0].value = getGreatestIWR(iwrData.weaknesses)?.value;
-    }
-    a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
-  } else if (eff.flags.core.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID) {
-    eff = p.toObject();
-    eff.system.rules[0].value = Math.floor(a.level / 2) + 2;
-    a.setFlag("pf2e-thaum-vuln", "EVValue", `${eff.system.rules[0].value}`);
-  } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
-    eff = b.toObject();
-  } else if (eff.flags.core.sourceId === CURSED_EFFIGY_SOURCEID) {
-    eff = ce.toObject();
+  if (effect.flags.core.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID) {
+    effect.system.rules[0].value = iwrData;
+    a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
+  } else if (
+    effect.flags.core.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID
+  ) {
+    effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
+    a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
   }
-  eff.system.rules.find(
-    (rules) => rules.key === "RollOption"
-  ).option = `origin:id:${a.uuid}`;
 
-  eff.name = eff.name + ` (${a.name})`;
+  effect.name = effect.name + ` (${a.name})`;
   for (let targ of evTargets) {
     let tg = await fromUuid(targ);
     if (tg.actor) {
       tg = tg.actor;
     }
-    tg.createEmbeddedDocuments("Item", [eff]);
+    tg.createEmbeddedDocuments("Item", [effect]);
   }
   return;
 }
@@ -265,41 +194,9 @@ async function _socketUpdateEVEffect(a, damageType) {
 }
 
 //Deletes the effect from the actor passed to the method
-async function _socketDeleteEVEffect(targ, actorID) {
-  let eff;
-  let a;
-  if (actorID === undefined) {
-    for (let act of targ) {
-      a = await fromUuid(act);
-      if (a.actor) {
-        a = a.actor;
-      }
-      eff = getActorEVEffect(a);
-      eff.delete();
-    }
-  } else {
-    for (let token of canvas.scene.tokens) {
-      if (token.actor?.getFlag("pf2e-thaum-vuln", "effectSource") === actorID) {
-        eff = getActorEVEffect(token.actor);
-        token.actor.unsetFlag("pf2e-thaum-vuln", "effectSource");
-        eff.delete();
-      }
-    }
-    for (let act of targ) {
-      a = await fromUuid(act);
-      if (a.uuid != actorID) {
-        if (a.actor) {
-          a = a.actor;
-        }
-        eff = getActorEVEffect(a, actorID);
-        for (let e of eff) {
-          await e.delete();
-        }
-      } else {
-        eff = getActorEVEffect(a, undefined);
-        eff.delete();
-      }
-    }
+async function _socketDeleteEVEffect(effects) {
+  for (let effect of effects) {
+    effect.delete();
   }
 }
 
@@ -307,6 +204,7 @@ async function _socketApplySWEffect(saUuid, selectedAlly, EVEffect) {
   const ally = await fromUuid(selectedAlly);
   const sa = await fromUuid(saUuid);
   const EVValue = sa.getFlag("pf2e-thaum-vuln", "EVValue");
+  EVEffect.system.source = sa.uuid;
   ally.createEmbeddedDocuments("Item", [EVEffect]);
   ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
   ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);

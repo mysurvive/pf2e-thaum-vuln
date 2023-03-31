@@ -1,4 +1,4 @@
-import { BDGreatestBypassableResistance } from "../utils";
+import { BDGreatestBypassableResistance } from "./exploit-vulnerability/dialog";
 
 async function createBreachedDefenses(sa, t, eff) {
   const ADJUSTMENT_TYPES = {

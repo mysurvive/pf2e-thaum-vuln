@@ -92,7 +92,15 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   }
   //makes sure we don't have duplicates in the target array
   evTargets = [...new Set(evTargets)];
-  createEffectOnTarget(sa, t, effect, evTargets);
+
+  let iwrData = getIWR(t);
+  if (iwrData.weaknesses.length != 0) {
+    iwrData = getGreatestIWR(iwrData.weaknesses)?.value;
+  }
+  effect = effect.toObject();
+  effect.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
+  eff.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
+  createEffectOnTarget(sa, effect, evTargets, iwrData);
 
   await sa.setFlag("pf2e-thaum-vuln", "activeEV", true);
   await sa.setFlag("pf2e-thaum-vuln", "EVTargetID", evTargets);
@@ -142,14 +150,14 @@ function getIWR(a) {
 //Gets the thaum effects from the character
 function getActorEVEffect(a, targetID) {
   if (targetID === undefined) {
-    return a.items?.find((item) => {
-      if (
-        HelpfulEffectSourceIDs.includes(item.getFlag("core", "sourceId")) ||
-        TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId"))
-      ) {
-        return item;
+    let effects = new Array();
+    for (const item of a.items) {
+      if (item.flags["pf2e-thaum-vuln"]?.EffectOrigin === a.uuid) {
+        effects.push(item);
       }
-    });
+    }
+    return effects;
+    //return a.items?.find((item) => {});
   } else if (targetID === "*") {
     let effects = new Array();
     for (let item of a.items) {
@@ -160,16 +168,8 @@ function getActorEVEffect(a, targetID) {
     return effects;
   } else {
     let effects = new Array();
-
-    for (let item of a.items) {
-      if (
-        TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId")) &&
-        item?.rules.find(
-          (rules) =>
-            rules.key === "RollOption" &&
-            rules.option === "origin:id:" + targetID.split(".").join("")
-        )
-      ) {
+    for (const item of a.items) {
+      if (item.flags["pf2e-thaum-vuln"]?.EffectOrigin === targetID) {
         effects.push(item);
       }
     }

@@ -20,7 +20,7 @@ async function cursedEffigy() {
       )
     );
   }
-  createEffectOnTarget(a, t[0], await fromUuid(CURSED_EFFIGY_UUID), [
+  createEffectOnTarget(a, await fromUuid(CURSED_EFFIGY_UUID), [
     t[0].actor.uuid,
   ]);
 }
