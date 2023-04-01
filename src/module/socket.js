@@ -45,8 +45,14 @@ export async function applySWEffect(sa, selectedAlly, EVEffect) {
   return socket.executeAsGM(_socketApplySWEffect, sa, selectedAlly, EVEffect);
 }
 
-export function updateEVEffect(a, damageType) {
-  return socket.executeAsGM(_socketUpdateEVEffect, a, damageType);
+export function updateEVEffect(targ, effect, value, damageType) {
+  return socket.executeAsGM(
+    _socketUpdateEVEffect,
+    targ,
+    effect,
+    value,
+    damageType
+  );
 }
 
 export function deleteEVEffect(effects) {
@@ -72,7 +78,7 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
     if (tg.actor) {
       tg = tg.actor;
     }
-    tg.createEmbeddedDocuments("Item", [effect]);
+    await tg.createEmbeddedDocuments("Item", [effect]);
   }
   return;
 }
@@ -80,110 +86,23 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
-async function _socketUpdateEVEffect(a, damageType) {
-  let updates;
-  let tKey;
-  let value;
-  let origin;
-  let rollOptionData;
-  if (a === undefined) {
-    for (let act of canvas.tokens.placeables) {
-      if (act.actor) {
-        for (let effect of getActorEVEffect(act.actor, "*")) {
-          if (effect?.rules.find((r) => r.key === "Weakness")) {
-            if (
-              effect?.rules[1]?.option.split(":")[2] != `Actor${a}` &&
-              effect?.rules[1]?.option
-            ) {
-              value = 0;
-            } else if (effect?.rules[1]?.option) {
-              let acts = effect.rules[1].option.split(":")[2];
-              acts = acts.replace("Actor", "Actor.");
-              origin = await fromUuid(acts);
-              value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
-            }
-            tKey = effect._id;
-            rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
-            updates = {
-              _id: tKey,
-              system: {
-                rules: [
-                  {
-                    key: "Weakness",
-                    type: "physical",
-                    value: 0,
-                    predicate: [],
-                    slug: effect.rules[0].slug,
-                  },
-                  {
-                    key: "RollOption",
-                    domain: "damage-roll",
-                    option: rollOptionData,
-                  },
-                ],
-              },
-            };
-
-            await act.actor.updateEmbeddedDocuments("Item", [updates]);
-          }
-        }
-      }
-    }
-    return;
-  }
-  let sa = await fromUuid(`Actor.${a}`);
-
-  if (!sa) {
-    return;
-  }
-
-  if (!(sa.getFlag("pf2e-thaum-vuln", "EVMode") === "breached-defenses")) {
-    for (let act of canvas.tokens.placeables) {
-      if (act.actor?.uuid != a.uuid) {
-        for (let effect of getActorEVEffect(act.actor, "*")) {
-          if (effect?.rules.find((r) => r.key === "Weakness")) {
-            if (
-              (effect?.rules[1]?.option.split(":")[2] === `Actor${a}` ||
-                sa.getFlag("pf2e-thaum-vuln", "effectSource") ===
-                  effect?.rules[1]?.option
-                    .split(":")[2]
-                    .replace("Actor", "Actor.")) &&
-              effect?.rules[1]?.option
-            ) {
-              let acts = effect.rules[1].option.split(":")[2];
-              acts = acts.replace("Actor", "Actor.");
-              origin = await fromUuid(acts);
-              value = origin.getFlag("pf2e-thaum-vuln", "EVValue");
-            } else if (effect?.rules[1]?.option) {
-              value = 0;
-            }
-            tKey = effect._id;
-
-            rollOptionData = effect.rules[1]?.option.replace("Actor", "Actor.");
-            updates = {
-              _id: tKey,
-              system: {
-                rules: [
-                  {
-                    key: "Weakness",
-                    type: `${damageType}`.slugify(),
-                    value: value,
-                    predicate: [],
-                    slug: effect.rules[0].slug,
-                  },
-                  {
-                    key: "RollOption",
-                    domain: "damage-roll",
-                    option: rollOptionData,
-                  },
-                ],
-              },
-            };
-            await act.actor.updateEmbeddedDocuments("Item", [updates]);
-          }
-        }
-      }
-    }
+async function _socketUpdateEVEffect(targ, effect, value, damageType) {
+  for (const eff of effect) {
+    const updates = {
+      _id: eff._id,
+      system: {
+        rules: [
+          {
+            key: "Weakness",
+            type: `${damageType}`.slugify(),
+            value: value,
+            predicate: [],
+            slug: eff.system.rules[0].slug,
+          },
+        ],
+      },
+    };
+    await targ.actor.updateEmbeddedDocuments("Item", [updates]);
   }
 }
 
@@ -198,10 +117,9 @@ async function _socketApplySWEffect(saUuid, selectedAlly, EVEffect) {
   const ally = await fromUuid(selectedAlly);
   const sa = await fromUuid(saUuid);
   const EVValue = sa.getFlag("pf2e-thaum-vuln", "EVValue");
-  EVEffect.system.source = sa.uuid;
-  ally.createEmbeddedDocuments("Item", [EVEffect]);
-  ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
-  ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);
+  await ally.createEmbeddedDocuments("Item", [EVEffect]);
+  await ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
+  await ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);
   return;
 }
 
@@ -210,9 +128,9 @@ async function _socketUbiquitousWeakness(allies, saUuid, EVEffect) {
   const EVValue = sa.getFlag("pf2e-thaum-vuln", "EVValue");
   for (let ally of allies) {
     ally = await fromUuid(ally);
-    ally.createEmbeddedDocuments("Item", [EVEffect]);
-    ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
-    ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);
+    await ally.createEmbeddedDocuments("Item", [EVEffect]);
+    await ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
+    await ally.setFlag("pf2e-thaum-vuln", "EVValue", EVValue);
   }
 }
 

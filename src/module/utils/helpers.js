@@ -3,6 +3,9 @@ import {
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
+  MORTAL_WEAKNESS_TARGET_UUID,
+  PERSONAL_ANTITHESIS_TARGET_UUID,
+  BREACHED_DEFENSES_TARGET_UUID,
   TargetEffectSourceIDs,
 } from ".";
 import { createEffectOnTarget } from "../socket";
@@ -19,6 +22,12 @@ function getMWTargets(t) {
   }
   return targs;
 }
+
+const effectPairing = {
+  "mortal-weakness": MORTAL_WEAKNESS_TARGET_UUID,
+  "personal-antithesis": PERSONAL_ANTITHESIS_TARGET_UUID,
+  "breached-defenses": BREACHED_DEFENSES_TARGET_UUID,
+};
 
 //Creates the passed effect document on the actor
 async function createEffectOnActor(sa, t, effect, rollDOS) {
@@ -96,11 +105,15 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   if (iwrData.weaknesses.length != 0) {
     iwrData = getGreatestIWR(iwrData.weaknesses)?.value;
   }
-  effect = effect.toObject();
-  effect.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
-  eff.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
-  createEffectOnTarget(sa, effect, evTargets, iwrData);
 
+  let targEffect = await fromUuid(effectPairing[evMode]);
+  targEffect = targEffect.toObject();
+  targEffect.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
+
+  eff.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
+  createEffectOnTarget(sa, targEffect, evTargets, iwrData);
+
+  await sa.setFlag("pf2e-thaum-vuln", "effectSource", sa.uuid);
   await sa.setFlag("pf2e-thaum-vuln", "activeEV", true);
   await sa.setFlag("pf2e-thaum-vuln", "EVTargetID", evTargets);
   await sa.setFlag("pf2e-thaum-vuln", "EVMode", `${evMode}`);

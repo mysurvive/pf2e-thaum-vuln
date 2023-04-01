@@ -6,6 +6,8 @@ import {
 
 import { updateEVEffect } from "./socket.js";
 
+import { getActorEVEffect } from "./utils/helpers.js";
+
 import { createChatCardButton } from "./utils/chatCard.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
 
@@ -16,24 +18,35 @@ Hooks.on(
   "renderChatMessage",
   async (message, html) => {
     if (canvas.initialized) {
-      const a = canvas.tokens.placeables.find(
-        (act) => act.id === message.speaker.token
-      )?.actor
-        ? canvas.tokens.placeables.find(
-            (act) => act.id === message.speaker.token
-          ).actor
-        : undefined;
-      if (a === undefined) {
-        updateEVEffect(undefined);
-        return;
-      }
-
       if (
         message.flags?.pf2e?.context?.type === "attack-roll" ||
         message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
         message.flags?.pf2e?.context?.type === "saving-throw" ||
         message.isDamageRoll
       ) {
+        let speaker = await fromUuid(`Actor.${message.speaker.actor}`);
+        let effectOrigin = await fromUuid(
+          speaker.getFlag("pf2e-thaum-vuln", "effectSource")
+        );
+        const targs = message.getFlag("pf2e-thaum-vuln", "targets");
+        let weapon = await fromUuid(message.flags.pf2e.origin.uuid);
+        let damageType = weapon?.system.damage?.damageType;
+        if (damageType === "untyped" || damageType === undefined) {
+          damageType = "physical";
+        }
+        for (let targ of targs) {
+          targ = await fromUuid(targ.actorUuid);
+
+          const targEffect = getActorEVEffect(
+            targ.actor ?? targ,
+            effectOrigin.uuid ?? speaker.uuid
+          );
+          if (targEffect) {
+            const effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+            updateEVEffect(targ, targEffect, effValue, damageType);
+          }
+        }
+        /*
         if (a.type === "character") {
           const weapon = await fromUuid(message.flags.pf2e.origin.uuid);
           if (weapon?.system.consumableType?.value === "potion") {
@@ -74,11 +87,11 @@ Hooks.on(
               removeEWOption(EWEffect, a, "save");
             }
           }
-        }
+        }*/
       }
     }
 
-    createChatCardButton(message, html);
+    //createChatCardButton(message, html);
   },
   { once: false }
 );
