@@ -46,18 +46,6 @@ Hooks.on(
             updateEVEffect(targ, targEffect, effValue, damageType);
           }
         }
-        /*
-        if (a.type === "character") {
-          const weapon = await fromUuid(message.flags.pf2e.origin.uuid);
-          if (weapon?.system.consumableType?.value === "potion") {
-            return;
-          }
-          let damageType = weapon?.system.damage?.damageType;
-          if (damageType === "untyped" || damageType === undefined) {
-            damageType = "physical";
-          }
-          updateEVEffect(message.speaker?.actor, damageType);
-        }
 
         for (let target of message.getFlag("pf2e-thaum-vuln", "targets")) {
           target = await fromUuid(target.actorUuid);
@@ -87,7 +75,7 @@ Hooks.on(
               removeEWOption(EWEffect, a, "save");
             }
           }
-        }*/
+        }
       }
     }
 
@@ -95,6 +83,10 @@ Hooks.on(
   },
   { once: false }
 );
+
+Hooks.on("pf2e.applyDamage", () => {
+  console.log("We applying damage boiz");
+});
 
 //adds a target flag to the chat message. Borrowed from pf2e-target-damage https://github.com/MrVauxs/PF2e-Target-Damage
 Hooks.on("preCreateChatMessage", (message) => {
@@ -140,5 +132,6 @@ Hooks.on("deleteItem", async (item) => {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);
     await sa.unsetFlag("pf2e-thaum-vuln", "EVTargetID");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVMode");
+    await sa.unsetFlag("pf2e-thaum-vuln", "EVValue");
   }
 });

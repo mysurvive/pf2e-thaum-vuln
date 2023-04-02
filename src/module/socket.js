@@ -1,9 +1,7 @@
 import {
-  MORTAL_WEAKNESS_EFFECT_SOURCEID,
-  PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
+  MORTAL_WEAKNESS_TARGET_SOURCEID,
+  PERSONAL_ANTITHESIS_TARGET_SOURCEID,
 } from "./utils/index.js";
-
-import { getActorEVEffect } from "./utils/helpers.js";
 
 let socket;
 
@@ -62,11 +60,11 @@ export function deleteEVEffect(effects) {
 async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
   const a = await fromUuid(aID);
 
-  if (effect.flags.core.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID) {
+  if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID) {
     effect.system.rules[0].value = iwrData;
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
   } else if (
-    effect.flags.core.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID
+    effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID
   ) {
     effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
