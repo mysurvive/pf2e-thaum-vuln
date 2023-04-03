@@ -31,6 +31,7 @@ const effectPairing = {
 
 //Creates the passed effect document on the actor
 async function createEffectOnActor(sa, t, effect, rollDOS) {
+  console.log(effect);
   let eff = effect.toObject();
   let evMode, EWPredicate, effRuleSlug, effPredicate, effSlug;
 

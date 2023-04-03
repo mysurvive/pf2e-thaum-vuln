@@ -10,12 +10,14 @@ import { getActorEVEffect } from "./utils/helpers.js";
 
 import { removeEWOption } from "./feats/esotericWarden.js";
 
+import { createChatCardButton } from "./utils/chatCard.js";
+
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 Hooks.on(
   "renderChatMessage",
-  async (message) => {
+  async (message, html) => {
     if (canvas.initialized) {
       if (
         message.flags?.pf2e?.context?.type === "attack-roll" ||
@@ -23,71 +25,82 @@ Hooks.on(
         message.flags?.pf2e?.context?.type === "saving-throw" ||
         message.isDamageRoll
       ) {
-        let speaker = await fromUuid(`Actor.${message.speaker.actor}`);
-        let effectOrigin = await fromUuid(
-          speaker.getFlag("pf2e-thaum-vuln", "effectSource")
-        );
-        const targs = message.getFlag("pf2e-thaum-vuln", "targets");
-        let weapon = await fromUuid(message.flags.pf2e.origin.uuid);
-        let damageType = weapon?.system.damage?.damageType;
-        if (damageType === "untyped" || damageType === undefined) {
-          damageType = "physical";
-        }
-        for (let targ of targs) {
-          targ = await fromUuid(targ.actorUuid);
-
-          const targEffect = getActorEVEffect(
-            targ.actor ?? targ,
-            effectOrigin.uuid ?? speaker.uuid
+        const speaker = await fromUuid(`Actor.${message.speaker.actor}`);
+        if (speaker.type === "character") {
+          let effectOrigin = await fromUuid(
+            speaker.getFlag("pf2e-thaum-vuln", "effectSource")
           );
-          if (targEffect) {
-            const effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
-            updateEVEffect(targ, targEffect, effValue, damageType);
+          const targs = message.getFlag("pf2e-thaum-vuln", "targets");
+          let weapon;
+          message.flags.pf2e.origin?.uuid
+            ? (weapon = await fromUuid(message.flags.pf2e.origin.uuid))
+            : (weapon = undefined);
+          let damageType = weapon?.system.damage?.damageType ?? undefined;
+          if (damageType === "untyped" || damageType === undefined) {
+            damageType = "physical";
           }
-        }
+          for (let targ of targs) {
+            targ = await fromUuid(targ.actorUuid);
 
-        for (let target of message.getFlag("pf2e-thaum-vuln", "targets")) {
-          target = await fromUuid(target.actorUuid);
-          let EWEffect = target?.items?.find(
-            (item) => item.name === "Esoteric Warden Effect"
-          );
-          if (
-            EWEffect &&
-            target
-              .getFlag("pf2e-thaum-vuln", "EVTargetID")
-              .includes(speaker.uuid) &&
-            (message.flags?.pf2e?.context?.type === "attack-roll" ||
-              message.flags?.pf2e?.context?.type === "spell-attack-roll")
-          ) {
-            removeEWOption(EWEffect, target, "ac");
-          }
-
-          if (
-            message.flags?.pf2e?.context?.type === "saving-throw" &&
-            message
-              .getFlag("pf2e", "modifiers")
-              .some((i) => i.label === "Esoteric Warden Effect")
-          ) {
-            target = speaker.getFlag("pf2e-thaum-vuln", "EVTarget");
-            EWEffect = speaker.items?.find(
-              (item) => item.name === "Esoteric Warden Effect"
+            const targEffect = getActorEVEffect(
+              targ.actor ?? targ,
+              effectOrigin.uuid ?? speaker.uuid
             );
-            if (EWEffect) {
-              removeEWOption(EWEffect, speaker, "save");
+            if (targEffect) {
+              const effValue =
+                speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+              updateEVEffect(targ, targEffect, effValue, damageType);
             }
           }
         }
+        console.log("hitting EW");
+        handleEsotericWarden(message, speaker);
       }
     }
 
-    //createChatCardButton(message, html);
+    createChatCardButton(message, html);
   },
   { once: false }
 );
 
-Hooks.on("pf2e.applyDamage", () => {
-  console.log("We applying damage boiz");
-});
+async function handleEsotericWarden(message, speaker) {
+  const speakerToken = await fromUuid(
+    `Scene.${message.speaker.scene}.Token.${message.speaker.token}`
+  );
+
+  for (let target of message.getFlag("pf2e-thaum-vuln", "targets")) {
+    target = await fromUuid(target.actorUuid);
+    let EWEffect = target?.items?.find(
+      (item) => item.slug === "esoteric-warden-effect"
+    );
+
+    console.log("EW STUFF", EWEffect, target);
+
+    if (
+      EWEffect &&
+      target
+        .getFlag("pf2e-thaum-vuln", "EVTargetID")
+        .includes(speakerToken.uuid) &&
+      (message.flags?.pf2e?.context?.type === "attack-roll" ||
+        message.flags?.pf2e?.context?.type === "spell-attack-roll")
+    ) {
+      removeEWOption(EWEffect, target, "ac");
+    }
+  }
+  if (
+    message.flags?.pf2e?.context?.type === "saving-throw" &&
+    message
+      .getFlag("pf2e", "modifiers")
+      .some((i) => i.slug === "esoteric-warden-save")
+  ) {
+    let EWEffect = speakerToken?.actor?.items?.find(
+      (item) => item.slug === "esoteric-warden-effect"
+    );
+    if (EWEffect) {
+      removeEWOption(EWEffect, speakerToken.actor, "save");
+    }
+  }
+}
 
 //adds a target flag to the chat message. Borrowed from pf2e-target-damage https://github.com/MrVauxs/PF2e-Target-Damage
 Hooks.on("preCreateChatMessage", (message) => {

@@ -41,6 +41,7 @@ async function createEsotericWarden(rollDOS, EWPredicate, sa, t) {
 //a strike, they lose the AC bonus. If they are targeted with a save, they lose the save
 //bonus
 async function removeEWOption(EWEffect, t, choice) {
+  console.log(EWEffect, t, choice);
   const tKey = EWEffect._id;
   const EWRule1 = EWEffect.system.rules[0];
   const EWRule2 = EWEffect.system.rules[1];
