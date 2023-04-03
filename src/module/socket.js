@@ -86,7 +86,6 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 async function _socketUpdateEVEffect(targ, effect, value, damageType) {
   for (const eff of effect) {
-    console.log(effect);
     if (!effect.slug === "breached-defenses-target") {
       const updates = {
         _id: eff._id,

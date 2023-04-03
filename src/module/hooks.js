@@ -53,8 +53,7 @@ Hooks.on(
             }
           }
         }
-        console.log("hitting EW");
-        handleEsotericWarden(message, speaker);
+        handleEsotericWarden(message);
       }
     }
 
@@ -63,7 +62,7 @@ Hooks.on(
   { once: false }
 );
 
-async function handleEsotericWarden(message, speaker) {
+async function handleEsotericWarden(message) {
   const speakerToken = await fromUuid(
     `Scene.${message.speaker.scene}.Token.${message.speaker.token}`
   );
@@ -73,8 +72,6 @@ async function handleEsotericWarden(message, speaker) {
     let EWEffect = target?.items?.find(
       (item) => item.slug === "esoteric-warden-effect"
     );
-
-    console.log("EW STUFF", EWEffect, target);
 
     if (
       EWEffect &&
