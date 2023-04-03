@@ -61,7 +61,7 @@
   "esmodules": ["module/pf2e-thaum-vuln.js"],
   "packs": [
     {
-      "name": "MySurvive's Thaumaturge Macros",
+      "name": "mysurvives-thaumaturge-macros",
       "label": "MySurvive's Thaumaturge Macros",
       "system": "pf2e",
       "path": "packs/mysurvives-thaumaturge-macros.db",
@@ -70,7 +70,7 @@
       "flags": {}
     },
     {
-      "name": "Thaumaturge Effects",
+      "name": "thaumaturge-effects",
       "label": "Thaumaturge Effects",
       "system": "pf2e",
       "path": "packs/thaumaturge-effects.db",
