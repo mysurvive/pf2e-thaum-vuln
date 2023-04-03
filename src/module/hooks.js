@@ -15,7 +15,7 @@ import { removeEWOption } from "./feats/esotericWarden.js";
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 Hooks.on(
   "renderChatMessage",
-  async (message, html) => {
+  async (message) => {
     if (canvas.initialized) {
       if (
         message.flags?.pf2e?.context?.type === "attack-roll" ||
@@ -53,7 +53,9 @@ Hooks.on(
           );
           if (
             EWEffect &&
-            target.getFlag("pf2e-thaum-vuln", "EVTargetID").includes(a.uuid) &&
+            target
+              .getFlag("pf2e-thaum-vuln", "EVTargetID")
+              .includes(speaker.uuid) &&
             (message.flags?.pf2e?.context?.type === "attack-roll" ||
               message.flags?.pf2e?.context?.type === "spell-attack-roll")
           ) {
@@ -66,12 +68,12 @@ Hooks.on(
               .getFlag("pf2e", "modifiers")
               .some((i) => i.label === "Esoteric Warden Effect")
           ) {
-            target = a.getFlag("pf2e-thaum-vuln", "EVTarget");
-            EWEffect = a.items?.find(
+            target = speaker.getFlag("pf2e-thaum-vuln", "EVTarget");
+            EWEffect = speaker.items?.find(
               (item) => item.name === "Esoteric Warden Effect"
             );
             if (EWEffect) {
-              removeEWOption(EWEffect, a, "save");
+              removeEWOption(EWEffect, speaker, "save");
             }
           }
         }
