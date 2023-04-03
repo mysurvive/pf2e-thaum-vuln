@@ -82,7 +82,8 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     //resistance that can be bypassed is a combination of two traits (see adamantine golem's resistance bypass from vorpal-adamantine)
     //or if the trait that bypasses it is not in the system/on my list
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
-    let bDData = await createBreachedDefenses(sa, t, eff);
+    const bypassable = BDGreatestBypassableResistance(t);
+    let bDData = await createBreachedDefenses(sa, t, eff, bypassable);
     evMode = bDData.evMode;
     effPredicate = bDData.effPredicate;
     effRuleSlug = bDData.effRuleSlug;
@@ -189,10 +190,33 @@ function getActorEVEffect(a, targetID) {
   }
 }
 
+//gets and returns the greatest bypassable resistance
+function BDGreatestBypassableResistance(t) {
+  const r = getIWR(t).resistances;
+  if (r) {
+    let bypassResists = new Array();
+    for (let resist of r) {
+      if (resist.exceptions.length != 0) {
+        bypassResists.push(resist);
+      }
+    }
+    if (bypassResists.length != 0) {
+      let gBD = bypassResists[0];
+      for (let resist of bypassResists) {
+        if (resist.value >= gBD.value) {
+          gBD = resist;
+        }
+      }
+      return gBD;
+    }
+  }
+}
+
 export {
   getMWTargets,
   createEffectOnActor,
   getGreatestIWR,
   getIWR,
   getActorEVEffect,
+  BDGreatestBypassableResistance,
 };

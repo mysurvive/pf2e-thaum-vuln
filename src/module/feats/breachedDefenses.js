@@ -1,6 +1,7 @@
-import { BDGreatestBypassableResistance } from "./exploit-vulnerability/dialog";
+//import { BDGreatestBypassableResistance } from "../utils/helpers";
+//import { getIWR } from "../utils/helpers";
 
-async function createBreachedDefenses(sa, t, eff) {
+async function createBreachedDefenses(sa, t, eff, bypassable) {
   const ADJUSTMENT_TYPES = {
     materials: {
       propLabel: "materials",
@@ -25,7 +26,6 @@ async function createBreachedDefenses(sa, t, eff) {
     `target:effect:Breached Defenses Target ${sa.name}`.slugify(),
   ];
   const effRuleSlug = "breached-defenses-bypass";
-  const bypassable = BDGreatestBypassableResistance(t);
 
   //force ghost touch property rune on things that are immune to it
   if (bypassable.exceptions.includes("ghost-touch")) {

@@ -8,7 +8,6 @@ import { updateEVEffect } from "./socket.js";
 
 import { getActorEVEffect } from "./utils/helpers.js";
 
-import { createChatCardButton } from "./utils/chatCard.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
 
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
