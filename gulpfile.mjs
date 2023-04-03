@@ -90,10 +90,7 @@ export function watch() {
   );
 }
 
-export const build = gulp.series(
-  clean,
-  gulp.parallel(buildCode, buildStyles, copyFiles)
-);
+export const build = gulp.series(clean, gulp.parallel(buildCode, copyFiles));
 
 /********************/
 /*      CLEAN       */
