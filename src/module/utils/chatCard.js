@@ -18,9 +18,7 @@ async function createChatCardButton(message, html) {
       contentArea.append(
         $(
           `<button class='pf2e-ev-feature-btn' ${
-            user.character?.uuid === speaker?.uuid || user.isGM
-              ? ""
-              : 'style="visibility:hidden"'
+            speaker.isOwner || user.isGM ? "" : 'style="visibility:hidden"'
           } title="Use Feature">${game.i18n.format(
             "pf2e-thaum-vuln.chatCard.use",
             { action: action.name }
