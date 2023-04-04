@@ -46,7 +46,7 @@ Hooks.on(
               targ.actor ?? targ,
               effectOrigin.uuid ?? speaker.uuid
             );
-            if (targEffect) {
+            if (targEffect.length != 0) {
               const effValue =
                 speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
               updateEVEffect(targ, targEffect, effValue, damageType);
