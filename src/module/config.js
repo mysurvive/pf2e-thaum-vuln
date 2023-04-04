@@ -1,10 +1,16 @@
 import { exploitVuln } from "./feats/exploit-vulnerability/exploitVulnerability.js";
-//import { forceEVTarget } from "./utils/forceEV.js";
+import { shareWeakness } from "./feats/shareWeakness.js";
+import { cursedEffigy } from "./feats/cursedEffigy.js";
+import { twinWeakness } from "./feats/twinWeakness.js";
+import { forceEVTarget } from "./utils/forceEV.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
     exploitVuln,
-    //Force EV is disabled until it's fixed forceEVTarget,
+    shareWeakness,
+    cursedEffigy,
+    twinWeakness,
+    forceEVTarget,
   };
 
   //game settings

@@ -1,5 +1,3 @@
-//TODO this needs a lot of love
-/*
 import {
   MORTAL_WEAKNESS_TARGET_UUID,
   PERSONAL_ANTITHESIS_TARGET_UUID,
@@ -14,6 +12,7 @@ async function forceEVTarget() {
   let eff;
 
   let a = canvas.tokens.controlled[0];
+  const sa = a.actor;
   let tar = Array.from(game.user.targets);
   if (canvas.tokens.controlled.length != 1 || tar.length === 0) {
     return ui.notifications.warn(
@@ -34,13 +33,14 @@ async function forceEVTarget() {
       )
     );
   }
+  eff.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
   eff.system.rules[0].value = a.actor.getFlag("pf2e-thaum-vuln", "EVValue");
-  eff.system.rules[1].option = `origin:id:${a.actor.uuid}`;
   eff.name += " (" + a.actor.name + ")";
   for (let targ of tar) {
-    if (getActorEVEffect(targ.actor)) {
+    console.log(getActorEVEffect(targ.actor, sa.uuid));
+    if (getActorEVEffect(targ.actor, sa.uuid).length != 0) {
       const deleteEffectTargs = preDeleteEffect([targ], sa);
-      await deleteEVEffect(deleteEffectTargs.targ, deleteEffectTargs.actorID);
+      await deleteEVEffect(deleteEffectTargs.flat());
     } else {
       await targ.actor.createEmbeddedDocuments("Item", [eff]);
     }
@@ -64,4 +64,4 @@ function preDeleteEffect(a, sa = undefined) {
   return effects;
 }
 
-export { forceEVTarget };*/
+export { forceEVTarget };

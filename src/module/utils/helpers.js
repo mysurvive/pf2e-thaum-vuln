@@ -170,7 +170,6 @@ function getActorEVEffect(a, targetID) {
       }
     }
     return effects;
-    //return a.items?.find((item) => {});
   } else if (targetID === "*") {
     let effects = new Array();
     for (let item of a.items) {
