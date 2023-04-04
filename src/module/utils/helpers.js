@@ -83,7 +83,7 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     //or if the trait that bypasses it is not in the system/on my list
   } else if (eff.flags.core.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) {
     const bypassable = BDGreatestBypassableResistance(t);
-    let bDData = await createBreachedDefenses(sa, t, eff, bypassable);
+    let bDData = await createBreachedDefenses(sa, eff, bypassable);
     evMode = bDData.evMode;
     effPredicate = bDData.effPredicate;
     effRuleSlug = bDData.effRuleSlug;
