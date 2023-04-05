@@ -16,7 +16,9 @@ function shareWeakness() {
   const hasMortalWeaknessActive = sa.items.some(
     (i) => i.getFlag("core", "sourceId") === MORTAL_WEAKNESS_EFFECT_SOURCEID
   );
-  const EVEffect = getActorEVEffect(sa);
+  const EVEffect = getActorEVEffect(sa).find(
+    (i) => i.slug === "exploit-mortal-weakness"
+  );
   if (!hasShareWeakness) {
     return ui.notifications.warn(
       game.i18n.localize(
@@ -79,7 +81,7 @@ function shareWeakness() {
     confirm: {
       label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
       callback: () => {
-        applySWEffect(sa.uuid, selectedAlly, EVEffect);
+        applySWEffect(sa.uuid, selectedAlly, EVEffect.uuid);
       },
     },
   };

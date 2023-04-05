@@ -6,7 +6,6 @@ async function createEsotericWarden(rollDOS, EWPredicate, sa, t) {
 
   let EWEffect = await fromUuid(ESOTERIC_WARDEN_EFFECT_UUID);
 
-  EWEffect = EWEffect.toObject();
   const bonus = rollDOS === 3 ? 2 : rollDOS === 2 ? 1 : 0;
   EWEffect.system.rules[0].value = bonus;
   EWEffect.system.rules[1].value = bonus;
@@ -22,7 +21,7 @@ async function createEsotericWarden(rollDOS, EWPredicate, sa, t) {
     await sa.createEmbeddedDocuments("Item", [EWEffect]);
 
     if (hasSharedWarding) {
-      sharedWardingDialog(EWEffect);
+      sharedWardingDialog(EWEffect.uuid);
     }
   }
 

@@ -35,8 +35,8 @@ export function ubiquitousWeakness(eff, selectedAlly, a) {
   );
 }
 
-export function sharedWarding(eff) {
-  return socket.executeAsGM(_socketSharedWarding, eff);
+export function sharedWarding(eff, a) {
+  return socket.executeAsGM(_socketSharedWarding, eff, a);
 }
 
 export async function applySWEffect(sa, selectedAlly, EVEffect) {
@@ -85,7 +85,9 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 async function _socketUpdateEVEffect(targ, effect, value, damageType) {
-  for (const eff of effect) {
+  for (let eff of effect) {
+    eff = await fromUuid(eff);
+    targ = await fromUuid(targ);
     if (eff.slug !== "breached-defenses-target") {
       const updates = {
         _id: eff._id,
@@ -101,7 +103,6 @@ async function _socketUpdateEVEffect(targ, effect, value, damageType) {
           ],
         },
       };
-
       await targ.actor.updateEmbeddedDocuments("Item", [updates]);
     }
   }
@@ -110,6 +111,7 @@ async function _socketUpdateEVEffect(targ, effect, value, damageType) {
 //Deletes the effect from the actor passed to the method
 async function _socketDeleteEVEffect(effects) {
   for (let effect of effects) {
+    effect = await fromUuid(effect);
     effect.delete();
   }
 }
@@ -117,6 +119,7 @@ async function _socketDeleteEVEffect(effects) {
 async function _socketApplySWEffect(saUuid, selectedAlly, EVEffect) {
   const ally = await fromUuid(selectedAlly);
   const sa = await fromUuid(saUuid);
+  EVEffect = await fromUuid(EVEffect);
   const EVValue = sa.getFlag("pf2e-thaum-vuln", "EVValue");
   await ally.createEmbeddedDocuments("Item", [EVEffect]);
   await ally.setFlag("pf2e-thaum-vuln", "effectSource", saUuid);
@@ -135,12 +138,15 @@ async function _socketUbiquitousWeakness(allies, saUuid, EVEffect) {
   }
 }
 
-async function _socketSharedWarding(eff) {
-  const a = canvas.tokens.controlled[0];
+async function _socketSharedWarding(eff, a) {
+  a = await fromUuid(a);
   const allTokens = canvas.tokens.placeables;
+  eff = await fromUuid(eff);
+  console.log("socket a", a);
 
   const affectedTokens = allTokens.filter(
-    (token) => a.distanceTo(token) <= 30 && token.actor.alliance === "party"
+    (token) =>
+      a._object.distanceTo(token) <= 30 && token.actor.alliance === "party"
   );
   for (let token of affectedTokens) {
     if (token != a) {

@@ -26,7 +26,7 @@ Hooks.on(
         message.isDamageRoll
       ) {
         const speaker = await fromUuid(`Actor.${message.speaker.actor}`);
-        if (speaker.type === "character") {
+        if (speaker?.type === "character") {
           let effectOrigin = await fromUuid(
             speaker.getFlag("pf2e-thaum-vuln", "effectSource")
           );
@@ -45,11 +45,12 @@ Hooks.on(
             const targEffect = getActorEVEffect(
               targ.actor ?? targ,
               effectOrigin.uuid ?? speaker.uuid
-            );
+            ).map((i) => (i = i.uuid));
             if (targEffect.length != 0) {
               const effValue =
                 speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
-              updateEVEffect(targ, targEffect, effValue, damageType);
+              console.log(targEffect);
+              await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
             }
           }
         }

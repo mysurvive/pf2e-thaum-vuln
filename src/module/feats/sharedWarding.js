@@ -1,6 +1,9 @@
 import { sharedWarding } from "../socket";
 
 function sharedWardingDialog(EWEffect) {
+  console.log(EWEffect);
+  const a = canvas.tokens.controlled[0];
+  console.log(a);
   new Dialog({
     title: game.i18n.localize("pf2e-thaum-vuln.sharedWarding.name"),
     content: () =>
@@ -13,7 +16,7 @@ function sharedWardingDialog(EWEffect) {
       yes: {
         label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
         callback: () => {
-          sharedWarding(EWEffect);
+          sharedWarding(EWEffect, a.document.uuid);
         },
       },
       no: {
