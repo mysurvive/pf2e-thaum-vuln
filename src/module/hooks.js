@@ -19,13 +19,14 @@ Hooks.on(
   "renderChatMessage",
   async (message, html) => {
     if (canvas.initialized) {
+      const speaker = await fromUuid(`Actor.${message.speaker.actor}`);
       if (
-        message.flags?.pf2e?.context?.type === "attack-roll" ||
-        message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
-        message.flags?.pf2e?.context?.type === "saving-throw" ||
-        message.isDamageRoll
+        (message.flags?.pf2e?.context?.type === "attack-roll" ||
+          message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
+          message.flags?.pf2e?.context?.type === "saving-throw" ||
+          message.isDamageRoll) &&
+        speaker.isOwner
       ) {
-        const speaker = await fromUuid(`Actor.${message.speaker.actor}`);
         if (speaker?.type === "character") {
           let effectOrigin = await fromUuid(
             speaker.getFlag("pf2e-thaum-vuln", "effectSource")
@@ -49,7 +50,6 @@ Hooks.on(
             if (targEffect.length != 0) {
               const effValue =
                 speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
-              console.log(targEffect);
               await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
             }
           }

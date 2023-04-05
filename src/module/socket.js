@@ -142,15 +142,19 @@ async function _socketSharedWarding(eff, a) {
   a = await fromUuid(a);
   const allTokens = canvas.tokens.placeables;
   eff = await fromUuid(eff);
-  console.log("socket a", a);
 
   const affectedTokens = allTokens.filter(
     (token) =>
       a._object.distanceTo(token) <= 30 && token.actor.alliance === "party"
   );
   for (let token of affectedTokens) {
-    if (token != a) {
+    if (token != a._object) {
       await token.actor.createEmbeddedDocuments("Item", [eff]);
+      token.actor.setFlag(
+        "pf2e-thaum-vuln",
+        "EVTargetID",
+        a.actor.getFlag("pf2e-thaum-vuln", "EVTargetID")
+      );
       token.actor.setFlag("pf2e-thaum-vuln", "EWSourceActor", a.actor.uuid);
     }
   }
