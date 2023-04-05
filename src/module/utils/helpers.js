@@ -112,7 +112,7 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   targEffect.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
 
   eff.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
-  createEffectOnTarget(sa, targEffect, evTargets, iwrData);
+  await createEffectOnTarget(sa, targEffect, evTargets, iwrData);
 
   await sa.setFlag("pf2e-thaum-vuln", "effectSource", sa.uuid);
   await sa.setFlag("pf2e-thaum-vuln", "activeEV", true);

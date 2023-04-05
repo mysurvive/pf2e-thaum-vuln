@@ -36,14 +36,6 @@ const SupportedActions = [
   "twin-weakness",
 ];
 
-//Might not be useful anymore
-/*
-const HelpfulEffectSourceIDs = new Array(
-  MORTAL_WEAKNESS_EFFECT_SOURCEID,
-  PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
-  BREACHED_DEFENSES_EFFECT_SOURCEID
-);*/
-
 const TargetEffectSourceIDs = new Array(
   PERSONAL_ANTITHESIS_TARGET_SOURCEID,
   MORTAL_WEAKNESS_TARGET_SOURCEID,
@@ -51,28 +43,8 @@ const TargetEffectSourceIDs = new Array(
   CURSED_EFFIGY_SOURCEID
 );
 
-const ADJUSTMENT_TYPES = {
-  materials: {
-    propLabel: "materials",
-    data: CONFIG.PF2E.preciousMaterials,
-  },
-  traits: {
-    propLabel: "traits",
-    data: CONFIG.PF2E.damageTraits,
-  },
-  "weapon-traits": {
-    propLabel: "weapon-traits",
-    data: CONFIG.PF2E.weaponTraits,
-  },
-  "property-runes": {
-    propLabel: "property-runes",
-    data: CONFIG.PF2E.runes.weapon.property,
-  },
-};
-
 export {
   SupportedActions,
-  ADJUSTMENT_TYPES,
   EXPLOIT_VULNERABILITY_ACTION_ID,
   MORTAL_WEAKNESS_EFFECT_SOURCEID,
   MORTAL_WEAKNESS_TARGET_SOURCEID,
