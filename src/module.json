@@ -2,7 +2,7 @@
   "id": "pf2e-thaum-vuln",
   "title": "PF2e Exploit Vulnerability",
   "description": "Improvement for Thaumaturge Exploit Vulnerability",
-  "version": "0.6.2",
+  "version": "0.10.0",
   "authors": [
     {
       "name": "MySurvive",
@@ -19,8 +19,8 @@
         "id": "pf2e",
         "type": "system",
         "compatibility": {
-          "minimum": "4.6.4",
-          "verified": "4.7.4"
+          "minimum": "4.12.0",
+          "verified": "4.12.0"
         }
       }
     ],
