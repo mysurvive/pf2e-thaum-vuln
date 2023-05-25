@@ -28,9 +28,9 @@ Hooks.on(
         speaker.isOwner
       ) {
         if (speaker?.type === "character") {
-          let effectOrigin = await fromUuid(
-            speaker.getFlag("pf2e-thaum-vuln", "effectSource")
-          );
+          let effectOrigin = speaker.getFlag("pf2e-thaum-vuln", "effectSource")
+            ? await fromUuid(speaker.getFlag("pf2e-thaum-vuln", "effectSource"))
+            : undefined;
           const targs = message.getFlag("pf2e-thaum-vuln", "targets");
           let weapon;
           message.flags.pf2e.origin?.uuid
@@ -45,7 +45,7 @@ Hooks.on(
 
             const targEffect = getActorEVEffect(
               targ.actor ?? targ,
-              effectOrigin.uuid ?? speaker.uuid
+              effectOrigin?.uuid ?? speaker.uuid
             ).map((i) => (i = i.uuid));
             if (targEffect.length != 0) {
               const effValue =
