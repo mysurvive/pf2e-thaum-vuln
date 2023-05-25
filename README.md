@@ -10,7 +10,7 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 
 <strong>Make sure actors are assigned to players!</strong><br>
 <strong>IWR must be turned on in the PF2e Core Automation Settings or damage will not be applied properly</strong><br>
-<strong>A thaumaturge's Esoteric Lore entry must be listed as Esoteric Lore or it will not work</strong>
+<strong>A thaumaturge's Esoteric Lore entry must be listed as Esoteric Lore, Esoteric, or Lore Esoteric or it will not work</strong>
 ![Esoteric Lore Skill](src/assets/esotericLore.png)
 
 ## Functionality
@@ -40,7 +40,7 @@ Critical Success: The player will receive a dialog window that provides all weak
 
 Success: The player will receive a dialog window that provides the highest weakness of the target, if there is one. Like on a critical success, it will provide values at a quick glance that will show which is higher and apply appropriate effects based on choice in the dialog.
 
-Failure: The Personal Antithesis effects will be added tot he player and the target.
+Failure: The Personal Antithesis effects will be added to the player and the target.
 
 Critical Failure: A flat-footed effect will be applied to the player that will drop off at the beginning of their next turn.
 
