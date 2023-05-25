@@ -63,7 +63,9 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
         evTargets = evTargets.concat(getSVTargets(t, eff, gIWR));
       }
     }
-    effPredicate = `target:effect:Mortal Weakness Target ${sa.name}`.slugify();
+    effPredicate = [
+      `target:effect:Mortal Weakness Target ${sa.name}`.slugify(),
+    ];
     effRuleSlug = "mortal-weakness-effect-magical";
     effSlug = "exploit-mortal-weakness";
 
@@ -110,6 +112,9 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   let targEffect = await fromUuid(effectPairing[evMode]);
   targEffect = targEffect.toObject();
   targEffect.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
+  targEffect.system.slug = (targEffect.system.slug + "-" + sa.name).slugify();
+
+  console.log("target effect", targEffect);
 
   eff.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
   await createEffectOnTarget(sa, targEffect, evTargets, iwrData);
