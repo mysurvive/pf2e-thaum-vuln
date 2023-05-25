@@ -114,8 +114,6 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   targEffect.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
   targEffect.system.slug = (targEffect.system.slug + "-" + sa.name).slugify();
 
-  console.log("target effect", targEffect);
-
   eff.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
   await createEffectOnTarget(sa, targEffect, evTargets, iwrData);
 
