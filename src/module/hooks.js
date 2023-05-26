@@ -28,9 +28,6 @@ Hooks.on(
         speaker.isOwner
       ) {
         if (speaker?.type === "character") {
-          let effectOrigin = speaker.getFlag("pf2e-thaum-vuln", "effectSource")
-            ? await fromUuid(speaker.getFlag("pf2e-thaum-vuln", "effectSource"))
-            : undefined;
           const targs = message.getFlag("pf2e-thaum-vuln", "targets");
           let weapon;
           message.flags.pf2e.origin?.uuid
@@ -42,16 +39,24 @@ Hooks.on(
           }
           for (let targ of targs) {
             targ = await fromUuid(targ.actorUuid);
-
+            const effectOrigin = speaker.getFlag(
+              "pf2e-thaum-vuln",
+              "effectSource"
+            )
+              ? await fromUuid(
+                  speaker.getFlag("pf2e-thaum-vuln", "effectSource")
+                )
+              : await fromUuid(
+                  targ.actor.items
+                    .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
+                    .getFlag("pf2e-thaum-vuln", "EffectOrigin")
+                );
             const targEffect = getActorEVEffect(
               targ.actor ?? targ,
               effectOrigin?.uuid ?? speaker.uuid
             ).map((i) => (i = i.uuid));
-            if (targEffect.length != 0) {
-              const effValue =
-                speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
-              await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
-            }
+            const effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+            await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
           }
         }
         handleEsotericWarden(message);
