@@ -8,6 +8,10 @@
       "mystifyNumbers": {
         "name": "Mystify IWR Values",
         "hint": "If true, results in the dialog box when exploiting a vulnerability will not appear - only showing the type of damage."
+      },
+      "esotericLoreModifier": {
+        "name": "Esoteric Lore DC Modifier",
+        "hint": "Set a global modifier for the Esoteric Lore DC. If changed, this is typically set to -2 to make Esoteric Lore align with an applicable lore skill for purposes of Recall Knowledge."
       }
     },
 

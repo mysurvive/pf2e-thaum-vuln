@@ -37,4 +37,17 @@ Hooks.on("init", async () => {
       !value;
     },
   });
+
+  game.settings.register("pf2e-thaum-vuln", "esotericLoreModifier", {
+    name: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.esotericLoreModifier.name"
+    ),
+    hint: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.esotericLoreModifier.hint"
+    ),
+    scope: "world",
+    config: true,
+    type: Number,
+    default: 0,
+  });
 });
