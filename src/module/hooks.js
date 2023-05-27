@@ -33,7 +33,13 @@ Hooks.on(
           message.flags.pf2e.origin?.uuid
             ? (weapon = await fromUuid(message.flags.pf2e.origin.uuid))
             : (weapon = undefined);
-          let damageType = weapon?.system.damage?.damageType ?? undefined;
+
+          //TODO: damage type for versatile weapons can be checked from weapon.system.traits.toggles - this needs to be added in the next release
+          let damageType =
+            weapon.system.traits.toggles.versatile.selection ??
+            weapon.system.traits.toggles.modular.selection ??
+            weapon?.system.damage?.damageType ??
+            undefined;
           if (damageType === "untyped" || damageType === undefined) {
             damageType = "physical";
           }
