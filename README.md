@@ -18,7 +18,6 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 ### Feats
 
 <ul>
-<li> Diverse Lore: A secret message is sent to the GM on a successful or critically successful Exploit Vulnerability roll, comparing the result of the roll to Recall Knowledge DC for the creature and providing guidance per the CRB,
 <li> Breached Defenses: Mostly works except in cases where the highest bypassable resistance is a combination of two traits (such as an adamantine golem's resistance to Vorpal Adamantine damage) or when the damage is not part of the PF2E system's known traits
 <li> Esoteric Warden: Benefits granted upon a successful or critically successful Exploit Vulnerability roll. Per the rules, you cannot gain the benefit of Esoteric Warden from the same creature until you rest for the night.
 <li> Sympathetic Vulnerabilities: Mortal Weakness or Personal Antithesis are automatically applied to all appropriate tokens on the scene. You can disable this by turning off the "Use Exploit Vulnerability Automation" setting in the module Settings.
@@ -65,6 +64,7 @@ There are settings to turn on/off the
 
 - Exploit Vulnerability automation: (On by default) This will stop the module from applying the effects of Personal Antithesis or Mortal Weakness to valid tokens on the scene. This setting is useful for if you want to manually set the Exploit Vulnerability targets via the forceEV macro.
 - IWR Value Mystification: (Off by default) This will mystify the weakness values in the dialog box after using the Exploit Vulnerability macro.
+- Esoteric Lore DC Modifier: (0 by default) This allows the GM to set a global modifier for Recall Knowledge DCs that use Esoteric Lore. For example, if the GM would like the DC for Recall Knowledge using Esoteric Lore to align with applicable lore skills, they would set the modifier to -2. This currently only works when using Exploit Vulnerability.
 
 ## Reporting Issues
 
