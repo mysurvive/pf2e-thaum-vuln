@@ -27,46 +27,42 @@ Hooks.on(
           message.isDamageRoll) &&
         speaker.isOwner
       ) {
-        if (speaker?.type === "character") {
-          const targs = message.getFlag("pf2e-thaum-vuln", "targets");
-          let weapon;
-          message.flags.pf2e.origin?.uuid
-            ? (weapon = await fromUuid(message.flags.pf2e.origin.uuid))
-            : (weapon = undefined);
+        const targs = message.getFlag("pf2e-thaum-vuln", "targets");
+        let weapon;
+        message.flags.pf2e.origin?.uuid
+          ? (weapon = await fromUuid(message.flags.pf2e.origin.uuid))
+          : (weapon = undefined);
 
-          let damageType =
-            weapon?.system.traits.toggles.versatile.selection ??
-            weapon?.system.traits.toggles.modular.selection ??
-            weapon?.system.damage?.damageType ??
-            undefined;
-          if (
-            damageType === "untyped" ||
-            damageType === undefined ||
-            damageType === null
-          ) {
-            damageType = "physical";
-          }
-          for (let targ of targs) {
-            targ = await fromUuid(targ.actorUuid);
-            const effectOrigin = speaker.getFlag(
-              "pf2e-thaum-vuln",
-              "effectSource"
-            )
-              ? await fromUuid(
-                  speaker.getFlag("pf2e-thaum-vuln", "effectSource")
-                )
-              : await fromUuid(
-                  targ.actor.items
-                    .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
-                    .getFlag("pf2e-thaum-vuln", "EffectOrigin")
-                );
-            const targEffect = getActorEVEffect(
-              targ.actor ?? targ,
-              effectOrigin?.uuid ?? speaker.uuid
-            ).map((i) => (i = i.uuid));
-            const effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
-            await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
-          }
+        let damageType =
+          weapon?.system.traits.toggles?.versatile.selection ??
+          weapon?.system.traits.toggles?.modular.selection ??
+          weapon?.system.damage?.damageType ??
+          undefined;
+        if (
+          damageType === "untyped" ||
+          damageType === undefined ||
+          damageType === null
+        ) {
+          damageType = "physical";
+        }
+        for (let targ of targs) {
+          targ = await fromUuid(targ.actorUuid);
+          const effectOrigin = speaker.getFlag(
+            "pf2e-thaum-vuln",
+            "effectSource"
+          )
+            ? await fromUuid(speaker.getFlag("pf2e-thaum-vuln", "effectSource"))
+            : await fromUuid(
+                targ.actor.items
+                  .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
+                  .getFlag("pf2e-thaum-vuln", "EffectOrigin")
+              );
+          const targEffect = getActorEVEffect(
+            targ.actor ?? targ,
+            effectOrigin?.uuid ?? speaker.uuid
+          ).map((i) => (i = i.uuid));
+          const effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+          await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
         }
         handleEsotericWarden(message);
       }
