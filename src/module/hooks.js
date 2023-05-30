@@ -12,7 +12,7 @@ import { removeEWOption } from "./feats/esotericWarden.js";
 
 import { createChatCardButton } from "./utils/chatCard.js";
 
-import { manageImplements } from "./implements.js";
+import { manageImplements } from "./implements/implements.js";
 
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
