@@ -4,6 +4,7 @@ import {
 } from ".";
 import { getActorEVEffect } from "./helpers";
 import { deleteEVEffect } from "../socket";
+import { preDeleteEffect } from "../feats/exploit-vulnerability/exploitVulnerability";
 
 //macro that allows GMs to apply the same exploit vulnerability on a target
 async function forceEVTarget() {
@@ -45,23 +46,6 @@ async function forceEVTarget() {
       await targ.actor.createEmbeddedDocuments("Item", [eff]);
     }
   }
-}
-
-function preDeleteEffect(a, sa = undefined) {
-  let effects = new Array();
-  for (let token of a) {
-    token = token.actor ?? token;
-    const effs = getActorEVEffect(token, sa?.uuid);
-    for (const effect of effs) {
-      if (
-        effect.flags["pf2e-thaum-vuln"]?.EffectOrigin === sa?.uuid ||
-        effect.flags["pf2e-thaum-vuln"]?.EffectOrigin === token?.uuid
-      ) {
-        effects.push(effect);
-      }
-    }
-  }
-  return effects;
 }
 
 export { forceEVTarget };
