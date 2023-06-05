@@ -44,6 +44,7 @@ Hooks.on(
           damageType === null
         ) {
           damageType = "physical";
+          console.warn("[PF2E Exploit Vulnerability] - Unable to determine damageType of " + weapon.name + ". Defaulting to Physical.")
         }
         for (let targ of targs) {
           targ = await fromUuid(targ.actorUuid);
