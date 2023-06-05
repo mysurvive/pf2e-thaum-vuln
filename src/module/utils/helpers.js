@@ -167,12 +167,19 @@ function getIWR(a) {
 function getActorEVEffect(a, targetID) {
   if (targetID === undefined) {
     let effects = new Array();
-    for (const item of a.items) {
-      if (item.flags["pf2e-thaum-vuln"]?.EffectOrigin === a.uuid) {
-        effects.push(item);
+    if (a.items !== undefined) {
+      for (const item of a.items) {
+        if (item.flags["pf2e-thaum-vuln"]?.EffectOrigin === a.uuid) {
+          effects.push(item);
+        }
       }
+      return effects;
+    } else {
+      console.warn(
+        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object. If Unknown, there is no actor object.`,
+        a
+      );
     }
-    return effects;
   } else if (targetID === "*") {
     let effects = new Array();
     for (let item of a.items) {
@@ -183,12 +190,19 @@ function getActorEVEffect(a, targetID) {
     return effects;
   } else {
     let effects = new Array();
-    for (const item of a.items) {
-      if (item.flags["pf2e-thaum-vuln"]?.EffectOrigin === targetID) {
-        effects.push(item);
+    if (a.items !== undefined) {
+      for (const item of a.items) {
+        if (item.flags["pf2e-thaum-vuln"]?.EffectOrigin === targetID) {
+          effects.push(item);
+        }
       }
+      return effects;
+    } else {
+      console.warn(
+        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object. If Unknown, there is no actor object.`,
+        a
+      );
     }
-    return effects;
   }
 }
 
