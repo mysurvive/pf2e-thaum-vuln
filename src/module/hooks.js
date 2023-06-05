@@ -44,6 +44,11 @@ Hooks.on(
           damageType === null
         ) {
           damageType = "physical";
+          console.warn(
+            "[PF2E Exploit Vulnerability] - Unable to determine damageType of " +
+              weapon.name +
+              ". Defaulting to Physical."
+          );
         }
         for (let targ of targs) {
           targ = await fromUuid(targ.actorUuid);
@@ -53,7 +58,7 @@ Hooks.on(
           )
             ? await fromUuid(speaker.getFlag("pf2e-thaum-vuln", "effectSource"))
             : await fromUuid(
-                targ.actor.items
+                targ.items
                   .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
                   .getFlag("pf2e-thaum-vuln", "EffectOrigin")
               );

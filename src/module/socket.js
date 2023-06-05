@@ -103,7 +103,7 @@ async function _socketUpdateEVEffect(targ, effect, value, damageType) {
           ],
         },
       };
-      await targ.actor.updateEmbeddedDocuments("Item", [updates]);
+      await targ.updateEmbeddedDocuments("Item", [updates]);
     }
   }
 }
