@@ -173,13 +173,13 @@ function getActorEVEffect(a, targetID) {
           effects.push(item);
         }
       }
-      return effects;
     } else {
       console.warn(
-        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object. If Unknown, there is no actor object.`,
+        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object.`,
         a
       );
     }
+    return effects;
   } else if (targetID === "*") {
     let effects = new Array();
     for (let item of a.items) {
@@ -196,13 +196,13 @@ function getActorEVEffect(a, targetID) {
           effects.push(item);
         }
       }
-      return effects;
     } else {
       console.warn(
-        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object. If Unknown, there is no actor object.`,
+        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object.`,
         a
       );
     }
+    return effects;
   }
 }
 
