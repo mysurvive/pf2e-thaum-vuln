@@ -53,7 +53,7 @@ Hooks.on(
           )
             ? await fromUuid(speaker.getFlag("pf2e-thaum-vuln", "effectSource"))
             : await fromUuid(
-                targ.actor.items
+                targ.items
                   .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
                   .getFlag("pf2e-thaum-vuln", "EffectOrigin")
               );
