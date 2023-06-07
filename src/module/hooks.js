@@ -161,17 +161,14 @@ Hooks.on("deleteItem", async (item) => {
 });
 
 Hooks.on("renderCharacterSheetPF2e", async (_, html) => {
-  console.log("its rendered");
   const a = canvas.tokens.controlled[0].actor;
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
-    console.log("we hit the sheet", html);
     const inventoryList = html.find(
       ".sheet-body .inventory-list.directory-list.inventory-pane"
     );
     const manageImplementButton = $(
       `<button class="manage-implements-button">Manage Implements</button>`
     );
-    console.log("inventory list", inventoryList);
     inventoryList.append(
       `<div class="inventory-header">
     <h3 class="item-name">Thaumaturge Implements</h3></div>

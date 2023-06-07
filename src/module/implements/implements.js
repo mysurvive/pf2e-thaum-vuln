@@ -16,6 +16,7 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
+      uuid: a.getflag("pf2e-thaum-vuln", "selectedImplements")[0] ?? undefined,
     });
   }
   if (a.items.some((i) => i.slug === "second-implement")) {
@@ -29,6 +30,7 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
+      uuid: a.getflag("pf2e-thaum-vuln", "selectedImplements")[1] ?? undefined,
     });
   }
   if (a.items.some((i) => i.slug === "third-implement")) {
@@ -42,6 +44,7 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
+      uuid: a.getflag("pf2e-thaum-vuln", "selectedImplements")[2] ?? undefined,
     });
   }
 
@@ -75,6 +78,7 @@ export async function manageImplements() {
     }
   }
 
+  let implementUuids;
   const passImps = { implements: imps };
   const dg = await new Dialog({
     title: "Manage Implemenets",
@@ -85,7 +89,9 @@ export async function manageImplements() {
     buttons: {
       complete: {
         label: "Confirm Changes",
-        callback: () => {},
+        callback: (dgEndContent) => {
+          implementUuids = confirmImplements(dgEndContent);
+        },
       },
       cancel: {
         label: "Cancel Changes",
@@ -105,9 +111,16 @@ export async function manageImplements() {
       dd.bind(document.getElementById(`Second`));
       dd.bind(document.getElementById(`Third`));
     },
+    close: () => {
+      //refreshes the sheet so the implement items appear
+      for (const implementIndex in imps) {
+        imps[implementIndex].uuid = implementUuids[implementIndex];
+      }
+      a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
+      a.sheet._render(true);
+    },
   });
 
-  //dg._dragDrop.bind(dg.content);
   dg.render(true, { width: "auto" });
 }
 
@@ -137,6 +150,8 @@ async function handleDrop(event) {
 
   //clears the children in case there is something in there
   $(newDropFieldContent).empty();
+
+  $(newDropFieldContent).attr("item-uuid", dropData.uuid);
 
   //adds the image of the item to the area
   $(newDropFieldContent).append(
@@ -194,7 +209,17 @@ async function handleDrop(event) {
   $(implementFlavor).appendTo($(newDropFieldContent));
 
   $(newDropFieldContent).appendTo($(dropFieldText));
-  console.log("event data", event);
-  console.log("dropData data", chosenItem);
-  console.log("the chosen one", $(dropFieldText).attr("implement-type"));
+
+  return chosenItem;
+}
+
+function confirmImplements(dgEndContent) {
+  let uuidCollection = new Array();
+  const itemUuids = $(dgEndContent).find(".item-content-wrapper");
+  $(itemUuids).each(function () {
+    if ($(this).attr("item-uuid") !== undefined)
+      uuidCollection.push($(this).attr("item-uuid"));
+  });
+
+  return uuidCollection;
 }
