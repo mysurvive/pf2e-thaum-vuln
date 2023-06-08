@@ -13,7 +13,14 @@ Hooks.on("init", async () => {
     forceEVTarget,
   };
 
-  loadTemplates(["modules/pf2e-thaum-vuln/templates/implementPartial.hbs"]);
+  loadTemplates([
+    "modules/pf2e-thaum-vuln/templates/implementPartial.hbs",
+    "modules/pf2e-thaum-vuln/templates/implementSelectedPartial.hbs",
+  ]);
+  Handlebars.registerHelper("element", (object, element, selection) => {
+    if (object[element][selection] === undefined) return undefined;
+    return new Handlebars.SafeString(object[element][selection]);
+  });
 
   //game settings
   game.settings.register("pf2e-thaum-vuln", "useEVAutomation", {

@@ -162,6 +162,8 @@ Hooks.on("deleteItem", async (item) => {
 
 Hooks.on("renderCharacterSheetPF2e", async (_, html) => {
   const a = canvas.tokens.controlled[0].actor;
+  if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
+    a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
     const inventoryList = html.find(
       ".sheet-body .inventory-list.directory-list.inventory-pane"

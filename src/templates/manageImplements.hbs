@@ -19,7 +19,7 @@
         id="{{counter}}-drop-item-content"
         item-uuid="{{uuid}}"
       >
-      {{#if uuid}}{{> "modules/pf2e-thaum-vuln/templates/implementPartial.hbs"}}{{else}}<p>Drag an item here to designate it as an implement</p>{{/if}}
+         {{> "modules/pf2e-thaum-vuln/templates/implementPartial.hbs" impFlavor=../impFlavor}}
       </span>
     </div>
   {{/each}}

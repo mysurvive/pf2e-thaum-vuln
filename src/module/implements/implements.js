@@ -2,8 +2,6 @@ import { implementData } from ".";
 
 export async function manageImplements() {
   const a = canvas.tokens.controlled[0].actor;
-  if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
-    a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
   const imps = [];
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
     const firstImplement = a.items.find(
@@ -56,8 +54,6 @@ export async function manageImplements() {
     });
   }
 
-  console.log(imps);
-
   for (let imp of imps) {
     if (a.items.some((i) => i.slug === "intensify-vulnerability")) {
       imp.intensify = "true";
@@ -88,8 +84,11 @@ export async function manageImplements() {
     }
   }
 
+  const impFlavor = getImplementFlavor(imps);
+  console.log(impFlavor);
+
   let implementUuids;
-  const passImps = { implements: imps };
+  const passImps = { implements: imps, impFlavor: impFlavor };
   const dg = await new Dialog({
     title: "Manage Implemenets",
     content: await renderTemplate(
@@ -225,12 +224,6 @@ async function handleDrop(event) {
   return chosenItem;
 }
 
-function fillImplementField(a) {
-  const thaumImpls = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
-  for (const impl of thaumImpls) {
-  }
-}
-
 function confirmImplements(dgEndContent) {
   let uuidCollection = new Array();
   const itemUuids = $(dgEndContent).find(".item-content-wrapper");
@@ -240,4 +233,37 @@ function confirmImplements(dgEndContent) {
   });
   console.log("uuid collection", uuidCollection);
   return uuidCollection;
+}
+
+function getImplementFlavor(imps) {
+  let impFlavor = {};
+  for (const imp of imps) {
+    impFlavor = {
+      ...impFlavor,
+      [imp.name]: {
+        flavor: implementData[imp.name].flavor,
+        initiate: implementData[imp.name].benefits.initiate,
+      },
+    };
+    if (imp.adept === "true") {
+      impFlavor[imp.name] = {
+        ...impFlavor[imp.name],
+        adept: implementData[imp.name].benefits.adept,
+      };
+    }
+    if (imp.paragon === "true") {
+      impFlavor[imp.name] = {
+        ...impFlavor[imp.name],
+        paragon: implementData[imp.name].benefits.paragon,
+      };
+    }
+    if (imp.intensify === "true") {
+      impFlavor[imp.name] = {
+        ...impFlavor[imp.name],
+        intensify: implementData[imp.name].intensify,
+      };
+    }
+  }
+
+  return impFlavor;
 }
