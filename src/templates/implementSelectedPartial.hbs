@@ -1,9 +1,20 @@
-<img
-  src="{{element selectedImplements name 'image'}}"
-  style="flex-basis: 100px; flex-shrink: 0;"
-/>
+{{#if (element selectedImplements name "image")}}
+  <img
+    src="{{element selectedImplements name 'image'}}"
+    style="flex-basis: 100px; flex-shrink: 0;"
+  />
+{{else}}
+  <img
+    src="/modules/pf2e-thaum-vuln/assets/chosen-implement.webp"
+    style="flex-basis: 100px; flex-shrink: 0;"
+  />
+{{/if}}
 <span
   style="flex-basis: 200px; flex-shrink: 0; padding: 10px; text-align: center;"
 >
-  {{element selectedImplements name "trueName"}}
+  {{#if (element selectedImplements name "trueName")}}
+    {{element selectedImplements name "trueName"}}
+  {{else}}
+    Drag an item here to designate it as an implement.
+  {{/if}}
 </span>

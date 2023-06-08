@@ -107,7 +107,6 @@ export async function manageImplements() {
   }
 
   const impFlavor = getImplementFlavor(imps);
-  console.log(impFlavor);
 
   let implementUuids;
   const passImps = {
@@ -256,7 +255,6 @@ function confirmImplements(dgEndContent) {
     if ($(this).attr("item-uuid") !== undefined)
       uuidCollection.push($(this).attr("item-uuid"));
   });
-  console.log("uuid collection", uuidCollection);
   return uuidCollection;
 }
 
