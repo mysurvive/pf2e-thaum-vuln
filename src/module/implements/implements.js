@@ -2,6 +2,28 @@ import { implementData } from ".";
 
 export async function manageImplements() {
   const a = canvas.tokens.controlled[0].actor;
+  const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
+  let passSelectedImplements = {};
+
+  for (const key of selectedImplements.keys()) {
+    if (selectedImplements[key]) {
+      const impUuid = selectedImplements[key]?.uuid ?? undefined;
+      let imp;
+      if (impUuid) imp = await fromUuid(impUuid);
+      const impImgPath = imp?.img ?? undefined;
+      const impTrueName = imp?.name ?? undefined;
+      passSelectedImplements = {
+        ...passSelectedImplements,
+        [selectedImplements[key].name]: {
+          image: impImgPath,
+          trueName: impTrueName,
+        },
+      };
+    }
+  }
+
+  console.log(passSelectedImplements);
+
   const imps = [];
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
     const firstImplement = a.items.find(
@@ -88,7 +110,11 @@ export async function manageImplements() {
   console.log(impFlavor);
 
   let implementUuids;
-  const passImps = { implements: imps, impFlavor: impFlavor };
+  const passImps = {
+    implements: imps,
+    impFlavor: impFlavor,
+    selectedImplements: passSelectedImplements,
+  };
   const dg = await new Dialog({
     title: "Manage Implemenets",
     content: await renderTemplate(
@@ -127,7 +153,6 @@ export async function manageImplements() {
       dd.bind(document.getElementById(`First`));
       dd.bind(document.getElementById(`Second`));
       dd.bind(document.getElementById(`Third`));
-      fillImplementField(a);
     },
     close: () => {},
   });

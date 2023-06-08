@@ -18,6 +18,7 @@ Hooks.on("init", async () => {
     "modules/pf2e-thaum-vuln/templates/implementSelectedPartial.hbs",
   ]);
   Handlebars.registerHelper("element", (object, element, selection) => {
+    if (object[element] === undefined) return undefined;
     if (object[element][selection] === undefined) return undefined;
     return new Handlebars.SafeString(object[element][selection]);
   });
