@@ -2,6 +2,8 @@ import { implementData } from ".";
 
 export async function manageImplements() {
   const a = canvas.tokens.controlled[0].actor;
+  if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
+    a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
   const imps = [];
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
     const firstImplement = a.items.find(
@@ -16,7 +18,9 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
-      uuid: a.getFlag("pf2e-thaum-vuln", "selectedImplements")[0] ?? undefined,
+      uuid:
+        a.getFlag("pf2e-thaum-vuln", "selectedImplements")[0]?.uuid ??
+        undefined,
     });
   }
   if (a.items.some((i) => i.slug === "second-implement")) {
@@ -30,7 +34,9 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
-      uuid: a.getFlag("pf2e-thaum-vuln", "selectedImplements")[1] ?? undefined,
+      uuid:
+        a.getFlag("pf2e-thaum-vuln", "selectedImplements")[1]?.uuid ??
+        undefined,
     });
   }
   if (a.items.some((i) => i.slug === "third-implement")) {
@@ -44,9 +50,13 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
-      uuid: a.getFlag("pf2e-thaum-vuln", "selectedImplements")[2] ?? undefined,
+      uuid:
+        a.getFlag("pf2e-thaum-vuln", "selectedImplements")[2]?.uuid ??
+        undefined,
     });
   }
+
+  console.log(imps);
 
   for (let imp of imps) {
     if (a.items.some((i) => i.slug === "intensify-vulnerability")) {
@@ -91,6 +101,14 @@ export async function manageImplements() {
         label: "Confirm Changes",
         callback: (dgEndContent) => {
           implementUuids = confirmImplements(dgEndContent);
+
+          for (const key of imps.keys()) {
+            imps[key].uuid = implementUuids[key];
+          }
+          a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
+
+          //refreshes the sheet so the implement items appear
+          a.sheet._render(true);
         },
       },
       cancel: {
@@ -112,14 +130,7 @@ export async function manageImplements() {
       dd.bind(document.getElementById(`Third`));
       fillImplementField(a);
     },
-    close: () => {
-      //refreshes the sheet so the implement items appear
-      for (const implementIndex in imps) {
-        imps[implementIndex].uuid = implementUuids[implementIndex];
-      }
-      a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
-      a.sheet._render(true);
-    },
+    close: () => {},
   });
 
   dg.render(true, { width: "auto" });
@@ -227,6 +238,6 @@ function confirmImplements(dgEndContent) {
     if ($(this).attr("item-uuid") !== undefined)
       uuidCollection.push($(this).attr("item-uuid"));
   });
-
+  console.log("uuid collection", uuidCollection);
   return uuidCollection;
 }

@@ -19,17 +19,8 @@
         id="{{counter}}-drop-item-content"
         item-uuid="{{uuid}}"
       >
-        <p>Drag an item here to designate it as an implement.</p>
+      {{#if uuid}}{{> "modules/pf2e-thaum-vuln/templates/implementPartial.hbs"}}{{else}}<p>Drag an item here to designate it as an implement</p>{{/if}}
       </span>
     </div>
   {{/each}}
 </div>
-
-<script>
-  /*function dragOverHandler(e){ e.preventDefault(); e.dataTransfer.dropEffect =
-  'move'; } function dropHandler(e) { console.log("hey it's e", e);var elementId
-  = e.dataTransfer.getData("my_element_id");
-  e.target.appendChild(document.getElementById(elementId)); } Drop
-  {{counter}}
-  implement here*/
-</script>

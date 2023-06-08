@@ -13,6 +13,8 @@ Hooks.on("init", async () => {
     forceEVTarget,
   };
 
+  loadTemplates(["modules/pf2e-thaum-vuln/templates/implementPartial.hbs"]);
+
   //game settings
   game.settings.register("pf2e-thaum-vuln", "useEVAutomation", {
     name: game.i18n.localize("pf2e-thaum-vuln.settings.EVAutomation.name"),
