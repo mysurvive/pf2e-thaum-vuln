@@ -16,7 +16,7 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
-      uuid: a.getflag("pf2e-thaum-vuln", "selectedImplements")[0] ?? undefined,
+      uuid: a.getFlag("pf2e-thaum-vuln", "selectedImplements")[0] ?? undefined,
     });
   }
   if (a.items.some((i) => i.slug === "second-implement")) {
@@ -30,7 +30,7 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
-      uuid: a.getflag("pf2e-thaum-vuln", "selectedImplements")[1] ?? undefined,
+      uuid: a.getFlag("pf2e-thaum-vuln", "selectedImplements")[1] ?? undefined,
     });
   }
   if (a.items.some((i) => i.slug === "third-implement")) {
@@ -44,7 +44,7 @@ export async function manageImplements() {
       adept: "false",
       paragon: "false",
       intensify: "false",
-      uuid: a.getflag("pf2e-thaum-vuln", "selectedImplements")[2] ?? undefined,
+      uuid: a.getFlag("pf2e-thaum-vuln", "selectedImplements")[2] ?? undefined,
     });
   }
 
@@ -110,6 +110,7 @@ export async function manageImplements() {
       dd.bind(document.getElementById(`First`));
       dd.bind(document.getElementById(`Second`));
       dd.bind(document.getElementById(`Third`));
+      fillImplementField(a);
     },
     close: () => {
       //refreshes the sheet so the implement items appear
@@ -211,6 +212,12 @@ async function handleDrop(event) {
   $(newDropFieldContent).appendTo($(dropFieldText));
 
   return chosenItem;
+}
+
+function fillImplementField(a) {
+  const thaumImpls = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
+  for (const impl of thaumImpls) {
+  }
 }
 
 function confirmImplements(dgEndContent) {
