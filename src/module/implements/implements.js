@@ -1,4 +1,5 @@
 import { implementData } from ".";
+import { createImpEffect } from "./helpers";
 
 export async function manageImplements() {
   const a = canvas.tokens.controlled[0].actor;
@@ -130,6 +131,7 @@ export async function manageImplements() {
             imps[key].uuid = implementUuids[key];
           }
           a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
+          createImpEffect(imps, a);
 
           //refreshes the sheet so the implement items appear
           a.sheet._render(true);

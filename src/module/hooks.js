@@ -178,7 +178,7 @@ Hooks.on("renderCharacterSheetPF2e", async (_, html) => {
     `
     );
 
-    showImplementsOnSheet(inventoryList);
+    showImplementsOnSheet(inventoryList, a);
 
     inventoryList.append(manageImplementButton);
     manageImplementButton.off("click").on("click", function () {
@@ -187,18 +187,17 @@ Hooks.on("renderCharacterSheetPF2e", async (_, html) => {
   }
 });
 
-function showImplementsOnSheet(inventoryList) {
-  const inventoryItem = $(inventoryList)
-    .find($(".item"))
-    .filter($('[data-item-id="UHd1jRSZ1BlwGNb1"]'));
+function showImplementsOnSheet(inventoryList, a) {
+  for (const imp of a.getFlag("pf2e-thaum-vuln", "selectedImplements")) {
+    const id = `[data-item-id="${imp?.uuid.split(".")[3]}`;
+    const inventoryItem = $(inventoryList).find($(".item")).filter($(id));
 
-  $(inventoryItem)
-    .find("div.item-name.rollable")
-    .append(
-      $(
-        '<img class="item-image item-icon" style="border-width: 0px; margin-left: 10px;" src="/modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />'
-      )
-    );
-
-  console.log("inventory item", inventoryItem);
+    $(inventoryItem)
+      .find("div.item-name.rollable")
+      .append(
+        $(
+          '<img class="item-image item-icon" style="border-width: 0px; margin-left: 10px;" src="/modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />'
+        )
+      );
+  }
 }
