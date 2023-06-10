@@ -135,5 +135,4 @@ const implementData = {
       "Your weapon is drawn to your enemy's vital spots, almost of its own accord. You gain a +2 status bonus to attack rolls against the target of your Exploit Vulnerability.",
   },
 };
-
 export { implementData };

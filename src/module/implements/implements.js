@@ -1,5 +1,5 @@
 import { implementData } from ".";
-import { createImpEffect } from "./helpers";
+import { createImpEffect, parseHTML } from "./helpers";
 
 export async function manageImplements() {
   const a = canvas.tokens.controlled[0].actor;
@@ -22,8 +22,6 @@ export async function manageImplements() {
       };
     }
   }
-
-  console.log(passSelectedImplements);
 
   const imps = [];
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
@@ -117,9 +115,11 @@ export async function manageImplements() {
   };
   const dg = await new Dialog({
     title: "Manage Implemenets",
-    content: await renderTemplate(
-      "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
-      passImps
+    content: parseHTML(
+      await renderTemplate(
+        "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
+        passImps
+      )
     ),
     buttons: {
       complete: {
@@ -206,7 +206,7 @@ async function handleDrop(event) {
 
   //creates another span that will hold the description of the implement
 
-  const implementFlavor = $(
+  let implementFlavor = $(
     '<span style="overflow:scroll; padding:10px;"></span>'
   );
   $(implementFlavor).append(
@@ -243,6 +243,7 @@ async function handleDrop(event) {
     );
   }
 
+  $(implementFlavor).html(parseHTML($(implementFlavor).html()));
   $(implementFlavor).appendTo($(newDropFieldContent));
 
   $(newDropFieldContent).appendTo($(dropFieldText));
