@@ -1,5 +1,5 @@
 import { implementData } from ".";
-import { createImpEffect, parseHTML } from "./helpers";
+import { createImpEffect, parseHTML, deleteImpEffect } from "./helpers";
 
 export async function manageImplements() {
   const a = canvas.tokens.controlled[0].actor;
@@ -126,12 +126,14 @@ export async function manageImplements() {
         label: "Confirm Changes",
         callback: (dgEndContent) => {
           implementUuids = confirmImplements(dgEndContent);
-
+          if (a.getFlag("pf2e-thaum-vuln", "selectedImplements")) {
+            deleteImpEffect(a.getFlag("pf2e-thaum-vuln", "selectedImplements"));
+          }
           for (const key of imps.keys()) {
             imps[key].uuid = implementUuids[key];
+            createImpEffect(imps, key);
           }
           a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
-          createImpEffect(imps, a);
 
           //refreshes the sheet so the implement items appear
           a.sheet._render(true);
