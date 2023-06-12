@@ -1,0 +1,26 @@
+<style type="text/css">
+  .dropbox { width:100%; height:100px; margin:2px; background-color:lightgray;
+  border-radius: 5px; } .dropboxes{ width: 1000px; padding: 10px;}
+  .drop-item-content{line-height: 100px; text-align: center;}
+</style>
+<div class="dropboxes">
+  {{#each implements}}
+    <h3>{{counter}} Implement ({{name}})</h3>
+    <div
+      class="dropbox"
+      id="{{counter}}"
+      implement-type="{{name}}"
+      is-adept="{{adept}}"
+      is-paragon="{{paragon}}"
+      can-intensify="{{intensify}}"
+    ><span
+        class="flex-container item-content-wrapper"
+        style="display: flex; height: 100%; width: 100%; border: 1px solid black"
+        id="{{counter}}-drop-item-content"
+        item-uuid="{{uuid}}"
+      >
+         {{> "modules/pf2e-thaum-vuln/templates/implementPartial.hbs" impFlavor=../impFlavor selectedImplements=../selectedImplements}}
+      </span>
+    </div>
+  {{/each}}
+</div>

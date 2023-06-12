@@ -58,6 +58,16 @@ Relevant actions have buttons on their chat cards to run their respective macros
 
 ![Share Weakness Chat Button](src/assets/chatcardbutton.webp)
 
+## Implement Management
+
+There is a rudimentary implement management system built into the module. It will not apply any effects from the Thaumaturge implements, but it will help track which ones are currently assigned as your current implements.
+<br>
+In the character sheet, at the bottom of the inventory tab, there is a section called "Thaumaturge Implements" with a button called "Manage Implements" under it. Clicking this button will open a dialog that allows you to drag & drop items from your inventory into each of the boxes to assign an item to be your implement. Confirm the changes, and it will apply these items as your implements. You have a quick reference as to which items are your implements on the inventory tab of the character sheet. To change the implements, click the Manage Implements button again, and drag & drop items from your inventory as before.
+<br>
+![Manage Implements](src/assets/manageImplements.gif)
+<br>
+Any item can be assigned to any implement, so it is up to the GM to check the player's implements and the player to stay honest.
+
 ## Settings
 
 There are settings to turn on/off the
