@@ -69,7 +69,7 @@
       "name": "mysurvives-thaumaturge-macros",
       "label": "MySurvive's Thaumaturge Macros",
       "system": "pf2e",
-      "path": "packs/mysurvives-thaumaturge-macros.db",
+      "path": "packs/mysurvives-thaumaturge-macros",
       "type": "Macro",
       "private": false,
       "flags": {}
@@ -78,7 +78,7 @@
       "name": "thaumaturge-effects",
       "label": "Thaumaturge Effects",
       "system": "pf2e",
-      "path": "packs/thaumaturge-effects.db",
+      "path": "packs/thaumaturge-effects",
       "type": "Item",
       "private": false,
       "flags": {}
