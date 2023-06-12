@@ -95,7 +95,7 @@ async function _socketUpdateEVEffect(targ, effect, value, damageType) {
           rules: [
             {
               key: "Weakness",
-              type: `${damageType}`.slugify(),
+              type: game.pf2e.system.sluggify(damageType),
               value: value,
               predicate: [],
               slug: eff.system.rules[0].slug,

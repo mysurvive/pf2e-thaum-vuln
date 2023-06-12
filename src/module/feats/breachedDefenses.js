@@ -20,7 +20,9 @@ async function createBreachedDefenses(sa, eff, bypassable) {
 
   const evMode = "breached-defenses";
   const effPredicate = [
-    `target:effect:Breached Defenses Target ${sa.name}`.slugify(),
+    `target:effect:${game.pf2e.system.sluggify(
+      "Breached Defenses Target" + sa.name
+    )}`,
   ];
   const effRuleSlug = "breached-defenses-bypass";
 
@@ -49,7 +51,9 @@ async function createBreachedDefenses(sa, eff, bypassable) {
   ).property = exception?.property;
   eff.system.rules.find(
     (rules) => rules.slug === "breached-defenses-bypass"
-  ).predicate = `target:effect:Breached Defenses Target ${sa.name}`.slugify();
+  ).predicate = `target:effect:${game.pf2e.system.sluggify(
+    "Breached Defenses Target" + sa.name
+  )}`;
   await sa.setFlag("pf2e-thaum-vuln", "EVValue", exception?.exception);
 
   return {

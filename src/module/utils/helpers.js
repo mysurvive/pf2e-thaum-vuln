@@ -66,7 +66,9 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
       }
     }
     effPredicate = [
-      `target:effect:Mortal Weakness Target ${sa.name}`.slugify(),
+      `target:effect:${game.pf2e.system.sluggify(
+        "Mortal Weakness Target" + sa.name
+      )}`,
     ];
     effRuleSlug = "mortal-weakness-effect-magical";
     effSlug = "exploit-mortal-weakness";
@@ -77,8 +79,9 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
       evTargets = evTargets.concat(getSVTargets(t, eff, gIWR));
     }
     EWPredicate = "personal-antithesis-target";
-    effPredicate =
-      `target:effect:Personal Antithesis Target ${sa.name}`.slugify();
+    effPredicate = `target:effect:${game.pf2e.system.sluggify(
+      "Personal Antithesis Target" + sa.name
+    )}`;
     effRuleSlug = "personal-antithesis-effect-magical";
     evMode = "personal-antithesis";
 
@@ -114,7 +117,8 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   let targEffect = await fromUuid(effectPairing[evMode]);
   targEffect = targEffect.toObject();
   targEffect.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
-  targEffect.system.slug = (targEffect.system.slug + "-" + sa.name).slugify();
+  targEffect.system.slug =
+    targEffect.system.slug + "-" + game.pf2e.system.sluggify(sa.name);
 
   eff.flags["pf2e-thaum-vuln"] = { EffectOrigin: sa.uuid };
   await createEffectOnTarget(sa, targEffect, evTargets, iwrData);
@@ -175,13 +179,13 @@ function getActorEVEffect(a, targetID) {
           effects.push(item);
         }
       }
-      return effects;
     } else {
       console.warn(
-        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object. If Unknown, there is no actor object.`,
+        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object.`,
         a
       );
     }
+    return effects;
   } else if (targetID === "*") {
     let effects = new Array();
     for (let item of a.items) {
@@ -198,13 +202,13 @@ function getActorEVEffect(a, targetID) {
           effects.push(item);
         }
       }
-      return effects;
     } else {
       console.warn(
-        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object. If Unknown, there is no actor object.`,
+        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object.`,
         a
       );
     }
+    return effects;
   }
 }
 
