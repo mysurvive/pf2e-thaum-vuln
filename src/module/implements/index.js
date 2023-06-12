@@ -13,8 +13,6 @@ const implementData = {
     },
     intensify:
       "Your amulet repels the creature's attempts to harm you. You gain a +2 status bonus to AC and saves against the target of your Exploit Vulnerability.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.ybSNFgWnrxaBKGYx",
   },
   Bell: {
     name: "PF2E.SpecificRule.Thaumaturge.Implement.Bell",
@@ -30,8 +28,6 @@ const implementData = {
     },
     intensify:
       "Your reinforced bell can reach into the most basal part of the target's mind, priming it to be vulnerable to the bell's effects. When you successfully Strike the target of your Exploit Vulnerability, your bell implement plays a haunting tone and the creature takes a -2 status penalty on saves against your Ring Bell for 1 round, or a -3 status penalty on a critical hit. This effect has the auditory, emotion, and mental traits.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.OsWjDNmDiLwWpCn7",
   },
   Chalice: {
     name: "PF2E.SpecificRule.Thaumaturge.Implement.Chalice",
@@ -47,8 +43,6 @@ const implementData = {
     },
     intensify:
       "Your reinforced chalice can collect a creature's life force to become empowered. If you succeed at a Strike against the target of your Exploit Vulnerability, you increase the effect if someone Drinks from the Chalice before the end of that turn. Add an additional half your level to the temporary HP if the drinker sips, or add your level to the HP regained if the drinker drains the chalice. This effect isn't cumulative if you hit with more than one Strike.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.jELD4pTSUVtWA49J",
   },
   Lantern: {
     name: "PF2E.SpecificRule.Thaumaturge.Implement.Lantern",
@@ -64,8 +58,6 @@ const implementData = {
     },
     intensify:
       "Your lantern's light flares and burns bright, leaving no shadows in which secrets and enemies can hide. Against the target of your Exploit Vulnerability, the status bonuses from the lantern's initiate benefit increase to +2. The creature takes a -2 status penalty to Deception checks and Stealth checks as long as it's within the lantern's light. The creature can't be @UUID[Compendium.pf2e.conditionitems.DmAIPqOBomZ7H95W]{Concealed} while it's in the lantern's light, though it still can potentially become @UUID[Compendium.pf2e.conditionitems.iU0fEDdBp3rXpTMC]{Hidden} or undetected using cover or means other than the concealed condition.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.BOYmPm2Os2i8mX1d",
   },
   Mirror: {
     name: "PF2E.SpecificRule.Thaumaturge.Implement.Mirror",
@@ -81,8 +73,6 @@ const implementData = {
     },
     intensify:
       "Reinforcing your mirror lets it play tricks on your enemy's senses as it bends light this way or that. You become @UUID[Compendium.pf2e.conditionitems.DmAIPqOBomZ7H95W]{Concealed} to the target of your Exploit Vulnerability as your mirror warps its perceptions. As normal for concealment where your overall location is still obvious, you can't use this concealment to @UUID[Compendium.pf2e.actionspf2e.XMcnh4cSI32tljXa]{Hide} or @UUID[Compendium.pf2e.actionspf2e.VMozDqMMuK5kpoX4]{Sneak}.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.g3Lo8RpujJokXuRG",
   },
   Regalia: {
     name: "PF2E.SpecificRule.Thaumaturge.Implement.Regalia",
@@ -98,8 +88,6 @@ const implementData = {
     },
     intensify:
       "Your regalia implement makes you seem more confident and inspiring with each success. Whenever you successfully Strike the target of your Exploit Vulnerability, choose an ally that you can see. That ally gains a +1 circumstance bonus to its attack rolls against the creature until the beginning of your next turn. If the attack roll was a critical hit, the circumstance bonus increases to +2.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.QCPUzKBnVXG7bscS",
   },
   Tome: {
     name: "PF2E.SpecificRule.Thaumaturge.Implement.Tome",
@@ -115,8 +103,6 @@ const implementData = {
     },
     intensify:
       "Your tome's power not only reads a creature's present but even records its future actions. When you use Intensify Vulnerability, roll a d20 and set the result aside. At any time until the start of your next turn, you can use the d20 result you set aside for an attack roll to Strike the target of your Exploit Vulnerability, instead of rolling a new d20; this is a fortune effect.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.J0ojRm6pZ7tom1Cq",
   },
   Wand: {
     name: "PF2E.SpecificRule.Thaumaturge.Implement.Wand",
@@ -132,8 +118,6 @@ const implementData = {
     },
     intensify:
       "Your empowered wand surges with ever-more-powerful magic. When you Fling Magic to damage the target of your Exploit Vulnerability, you deal additional damage to the creature equal to 1 + the number of damage dice.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.qCwkl9i6R1DsGoke",
   },
   Weapon: {
     name: "PF2E.SpecificRule.Thaumaturge.Implement.Weapon",
@@ -149,8 +133,6 @@ const implementData = {
     },
     intensify:
       "Your weapon is drawn to your enemy's vital spots, almost of its own accord. You gain a +2 status bonus to attack rolls against the target of your Exploit Vulnerability.",
-    effectUuid:
-      "Compendium.pf2e-thaum-vuln.thaumaturge-effects.m82KNep4ibiw5y2h",
   },
 };
 export { implementData };
