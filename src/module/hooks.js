@@ -157,6 +157,7 @@ Hooks.on("deleteItem", async (item) => {
     await sa.unsetFlag("pf2e-thaum-vuln", "EVTargetID");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVMode");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVValue");
+    await sa.unsetFlag("pf2e-thaum-vuln", "primaryEVTarget");
   }
 });
 

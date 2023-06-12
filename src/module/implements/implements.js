@@ -124,15 +124,17 @@ export async function manageImplements() {
     buttons: {
       complete: {
         label: "Confirm Changes",
-        callback: (dgEndContent) => {
+        callback: async (dgEndContent) => {
           implementUuids = confirmImplements(dgEndContent);
           if (a.getFlag("pf2e-thaum-vuln", "selectedImplements")) {
-            deleteImpEffect(a.getFlag("pf2e-thaum-vuln", "selectedImplements"));
+            await deleteImpEffect(
+              a.getFlag("pf2e-thaum-vuln", "selectedImplements")
+            );
           }
           for (const key of imps.keys()) {
             imps[key].uuid = implementUuids[key];
-            createImpEffect(imps, key);
           }
+          await createImpEffect(imps);
           a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
 
           //refreshes the sheet so the implement items appear

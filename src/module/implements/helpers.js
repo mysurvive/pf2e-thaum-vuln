@@ -1,17 +1,20 @@
-async function createImpEffect(imps, key) {
-  const targImp = await fromUuid(imps[key].uuid);
-  const updates = {
-    _id: targImp._id,
-    "system.rules": [
-      {
-        key: "RollOption",
-        domain: "all",
-        option: "implement",
-        slug: "implement",
-      },
-    ],
-  };
-  targImp.update(updates);
+async function createImpEffect(imps) {
+  console.log(imps);
+  for (const imp of imps) {
+    const targImp = await fromUuid(imp.uuid);
+    const updates = {
+      _id: targImp._id,
+      "system.rules": [
+        {
+          key: "RollOption",
+          domain: "all",
+          option: `implement:${imp.counter.toLowerCase()}:held`,
+          slug: `implement-held`,
+        },
+      ],
+    };
+    await targImp.update(updates);
+  }
 }
 
 async function deleteImpEffect(imps) {
@@ -20,11 +23,14 @@ async function deleteImpEffect(imps) {
       const impl = await fromUuid(imp.uuid);
       let implObj = impl.toObject();
       for (const i of implObj.system.rules.keys()) {
-        if (implObj.system.rules[i].slug.includes("implement") && i > -1) {
+        if (implObj.system.rules[i].slug.includes("implement")) {
           implObj.system.rules.splice(i, 1);
         }
       }
-      impl.update({ _id: impl._id, "system.rules": implObj.system.rules });
+      await impl.update({
+        _id: impl._id,
+        "system.rules": implObj.system.rules,
+      });
     }
   }
 }
