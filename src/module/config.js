@@ -60,4 +60,16 @@ Hooks.on("init", async () => {
     type: Number,
     default: 0,
   });
+
+  game.settings.register("pf2e-thaum-vuln", "enforceHeldImplement", {
+    name: "Enforce Held Implement",
+    hint: "Enforces the rule that an implement must be held to use Exploit Vulnerability.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
 });

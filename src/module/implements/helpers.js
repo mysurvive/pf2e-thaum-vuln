@@ -1,18 +1,20 @@
 async function createImpEffect(imps) {
   for (const imp of imps) {
-    const targImp = await fromUuid(imp.uuid);
-    const updates = {
-      _id: targImp._id,
-      "system.rules": [
-        {
-          key: "RollOption",
-          domain: "all",
-          option: `implement:${imp.counter.toLowerCase()}:held`,
-          slug: `implement-held`,
-        },
-      ],
-    };
-    await targImp.update(updates);
+    if (imp.uuid) {
+      const targImp = await fromUuid(imp.uuid);
+      const updates = {
+        _id: targImp._id,
+        "system.rules": [
+          {
+            key: "RollOption",
+            domain: "all",
+            option: `implement:${imp.counter.toLowerCase()}:held`,
+            slug: `implement-held`,
+          },
+        ],
+      };
+      await targImp.update(updates);
+    }
   }
 }
 
