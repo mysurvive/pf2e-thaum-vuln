@@ -156,8 +156,10 @@ export async function manageImplements() {
         callbacks: { drop: handleDrop },
       });
       dd.bind(document.getElementById(`First`));
-      dd.bind(document.getElementById(`Second`));
-      dd.bind(document.getElementById(`Third`));
+      if (document.getElementById(`Second`))
+        dd.bind(document.getElementById(`Second`));
+      if (document.getElementById(`Third`))
+        dd.bind(document.getElementById(`Third`));
     },
     close: () => {},
   });
