@@ -64,6 +64,12 @@
   "manifest": "https://github.com/mysurvive/pf2e-thaum-vuln/releases/latest/download/module.json",
   "download": "https://github.com/mysurvive/pf2e-thaum-vuln/archive/main.zip",
   "esmodules": ["module/pf2e-thaum-vuln.js"],
+  "media": [
+    {
+      "type": "setup",
+      "url": "src/assets/ev_thumbnail.webp"
+    }
+  ],
   "packs": [
     {
       "name": "mysurvives-thaumaturge-macros",
