@@ -75,6 +75,7 @@ There are settings to turn on/off the
 - Exploit Vulnerability automation: (On by default) This will stop the module from applying the effects of Personal Antithesis or Mortal Weakness to valid tokens on the scene. This setting is useful for if you want to manually set the Exploit Vulnerability targets via the forceEV macro.
 - IWR Value Mystification: (Off by default) This will mystify the weakness values in the dialog box after using the Exploit Vulnerability macro.
 - Esoteric Lore DC Modifier: (0 by default) This allows the GM to set a global modifier for Recall Knowledge DCs that use Esoteric Lore. For example, if the GM would like the DC for Recall Knowledge using Esoteric Lore to align with applicable lore skills, they would set the modifier to -2. This currently only works when using Exploit Vulnerability.
+- Enforce Held Implement: (On by default) This setting forces the player to have an implement equipped before using the Exploit Vulnerability macro. If you don't care whether they have an implement held or not, turn this off.
 
 ## Reporting Issues
 
