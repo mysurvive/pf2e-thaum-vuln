@@ -67,7 +67,7 @@
   "media": [
     {
       "type": "setup",
-      "url": "src/assets/ev_thumbnail.webp"
+      "url": "modules/pf2e-thaum-vuln/assets/ev_thumbnail.webp"
     }
   ],
   "packs": [
