@@ -21,7 +21,7 @@ const BREACHED_DEFENSES_EFFECT_UUID =
 const BREACHED_DEFENSES_TARGET_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.E38yjK1tdr579dJy";
 const BREACHED_DEFENSES_TARGET_SOURCEID = "Item.aasC0M4NDDjR84UI";
-const DIVERSE_LORE_SOURCEID = "Compendium.pf2e.feats-srd.KlqKpeq5OmTRxVHb";
+const DIVERSE_LORE_SOURCEID = "Compendium.pf2e.feats-srd.Item.KlqKpeq5OmTRxVHb";
 const ESOTERIC_WARDEN_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.fufcXy1CEMvxmgWt";
 const ESOTERIC_WARDEN_EFFECT_SOURCEID = "Item.uKh4kjbl4arTnzC4";
