@@ -1,6 +1,6 @@
 import { implementData } from ".";
 import { createImpEffect, deleteImpEffect } from "./helpers";
-import { parseHTML } from "../utils/helpers";
+import { parseHTML } from "../utils/utils.js";
 
 export async function manageImplements() {
   const a = canvas.tokens.controlled[0].actor;

@@ -2,7 +2,7 @@ import {
   MORTAL_WEAKNESS_TARGET_SOURCEID,
   PERSONAL_ANTITHESIS_TARGET_SOURCEID,
 } from "./utils/index.js";
-import { parseHTML } from "./utils/helpers.js";
+import { parseHTML } from "./utils/utils.js";
 
 let socket;
 
