@@ -38,7 +38,6 @@ async function forceEVTarget() {
   eff.system.rules[0].value = a.actor.getFlag("pf2e-thaum-vuln", "EVValue");
   eff.name += " (" + a.actor.name + ")";
   for (let targ of tar) {
-    console.log(getActorEVEffect(targ.actor, sa.uuid));
     if (getActorEVEffect(targ.actor, sa.uuid).length != 0) {
       const deleteEffectTargs = preDeleteEffect([targ], sa);
       await deleteEVEffect(deleteEffectTargs.flat());

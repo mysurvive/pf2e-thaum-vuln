@@ -13,7 +13,6 @@ function recallEsotericKnowledge() {
       )
     );
   }
-  console.log("first targ", targ);
   createRKDialog(sa, targ, skill);
 }
 

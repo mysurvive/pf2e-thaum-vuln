@@ -194,7 +194,6 @@ async function _createRKDialog(saUuid, targUuid, skill) {
     dgContent = { ...dgContent, hasDiverseLore: true };
   }
 
-  console.log("second targ", targ);
   const dgButtons = {
     roll: {
       label: "Roll",

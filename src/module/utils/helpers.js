@@ -31,7 +31,6 @@ const effectPairing = {
 
 //Creates the passed effect document on the actor
 async function createEffectOnActor(sa, t, effect, rollDOS) {
-  console.log("sa here", sa);
   await sa.setFlag("pf2e-thaum-vuln", "primaryEVTarget", t.uuid);
   let eff = effect.toObject();
   let evMode, EWPredicate, effRuleSlug, effPredicate, effSlug;
@@ -242,7 +241,6 @@ function parseHTML(string) {
     const uuid = m[0].split("[")[1].split("]")[0];
     const text = m[0].split("{")[1].split("}")[0];
     const parsedUuid = foundry.utils.parseUuid(uuid);
-    console.log(parsedUuid);
     const subst = `<a class="content-link" draggable="true" data-uuid="${uuid}" data-id="${parsedUuid.documentId}" data-type="${parsedUuid.collection.metadata.type}" data-pack="${parsedUuid.collection.metadata.id}">${text}</a>`;
     newHTML = newHTML.replace(m, subst);
   }
