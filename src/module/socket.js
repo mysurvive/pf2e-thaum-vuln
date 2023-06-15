@@ -2,6 +2,7 @@ import {
   MORTAL_WEAKNESS_TARGET_SOURCEID,
   PERSONAL_ANTITHESIS_TARGET_SOURCEID,
 } from "./utils/index.js";
+import { parseHTML } from "./utils/helpers.js";
 
 let socket;
 
@@ -13,6 +14,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("applySWEffect", _socketApplySWEffect);
   socket.register("sharedWarding", _socketSharedWarding);
   socket.register("ubiquitousWeakness", _socketUbiquitousWeakness);
+  socket.register("createRKDialog", _createRKDialog);
 });
 
 export function createEffectOnTarget(a, effect, evTargets, iwrData) {
@@ -55,6 +57,11 @@ export function updateEVEffect(targ, effect, value, damageType) {
 
 export function deleteEVEffect(effects) {
   return socket.executeAsGM(_socketDeleteEVEffect, effects);
+}
+
+export function createRKDialog(sa, targ, skill) {
+  const gmUserId = game.users.find((u) => u.isGM === true).id;
+  return socket.executeAsUser(_createRKDialog, gmUserId, sa, targ, skill);
 }
 
 async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
@@ -158,4 +165,101 @@ async function _socketSharedWarding(eff, a) {
       token.actor.setFlag("pf2e-thaum-vuln", "EWSourceActor", a.actor.uuid);
     }
   }
+}
+
+async function _createRKDialog(sa, targ, skill) {
+  const hasDiverseLore = sa.items.some((i) => i.slug === "diverse-lore");
+  const esotericLoreModifier = game.settings.get(
+    "pf2e-thaum-vuln",
+    "esotericLoreModifier"
+  );
+  let traits = ["concentrate", "secret"];
+  let dgContent = {
+    name: sa.name,
+    esotericLoreModifier: esotericLoreModifier,
+    targ: {
+      name: targ?.name,
+      dc: targ?.actor?.identificationDCs?.standard?.dc,
+    },
+  };
+  if (hasDiverseLore) {
+    traits.push("thaumaturge");
+    dgContent = { ...dgContent, hasDiverseLore: true };
+  }
+
+  console.log("second targ", targ);
+  const dgButtons = {
+    roll: {
+      label: "Roll",
+      callback: async (html) => {
+        const rollELModifier = $(html).find(`[id="el-modifier"]`).value ?? 0;
+        const rollTarget = $(html).find(`[id="target"]`).value ?? 0;
+        const rollDC = $(html).find(`[id="dc"]`).value ?? 0;
+
+        const rollOptions = sa.getRollOptions(["skill-check", skill.slug]);
+
+        const outcomes = {
+          criticalSuccess:
+            "You remember the creature's weaknesses, and as you empower your esoterica, you have a flash of insight that grants even more knowledge about the creature. You learn all of the creature's resistances, weaknesses, and immunities, including the amounts of the resistances and weaknesses and any unusual weaknesses or vulnerabilities, such as what spells will pass through a golem's antimagic. You can exploit either the creature's mortal weakness or personal antithesis (see below). Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+          success:
+            "You recall an important fact about the creature, learning its highest weakness (or one of its highest weaknesses, if it has multiple with the same value) but not its other weaknesses, resistances, or immunities. You can exploit either the creature's mortal weakness or personal antithesis. Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+          failure:
+            "Failing to recall a salient weakness about the creature, you instead attempt to exploit a more personal vulnerability. You can exploit only the creature's personal antithesis. Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+          criticalFailure:
+            "You couldn't remember the right object to use and become distracted while you rummage through your esoterica. You become flat-footed until the beginning of your next turn.",
+        };
+
+        const notes = Object.entries(outcomes).map(([outcome, text]) => ({
+          title: game.i18n.localize(
+            "PF2E.Check.Result.Degree.Check." + outcome
+          ),
+          text,
+          outcome: [outcome],
+        }));
+
+        const flavor = `Recall Esoteric Knowledge: ${skill.label}`;
+        const checkModifier = new game.pf2e.CheckModifier(flavor, skill);
+        const traits = traits;
+        let rollData = {
+          actor: sa,
+          type: "skill-check",
+          options: rollOptions,
+          notes,
+          dc: rollDC,
+          traits: traits.map((t) => ({
+            name: t,
+            label: CONFIG.PF2E.actionTraits[t] ?? t,
+            description: CONFIG.PF2E.traitsDescriptions[t],
+          })),
+          flavor: "stuff",
+          skipDialog: "true",
+        };
+        if (targ) {
+          rollData = {
+            ...rollData,
+            target: {
+              actor: targ.actor,
+              token: targ.document,
+            },
+          };
+        }
+        await game.pf2e.Check.roll(checkModifier, rollData);
+      },
+    },
+    cancel: {
+      label: "Cancel",
+      callback: () => {},
+    },
+  };
+  new Dialog({
+    title: `Recall Knowledge (Thaumaturge): ${sa.name}`,
+    content: parseHTML(
+      await renderTemplate(
+        "modules/pf2e-thaum-vuln/templates/rkDialog.hbs",
+        dgContent
+      )
+    ),
+    buttons: dgButtons,
+    default: "roll",
+  }).render(true);
 }
