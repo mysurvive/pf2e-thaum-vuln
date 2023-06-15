@@ -61,7 +61,13 @@ export function deleteEVEffect(effects) {
 
 export function createRKDialog(sa, targ, skill) {
   const gmUserId = game.users.find((u) => u.isGM === true).id;
-  return socket.executeAsUser(_createRKDialog, gmUserId, sa, targ, skill);
+  return socket.executeAsUser(
+    _createRKDialog,
+    gmUserId,
+    sa.uuid,
+    targ.actor.token.uuid,
+    skill
+  );
 }
 
 async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
@@ -167,13 +173,15 @@ async function _socketSharedWarding(eff, a) {
   }
 }
 
-async function _createRKDialog(sa, targ, skill) {
+async function _createRKDialog(saUuid, targUuid, skill) {
+  const sa = await fromUuid(saUuid);
+  const targ = await fromUuid(targUuid);
   const hasDiverseLore = sa.items.some((i) => i.slug === "diverse-lore");
   const esotericLoreModifier = game.settings.get(
     "pf2e-thaum-vuln",
     "esotericLoreModifier"
   );
-  let traits = ["concentrate", "secret"];
+
   let dgContent = {
     name: sa.name,
     esotericLoreModifier: esotericLoreModifier,
@@ -183,7 +191,6 @@ async function _createRKDialog(sa, targ, skill) {
     },
   };
   if (hasDiverseLore) {
-    traits.push("thaumaturge");
     dgContent = { ...dgContent, hasDiverseLore: true };
   }
 
@@ -192,11 +199,26 @@ async function _createRKDialog(sa, targ, skill) {
     roll: {
       label: "Roll",
       callback: async (html) => {
-        const rollELModifier = $(html).find(`[id="el-modifier"]`).value ?? 0;
-        const rollTarget = $(html).find(`[id="target"]`).value ?? 0;
-        const rollDC = $(html).find(`[id="dc"]`).value ?? 0;
-
+        const rollELModifier = $(html).find(`[id="el-modifier"]`)[0].value ?? 0;
+        const rollTarget = $(html).find(`[id="target"]`)[0].value ?? 0;
+        const rollDC = $(html).find(`[id="dc"]`)[0].value ?? 0;
+        const hasDiverseLore = sa.items.some((i) => i.slug === "diverse-lore");
+        let traits = ["concentrate", "secret"];
         const rollOptions = sa.getRollOptions(["skill-check", skill.slug]);
+        const diverseLoreModifier = new game.pf2e.Modifier({
+          slug: "diverse-lore-penalty",
+          label: "Diverse Lore Penalty",
+          modifier: parseInt(rollTarget),
+          type: "untyped",
+          enabled: true,
+          ignored: false,
+          source: "",
+          notes: "",
+        });
+
+        if (hasDiverseLore) {
+          traits.push("thaumaturge");
+        }
 
         const outcomes = {
           criticalSuccess:
@@ -218,14 +240,17 @@ async function _createRKDialog(sa, targ, skill) {
         }));
 
         const flavor = `Recall Esoteric Knowledge: ${skill.label}`;
-        const checkModifier = new game.pf2e.CheckModifier(flavor, skill);
-        const traits = traits;
+        const checkModifier = new game.pf2e.CheckModifier(
+          flavor,
+          skill,
+          diverseLoreModifier
+        );
         let rollData = {
           actor: sa,
           type: "skill-check",
           options: rollOptions,
           notes,
-          dc: rollDC,
+          dc: { value: parseInt(rollDC) + parseInt(rollELModifier) },
           traits: traits.map((t) => ({
             name: t,
             label: CONFIG.PF2E.actionTraits[t] ?? t,
@@ -233,13 +258,14 @@ async function _createRKDialog(sa, targ, skill) {
           })),
           flavor: "stuff",
           skipDialog: "true",
+          rollMode: "gmroll",
         };
         if (targ) {
           rollData = {
             ...rollData,
             target: {
               actor: targ.actor,
-              token: targ.document,
+              token: targ,
             },
           };
         }
