@@ -65,7 +65,7 @@ export function createRKDialog(sa, targ, skill) {
     _createRKDialog,
     gmUserId,
     sa.uuid,
-    targ.actor.token.uuid,
+    targ?.actor?.token?.uuid,
     skill
   );
 }
@@ -216,19 +216,14 @@ async function _createRKDialog(saUuid, targUuid, skill) {
           notes: "",
         });
 
-        if (hasDiverseLore) {
-          traits.push("thaumaturge");
-        }
-
         const outcomes = {
           criticalSuccess:
-            "You remember the creature's weaknesses, and as you empower your esoterica, you have a flash of insight that grants even more knowledge about the creature. You learn all of the creature's resistances, weaknesses, and immunities, including the amounts of the resistances and weaknesses and any unusual weaknesses or vulnerabilities, such as what spells will pass through a golem's antimagic. You can exploit either the creature's mortal weakness or personal antithesis (see below). Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+            "The character recalls the knowledge accurately and gains additional information or context.",
           success:
-            "You recall an important fact about the creature, learning its highest weakness (or one of its highest weaknesses, if it has multiple with the same value) but not its other weaknesses, resistances, or immunities. You can exploit either the creature's mortal weakness or personal antithesis. Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
-          failure:
-            "Failing to recall a salient weakness about the creature, you instead attempt to exploit a more personal vulnerability. You can exploit only the creature's personal antithesis. Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+            "The character recalls the knowledge accurately or gain a useful clue about their current situation.",
+          failure: "",
           criticalFailure:
-            "You couldn't remember the right object to use and become distracted while you rummage through your esoterica. You become flat-footed until the beginning of your next turn.",
+            "The character recalls incorrect information or gains an erroneous or misleading clue.",
         };
 
         const notes = Object.entries(outcomes).map(([outcome, text]) => ({
@@ -238,6 +233,20 @@ async function _createRKDialog(saUuid, targUuid, skill) {
           text,
           outcome: [outcome],
         }));
+
+        notes.push({
+          title: "Dubious Knowledge",
+          text: "When the character fails (but doesn't critically fail) a Recall Knowledge check using any skill, they learn a bit of true knowledge and a bit of erroneous knowledge, but they don't have any way to differentiate which is which.",
+          outcome: ["failure"],
+        });
+
+        if (hasDiverseLore) {
+          traits.push("thaumaturge");
+          notes.push({
+            title: game.i18n.localize("pf2e-thaum-vuln.diverseLore.name"),
+            text: "The character's wandering studies mean they've heard rumors or theories about almost every topic... though admittedly, their sources aren't always the most reliable. They can take a –2 penalty to your check to Recall Knowledge with Esoteric Lore to Recall Knowledge about any topic, not just the usual topics available for Esoteric Lore.",
+          });
+        }
 
         const flavor = `Recall Esoteric Knowledge: ${skill.label}`;
         const checkModifier = new game.pf2e.CheckModifier(
