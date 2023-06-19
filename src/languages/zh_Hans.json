@@ -8,6 +8,10 @@
       "mystifyNumbers": {
         "name": "神秘化IWR数字",
         "hint": "若为“是”，使用弱点发掘后弹出的对话框中不显示弱点数字，仅显示弱点伤害类型。"
+      },
+      "esotericLoreModifier": {
+        "name": "秘传学识（Esoteric Lore）DC调整值",
+        "hint": "为秘传学识DC设置全局调整值，一般设置为-2，即用秘传学识替代任意学识技能进行回忆知识时的减值。"
       }
     },
     "notifications": {
