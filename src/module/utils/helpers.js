@@ -31,7 +31,7 @@ const effectPairing = {
 
 //Creates the passed effect document on the actor
 async function createEffectOnActor(sa, t, effect, rollDOS) {
-  await sa.setFlag("pf2e-thaum-vuln", "primaryEVTarget", t.uuid);
+  await sa.setFlag("pf2e-thaum-vuln", "primaryEVTarget", t.actor.uuid);
   let eff = effect.toObject();
   let evMode, EWPredicate, effRuleSlug, effPredicate, effSlug;
 
