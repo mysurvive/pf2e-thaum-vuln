@@ -89,5 +89,12 @@
       "private": false,
       "flags": {}
     }
+  ],
+  "packFolders": [
+    {
+      "name": "PF2e Exploit Vulnerability",
+      "sorting": "m",
+      "packs": ["mysurvives-thaumaturge-macros", "thaumaturge-effects"]
+    }
   ]
 }
