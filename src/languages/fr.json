@@ -8,6 +8,10 @@
       "mystifyNumbers": {
         "name": "Mystifier les valeurs IWR (Immunités, faiblesses, résistances)",
         "hint": "Si coché, fait en sorte que la boite de dialogue n'apparait pas lorsque vous Exploiter la vulnérabilité - Montre seulement le type de dégâts."
+      },
+      "esotericLoreModifier": {
+        "name": "Modificateur de DD de Connaissance ésotérique",
+        "hint": "Fice un modificateur global pour le DD de Connaissance ésotérique. S'il est changé, il est typiquement fixé à -2 pour faire s'aligner Connaissance ésotérique avec une compétence de connaissance applicable pour Se souvenir."
       }
     },
     "notifications": {
