@@ -170,8 +170,8 @@ Hooks.on("deleteItem", async (item) => {
   }
 });
 
-Hooks.on("renderCharacterSheetPF2e", async (_, html) => {
-  const a = canvas.tokens.controlled[0].actor;
+Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
+  const a = _sheet.actor;
   if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
     a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
@@ -191,8 +191,8 @@ Hooks.on("renderCharacterSheetPF2e", async (_, html) => {
     showImplementsOnSheet(inventoryList, a);
 
     inventoryList.append(manageImplementButton);
-    manageImplementButton.off("click").on("click", function () {
-      manageImplements();
+    $(manageImplementButton).click({ actor: a }, function (event) {
+      manageImplements(event);
     });
   }
 });
