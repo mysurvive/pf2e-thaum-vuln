@@ -1,6 +1,7 @@
-const implementData = {
-  Amulet: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Amulet",
+const implementData = [
+  {
+    name: "Amulet",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Amulet",
     flavor:
       "Amulets are items carried for good luck and protection. Your amulet might be a magical diagram, a religious symbol, a preserved body part such as a rabbit's foot, or a lucky coin. Amulet implements are associated with the harrow suit of shields and the astrological signs of the bridge and the ogre.",
     benefits: {
@@ -14,8 +15,9 @@ const implementData = {
     intensify:
       "Your amulet repels the creature's attempts to harm you. You gain a +2 status bonus to AC and saves against the target of your Exploit Vulnerability.",
   },
-  Bell: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Bell",
+  {
+    name: "Bell",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Bell",
     flavor:
       "Bells symbolize the power that sounds and emotions hold over others, soothing with one tone and startling with another. Bells, drums, finger cymbals, and other percussion instruments are most typical, but these implements can be any type of portable musical instrument that is played with one hand. Bell implements are associated with the astrological signs of the daughter and the blossom.",
     benefits: {
@@ -29,8 +31,9 @@ const implementData = {
     intensify:
       "Your reinforced bell can reach into the most basal part of the target's mind, priming it to be vulnerable to the bell's effects. When you successfully Strike the target of your Exploit Vulnerability, your bell implement plays a haunting tone and the creature takes a -2 status penalty on saves against your Ring Bell for 1 round, or a -3 status penalty on a critical hit. This effect has the auditory, emotion, and mental traits.",
   },
-  Chalice: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Chalice",
+  {
+    name: "Chalice",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Chalice",
     flavor:
       "Chalice implements are vessels that fill with liquid, associating them with healing, nourishment, and life. Your chalice might be a traditional cup or goblet, but it could also be a small amphora, a polished gourd, or even a hollowed-out skull. Chalice implements are associated with the astrological signs of the mother and the newlyweds, as well as the sea dragon.",
     benefits: {
@@ -44,8 +47,9 @@ const implementData = {
     intensify:
       "Your reinforced chalice can collect a creature's life force to become empowered. If you succeed at a Strike against the target of your Exploit Vulnerability, you increase the effect if someone Drinks from the Chalice before the end of that turn. Add an additional half your level to the temporary HP if the drinker sips, or add your level to the HP regained if the drinker drains the chalice. This effect isn't cumulative if you hit with more than one Strike.",
   },
-  Lantern: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Lantern",
+  {
+    name: "Lantern",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Lantern",
     flavor:
       "Lantern implements shine the light of revelation to part shadows and expose truth. You might use a common glass lantern, torch, paper lantern, or other similar light source. Lantern implements are associated with the harrow suit of stars and the astrological signs of the lantern bearer and the archer.",
     benefits: {
@@ -59,8 +63,9 @@ const implementData = {
     intensify:
       "Your lantern's light flares and burns bright, leaving no shadows in which secrets and enemies can hide. Against the target of your Exploit Vulnerability, the status bonuses from the lantern's initiate benefit increase to +2. The creature takes a -2 status penalty to Deception checks and Stealth checks as long as it's within the lantern's light. The creature can't be @UUID[Compendium.pf2e.conditionitems.DmAIPqOBomZ7H95W]{Concealed} while it's in the lantern's light, though it still can potentially become @UUID[Compendium.pf2e.conditionitems.iU0fEDdBp3rXpTMC]{Hidden} or undetected using cover or means other than the concealed condition.",
   },
-  Mirror: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Mirror",
+  {
+    name: "Mirror",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Mirror",
     flavor:
       "Mirror implements represent misdirection, illusion, and sleight of hand, bending and shifting a perspective and the way you look at things. While larger mirrors hold the same mystic connotations, thaumaturges always choose small, portable, handheld mirrors as implements so they can use them easily while adventuring. Mirror implements are associated with the harrow suit of keys, and the astrological signs of the stranger and the swallow.",
     benefits: {
@@ -74,8 +79,9 @@ const implementData = {
     intensify:
       "Reinforcing your mirror lets it play tricks on your enemy's senses as it bends light this way or that. You become @UUID[Compendium.pf2e.conditionitems.DmAIPqOBomZ7H95W]{Concealed} to the target of your Exploit Vulnerability as your mirror warps its perceptions. As normal for concealment where your overall location is still obvious, you can't use this concealment to @UUID[Compendium.pf2e.actionspf2e.XMcnh4cSI32tljXa]{Hide} or @UUID[Compendium.pf2e.actionspf2e.VMozDqMMuK5kpoX4]{Sneak}.",
   },
-  Regalia: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Regalia",
+  {
+    name: "Regalia",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Regalia",
     flavor:
       "Regalia implements represent rulership, leadership, and social connections. While they differ in shape depending on regional customs and markers used to signify authority, common regalia implements are scepters, jeweled orbs, and heraldic banners. Regalia implements are associated with the harrow suit of crowns and the astrological signs of the patriarch and the sovereign dragon.",
     benefits: {
@@ -89,8 +95,9 @@ const implementData = {
     intensify:
       "Your regalia implement makes you seem more confident and inspiring with each success. Whenever you successfully Strike the target of your Exploit Vulnerability, choose an ally that you can see. That ally gains a +1 circumstance bonus to its attack rolls against the creature until the beginning of your next turn. If the attack roll was a critical hit, the circumstance bonus increases to +2.",
   },
-  Tome: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Tome",
+  {
+    name: "Tome",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Tome",
     flavor:
       "Tome implements embody lost knowledge and otherworldly insights. While a weathered book is most common, tome implements can have as many different form factors as there are ways to store knowledge, from carved clay tablets to bundles of knotted cords. Tome implements are associated with the harrow suit of books and the astrological signs of the stargazer and the underworld dragon.",
     benefits: {
@@ -104,8 +111,9 @@ const implementData = {
     intensify:
       "Your tome's power not only reads a creature's present but even records its future actions. When you use Intensify Vulnerability, roll a d20 and set the result aside. At any time until the start of your next turn, you can use the d20 result you set aside for an attack roll to Strike the target of your Exploit Vulnerability, instead of rolling a new d20; this is a fortune effect.",
   },
-  Wand: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Wand",
+  {
+    name: "Wand",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Wand",
     flavor:
       "Wand implements are short, lightweight batons, usually made of wood but often incorporating other materials. Due to their association with spellcasters, wand implements are connected to magic and its practice, as well as the direction and manipulation of energy. Wand implements are associated with the astrological signs of the thrush and the sky dragon.",
     benefits: {
@@ -119,8 +127,9 @@ const implementData = {
     intensify:
       "Your empowered wand surges with ever-more-powerful magic. When you Fling Magic to damage the target of your Exploit Vulnerability, you deal additional damage to the creature equal to 1 + the number of damage dice.",
   },
-  Weapon: {
-    name: "PF2E.SpecificRule.Thaumaturge.Implement.Weapon",
+  {
+    name: "Weapon",
+    translatedName: "PF2E.SpecificRule.Thaumaturge.Implement.Weapon",
     flavor:
       "Weapon implements are the most direct and confrontational, representing battle, struggle, and potentially violence. You can choose only a one-handed weapon as an implement, which allows you to channel energies into your weapon as well as hold your other implements once you gain them. Weapon implements are associated with the harrow suit of hammers and the astrological signs of the rider and the swordswoman.",
     benefits: {
@@ -134,5 +143,6 @@ const implementData = {
     intensify:
       "Your weapon is drawn to your enemy's vital spots, almost of its own accord. You gain a +2 status bonus to attack rolls against the target of your Exploit Vulnerability.",
   },
-};
+];
+
 export { implementData };

@@ -271,29 +271,32 @@ function confirmImplements(dgEndContent) {
 function getImplementFlavor(imps) {
   let impFlavor = {};
   for (const imp of imps) {
+    const implementDataMatch = implementData.find(
+      (n) => game.i18n.localize(n.translatedName) == imp.name
+    );
     impFlavor = {
       ...impFlavor,
       [imp.name]: {
-        flavor: implementData[imp.name].flavor,
-        initiate: implementData[imp.name].benefits.initiate,
+        flavor: implementDataMatch.flavor,
+        initiate: implementDataMatch.benefits.initiate,
       },
     };
     if (imp.adept === "true") {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
-        adept: implementData[imp.name].benefits.adept,
+        adept: implementDataMatch.benefits.adept,
       };
     }
     if (imp.paragon === "true") {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
-        paragon: implementData[imp.name].benefits.paragon,
+        paragon: implementDataMatch.benefits.paragon,
       };
     }
     if (imp.intensify === "true") {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
-        intensify: implementData[imp.name].intensify,
+        intensify: implementDataMatch.intensify,
       };
     }
   }
