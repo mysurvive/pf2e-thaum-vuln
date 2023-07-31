@@ -216,38 +216,21 @@ async function handleDrop(event) {
   let implementFlavor = $(
     '<span style="overflow:scroll; padding:10px;"></span>'
   );
-  $(implementFlavor).append(
-    `<p>${implementData[$(dropFieldText).attr("implement-type")].flavor}</p>`
-  );
+
+  $(implementFlavor).append(`<p>${implementDataMatch.flavor}</p>`);
   $(implementFlavor).append("<h3>Initiate Benefit</h3>");
-  $(implementFlavor).append(
-    `<p>${
-      implementData[$(dropFieldText).attr("implement-type")].benefits.initiate
-    }</p>`
-  );
+  $(implementFlavor).append(`<p>${implementDataMatch.benefits.initiate}</p>`);
   if ($(dropFieldText).attr("is-adept") === "true") {
     $(implementFlavor).append("<h3>Adept Benefit</h3>");
-    $(implementFlavor).append(
-      `<p>${
-        implementData[$(dropFieldText).attr("implement-type")].benefits.adept
-      }</p>`
-    );
+    $(implementFlavor).append(`<p>${implementDataMatch.benefits.adept}</p>`);
   }
   if ($(dropFieldText).attr("is-paragon") === "true") {
     $(implementFlavor).append("<h3>Paragon Benefit</h3>");
-    $(implementFlavor).append(
-      `<p>${
-        implementData[$(dropFieldText).attr("implement-type")].benefits.paragon
-      }</p>`
-    );
+    $(implementFlavor).append(`<p>${implementDataMatch.benefits.paragon}</p>`);
   }
   if ($(dropFieldText).attr("can-intensify") === "true") {
     $(implementFlavor).append("<h3>Intensify Vulnerability</h3>");
-    $(implementFlavor).append(
-      `<p>${
-        implementData[$(dropFieldText).attr("implement-type")].intensify
-      }</p>`
-    );
+    $(implementFlavor).append(`<p>${implementDataMatch.intensify}</p>`);
   }
 
   $(implementFlavor).html(parseHTML($(implementFlavor).html()));
