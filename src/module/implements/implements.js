@@ -192,6 +192,12 @@ async function handleDrop(event) {
     document.getElementById(`${$(dropFieldText).attr("id")}-drop-item-content`)
   );
 
+  const implementDataMatch = implementData.find(
+    (n) =>
+      game.i18n.localize(n.translatedName) ==
+      $(dropFieldText).attr("implement-type")
+  );
+
   //clears the children in case there is something in there
   $(newDropFieldContent).empty();
 
@@ -285,4 +291,9 @@ function getImplementFlavor(imps) {
   }
 
   return impFlavor;
+}
+
+export async function clearImplements(event) {
+  const a = event.data.actor;
+  await a.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
 }

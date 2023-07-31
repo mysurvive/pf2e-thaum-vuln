@@ -12,7 +12,7 @@ import { removeEWOption } from "./feats/esotericWarden.js";
 
 import { createChatCardButton } from "./utils/chatCard.js";
 
-import { manageImplements } from "./implements/implements.js";
+import { manageImplements, clearImplements } from "./implements/implements.js";
 
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
@@ -178,8 +178,14 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
     const inventoryList = html.find(
       ".sheet-body .inventory-list.directory-list.inventory-pane"
     );
+    const implementButtonRegion = $(
+      `<div class="implement-button-region" style="display:flex"></div>`
+    );
     const manageImplementButton = $(
       `<button class="manage-implements-button">Manage Implements</button>`
+    );
+    const clearImplementButton = $(
+      `<button class="clear-implements-button">Clear All Implements</button>`
     );
     inventoryList.append(
       `<div class="inventory-header">
@@ -190,9 +196,14 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
 
     showImplementsOnSheet(inventoryList, a);
 
-    inventoryList.append(manageImplementButton);
+    implementButtonRegion.append(manageImplementButton);
+    implementButtonRegion.append(clearImplementButton);
+    inventoryList.append(implementButtonRegion);
     $(manageImplementButton).click({ actor: a }, function (event) {
       manageImplements(event);
+    });
+    $(clearImplementButton).click({ actor: a }, function (event) {
+      clearImplements(event);
     });
   }
 });
