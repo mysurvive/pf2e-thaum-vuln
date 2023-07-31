@@ -36,4 +36,19 @@ async function deleteImpEffect(imps) {
   }
 }
 
-export { createImpEffect, deleteImpEffect };
+async function checkImplements(a) {
+  const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
+  let newImplements = selectedImplements;
+  let updateFlag = false;
+  for (const imp in selectedImplements) {
+    if (!a.items.some((i) => i?.uuid === selectedImplements[imp]?.uuid)) {
+      newImplements[imp] = null;
+      updateFlag = true;
+    }
+  }
+  if (updateFlag) {
+    a.setFlag("pf2e-thaum-vuln", "selectedImplements", newImplements);
+  }
+}
+
+export { createImpEffect, deleteImpEffect, checkImplements };

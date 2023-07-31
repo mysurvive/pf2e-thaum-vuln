@@ -1,9 +1,10 @@
 import { implementData } from ".";
-import { createImpEffect, deleteImpEffect } from "./helpers";
+import { createImpEffect, deleteImpEffect, checkImplements } from "./helpers";
 import { parseHTML } from "../utils/utils.js";
 
 export async function manageImplements(event) {
   const a = event.data.actor;
+  checkImplements(a);
   const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
   let passSelectedImplements = {};
 
