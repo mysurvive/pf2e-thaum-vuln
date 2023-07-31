@@ -51,4 +51,30 @@ async function checkImplements(a) {
   }
 }
 
-export { createImpEffect, deleteImpEffect, checkImplements };
+function checkFeatValidity(a) {
+  const firstImplementFeat = a.items.find(
+    (i) => i.slug === "first-implement-and-esoterica"
+  );
+  if (!firstImplementFeat) {
+    console.error(
+      "[PF2E Exploit Vulnerability] No first implement feat found. Downlevel to 0 and back up to your expected level, allowing the system to handle the feat automation."
+    );
+    return false;
+  }
+  if (firstImplementFeat?.rules != undefined) {
+    if (!firstImplementFeat.rules[1]?.grantedId) {
+      console.error(
+        "[PF2E Exploit Vulnerability] No grantedId found for implement feat. Downlevel to 0 and back up to your expected level, allowing the system to handle the feat automation."
+      );
+      return false;
+    }
+  } else {
+    console.error(
+      "[PF2E Exploit Vulnerability] No rules found for first implement feat. Downlevel to 0 and back up to your expected level, allowing the system to handle the feat automation."
+    );
+    return false;
+  }
+  return true;
+}
+
+export { createImpEffect, deleteImpEffect, checkImplements, checkFeatValidity };
