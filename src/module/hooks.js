@@ -35,11 +35,19 @@ Hooks.on(
           ? (weapon = await fromUuid(message.flags.pf2e.origin.uuid))
           : (weapon = undefined);
 
-        let damageType =
-          weapon?.system.traits.toggles?.versatile.selection ??
-          weapon?.system.traits.toggles?.modular.selection ??
-          weapon?.system.damage?.damageType ??
-          undefined;
+        let damageType;
+        if (weapon?.type === "feat") {
+          const damageRule = weapon.rules.find((r) => r.key === "ChoiceSet");
+          if (damageRule) {
+            damageType = damageRule.selection;
+          }
+        } else {
+          damageType =
+            weapon?.system.traits.toggles?.versatile.selection ??
+            weapon?.system.traits.toggles?.modular.selection ??
+            weapon?.system.damage?.damageType ??
+            undefined;
+        }
         if (
           damageType === "untyped" ||
           damageType === undefined ||
