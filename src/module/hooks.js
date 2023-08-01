@@ -25,61 +25,71 @@ Hooks.on(
       if (
         (message.flags?.pf2e?.context?.type === "attack-roll" ||
           message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
-          message.flags?.pf2e?.context?.type === "saving-throw" ||
-          message.isDamageRoll) &&
+          message.flags?.pf2e?.context?.type === "saving-throw") &&
         speaker.isOwner
       ) {
         const targs = message.getFlag("pf2e-thaum-vuln", "targets");
-        let weapon;
-        message.flags.pf2e.origin?.uuid
-          ? (weapon = await fromUuid(message.flags.pf2e.origin.uuid))
-          : (weapon = undefined);
-
         let damageType;
-        if (weapon?.type === "feat") {
-          const damageRule = weapon.rules.find((r) => r.key === "ChoiceSet");
-          if (damageRule) {
-            damageType = damageRule.selection;
-          }
-        } else {
-          damageType =
-            weapon?.system.traits.toggles?.versatile.selection ??
-            weapon?.system.traits.toggles?.modular.selection ??
-            weapon?.system.damage?.damageType ??
-            undefined;
-        }
-        if (
-          damageType === "untyped" ||
-          damageType === undefined ||
-          damageType === null
-        ) {
-          damageType = "physical";
-          console.warn(
-            "[PF2E Exploit Vulnerability] - Unable to determine damageType of " +
-              weapon.name +
-              ". Defaulting to Physical."
-          );
-        }
+        let effValue;
+
         for (let targ of targs) {
           if (targ.actorUuid) {
             targ = await fromUuid(targ.actorUuid);
+
+            if (
+              !targ.items.some((i) =>
+                i.getFlag("pf2e-thaum-vuln", "EffectOrigin")
+              )
+            ) {
+              return;
+            }
+
             const effectOrigin = speaker.getFlag(
               "pf2e-thaum-vuln",
               "effectSource"
             )
               ? await fromUuid(
-                  speaker.getFlag("pf2e-thaum-vuln", "effectSource")
-                )
-              : await fromUuid(
                   targ.items
                     .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
                     .getFlag("pf2e-thaum-vuln", "EffectOrigin")
-                );
+                )
+              : undefined;
+
             const targEffect = getActorEVEffect(
               targ.actor ?? targ,
               effectOrigin?.uuid ?? speaker.uuid
             ).map((i) => (i = i.uuid));
-            const effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+
+            if (effectOrigin.name != speaker.name) {
+              effValue = 0;
+            } else {
+              effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+            }
+
+            if (
+              message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
+              (message.flags?.pf2e?.context?.type === "saving-throw" &&
+                message.flags?.pf2e?.origin?.type === "spell")
+            ) {
+              damageType = "physical";
+              effValue = 0;
+            } else {
+              const strike = message.item.system;
+              damageType = strike.damage.damageType;
+              if (
+                damageType === "untyped" ||
+                damageType === undefined ||
+                damageType === null
+              ) {
+                damageType = "physical";
+                console.warn(
+                  "[PF2E Exploit Vulnerability] - Unable to determine damageType of " +
+                    strike.name +
+                    ". Defaulting to Physical."
+                );
+              }
+            }
+
             await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
           }
         }
