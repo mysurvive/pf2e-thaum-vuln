@@ -35,6 +35,23 @@ Hooks.on("renderChatMessage", async (message, html) => {
   )
     return;
 
+  let damageRolls;
+  const strikeDamageTypes = new Array();
+  if (message.item.system?.damageRolls) {
+    damageRolls = message.item.system.damageRolls;
+    for (const roll in damageRolls) {
+      if (damageRolls[roll].damageType) {
+        strikeDamageTypes.push(damageRolls[roll].damageType);
+      }
+    }
+  } else if (message.item.system?.damage) {
+    damageRolls = message.item.system.damage;
+    strikeDamageTypes.push(damageRolls.damageType);
+  }
+  //message.item.system.damageRolls.map((d) => d.damageType);
+
+  console.log(strikeDamageTypes);
+
   const amuletUuid = a
     .getFlag("pf2e-thaum-vuln", "selectedImplements")
     .find((i) => i.name === "Amulet").uuid;
