@@ -60,7 +60,7 @@ Hooks.on(
               effectOrigin?.uuid ?? speaker.uuid
             ).map((i) => (i = i.uuid));
 
-            if (effectOrigin.name != speaker.name) {
+            if (effectOrigin?.name != speaker.name) {
               effValue = 0;
             } else {
               effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
@@ -75,7 +75,14 @@ Hooks.on(
               effValue = 0;
             } else {
               const strike = message.item.system;
-              damageType = strike.damage.damageType;
+              if (strike.damage) {
+                damageType = strike.damage.damageType;
+              } else if (strike.damageRolls) {
+                damageType =
+                  strike.damageRolls[Object.keys(strike.damageRolls)[0]]
+                    .damageType;
+              }
+
               if (
                 damageType === "untyped" ||
                 damageType === undefined ||
