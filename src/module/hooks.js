@@ -49,18 +49,23 @@ Hooks.on(
               "effectSource"
             )
               ? await fromUuid(
+                  speaker.getFlag("pf2e-thaum-vuln", "effectSource")
+                )
+              : await fromUuid(
                   targ.items
                     .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
                     .getFlag("pf2e-thaum-vuln", "EffectOrigin")
-                )
-              : undefined;
+                );
 
             const targEffect = getActorEVEffect(
               targ.actor ?? targ,
               effectOrigin?.uuid ?? speaker.uuid
             ).map((i) => (i = i.uuid));
 
-            if (effectOrigin?.name != speaker.name) {
+            if (
+              effectOrigin?.name != speaker.name ||
+              effectOrigin == undefined
+            ) {
               effValue = 0;
             } else {
               effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
@@ -96,7 +101,6 @@ Hooks.on(
                 );
               }
             }
-
             await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
           }
         }
