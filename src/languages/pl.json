@@ -1,1 +1,36 @@
-{}
+{
+  "pf2e-thaum-vuln": {
+    "settings": {
+      "EVAutomation": {
+        "name": "Użyj Exploit Vulnerability Automation",
+        "hint": "Jeśli zaznaczony, moduł automatycznie zaznaczy wszystkie ważne cele dla Mortal Weakness, Sympathetic Vulnerabilities itp. na bieżącej scenie. Nie zaznaczaj, jeśli chcesz ręcznie aktualizować cele za pomocą makra forceEV. Możesz chcieć wyłączyć tę opcję, jeśli stosujesz efekty podatności na exploity inaczej niż opisano w RAW."
+      },
+      "mystifyNumbers": {
+        "name": "Mistyfikacja wartości IWR",
+        "hint": "Jeśli zanaczony, wyniki w oknie dialogowym podczas wykorzystywania luki nie będą wyświetlane - pokazywany będzie tylko rodzaj uszkodzenia."
+      },
+      "esotericLoreModifier": {
+        "name": "Modyfikator ST wiedzy ezoterycznej",
+        "hint": "Ustaw globalny modyfikator dla ST wiedzy ezoterycznej. Jeśli zostanie on zmieniony, zazwyczaj wynosi -2, aby wiedza ezoteryczna była zgodna z odpowiednią umiejętnością wiedzy dla celów przywoływania wiedzy."
+      }
+    },
+    "notifications": {
+      "warn": {
+        "exploitVulnerability": {
+          "targetCount": "Wybierz jeden token Thaumaturge'a i namierz jedną istotę.",
+          "noExploitVulnerability": "Ten aktor nie ma możliwości wykorzystania podatności",
+          "noEsotericLoreSkill": "Ten aktor nie posiada umiejętności Wiedza ezoteryczna",
+          "noMatchingDC": "Brak pasującego ST dla celu"
+        },
+        "cursedEffigy": {
+          "noAbility": "Nie masz możliwości stworzenia przeklętej podobizny",
+          "invalidTarget": "Wyceluj tylko w cel swojej podatności na exploity, aby stworzyć przeklętą podobiznę"
+        },
+        "forceEV": {
+          "invalidTargets": "Wybierz jeden token Thaumaturge'a i namierz jedną lub więcej istot",
+          "eVNotActivated": "Wybrany token nie aktywował Exploit Vulnerability"
+        }
+      }
+    }
+  }
+}
