@@ -219,10 +219,10 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
       `<div class="implement-button-region" style="display:flex"></div>`
     );
     const manageImplementButton = $(
-      `<button class="manage-implements-button">Manage Implements</button>`
+      `<button type="button" class="manage-implements-button">Manage Implements</button>`
     );
     const clearImplementButton = $(
-      `<button class="clear-implements-button">Clear All Implements</button>`
+      `<button type="button" class="clear-implements-button">Clear All Implements</button>`
     );
     inventoryList.append(
       `<div class="inventory-header">
