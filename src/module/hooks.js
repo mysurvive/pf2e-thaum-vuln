@@ -63,12 +63,14 @@ Hooks.on(
             ).map((i) => (i = i.uuid));
 
             if (
-              effectOrigin?.name != speaker.name ||
-              effectOrigin == undefined
+              speaker.getFlag("pf2e-thaum-vuln", "effectSource") ===
+              targ.items
+                .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
+                .getFlag("pf2e-thaum-vuln", "EffectOrigin")
             ) {
-              effValue = 0;
-            } else {
               effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+            } else {
+              effValue = 0;
             }
 
             if (
@@ -81,7 +83,13 @@ Hooks.on(
             } else {
               const strike = message.item.system;
               if (strike.damage) {
-                damageType = strike.damage.damageType;
+                if (message._strike.versatileOptions.length != 0) {
+                  damageType = message._strike.versatileOptions.find(
+                    (o) => o.selected === true
+                  ).value;
+                } else {
+                  damageType = strike.damage.damageType;
+                }
               } else if (strike.damageRolls) {
                 damageType =
                   strike.damageRolls[Object.keys(strike.damageRolls)[0]]
@@ -101,7 +109,7 @@ Hooks.on(
                 );
               }
             }
-            await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
+            updateEVEffect(targ.uuid, targEffect, effValue, damageType);
           }
         }
         handleEsotericWarden(message);
@@ -186,16 +194,16 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
 Hooks.on("deleteItem", async (item) => {
   const sa = item.parent;
   if (
-    (item.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
-      item.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
-      item.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) &&
-    item.parent === game.user.character
+    item.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
+    item.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
+    item.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID
   ) {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);
     await sa.unsetFlag("pf2e-thaum-vuln", "EVTargetID");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVMode");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVValue");
     await sa.unsetFlag("pf2e-thaum-vuln", "primaryEVTarget");
+    await sa.unsetFlag("pf2e-thaum-vuln", "effectSource");
   }
 });
 
