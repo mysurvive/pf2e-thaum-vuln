@@ -271,9 +271,11 @@ function confirmImplements(dgEndContent) {
 function getImplementFlavor(imps) {
   let impFlavor = {};
   for (const imp of imps) {
-    const implementDataMatch = implementData.find(
-      (n) => game.i18n.localize(n.translatedName) == imp.name
-    );
+    const implementDataMatch =
+      implementData.find(
+        (n) => game.i18n.localize(n.translatedName) == imp.name
+      ) ?? implementData.find((n) => n.name == imp.name);
+    console.log(imp.name);
     impFlavor = {
       ...impFlavor,
       [imp.name]: {
