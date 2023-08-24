@@ -154,7 +154,6 @@ async function _socketUbiquitousWeakness(allies, saUuid, EVEffect) {
 async function _socketSharedWarding(eff, a) {
   a = await fromUuid(a);
   const allTokens = canvas.tokens.placeables;
-  eff = await fromUuid(eff);
 
   const affectedTokens = allTokens.filter(
     (token) =>

@@ -275,7 +275,6 @@ function getImplementFlavor(imps) {
       implementData.find(
         (n) => game.i18n.localize(n.translatedName) == imp.name
       ) ?? implementData.find((n) => n.name == imp.name);
-    console.log(imp.name);
     impFlavor = {
       ...impFlavor,
       [imp.name]: {
