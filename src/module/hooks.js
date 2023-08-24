@@ -216,7 +216,7 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
       ".sheet-body .inventory-list.directory-list.inventory-pane"
     );
     const implementButtonRegion = $(
-      `<div class="implement-button-region" style="display:flex"></div>`
+      `<div class="implement-button-region actor.sheet" style="display:flex; margin-bottom:1em;"></div>`
     );
     const manageImplementButton = $(
       `<button type="button" class="manage-implements-button">Manage Implements</button>`
