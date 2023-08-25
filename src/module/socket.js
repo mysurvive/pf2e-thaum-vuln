@@ -89,7 +89,24 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
     if (tg.actor) {
       tg = tg.actor;
     }
-    await tg.createEmbeddedDocuments("Item", [effect]);
+    if (
+      (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID ||
+        effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID) &&
+      a.getFlag("pf2e-thaum-vuln", "primaryEVTarget") === targ
+    ) {
+      let primaryEffect = Object.assign({}, effect);
+      if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID) {
+        primaryEffect.img =
+          "modules/pf2e-thaum-vuln/assets/mortal-weakness-primary.webp";
+      } else {
+        primaryEffect.img =
+          "modules/pf2e-thaum-vuln/assets/personal-antithesis-primary.webp";
+      }
+
+      await tg.createEmbeddedDocuments("Item", [primaryEffect]);
+    } else {
+      await tg.createEmbeddedDocuments("Item", [effect]);
+    }
   }
   return;
 }

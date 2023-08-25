@@ -6,7 +6,7 @@ import {
 
 import { updateEVEffect } from "./socket.js";
 
-import { getActorEVEffect } from "./utils/helpers.js";
+import { getActorEVEffect, targetEVPrimaryTarget } from "./utils/helpers.js";
 
 import { removeEWOption } from "./feats/esotericWarden.js";
 
@@ -209,6 +209,8 @@ Hooks.on("deleteItem", async (item) => {
 
 Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
   const a = _sheet.actor;
+
+  //implement management buttons
   if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
     a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
@@ -243,6 +245,63 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
       clearImplements(event);
     });
   }
+
+  //EV Target Management
+  if (a.class.name === "Thaumaturge") {
+    const strikesList = html.find(".sheet-body .actions-options");
+    const EVTargetSection = $(
+      `<fieldset class="actor.sheet" style="display:flex;flex-direction:column;border:1px solid;border-radius:5px;padding:5px;"><legend>Exploit Vulnerability</legend></fieldset>`
+    );
+    const EVActive = $(`<label for="EVActive">EV Active: </label>`);
+    const EVActiveLabel = $(`<span style="flex-direction:row;"></span>`);
+    const EVModeLabel = $(`<label for="EVMode">EV Mode: </label>`);
+    const EVTargetBtn = $(
+      `<button type="button" class="target-primary-btn">Target EV Primary Target</button>`
+    );
+    if (a.getFlag("pf2e-thaum-vuln", "activeEV") === true) {
+      const EVMode = a.getFlag("pf2e-thaum-vuln", "EVMode");
+      let words;
+      if (EVMode) {
+        words = EVMode.split("-");
+        for (let i = 0; i < words.length; i++) {
+          words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+        }
+        EVModeLabel.append(words.join(" "));
+      }
+
+      $(EVTargetBtn).click({ actor: a }, function () {
+        targetEVPrimaryTarget(a);
+      });
+      EVActiveLabel.append(
+        EVActive,
+        $(`<span name="EVActive" style="color:#00c000;">Active</span>`)
+      );
+      EVTargetSection.append(EVActiveLabel);
+      EVTargetSection.append(EVModeLabel);
+      if (
+        canvas.scene.tokens.filter(
+          (token) =>
+            token.actor.uuid === a.getFlag("pf2e-thaum-vuln", "primaryEVTarget")
+        ).length != 0
+      ) {
+        EVTargetSection.append(EVTargetBtn);
+      } else {
+        EVTargetSection.append(
+          $(
+            `<span style="text-align:center;color:#ff4040;">EV Primary Target Not On Current Scene</span>`
+          )
+        );
+      }
+    } else {
+      EVActiveLabel.append(
+        EVActive,
+        $(`<span name="EVActive" style="color:#ff4040;">Inactive</span>`)
+      );
+      EVTargetSection.append(EVActiveLabel);
+    }
+
+    EVTargetSection.insertAfter(strikesList);
+  }
 });
 
 function showImplementsOnSheet(inventoryList, a) {
@@ -261,3 +320,12 @@ function showImplementsOnSheet(inventoryList, a) {
     }
   }
 }
+
+Hooks.on("canvasReady", () => {
+  if (
+    game.user.character?.class.name == "Thaumaturge" &&
+    game.user.character?.sheet._state == 2
+  ) {
+    game.user.character.sheet._render(true);
+  }
+});
