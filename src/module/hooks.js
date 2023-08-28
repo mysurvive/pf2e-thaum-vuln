@@ -37,79 +37,79 @@ Hooks.on(
             targ = await fromUuid(targ.actorUuid);
 
             if (
-              !targ.items.some((i) =>
+              targ.items.some((i) =>
                 i.getFlag("pf2e-thaum-vuln", "EffectOrigin")
               )
             ) {
-              return;
-            }
+              const effectOrigin = speaker.getFlag(
+                "pf2e-thaum-vuln",
+                "effectSource"
+              )
+                ? await fromUuid(
+                    speaker.getFlag("pf2e-thaum-vuln", "effectSource")
+                  )
+                : await fromUuid(
+                    targ.items
+                      .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
+                      .getFlag("pf2e-thaum-vuln", "EffectOrigin")
+                  );
 
-            const effectOrigin = speaker.getFlag(
-              "pf2e-thaum-vuln",
-              "effectSource"
-            )
-              ? await fromUuid(
-                  speaker.getFlag("pf2e-thaum-vuln", "effectSource")
-                )
-              : await fromUuid(
-                  targ.items
-                    .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
-                    .getFlag("pf2e-thaum-vuln", "EffectOrigin")
-                );
+              const targEffect = getActorEVEffect(
+                targ.actor ?? targ,
+                effectOrigin?.uuid ?? speaker.uuid
+              ).map((i) => (i = i.uuid));
 
-            const targEffect = getActorEVEffect(
-              targ.actor ?? targ,
-              effectOrigin?.uuid ?? speaker.uuid
-            ).map((i) => (i = i.uuid));
-
-            if (
-              speaker.getFlag("pf2e-thaum-vuln", "effectSource") ===
-              targ.items
-                .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
-                .getFlag("pf2e-thaum-vuln", "EffectOrigin")
-            ) {
-              effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
-            } else {
-              effValue = 0;
-            }
-
-            if (
-              message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
-              (message.flags?.pf2e?.context?.type === "saving-throw" &&
-                message.flags?.pf2e?.origin?.type === "spell")
-            ) {
-              damageType = "physical";
-              effValue = 0;
-            } else {
-              const strike = message.item.system;
-              if (strike.damage) {
-                if (message._strike.versatileOptions.length != 0) {
-                  damageType = message._strike.versatileOptions.find(
-                    (o) => o.selected === true
-                  ).value;
-                } else {
-                  damageType = strike.damage.damageType;
-                }
-              } else if (strike.damageRolls) {
-                damageType =
-                  strike.damageRolls[Object.keys(strike.damageRolls)[0]]
-                    .damageType;
+              if (
+                speaker.getFlag("pf2e-thaum-vuln", "effectSource") ===
+                targ.items
+                  .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
+                  .getFlag("pf2e-thaum-vuln", "EffectOrigin")
+              ) {
+                effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+              } else {
+                effValue = 0;
               }
 
               if (
-                damageType === "untyped" ||
-                damageType === undefined ||
-                damageType === null
+                message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
+                (message.flags?.pf2e?.context?.type === "saving-throw" &&
+                  message.flags?.pf2e?.origin?.type === "spell")
               ) {
                 damageType = "physical";
-                console.warn(
-                  "[PF2E Exploit Vulnerability] - Unable to determine damageType of " +
-                    strike.name +
-                    ". Defaulting to Physical."
-                );
+                effValue = 0;
+              } else {
+                const strike = message._strike.item.system;
+                if (strike.damage) {
+                  if (strike.traits.toggles.versatile.selection) {
+                    damageType = strike.traits.toggles.versatile.selection;
+                  } else if (strike.traits.toggles.modular.selection) {
+                    damageType = strike.traits.toggles.modular.selection;
+                  } else {
+                    damageType = strike.damage.damageType;
+                  }
+                } else if (message.item.system.damageRolls.length != 0) {
+                  damageType =
+                    message.item.system.damageRolls[
+                      Object.keys(message.item.system.damageRolls)[0]
+                    ].damageType;
+                }
+
+                if (
+                  damageType === "untyped" ||
+                  damageType === undefined ||
+                  damageType === null
+                ) {
+                  damageType = "physical";
+                  console.warn(
+                    "[PF2E Exploit Vulnerability] - Unable to determine damageType of " +
+                      strike.name +
+                      ". Defaulting to Physical."
+                  );
+                }
               }
+              console.log(targ.uuid, targEffect, effValue, damageType);
+              updateEVEffect(targ.uuid, targEffect, effValue, damageType);
             }
-            updateEVEffect(targ.uuid, targEffect, effValue, damageType);
           }
         }
         handleEsotericWarden(message);
