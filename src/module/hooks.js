@@ -6,7 +6,7 @@ import {
 
 import { updateEVEffect } from "./socket.js";
 
-import { getActorEVEffect } from "./utils/helpers.js";
+import { getActorEVEffect, targetEVPrimaryTarget } from "./utils/helpers.js";
 
 import { removeEWOption } from "./feats/esotericWarden.js";
 
@@ -37,67 +37,78 @@ Hooks.on(
             targ = await fromUuid(targ.actorUuid);
 
             if (
-              !targ.items.some((i) =>
+              targ.items.some((i) =>
                 i.getFlag("pf2e-thaum-vuln", "EffectOrigin")
               )
             ) {
-              return;
-            }
+              const effectOrigin = speaker.getFlag(
+                "pf2e-thaum-vuln",
+                "effectSource"
+              )
+                ? await fromUuid(
+                    speaker.getFlag("pf2e-thaum-vuln", "effectSource")
+                  )
+                : await fromUuid(
+                    targ.items
+                      .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
+                      .getFlag("pf2e-thaum-vuln", "EffectOrigin")
+                  );
 
-            const effectOrigin = speaker.getFlag(
-              "pf2e-thaum-vuln",
-              "effectSource"
-            )
-              ? await fromUuid(
-                  targ.items
-                    .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
-                    .getFlag("pf2e-thaum-vuln", "EffectOrigin")
-                )
-              : undefined;
+              const targEffect = getActorEVEffect(
+                targ.actor ?? targ,
+                effectOrigin?.uuid ?? speaker.uuid
+              ).map((i) => (i = i.uuid));
 
-            const targEffect = getActorEVEffect(
-              targ.actor ?? targ,
-              effectOrigin?.uuid ?? speaker.uuid
-            ).map((i) => (i = i.uuid));
-
-            if (effectOrigin?.name != speaker.name) {
-              effValue = 0;
-            } else {
-              effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
-            }
-
-            if (
-              message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
-              (message.flags?.pf2e?.context?.type === "saving-throw" &&
-                message.flags?.pf2e?.origin?.type === "spell")
-            ) {
-              damageType = "physical";
-              effValue = 0;
-            } else {
-              const strike = message.item.system;
-              if (strike.damage) {
-                damageType = strike.damage.damageType;
-              } else if (strike.damageRolls) {
-                damageType =
-                  strike.damageRolls[Object.keys(strike.damageRolls)[0]]
-                    .damageType;
+              if (
+                speaker.getFlag("pf2e-thaum-vuln", "effectSource") ===
+                targ.items
+                  .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
+                  .getFlag("pf2e-thaum-vuln", "EffectOrigin")
+              ) {
+                effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
+              } else {
+                effValue = 0;
               }
 
               if (
-                damageType === "untyped" ||
-                damageType === undefined ||
-                damageType === null
+                message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
+                (message.flags?.pf2e?.context?.type === "saving-throw" &&
+                  message.flags?.pf2e?.origin?.type === "spell")
               ) {
                 damageType = "physical";
-                console.warn(
-                  "[PF2E Exploit Vulnerability] - Unable to determine damageType of " +
-                    strike.name +
-                    ". Defaulting to Physical."
-                );
-              }
-            }
+                effValue = 0;
+              } else {
+                const strike = message._strike.item.system;
+                if (strike.damage) {
+                  if (strike.traits.toggles.versatile.selection) {
+                    damageType = strike.traits.toggles.versatile.selection;
+                  } else if (strike.traits.toggles.modular.selection) {
+                    damageType = strike.traits.toggles.modular.selection;
+                  } else {
+                    damageType = strike.damage.damageType;
+                  }
+                } else if (message.item.system.damageRolls.length != 0) {
+                  damageType =
+                    message.item.system.damageRolls[
+                      Object.keys(message.item.system.damageRolls)[0]
+                    ].damageType;
+                }
 
-            await updateEVEffect(targ.uuid, targEffect, effValue, damageType);
+                if (
+                  damageType === "untyped" ||
+                  damageType === undefined ||
+                  damageType === null
+                ) {
+                  damageType = "physical";
+                  console.warn(
+                    "[PF2E Exploit Vulnerability] - Unable to determine damageType of " +
+                      strike.name +
+                      ". Defaulting to Physical."
+                  );
+                }
+              }
+              updateEVEffect(targ.uuid, targEffect, effValue, damageType);
+            }
           }
         }
         handleEsotericWarden(message);
@@ -182,21 +193,23 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
 Hooks.on("deleteItem", async (item) => {
   const sa = item.parent;
   if (
-    (item.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
-      item.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
-      item.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) &&
-    item.parent === game.user.character
+    item.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
+    item.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
+    item.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID
   ) {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);
     await sa.unsetFlag("pf2e-thaum-vuln", "EVTargetID");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVMode");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVValue");
     await sa.unsetFlag("pf2e-thaum-vuln", "primaryEVTarget");
+    await sa.unsetFlag("pf2e-thaum-vuln", "effectSource");
   }
 });
 
 Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
   const a = _sheet.actor;
+
+  //implement management buttons
   if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
     a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
   if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
@@ -204,13 +217,13 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
       ".sheet-body .inventory-list.directory-list.inventory-pane"
     );
     const implementButtonRegion = $(
-      `<div class="implement-button-region" style="display:flex"></div>`
+      `<div class="implement-button-region actor.sheet" style="display:flex; margin-bottom:1em;"></div>`
     );
     const manageImplementButton = $(
-      `<button class="manage-implements-button">Manage Implements</button>`
+      `<button type="button" class="manage-implements-button">Manage Implements</button>`
     );
     const clearImplementButton = $(
-      `<button class="clear-implements-button">Clear All Implements</button>`
+      `<button type="button" class="clear-implements-button">Clear All Implements</button>`
     );
     inventoryList.append(
       `<div class="inventory-header">
@@ -231,6 +244,63 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
       clearImplements(event);
     });
   }
+
+  //EV Target Management
+  if (a.class.name === "Thaumaturge") {
+    const strikesList = html.find(".sheet-body .actions-options");
+    const EVTargetSection = $(
+      `<fieldset class="actor.sheet" style="display:flex;flex-direction:column;border:1px solid;border-radius:5px;padding:5px;"><legend>Exploit Vulnerability</legend></fieldset>`
+    );
+    const EVActive = $(`<label for="EVActive">EV Active: </label>`);
+    const EVActiveLabel = $(`<span style="flex-direction:row;"></span>`);
+    const EVModeLabel = $(`<label for="EVMode">EV Mode: </label>`);
+    const EVTargetBtn = $(
+      `<button type="button" class="target-primary-btn">Target EV Primary Target</button>`
+    );
+    if (a.getFlag("pf2e-thaum-vuln", "activeEV") === true) {
+      const EVMode = a.getFlag("pf2e-thaum-vuln", "EVMode");
+      let words;
+      if (EVMode) {
+        words = EVMode.split("-");
+        for (let i = 0; i < words.length; i++) {
+          words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+        }
+        EVModeLabel.append(words.join(" "));
+      }
+
+      $(EVTargetBtn).click({ actor: a }, function () {
+        targetEVPrimaryTarget(a);
+      });
+      EVActiveLabel.append(
+        EVActive,
+        $(`<span name="EVActive" style="color:#00c000;">Active</span>`)
+      );
+      EVTargetSection.append(EVActiveLabel);
+      EVTargetSection.append(EVModeLabel);
+      if (
+        canvas.scene.tokens.filter(
+          (token) =>
+            token.actor.uuid === a.getFlag("pf2e-thaum-vuln", "primaryEVTarget")
+        ).length != 0
+      ) {
+        EVTargetSection.append(EVTargetBtn);
+      } else {
+        EVTargetSection.append(
+          $(
+            `<span style="text-align:center;color:#ff4040;">EV Primary Target Not On Current Scene</span>`
+          )
+        );
+      }
+    } else {
+      EVActiveLabel.append(
+        EVActive,
+        $(`<span name="EVActive" style="color:#ff4040;">Inactive</span>`)
+      );
+      EVTargetSection.append(EVActiveLabel);
+    }
+
+    EVTargetSection.insertAfter(strikesList);
+  }
 });
 
 function showImplementsOnSheet(inventoryList, a) {
@@ -249,3 +319,12 @@ function showImplementsOnSheet(inventoryList, a) {
     }
   }
 }
+
+Hooks.on("canvasReady", () => {
+  if (
+    game.user.character?.class.name == "Thaumaturge" &&
+    game.user.character?.sheet._state == 2
+  ) {
+    game.user.character.sheet._render(true);
+  }
+});

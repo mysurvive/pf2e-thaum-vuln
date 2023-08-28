@@ -41,7 +41,7 @@ Success: The player will receive a dialog window that provides the highest weakn
 
 Failure: The Personal Antithesis effects will be added to the player and the target.
 
-Critical Failure: A flat-footed effect will be applied to the player that will drop off at the beginning of their next turn.
+Critical Failure: An off-guard effect will be applied to the player that will drop off at the beginning of their next turn.
 
 ![Apply Effect](src/assets/applyEffect.gif)
 

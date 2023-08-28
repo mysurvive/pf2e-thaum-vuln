@@ -19,7 +19,7 @@ async function createEsotericWarden(rollDOS, EWPredicate, sa, t) {
     await sa.createEmbeddedDocuments("Item", [EWEffect]);
 
     if (hasSharedWarding) {
-      sharedWardingDialog(EWEffect.uuid);
+      sharedWardingDialog(EWEffect);
     }
   }
 
