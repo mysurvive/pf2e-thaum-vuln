@@ -107,7 +107,6 @@ Hooks.on(
                   );
                 }
               }
-              console.log(targ.uuid, targEffect, effValue, damageType);
               updateEVEffect(targ.uuid, targEffect, effValue, damageType);
             }
           }
