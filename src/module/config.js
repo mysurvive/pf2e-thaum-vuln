@@ -18,6 +18,7 @@ Hooks.on("init", async () => {
   loadTemplates([
     "modules/pf2e-thaum-vuln/templates/implementPartial.hbs",
     "modules/pf2e-thaum-vuln/templates/implementSelectedPartial.hbs",
+    "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
   ]);
   Handlebars.registerHelper("element", (object, element, selection) => {
     if (object[element] === undefined) return undefined;
