@@ -1,6 +1,9 @@
 import {
+  AMULETS_ABEYANCE_EFFECT_UUID,
+  AMULETS_ABEYANCE_LINGERING_EFFECT_UUID,
   MORTAL_WEAKNESS_TARGET_SOURCEID,
   PERSONAL_ANTITHESIS_TARGET_SOURCEID,
+  PRIMARY_TARGET_EFFECT_UUID,
 } from "./utils/index.js";
 import { parseHTML } from "./utils/utils.js";
 
@@ -15,6 +18,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("sharedWarding", _socketSharedWarding);
   socket.register("ubiquitousWeakness", _socketUbiquitousWeakness);
   socket.register("createRKDialog", _createRKDialog);
+  socket.register("applyAbeyanceEffects", _socketApplyAbeyanceEffects);
 });
 
 export function createEffectOnTarget(a, effect, evTargets, iwrData) {
@@ -70,6 +74,10 @@ export function createRKDialog(sa, targ, skill) {
   );
 }
 
+export function applyAbeyanceEffects(a, abeyanceData) {
+  return socket.executeAsGM(_socketApplyAbeyanceEffects, a, abeyanceData);
+}
+
 async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
   const a = await fromUuid(aID);
 
@@ -94,6 +102,14 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
         effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID) &&
       a.getFlag("pf2e-thaum-vuln", "primaryEVTarget") === targ
     ) {
+      const primaryEVTargetEffect = (
+        await fromUuid(PRIMARY_TARGET_EFFECT_UUID)
+      ).toObject();
+      primaryEVTargetEffect.system.slug +=
+        "-" + game.pf2e.system.sluggify(a.name);
+      primaryEVTargetEffect.name += ": " + a.name;
+      primaryEVTargetEffect.flags["pf2e-thaum-vuln"] = { EffectOrigin: aID };
+
       let primaryEffect = Object.assign({}, effect);
       if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID) {
         primaryEffect.img =
@@ -103,7 +119,10 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
           "modules/pf2e-thaum-vuln/assets/personal-antithesis-primary.webp";
       }
 
-      await tg.createEmbeddedDocuments("Item", [primaryEffect]);
+      await tg.createEmbeddedDocuments("Item", [
+        primaryEffect,
+        primaryEVTargetEffect,
+      ]);
     } else {
       await tg.createEmbeddedDocuments("Item", [effect]);
     }
@@ -312,4 +331,48 @@ async function _createRKDialog(saUuid, targUuid, skill) {
     buttons: dgButtons,
     default: "roll",
   }).render(true);
+}
+
+async function _socketApplyAbeyanceEffects(a, abeyanceData) {
+  a = await fromUuid(a);
+  const amuletImplementData = a.flags[
+    "pf2e-thaum-vuln"
+  ].selectedImplements.find((i) => i.name === "Amulet");
+
+  for (const character in abeyanceData) {
+    const amuletsAbeyanceEffect = (
+      await fromUuid(AMULETS_ABEYANCE_EFFECT_UUID)
+    ).toObject();
+
+    const charToken = await fromUuid(abeyanceData[character].uuid);
+    amuletsAbeyanceEffect.name += " " + character;
+    amuletsAbeyanceEffect.slug += "-" + game.pf2e.system.sluggify(character);
+    amuletsAbeyanceEffect.system.rules.push({
+      key: "Resistance",
+      type: abeyanceData[character].abeyanceDamageType,
+      value: 2 + a.level,
+    });
+    await charToken.actor.createEmbeddedDocuments("Item", [
+      amuletsAbeyanceEffect,
+    ]);
+    if (amuletImplementData.adept === true) {
+      const lingeringResistanceValue = a.level < 15 ? 5 : 10;
+      const lingeringResistanceType =
+        abeyanceData[character].lingeringDamageType;
+      const abeyanceLingeringEffect = (
+        await fromUuid(AMULETS_ABEYANCE_LINGERING_EFFECT_UUID)
+      ).toObject();
+      abeyanceLingeringEffect.system.rules.push({
+        key: "Resistance",
+        type: lingeringResistanceType,
+        value: lingeringResistanceValue,
+      });
+      abeyanceLingeringEffect.flags["pf2e-thaum-vuln"] = {
+        effectSource: a.uuid,
+      };
+      await charToken.actor.createEmbeddedDocuments("Item", [
+        abeyanceLingeringEffect,
+      ]);
+    }
+  }
 }

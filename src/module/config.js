@@ -4,6 +4,7 @@ import { cursedEffigy } from "./feats/cursedEffigy.js";
 import { twinWeakness } from "./feats/twinWeakness.js";
 import { forceEVTarget } from "./utils/forceEV.js";
 import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
+import { amuletIntensify } from "./implements/implementBenefits/amulet.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
@@ -13,6 +14,7 @@ Hooks.on("init", async () => {
     twinWeakness,
     forceEVTarget,
     recallEsotericKnowledge,
+    amuletIntensify,
   };
 
   loadTemplates([

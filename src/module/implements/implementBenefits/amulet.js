@@ -1,4 +1,9 @@
 import { implementData } from "..";
+import { applyAbeyanceEffects } from "../../socket";
+import {
+  AMULETS_ABEYANCE_EFFECT_UUID,
+  INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
+} from "../../utils";
 
 async function amuletsAbeyance(a, allies, strikeDamageTypes) {
   const amuletImplementData = a
@@ -27,22 +32,36 @@ async function amuletsAbeyance(a, allies, strikeDamageTypes) {
         label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
         callback: async (dgEndContent) => {
           let abeyanceData = {};
+          const character = game.user.character;
+          const damageTypes = $(dgEndContent)
+            .find(".amulets-abeyance-dialog")
+            .attr("dmg")
+            .split(",");
           for (const btn of $(dgEndContent).find(".character-button")) {
             if ($(btn).attr("chosen")) {
               const chosenUuid = $(btn).attr("id");
-              for (const selector of $(dgEndContent).find("select")) {
-                if (selector.id === "damage-type-" + chosenUuid) {
-                  const charName = (await fromUuid(chosenUuid)).name;
-                  const damageType = $(selector)[0].value;
-                  abeyanceData[charName] = {
-                    uuid: chosenUuid,
-                    damageType: damageType,
-                  };
+              const charName = (await fromUuid(chosenUuid)).name;
+              abeyanceData[charName] = {
+                uuid: chosenUuid,
+                abeyanceDamageType: damageTypes,
+              };
+
+              if (
+                character
+                  .getFlag("pf2e-thaum-vuln", "selectedImplements")
+                  .find((i) => i.name === "Amulet").adept === true
+              ) {
+                for (const selector of $(dgEndContent).find("select")) {
+                  if (selector.id === "damage-type-" + chosenUuid) {
+                    const charName = (await fromUuid(chosenUuid)).name;
+                    const damageType = $(selector)[0].value;
+                    abeyanceData[charName].lingeringDamageType = damageType;
+                  }
                 }
               }
             }
           }
-          console.log(abeyanceData);
+          applyAbeyanceEffects(character.uuid, abeyanceData);
         },
       },
       cancel: {
@@ -57,38 +76,22 @@ async function amuletsAbeyance(a, allies, strikeDamageTypes) {
         if (
           character
             .getFlag("pf2e-thaum-vuln", "selectedImplements")
-            .find((i) => i.name === "Amulet").paragon
+            .find((i) => i.name === "Amulet").paragon === true
         ) {
           $(".character-button").css("background-color", "red");
-          $(".character-button").attr("chosen", "true");
+          $(".character-button").attr("chosen", true);
         }
         $(".character-button").bind("click", function (e) {
           $(e.target).siblings().removeAttr("chosen");
           $(".character-button").css("background-color", "rgba(0,0,0,0)");
           $(e.currentTarget).css("background-color", "red");
-          $(e.currentTarget).attr("chosen", "true");
-          console.log(
-            $(e.target).siblings().attr("chosen"),
-            $(e.target).attr("chosen")
-          );
-
-          let selectedAlly = e.target.attributes.id.value;
+          $(e.currentTarget).attr("chosen", true);
         });
       });
     },
     close: () => {},
   }).render(true, { width: canvas.dimensions.width / 6 });
 }
-
-function amuletAdept() {}
-
-function amuletParagon() {}
-
-function amuletIntensify() {}
-
-Hooks.on("renderChatMessage", async (message, html) => {
-  checkChatForAmulet(message, html);
-});
 
 async function checkChatForAmulet(message, html) {
   const a = canvas.tokens?.controlled[0] ?? undefined;
@@ -102,7 +105,7 @@ async function checkChatForAmulet(message, html) {
       .getFlag("pf2e-thaum-vuln", "selectedImplements")
       .find((i) => i.name === "Amulet");
     let targetedAlliesInRange = new Array();
-    if (amuletImplementData.paragon) {
+    if (amuletImplementData.paragon === true) {
       targetedAlliesInRange = canvas.tokens.placeables.filter(
         (token) =>
           token.actor?.alliance === "party" &&
@@ -143,9 +146,6 @@ async function checkChatForAmulet(message, html) {
       damageRolls = message.item.system.damage;
       strikeDamageTypes.push(damageRolls.damageType);
     }
-    //message.item.system.damageRolls.map((d) => d.damageType);
-
-    console.log(strikeDamageTypes);
 
     const amuletUuid = a.actor
       .getFlag("pf2e-thaum-vuln", "selectedImplements")
@@ -165,3 +165,83 @@ async function checkChatForAmulet(message, html) {
     }
   }
 }
+
+async function checkChatForAbeyanceEffect(message, html) {
+  if (!canvas.initialized) return;
+  const damageTakenCard = $(html).find(".damage-taken");
+  if (damageTakenCard.length <= 0) return;
+  if (game.user.isGM) {
+    const abeyanceTokens = canvas.tokens.placeables.filter((t) =>
+      t?.actor?.items.find((i) => i.slug === "effect-amulets-abeyance")
+    );
+    for (const token of abeyanceTokens) {
+      token.actor.items
+        .find((i) => i.slug === "effect-amulets-abeyance")
+        .delete();
+    }
+  }
+}
+
+async function removeLingeringEffect(combatant) {
+  if (combatant.actor?.class?.name === "Thaumaturge" && game.user.isGM) {
+    const lingeringEffectTokens = canvas.tokens.placeables.filter((t) =>
+      t.actor.items.find(
+        (i) =>
+          i.slug === "effect-amulets-abeyance-lingering-resistance" &&
+          i.getFlag("pf2e-thaum-vuln", "effectSource") === combatant.actor.uuid
+      )
+    );
+    for (const token of lingeringEffectTokens) {
+      token.actor.items
+        .find(
+          (i) =>
+            i.slug === "effect-amulets-abeyance-lingering-resistance" &&
+            i.getFlag("pf2e-thaum-vuln", "effectSource") ===
+              combatant.actor.uuid
+        )
+        .delete();
+    }
+  }
+}
+
+export async function amuletIntensify() {
+  const a = game.user?.character?.actor ?? canvas.tokens.controlled[0]?.actor;
+  if (
+    !a.items.some((i) => i.slug === "intensify-vulnerability") ||
+    !a
+      .getFlag("pf2e-thaum-vuln", "selectedImplements")
+      .some((i) => i.name === "Amulet")
+  )
+    return ui.notifications.warn(
+      "You do not have the ability to Intensify Vulnerability. Check your sheet to make sure you have Intensify Vulnerability and you have the Amulet implement chosen."
+    );
+
+  const amuletUuid = a
+    .getFlag("pf2e-thaum-vuln", "selectedImplements")
+    .find((i) => i.name === "Amulet").uuid;
+  const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
+  if (!amulet?.isHeld)
+    return ui.notifications.warn(
+      "You must be holding your Amulet to use Intensify Vulnerability"
+    );
+
+  const intensifyAmuletEffect = (
+    await fromUuid(INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID)
+  ).toObject();
+  intensifyAmuletEffect.system.rules[0].predicate = [
+    "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
+  ];
+  intensifyAmuletEffect.system.rules[1].predicate = [
+    "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
+  ];
+  a.createEmbeddedDocuments("Item", [intensifyAmuletEffect]);
+}
+
+Hooks.on("pf2e.startTurn", async (combatant) => {
+  removeLingeringEffect(combatant);
+});
+
+Hooks.on("renderChatMessage", async (message, html) => {
+  checkChatForAmulet(message, html);
+  checkChatForAbeyanceEffect(message, html);
+});

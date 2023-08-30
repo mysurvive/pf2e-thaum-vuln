@@ -78,7 +78,7 @@ Hooks.on(
                 damageType = "physical";
                 effValue = 0;
               } else {
-                const strike = message._strike.item.system;
+                const strike = message._strike?.item.system;
                 if (strike.damage) {
                   if (strike.traits.toggles.versatile.selection) {
                     damageType = strike.traits.toggles.versatile.selection;

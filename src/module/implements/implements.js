@@ -46,9 +46,9 @@ export async function manageImplements(event) {
     imps.push({
       counter: "First",
       name: imp.name,
-      adept: "false",
-      paragon: "false",
-      intensify: "false",
+      adept: false,
+      paragon: false,
+      intensify: false,
       uuid:
         a.getFlag("pf2e-thaum-vuln", "selectedImplements")[0]?.uuid ??
         undefined,
@@ -62,9 +62,9 @@ export async function manageImplements(event) {
     imps.push({
       counter: "Second",
       name: imp.name,
-      adept: "false",
-      paragon: "false",
-      intensify: "false",
+      adept: false,
+      paragon: false,
+      intensify: false,
       uuid:
         a.getFlag("pf2e-thaum-vuln", "selectedImplements")[1]?.uuid ??
         undefined,
@@ -78,9 +78,9 @@ export async function manageImplements(event) {
     imps.push({
       counter: "Third",
       name: imp.name,
-      adept: "false",
-      paragon: "false",
-      intensify: "false",
+      adept: false,
+      paragon: false,
+      intensify: false,
       uuid:
         a.getFlag("pf2e-thaum-vuln", "selectedImplements")[2]?.uuid ??
         undefined,
@@ -89,14 +89,14 @@ export async function manageImplements(event) {
 
   for (let imp of imps) {
     if (a.items.some((i) => i.slug === "intensify-vulnerability")) {
-      imp.intensify = "true";
+      imp.intensify = true;
     }
     if (a.items.some((i) => i.slug === "implement-adept")) {
       if (
         imp.name.toLowerCase() ===
         a.items.find((i) => i.slug === "implement-adept").rules[0].selection
       ) {
-        imp.adept = "true";
+        imp.adept = true;
       }
     }
     if (a.items.some((i) => i.slug === "second-adept")) {
@@ -104,7 +104,7 @@ export async function manageImplements(event) {
         imp.name.toLowerCase() ===
         a.items.find((i) => i.slug === "second-adept").rules[0].selection
       ) {
-        imp.adept = "true";
+        imp.adept = true;
       }
     }
     if (a.items.some((i) => i.slug === "implement-paragon")) {
@@ -112,7 +112,7 @@ export async function manageImplements(event) {
         imp.name.toLowerCase() ===
         a.items.find((i) => i.slug === "implement-paragon").rules[0].selection
       ) {
-        imp.paragon = "true";
+        imp.paragon = true;
       }
     }
   }
@@ -237,15 +237,15 @@ async function handleDrop(event) {
   $(implementFlavor).append(`<p>${implementDataMatch.flavor}</p>`);
   $(implementFlavor).append("<h3>Initiate Benefit</h3>");
   $(implementFlavor).append(`<p>${implementDataMatch.benefits.initiate}</p>`);
-  if ($(dropFieldText).attr("is-adept") === "true") {
+  if ($(dropFieldText).attr("is-adept") === true) {
     $(implementFlavor).append("<h3>Adept Benefit</h3>");
     $(implementFlavor).append(`<p>${implementDataMatch.benefits.adept}</p>`);
   }
-  if ($(dropFieldText).attr("is-paragon") === "true") {
+  if ($(dropFieldText).attr("is-paragon") === true) {
     $(implementFlavor).append("<h3>Paragon Benefit</h3>");
     $(implementFlavor).append(`<p>${implementDataMatch.benefits.paragon}</p>`);
   }
-  if ($(dropFieldText).attr("can-intensify") === "true") {
+  if ($(dropFieldText).attr("can-intensify") === true) {
     $(implementFlavor).append("<h3>Intensify Vulnerability</h3>");
     $(implementFlavor).append(`<p>${implementDataMatch.intensify}</p>`);
   }
@@ -282,19 +282,19 @@ function getImplementFlavor(imps) {
         initiate: implementDataMatch.benefits.initiate,
       },
     };
-    if (imp.adept === "true") {
+    if (imp.adept === true) {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
         adept: implementDataMatch.benefits.adept,
       };
     }
-    if (imp.paragon === "true") {
+    if (imp.paragon === true) {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
         paragon: implementDataMatch.benefits.paragon,
       };
     }
-    if (imp.intensify === "true") {
+    if (imp.intensify === true) {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
         intensify: implementDataMatch.intensify,

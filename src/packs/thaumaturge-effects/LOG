@@ -1,3 +1,17 @@
-2023/08/04-08:37:27.067 c90 Recovering log #45
-2023/08/04-08:37:27.071 c90 Delete type=0 #45
-2023/08/04-08:37:27.072 c90 Delete type=3 #44
+2023/08/29-11:56:20.200 88bc Recovering log #107
+2023/08/29-11:56:20.200 88bc Level-0 table #109: started
+2023/08/29-11:56:20.202 88bc Level-0 table #109: 1139 bytes OK
+2023/08/29-11:56:20.202 88bc Recovering log #110
+2023/08/29-11:56:20.206 88bc Delete type=0 #107
+2023/08/29-11:56:20.206 88bc Delete type=0 #110
+2023/08/29-11:56:20.207 88bc Delete type=2 #111
+2023/08/29-11:56:20.207 88bc Delete type=3 #105
+2023/08/29-11:56:20.207 88cc Compacting 4@0 + 1@1 files
+2023/08/29-11:56:20.215 88cc Generated table #112@0: 15 keys, 7261 bytes
+2023/08/29-11:56:20.216 88cc Compacted 4@0 + 1@1 files => 7261 bytes
+2023/08/29-11:56:20.217 88cc compacted to: files[ 0 1 0 0 0 0 0 ]
+2023/08/29-11:56:20.217 88cc Delete type=2 #9
+2023/08/29-11:56:20.218 88cc Delete type=2 #49
+2023/08/29-11:56:20.218 88cc Delete type=2 #100
+2023/08/29-11:56:20.218 88cc Delete type=2 #106
+2023/08/29-11:56:20.218 88cc Delete type=2 #109
