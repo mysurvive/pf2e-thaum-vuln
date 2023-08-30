@@ -1,9 +1,6 @@
 import { implementData } from "..";
 import { applyAbeyanceEffects } from "../../socket";
-import {
-  AMULETS_ABEYANCE_EFFECT_UUID,
-  INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
-} from "../../utils";
+import { INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID } from "../../utils";
 
 async function amuletsAbeyance(a, allies, strikeDamageTypes) {
   const amuletImplementData = a
