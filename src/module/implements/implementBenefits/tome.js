@@ -200,7 +200,7 @@ async function fixAddProficiencyForLore(item) {
     ? [4]
     : a.rollOptions.all["adept:tome"] && a.level >= 9
     ? [3]
-    : a.rollOptions.all["adept:tome:"]
+    : a.rollOptions.all["adept:tome"]
     ? [2, 3]
     : a.level >= 5
     ? [2]
