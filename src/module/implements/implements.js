@@ -8,7 +8,7 @@ import {
 import { parseHTML } from "../utils/utils.js";
 
 export async function manageImplements(event) {
-  const a = event.data.actor;
+  const a = event?.data.actor ?? event;
   if (checkFeatValidity(a) === false) {
     return ui.notifications.error(
       "There was an error managing implements. Press f12 to check the console for details."

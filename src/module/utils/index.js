@@ -37,6 +37,8 @@ const AMULETS_ABEYANCE_LINGERING_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.zo2vRmRcEWLNwPIN";
 const INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.icPIf1hOBOVmWtL1";
+const TOME_IMPLEMENT_BENEFIT_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lDKArhqx0hBtwVRQ";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -79,4 +81,5 @@ export {
   AMULETS_ABEYANCE_EFFECT_UUID,
   AMULETS_ABEYANCE_LINGERING_EFFECT_UUID,
   INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
+  TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
 };
