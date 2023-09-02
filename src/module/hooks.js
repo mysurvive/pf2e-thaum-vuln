@@ -206,7 +206,7 @@ Hooks.on("deleteItem", async (item) => {
   }
 });
 
-Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character, _d) => {
+Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
   const a = _sheet.actor;
   if (a.class?.name === "Thaumaturge" && character.owner) {
     //implement management buttons
