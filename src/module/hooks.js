@@ -206,9 +206,9 @@ Hooks.on("deleteItem", async (item) => {
   }
 });
 
-Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
+Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character, _d) => {
   const a = _sheet.actor;
-  if (a.class.name === "Thaumaturge") {
+  if (a.class?.name === "Thaumaturge" && character.owner) {
     //implement management buttons
     if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
       a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
