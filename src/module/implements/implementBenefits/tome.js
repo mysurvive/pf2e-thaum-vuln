@@ -1,4 +1,7 @@
-import { TOME_IMPLEMENT_BENEFIT_EFFECT_UUID } from "../../utils";
+import {
+  INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID,
+  TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
+} from "../../utils";
 import { manageImplements } from "../implements";
 
 Hooks.on("pf2e.restForTheNight", (actor) => {
@@ -54,7 +57,7 @@ async function createTomeDialog(actor) {
   }
 }
 
-async function constructEffect(actor, tome) {
+async function constructEffect(actor) {
   const effect = (
     await fromUuid(TOME_IMPLEMENT_BENEFIT_EFFECT_UUID)
   ).toObject();
@@ -179,17 +182,30 @@ async function constructEffect(actor, tome) {
   actor.createEmbeddedDocuments("Item", [effect]);
 }
 
-Hooks.on("createItem", (item) => {
-  fixAddProficiencyForLore(item);
+Hooks.on("createItem", (item, _b, userID) => {
+  if (game.user.id === userID && item.slug === "effect-tome-implement") {
+    fixAddProficiencyForLore(item);
+  }
 });
 
-Hooks.on("deleteItem", (item) => {
-  fixDeleteProficiencyForLore(item);
+Hooks.on("deleteItem", (item, _b, userID) => {
+  if (game.user.id === userID && item.slug === "effect-tome-implement") {
+    fixDeleteProficiencyForLore(item);
+  }
+});
+
+Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
+  if (
+    game.user.id === userID &&
+    imps.find((i) => i.name === "Tome")?.uuid &&
+    impDelta.find((i) => i.name === "Tome")?.changed
+  ) {
+    constructEffect(a);
+    createEffectOnImplement(imps, a);
+  }
 });
 
 async function fixAddProficiencyForLore(item) {
-  if (!item.slug === "effect-tome-implement") return;
-
   const a = item.parent;
   const selections = [
     item.rules[0].selection ? item.rules[0].selection.split(".")[2] : undefined,
@@ -257,4 +273,117 @@ async function fixDeleteProficiencyForLore(item) {
       });
     }
   }
+}
+
+async function createEffectOnImplement(imps, a) {
+  const tome = await fromUuid(imps.find((i) => i.name === "Tome").uuid);
+  const oldTome = a.items.find((i) =>
+    i.system.rules.find((r) => r.label === "Tome Implement Recall Knowledge")
+  );
+
+  deleteOldTomeEffect(oldTome);
+
+  const tomeRules = tome.system.rules;
+  tomeRules.push(
+    {
+      key: "FlatModifier",
+      selector: "skill-check",
+      value: 1,
+      type: "circumstance",
+      label: "Tome Implement Recall Knowledge",
+      predicate: ["thaumaturge:recall-knowledge"],
+      hideIfDisabled: true,
+    },
+    {
+      key: "FlatModifier",
+      selector: "skill-check",
+      value: 2,
+      type: "circumstance",
+      label: "Tome Implement Paragon Recall Knowledge",
+      predicate: ["thaumaturge:recall-knowledge", "paragon:tome"],
+      hideIfDisabled: true,
+    },
+    {
+      key: "FlatModifier",
+      selector: "attack-roll",
+      value: 1,
+      type: "circumstance",
+      label: "Tome Implement Adept RK Success",
+      predicate: ["thaumaturge:tome:rk:success", "adept:tome"],
+      hideIfDisabled: true,
+    },
+    {
+      key: "RollOption",
+      domain: "attack-roll",
+      label: "Tome Implement Adept Benefit RK Success",
+      option: "thaumaturge:tome:rk:success",
+      toggleable: true,
+      predicate: ["adept:tome"],
+    },
+    {
+      key: "FlatModifier",
+      selector: "initiative",
+      value: 3,
+      predicate: [
+        {
+          or: ["lore-esoteric", "esoteric-lore", "esoteric"],
+        },
+      ],
+      type: "circumstance",
+      label: "Tome Paragon Esoteric Lore Initiative",
+      hideIfDisabled: true,
+    }
+  );
+  tome.update({ _id: tome._id, "system.rules": tomeRules });
+}
+
+async function deleteOldTomeEffect(oldTome) {
+  if (!oldTome) return;
+
+  const oldTomeObj = oldTome.toObject();
+
+  for (const r in oldTomeObj.system.rules) {
+    if (
+      oldTomeObj.system.rules[r].label === "Tome Implement Recall Knowledge" ||
+      oldTomeObj.system.rules[r].label ===
+        "Tome Implement Paragon Recall Knowledge" ||
+      oldTomeObj.system.rules[r].label === "Tome Implement Adept RK Success" ||
+      oldTomeObj.system.rules[r].label ===
+        "Tome Implement Adept Benefit RK Success" ||
+      oldTomeObj.system.rules[r].label ===
+        "Tome Paragon Esoteric Lore Initiative"
+    ) {
+      delete oldTomeObj.system.rules[r];
+    }
+  }
+
+  const rules = oldTomeObj.system.rules.filter((r) => {
+    return r !== undefined;
+  });
+
+  await oldTome.update({
+    _id: oldTome._id,
+    "system.rules": rules,
+  });
+}
+
+export async function tomeIntensify() {
+  if (game.user?.character?.class.name != "Thaumaturge" && !game.user.isGM)
+    return;
+
+  const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
+
+  const tomeIntensifyEffect = (
+    await fromUuid(INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID)
+  ).toObject();
+
+  const flatRoll = await new Roll("1d20").roll({ async: true });
+  flatRoll.toMessage({
+    flavor:
+      "<strong>Intensify Vulnerability: Tome.</strong><br>Your tome's power not only reads a creature's present but even records its future actions. When you use Intensify Vulnerability, roll a d20 and set the result aside. At any time until the start of your next turn, you can use the d20 result you set aside for an attack roll to Strike the target of your Exploit Vulnerability, instead of rolling a new d20; this is a fortune effect.",
+  });
+
+  tomeIntensifyEffect.flags["pf2e-thaum-vuln"].tomeRollValue = flatRoll.result;
+
+  await a.createEmbeddedDocuments("Item", [tomeIntensifyEffect]);
 }

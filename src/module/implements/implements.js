@@ -1,10 +1,5 @@
 import { implementData } from ".";
-import {
-  createImpEffect,
-  deleteImpEffect,
-  checkImplements,
-  checkFeatValidity,
-} from "./helpers";
+import { checkImplements, checkFeatValidity } from "./helpers";
 import { parseHTML } from "../utils/utils.js";
 
 export async function manageImplements(event) {
@@ -125,57 +120,72 @@ export async function manageImplements(event) {
     impFlavor: impFlavor,
     selectedImplements: passSelectedImplements,
   };
-  const dg = await new Dialog({
-    title: "Manage Implemenets",
-    content: parseHTML(
-      await renderTemplate(
-        "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
-        passImps
-      )
-    ),
-    buttons: {
-      complete: {
-        label: "Confirm Changes",
-        callback: async (dgEndContent) => {
-          implementUuids = confirmImplements(dgEndContent);
-          if (a.getFlag("pf2e-thaum-vuln", "selectedImplements")) {
-            await deleteImpEffect(
-              a.getFlag("pf2e-thaum-vuln", "selectedImplements")
+
+  const dg = new Dialog(
+    {
+      title: "Manage Implemenets",
+      content: parseHTML(
+        await renderTemplate(
+          "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
+          passImps
+        )
+      ),
+      buttons: {
+        complete: {
+          label: "Confirm Changes",
+          callback: (dgEndContent) => {
+            const origin = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
+
+            implementUuids = confirmImplements(dgEndContent);
+
+            for (const key of imps.keys()) {
+              imps[key].uuid = implementUuids[key];
+            }
+
+            const impDelta = [];
+            for (const i of origin.keys()) {
+              const changed =
+                origin[i]?.uuid != implementUuids[i] ? true : false;
+              impDelta.push({ name: origin[i].name, changed: changed });
+            }
+
+            a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
+
+            //refreshes the sheet so the implement items appear
+            a.sheet._render(true);
+            Hooks.callAll(
+              "createImplementEffects",
+              game.user.id,
+              a,
+              impDelta,
+              imps
             );
-          }
-          for (const key of imps.keys()) {
-            imps[key].uuid = implementUuids[key];
-          }
-          await createImpEffect(imps);
-          a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
-
-          //refreshes the sheet so the implement items appear
-          a.sheet._render(true);
+          },
+        },
+        cancel: {
+          label: "Cancel Changes",
+          callback: () => {
+            return;
+          },
         },
       },
-      cancel: {
-        label: "Cancel Changes",
-        callback: () => {
-          return;
-        },
+      default: "complete",
+      render: () => {
+        const dd = new DragDrop({
+          dragSelector: ".item",
+          dropSelector: ".dropbox, .item-content-wrapper",
+          callbacks: { drop: handleDrop },
+        });
+        dd.bind(document.getElementById(`First`));
+        if (document.getElementById(`Second`))
+          dd.bind(document.getElementById(`Second`));
+        if (document.getElementById(`Third`))
+          dd.bind(document.getElementById(`Third`));
       },
+      close: () => {},
     },
-    default: "complete",
-    render: () => {
-      const dd = new DragDrop({
-        dragSelector: ".item",
-        dropSelector: ".dropbox, .item-content-wrapper",
-        callbacks: { drop: handleDrop },
-      });
-      dd.bind(document.getElementById(`First`));
-      if (document.getElementById(`Second`))
-        dd.bind(document.getElementById(`Second`));
-      if (document.getElementById(`Third`))
-        dd.bind(document.getElementById(`Third`));
-    },
-    close: () => {},
-  });
-
+    a
+  );
   dg.render(true, { width: "auto" });
 }
 
