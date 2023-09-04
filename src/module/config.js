@@ -79,4 +79,28 @@ Hooks.on("init", async () => {
       !value;
     },
   });
+
+  game.settings.register("pf2e-thaum-vuln", "dailiesHandlesTome", {
+    name: "PF2e Dailies Handles Tome",
+    hint: "Allow PF2e Dailies to handle daily Tome implement skill choices. (https://github.com/reonZ/pf2e-dailies)",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet", {
+    name: "PF2e Reaction Checker Handles Amulet",
+    hint: "Allow PF2e Reaction Checker to handle Amulet's Abeyance. (https://github.com/reyzor1991/foundry-vtt-pf2e-reaction/)",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      !value;
+    },
+  });
 });

@@ -94,7 +94,8 @@ async function checkChatForAmulet(message, html) {
   const a = canvas.tokens?.controlled[0] ?? undefined;
   if (
     a?.actor?.class?.name === "Thaumaturge" &&
-    a?.actor?.items.some((i) => i.name === "Amulet" && i.type === "feat")
+    a?.actor?.items.some((i) => i.name === "Amulet" && i.type === "feat") &&
+    !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
   ) {
     const effectRange = 15;
     const targets = message.flags["pf2e-thaum-vuln"].targets;
@@ -164,7 +165,11 @@ async function checkChatForAmulet(message, html) {
 }
 
 async function checkChatForAbeyanceEffect(message, html) {
-  if (!canvas.initialized) return;
+  if (
+    !canvas.initialized ||
+    game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
+  )
+    return;
   const damageTakenCard = $(html).find(".damage-taken");
   if (damageTakenCard.length <= 0) return;
   if (game.user.isGM) {
@@ -180,7 +185,11 @@ async function checkChatForAbeyanceEffect(message, html) {
 }
 
 async function removeLingeringEffect(combatant) {
-  if (combatant.actor?.class?.name === "Thaumaturge" && game.user.isGM) {
+  if (
+    combatant.actor?.class?.name === "Thaumaturge" &&
+    game.user.isGM &&
+    !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
+  ) {
     const lingeringEffectTokens = canvas.tokens.placeables.filter((t) =>
       t.actor.items.find(
         (i) =>

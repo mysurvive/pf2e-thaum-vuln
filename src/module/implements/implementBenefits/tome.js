@@ -4,10 +4,6 @@ import {
 } from "../../utils";
 import { manageImplements } from "../implements";
 
-Hooks.on("pf2e.restForTheNight", (actor) => {
-  createTomeDialog(actor);
-});
-
 async function createTomeDialog(actor) {
   if (
     actor?.class.name === "Thaumaturge" &&
@@ -181,29 +177,6 @@ async function constructEffect(actor) {
 
   actor.createEmbeddedDocuments("Item", [effect]);
 }
-
-Hooks.on("createItem", (item, _b, userID) => {
-  if (game.user.id === userID && item.slug === "effect-tome-implement") {
-    fixAddProficiencyForLore(item);
-  }
-});
-
-Hooks.on("deleteItem", (item, _b, userID) => {
-  if (game.user.id === userID && item.slug === "effect-tome-implement") {
-    fixDeleteProficiencyForLore(item);
-  }
-});
-
-Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  if (
-    game.user.id === userID &&
-    imps.find((i) => i.name === "Tome")?.uuid &&
-    impDelta.find((i) => i.name === "Tome")?.changed
-  ) {
-    constructEffect(a);
-    createEffectOnImplement(imps, a);
-  }
-});
 
 async function fixAddProficiencyForLore(item) {
   const a = item.parent;
@@ -387,3 +360,40 @@ export async function tomeIntensify() {
 
   await a.createEmbeddedDocuments("Item", [tomeIntensifyEffect]);
 }
+
+Hooks.on("pf2e.restForTheNight", (actor) => {
+  if (!game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome"))
+    createTomeDialog(actor);
+});
+
+Hooks.on("createItem", (item, _b, userID) => {
+  if (
+    game.user.id === userID &&
+    item.slug === "effect-tome-implement" &&
+    !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
+  ) {
+    fixAddProficiencyForLore(item);
+  }
+});
+
+Hooks.on("deleteItem", (item, _b, userID) => {
+  if (
+    game.user.id === userID &&
+    item.slug === "effect-tome-implement" &&
+    !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
+  ) {
+    fixDeleteProficiencyForLore(item);
+  }
+});
+
+Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
+  if (
+    game.user.id === userID &&
+    imps.find((i) => i.name === "Tome")?.uuid &&
+    impDelta.find((i) => i.name === "Tome")?.changed &&
+    !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
+  ) {
+    constructEffect(a);
+    createEffectOnImplement(imps, a);
+  }
+});
