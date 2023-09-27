@@ -4,6 +4,8 @@ import { cursedEffigy } from "./feats/cursedEffigy.js";
 import { twinWeakness } from "./feats/twinWeakness.js";
 import { forceEVTarget } from "./utils/forceEV.js";
 import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
+import { amuletIntensify } from "./implements/implementBenefits/amulet.js";
+import { tomeIntensify } from "./implements/implementBenefits/tome.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
@@ -13,11 +15,14 @@ Hooks.on("init", async () => {
     twinWeakness,
     forceEVTarget,
     recallEsotericKnowledge,
+    amuletIntensify,
+    tomeIntensify,
   };
 
   loadTemplates([
     "modules/pf2e-thaum-vuln/templates/implementPartial.hbs",
     "modules/pf2e-thaum-vuln/templates/implementSelectedPartial.hbs",
+    "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
   ]);
   Handlebars.registerHelper("element", (object, element, selection) => {
     if (object[element] === undefined) return undefined;
@@ -70,6 +75,30 @@ Hooks.on("init", async () => {
     config: true,
     type: Boolean,
     default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "dailiesHandlesTome", {
+    name: "PF2e Dailies Handles Tome",
+    hint: "Allow PF2e Dailies to handle daily Tome implement skill choices. (https://github.com/reonZ/pf2e-dailies)",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet", {
+    name: "PF2e Reaction Checker Handles Amulet",
+    hint: "Allow PF2e Reaction Checker to handle Amulet's Abeyance. (https://github.com/reyzor1991/foundry-vtt-pf2e-reaction/)",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
     onChange: (value) => {
       !value;
     },

@@ -78,7 +78,7 @@ Hooks.on(
                 damageType = "physical";
                 effValue = 0;
               } else {
-                const strike = message._strike.item.system;
+                const strike = message._strike?.item.system;
                 if (strike.damage) {
                   if (strike.traits.toggles.versatile.selection) {
                     damageType = strike.traits.toggles.versatile.selection;
@@ -206,47 +206,47 @@ Hooks.on("deleteItem", async (item) => {
   }
 });
 
-Hooks.on("renderCharacterSheetPF2e", async (_sheet, html) => {
+Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
   const a = _sheet.actor;
-
-  //implement management buttons
-  if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
-    a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
-  if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
-    const inventoryList = html.find(
-      ".sheet-body .inventory-list.directory-list.inventory-pane"
-    );
-    const implementButtonRegion = $(
-      `<div class="implement-button-region actor.sheet" style="display:flex; margin-bottom:1em;"></div>`
-    );
-    const manageImplementButton = $(
-      `<button type="button" class="manage-implements-button">Manage Implements</button>`
-    );
-    const clearImplementButton = $(
-      `<button type="button" class="clear-implements-button">Clear All Implements</button>`
-    );
-    inventoryList.append(
-      `<div class="inventory-header">
+  if (a.class?.name === "Thaumaturge" && character.owner) {
+    //implement management buttons
+    if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
+      a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
+    if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
+      const inventoryList = html.find(
+        ".sheet-body .inventory-list.directory-list.inventory-pane"
+      );
+      const implementButtonRegion = $(
+        `<div class="implement-button-region actor.sheet" style="display:flex; margin-bottom:1em;"></div>`
+      );
+      const manageImplementButton = $(
+        `<button type="button" class="manage-implements-button">Manage Implements</button>`
+      );
+      const clearImplementButton = $(
+        `<button type="button" class="clear-implements-button">Clear All Implements</button>`
+      );
+      inventoryList.append(
+        `<div class="inventory-header">
     <h3 class="item-name">Thaumaturge Implements</h3></div>
     
     `
-    );
+      );
 
-    showImplementsOnSheet(inventoryList, a);
+      showImplementsOnSheet(inventoryList, a);
 
-    implementButtonRegion.append(manageImplementButton);
-    implementButtonRegion.append(clearImplementButton);
-    inventoryList.append(implementButtonRegion);
-    $(manageImplementButton).click({ actor: a }, function (event) {
-      manageImplements(event);
-    });
-    $(clearImplementButton).click({ actor: a }, function (event) {
-      clearImplements(event);
-    });
-  }
+      implementButtonRegion.append(manageImplementButton);
+      implementButtonRegion.append(clearImplementButton);
+      inventoryList.append(implementButtonRegion);
+      $(manageImplementButton).click({ actor: a }, function (event) {
+        manageImplements(event);
+      });
+      $(clearImplementButton).click({ actor: a }, function (event) {
+        clearImplements(event);
+      });
+    }
 
-  //EV Target Management
-  if (a.class.name === "Thaumaturge") {
+    //EV Target Management
+
     const strikesList = html.find(".sheet-body .actions-options");
     const EVTargetSection = $(
       `<fieldset class="actor.sheet" style="display:flex;flex-direction:column;border:1px solid;border-radius:5px;padding:5px;"><legend>Exploit Vulnerability</legend></fieldset>`

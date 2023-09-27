@@ -1,0 +1,69 @@
+<style type="text/css">
+  .amulets-abeyance-btn-row{padding:0.5rem; display:flex; flex-wrap:wrap;
+  justify-content: space-around;} .damage-type-row{display:flex;
+  justify-content:center; align-items:center; padding-bottom:0.5rem;}
+</style>
+<div class="amulets-abeyance-dialog" dmg="{{damageTypes}}">
+  <div class="amulets-abeyance-flavor">
+    <h3>Amulet's Abeyance &#40;Abeyance Resistance Value:
+      {{abeyanceResistanceValue}}
+      to
+      {{#each damageTypes}}&#91;{{this}}&#93;{{/each}}&#41;</h3>
+    <p>You forcefully present your amulet to turn away harm. You or a target
+      ally within 15 feet gain resistance to all damage against the triggering
+      damage. The resistance is equal to 2 + your level.</p>
+    {{#if amuletRank.adept}}
+      <h3>Adept Benefit &#40;Lingering Resistance Value:
+        {{adeptResistanceValue}}&#41;</h3>
+      <p>{{amuletBenefits.adept}}</p>
+    {{/if}}
+    {{#if amuletRank.paragon}}
+      <h3>Paragon Benefit</h3>
+      <p>{{amuletBenefits.paragon}}</p>
+    {{/if}}
+  </div>
+  <div class="amulets-abeyance-btn-row">
+    {{#each allies}}
+      <div class="ally-entry">
+        <button
+          type="button"
+          class="character-button"
+          style="background: url({{document.texture.src}});background-size:contain; width:10rem; height:10rem;"
+          id="{{document.uuid}}"
+        ></button>
+        <p style="text-align: center">{{name}}</p>
+      </div>
+    {{/each}}
+  </div>
+  {{#if amuletRank.paragon}}
+    <div class="damage-type-row" style="flex-direction:column">
+      {{#each allies}}
+        <div class="damage-selection" style="margin-bottom:0.2rem">
+          <label for="damage-type-{{document.uuid}}">Select a damage type to
+            apply a lingering resistance for
+            {{name}}:
+          </label>
+          <select
+            name="damage-type-{{document.uuid}}"
+            id="damage-type-{{document.uuid}}"
+          >
+            {{#each @root.damageTypes}}
+              <option value="{{this}}">{{this}}</option>
+            {{/each}}
+          </select>
+        </div>
+      {{/each}}
+    </div>
+  {{else if amuletRank.adept}}
+    <div class="damage-type-row">
+      <label for="damage-type-{{document.uuid}}">Select a damage type apply a
+        lingering resistance:&#32;
+      </label>
+      <select name="damage-type-{{document.uuid}}" id="{{document.uuid}}">
+        {{#each @root.damageTypes}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+  {{/if}}
+</div>

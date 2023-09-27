@@ -29,6 +29,18 @@ const ESOTERIC_WARDEN_EFFECT_SOURCEID = "Item.uKh4kjbl4arTnzC4";
 const CURSED_EFFIGY_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.s0NI9gKZygLUunOg";
 const CURSED_EFFIGY_SOURCEID = "Item.XDXJA884X2AYJ0RO";
+const PRIMARY_TARGET_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.E0X9AYLqXSaiO9A3";
+const AMULETS_ABEYANCE_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.FWdzwEJBJjq18Zep";
+const AMULETS_ABEYANCE_LINGERING_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.zo2vRmRcEWLNwPIN";
+const INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.icPIf1hOBOVmWtL1";
+const TOME_IMPLEMENT_BENEFIT_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lDKArhqx0hBtwVRQ";
+const INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.d0gHXzfsHj6OpV54";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -67,4 +79,10 @@ export {
   CURSED_EFFIGY_SOURCEID,
   CURSED_EFFIGY_UUID,
   TargetEffectSourceIDs,
+  PRIMARY_TARGET_EFFECT_UUID,
+  AMULETS_ABEYANCE_EFFECT_UUID,
+  AMULETS_ABEYANCE_LINGERING_EFFECT_UUID,
+  INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
+  TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
+  INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID,
 };

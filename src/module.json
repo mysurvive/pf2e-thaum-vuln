@@ -2,7 +2,7 @@
   "id": "pf2e-thaum-vuln",
   "title": "PF2e Exploit Vulnerability",
   "description": "Improvement for Thaumaturge Exploit Vulnerability",
-  "version": "0.10.0",
+  "version": "0.0.0",
   "authors": [
     {
       "name": "MySurvive",
@@ -19,8 +19,8 @@
         "id": "pf2e",
         "type": "system",
         "compatibility": {
-          "minimum": "5.0.0",
-          "verified": "5.0.0"
+          "minimum": "5.4.0",
+          "verified": "5.4.2"
         }
       }
     ],
@@ -68,9 +68,7 @@
   "url": "https://github.com/mysurvive/pf2e-thaum-vuln",
   "manifest": "https://github.com/mysurvive/pf2e-thaum-vuln/releases/latest/download/module.json",
   "download": "https://github.com/mysurvive/pf2e-thaum-vuln/archive/main.zip",
-  "esmodules": [
-    "module/pf2e-thaum-vuln.js"
-  ],
+  "esmodules": ["module/pf2e-thaum-vuln.js"],
   "media": [
     {
       "type": "setup",
@@ -101,10 +99,7 @@
     {
       "name": "PF2e Exploit Vulnerability",
       "sorting": "m",
-      "packs": [
-        "mysurvives-thaumaturge-macros",
-        "thaumaturge-effects"
-      ]
+      "packs": ["mysurvives-thaumaturge-macros", "thaumaturge-effects"]
     }
   ]
 }
