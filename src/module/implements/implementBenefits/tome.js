@@ -264,7 +264,7 @@ async function createEffectOnImplement(imps, a) {
       value: 1,
       type: "circumstance",
       label: "Tome Implement Recall Knowledge",
-      predicate: ["thaumaturge:recall-knowledge"],
+      predicate: ["action:recall-knowledge"],
       hideIfDisabled: true,
     },
     {
@@ -273,7 +273,7 @@ async function createEffectOnImplement(imps, a) {
       value: 2,
       type: "circumstance",
       label: "Tome Implement Paragon Recall Knowledge",
-      predicate: ["thaumaturge:recall-knowledge", "paragon:tome"],
+      predicate: ["action:recall-knowledge", "paragon:tome"],
       hideIfDisabled: true,
     },
     {
