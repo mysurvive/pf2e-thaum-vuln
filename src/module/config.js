@@ -29,6 +29,27 @@ Hooks.on("init", async () => {
     if (object[element][selection] === undefined) return undefined;
     return new Handlebars.SafeString(object[element][selection]);
   });
+  Handlebars.registerHelper("ifCond", function (v1, v2, options) {
+    if (v1 === v2) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
+  Handlebars.registerHelper("ifNCond", function (v1, v2, options) {
+    if (v1 !== v2) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
+  Handlebars.registerHelper("removeFromArray", function (v1, v2, options) {
+    if (v1.includes(v2)) {
+      const newArray = v1.splice(v1.indexOf(v2), 1);
+      if (v1.length > 0) return options.fn(newArray);
+      else return options.inverse(newArray);
+    }
+    if (v1.length > 0) return options.fn(this);
+    else return options.inverse(this);
+  });
 
   //game settings
   game.settings.register("pf2e-thaum-vuln", "useEVAutomation", {

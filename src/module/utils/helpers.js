@@ -93,6 +93,13 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
     evMode = bDData.evMode;
     effPredicate = bDData.effPredicate;
     effRuleSlug = bDData.effRuleSlug;
+    console.log(bDData);
+    eff.system.rules[0] = {
+      ...eff.system.rules[0],
+      property: bDData.exception.property,
+      value: bDData.exception.exception,
+    };
+    console.log(eff);
   }
 
   if (hasEsotericWarden && rollDOS > 1) {
