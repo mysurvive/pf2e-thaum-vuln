@@ -138,7 +138,7 @@ async function _socketUpdateEVEffect(targ, effect, value, damageType) {
   for (let eff of effect) {
     eff = await fromUuid(eff);
     if (
-      eff.slug !== "breached-defenses-target" &&
+      !eff.slug.startsWith("breached-defenses-target") &&
       !eff.slug.startsWith("effect-primary-ev-target-")
     ) {
       const updates = {
@@ -150,7 +150,7 @@ async function _socketUpdateEVEffect(targ, effect, value, damageType) {
               type: game.pf2e.system.sluggify(damageType),
               value: value,
               predicate: [],
-              slug: eff.system.rules[0].slug,
+              slug: eff.system.rules[0]?.slug ?? null,
             },
           ],
         },
@@ -294,7 +294,7 @@ async function _createRKDialog(saUuid, targUuid, skill) {
         let rollData = {
           actor: sa,
           type: "skill-check",
-          options: rollOptions,
+          options: [...rollOptions, "action:recall-knowledge"],
           notes,
           dc: { value: parseInt(rollDC) + parseInt(rollELModifier) },
           traits: traits.map((t) => ({
@@ -334,6 +334,7 @@ async function _createRKDialog(saUuid, targUuid, skill) {
     buttons: dgButtons,
     default: "roll",
   }).render(true);
+  ui.notifications.info("Recall Knowledge request sent to GM.");
 }
 
 async function _socketApplyAbeyanceEffects(a, abeyanceData) {
@@ -352,13 +353,16 @@ async function _socketApplyAbeyanceEffects(a, abeyanceData) {
     amuletsAbeyanceEffect.slug += "-" + game.pf2e.system.sluggify(character);
     amuletsAbeyanceEffect.system.rules.push({
       key: "Resistance",
-      type: abeyanceData[character].abeyanceDamageType,
+      type: "all-damage",
       value: 2 + a.level,
     });
     await charToken.actor.createEmbeddedDocuments("Item", [
       amuletsAbeyanceEffect,
     ]);
-    if (amuletImplementData.adept === true) {
+    if (
+      amuletImplementData.adept === true &&
+      abeyanceData[character].lingeringDamageType
+    ) {
       const lingeringResistanceValue = a.level < 15 ? 5 : 10;
       const lingeringResistanceType =
         abeyanceData[character].lingeringDamageType;

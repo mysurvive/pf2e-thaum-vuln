@@ -14,7 +14,7 @@ async function createBreachedDefenses(sa, eff, bypassable) {
     },
     "property-runes": {
       propLabel: "property-runes",
-      data: CONFIG.PF2E.runes.weapon.property,
+      data: { "ghost-touch": "ghostTouch", vorpal: "vorpal" },
     },
   };
 
@@ -28,21 +28,22 @@ async function createBreachedDefenses(sa, eff, bypassable) {
 
   //force ghost touch property rune on things that are immune to it
   if (bypassable.exceptions.includes("ghost-touch")) {
-    bypassable.exceptions[0] = "ghostTouch";
+    bypassable.exceptions[0] = "ghost-touch";
   }
 
   const exception = (() => {
-    for (const types in ADJUSTMENT_TYPES) {
-      if (
-        Object.hasOwn(ADJUSTMENT_TYPES[types].data, bypassable.exceptions[0])
-      ) {
-        return {
-          property: ADJUSTMENT_TYPES[types].propLabel,
-          exception: bypassable.exceptions[0],
-        };
+    for (const exception of bypassable.exceptions) {
+      for (const types in ADJUSTMENT_TYPES) {
+        if (ADJUSTMENT_TYPES[types].data.hasOwnProperty(exception)) {
+          return {
+            property: ADJUSTMENT_TYPES[types].propLabel,
+            exception: exception,
+          };
+        }
       }
     }
   })();
+
   eff.system.rules.find(
     (rules) => rules.slug === "breached-defenses-bypass"
   ).value = exception?.exception;
@@ -60,6 +61,7 @@ async function createBreachedDefenses(sa, eff, bypassable) {
     evMode: evMode,
     effPredicate: effPredicate,
     effRuleSlug: effRuleSlug,
+    exception: exception,
   };
 }
 
