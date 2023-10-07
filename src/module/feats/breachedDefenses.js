@@ -34,7 +34,7 @@ async function createBreachedDefenses(sa, eff, bypassable) {
   const exception = (() => {
     for (const exception of bypassable.exceptions) {
       for (const types in ADJUSTMENT_TYPES) {
-        if (ADJUSTMENT_TYPES[types].data.hasOwnProperty(exception)) {
+        if (ADJUSTMENT_TYPES[types].data[exception]) {
           return {
             property: ADJUSTMENT_TYPES[types].propLabel,
             exception: exception,
