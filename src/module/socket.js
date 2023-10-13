@@ -12,7 +12,6 @@ let socket;
 Hooks.once("socketlib.ready", () => {
   socket = socketlib.registerModule("pf2e-thaum-vuln");
   socket.register("createEffectOnTarget", _socketCreateEffectOnTarget);
-  socket.register("updateEVEffect", _socketUpdateEVEffect);
   socket.register("deleteEVEffect", _socketDeleteEVEffect);
   socket.register("applySWEffect", _socketApplySWEffect);
   socket.register("sharedWarding", _socketSharedWarding);
@@ -49,16 +48,6 @@ export async function applySWEffect(sa, selectedAlly, EVEffect) {
   return socket.executeAsGM(_socketApplySWEffect, sa, selectedAlly, EVEffect);
 }
 
-export function updateEVEffect(targ, effect, value, damageType) {
-  return socket.executeAsGM(
-    _socketUpdateEVEffect,
-    targ,
-    effect,
-    value,
-    damageType
-  );
-}
-
 export function deleteEVEffect(effects) {
   return socket.executeAsGM(_socketDeleteEVEffect, effects);
 }
@@ -83,11 +72,13 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
 
   if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID) {
     effect.system.rules[0].value = iwrData;
+    effect.system.rules[1].value = iwrData;
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
   } else if (
     effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID
   ) {
     effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
+    effect.system.rules[1].value = Math.floor(a.level / 2) + 2;
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
   }
 
@@ -128,36 +119,6 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
     }
   }
   return;
-}
-
-//This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
-//If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
-//If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
-async function _socketUpdateEVEffect(targ, effect, value, damageType) {
-  targ = await fromUuid(targ);
-  for (let eff of effect) {
-    eff = await fromUuid(eff);
-    if (
-      !eff.slug.startsWith("breached-defenses-target") &&
-      !eff.slug.startsWith("effect-primary-ev-target-")
-    ) {
-      const updates = {
-        _id: eff._id,
-        system: {
-          rules: [
-            {
-              key: "Weakness",
-              type: game.pf2e.system.sluggify(damageType),
-              value: value,
-              predicate: [],
-              slug: eff.system.rules[0]?.slug ?? null,
-            },
-          ],
-        },
-      };
-      await targ.updateEmbeddedDocuments("Item", [updates]);
-    }
-  }
 }
 
 //Deletes the effect from the actor passed to the method

@@ -3,15 +3,9 @@ import {
   PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
   BREACHED_DEFENSES_EFFECT_SOURCEID,
 } from "./utils/index.js";
-
-import { updateEVEffect } from "./socket.js";
-
-import { getActorEVEffect, targetEVPrimaryTarget } from "./utils/helpers.js";
-
+import { targetEVPrimaryTarget } from "./utils/helpers.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
-
 import { createChatCardButton } from "./utils/chatCard.js";
-
 import { manageImplements, clearImplements } from "./implements/implements.js";
 
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
@@ -28,89 +22,6 @@ Hooks.on(
           message.flags?.pf2e?.context?.type === "saving-throw") &&
         speaker.isOwner
       ) {
-        const targs = message.getFlag("pf2e-thaum-vuln", "targets");
-        let damageType;
-        let effValue;
-
-        for (let targ of targs) {
-          if (targ.actorUuid) {
-            targ = await fromUuid(targ.actorUuid);
-
-            if (
-              targ.items.some((i) =>
-                i.getFlag("pf2e-thaum-vuln", "EffectOrigin")
-              )
-            ) {
-              const effectOrigin = speaker.getFlag(
-                "pf2e-thaum-vuln",
-                "effectSource"
-              )
-                ? await fromUuid(
-                    speaker.getFlag("pf2e-thaum-vuln", "effectSource")
-                  )
-                : await fromUuid(
-                    targ.items
-                      .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
-                      .getFlag("pf2e-thaum-vuln", "EffectOrigin")
-                  );
-
-              const targEffect = getActorEVEffect(
-                targ.actor ?? targ,
-                effectOrigin?.uuid ?? speaker.uuid
-              ).map((i) => (i = i.uuid));
-
-              if (
-                speaker.getFlag("pf2e-thaum-vuln", "effectSource") ===
-                targ.items
-                  .find((i) => i.getFlag("pf2e-thaum-vuln", "EffectOrigin"))
-                  .getFlag("pf2e-thaum-vuln", "EffectOrigin")
-              ) {
-                effValue = speaker.getFlag("pf2e-thaum-vuln", "EVValue") ?? 0;
-              } else {
-                effValue = 0;
-              }
-
-              if (
-                message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
-                (message.flags?.pf2e?.context?.type === "saving-throw" &&
-                  message.flags?.pf2e?.origin?.type === "spell")
-              ) {
-                damageType = "physical";
-                effValue = 0;
-              } else {
-                const strike = message._strike?.item.system;
-                if (strike.damage) {
-                  if (strike.traits.toggles.versatile.selection) {
-                    damageType = strike.traits.toggles.versatile.selection;
-                  } else if (strike.traits.toggles.modular.selection) {
-                    damageType = strike.traits.toggles.modular.selection;
-                  } else {
-                    damageType = strike.damage.damageType;
-                  }
-                } else if (message.item.system.damageRolls.length != 0) {
-                  damageType =
-                    message.item.system.damageRolls[
-                      Object.keys(message.item.system.damageRolls)[0]
-                    ].damageType;
-                }
-
-                if (
-                  damageType === "untyped" ||
-                  damageType === undefined ||
-                  damageType === null
-                ) {
-                  damageType = "physical";
-                  console.warn(
-                    "[PF2E Exploit Vulnerability] - Unable to determine damageType of " +
-                      strike.name +
-                      ". Defaulting to Physical."
-                  );
-                }
-              }
-              updateEVEffect(targ.uuid, targEffect, effValue, damageType);
-            }
-          }
-        }
         handleEsotericWarden(message);
       }
     }
