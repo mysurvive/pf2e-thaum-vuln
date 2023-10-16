@@ -351,7 +351,6 @@ async function _socketApplyAbeyanceEffects(a, abeyanceData) {
 }
 
 async function _socketApplyRootToLife(actor, target, actionCount) {
-  const dc = actionCount === 1 ? 15 : 10;
   const traits = [
     "esoterica",
     "manipulate",
