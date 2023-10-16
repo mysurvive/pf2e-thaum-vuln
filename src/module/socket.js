@@ -18,7 +18,12 @@ Hooks.once("socketlib.ready", () => {
   socket.register("ubiquitousWeakness", _socketUbiquitousWeakness);
   socket.register("createRKDialog", _createRKDialog);
   socket.register("applyAbeyanceEffects", _socketApplyAbeyanceEffects);
+  socket.register("applyRootToLife", _socketApplyRootToLife);
 });
+
+export function applyRootToLife(actor, target, actionCount) {
+  return socket.executeAsGM(_socketApplyRootToLife, actor, target, actionCount);
+}
 
 export function createEffectOnTarget(a, effect, evTargets, iwrData) {
   let aID = a.uuid;
@@ -341,6 +346,70 @@ async function _socketApplyAbeyanceEffects(a, abeyanceData) {
       await charToken.actor.createEmbeddedDocuments("Item", [
         abeyanceLingeringEffect,
       ]);
+    }
+  }
+}
+
+async function _socketApplyRootToLife(actor, target, actionCount) {
+  const dc = actionCount === 1 ? 15 : 10;
+  const traits = [
+    "esoterica",
+    "manipulate",
+    "necromancy",
+    "primal",
+    "thaumaturge",
+  ];
+  actionCount === 2 ? traits.push("auditory") : null;
+  let chatMessage =
+    "<strong>Root to Life:</strong> The creature is no longer dying and is instead @UUID[Compendium.pf2e.conditionitems.Item.fBnFDH2MTzgFijKf]{Unconscious} at 0 Hit Points.";
+  actionCount === 2
+    ? (chatMessage +=
+        " You may attempt flat checks to remove each source of damage affecting the target.")
+    : null;
+  ChatMessage.create({ user: game.user.id, flavor: chatMessage });
+  target.actor.items.find((i) => i.slug === "dying").delete();
+  target.actor.createEmbeddedDocuments("Item", [
+    (
+      await fromUuid("Compendium.pf2e.conditionitems.Item.fBnFDH2MTzgFijKf")
+    ).toObject(),
+  ]);
+  if (actionCount === 2) {
+    updateDamageSources(target).then(revertDamageSources(target));
+  }
+}
+
+async function updateDamageSources(target) {
+  const persistentDamageSources = await target.actor.items.filter(
+    (i) => i.system.slug === "persistent-damage"
+  );
+
+  for (const damage of persistentDamageSources) {
+    damage.setFlag(
+      "pf2e-thaum-vuln",
+      "recoveryDC",
+      damage.system.persistent.dc
+    );
+    await damage.update({ _id: damage._id, "system.persistent.dc": 10 });
+    await damage.rollRecovery();
+  }
+  return Promise.resolve();
+}
+
+async function revertDamageSources(target) {
+  const refreshTarget = await fromUuid(target.document.uuid);
+  const newPersistentSources = await refreshTarget.actor.items.filter(
+    (i) => i.system.slug === "persistent-damage"
+  );
+  for (const damage of newPersistentSources) {
+    try {
+      const value = damage.getFlag("pf2e-thaum-vuln", "recoveryDC");
+      await damage.update({
+        _id: damage._id,
+        "system.persistent.dc": value,
+      });
+      damage.unsetFlag("pf2e-thaum-vuln", "recoveryDC");
+    } catch (error) {
+      continue;
     }
   }
 }
