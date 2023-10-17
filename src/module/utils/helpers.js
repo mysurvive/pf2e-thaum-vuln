@@ -126,7 +126,6 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   }
   //makes sure we don't have duplicates in the target array
   evTargets = [...new Set(evTargets)];
-  console.log("eff here", eff);
   let iwrData = getIWR(t);
   if (iwrData.weaknesses.length != 0) {
     iwrData = getGreatestIWR(iwrData.weaknesses)?.value;

@@ -19,7 +19,16 @@ Hooks.once("socketlib.ready", () => {
   socket.register("createRKDialog", _createRKDialog);
   socket.register("applyAbeyanceEffects", _socketApplyAbeyanceEffects);
   socket.register("applyRootToLife", _socketApplyRootToLife);
+  socket.register("updateTargetWeaknessType", _socketUpdateTargetWeaknessType);
 });
+
+export function updateTargetWeaknessType(evEffect, damageType) {
+  return socket.executeAsGM(
+    _socketUpdateTargetWeaknessType,
+    evEffect,
+    damageType
+  );
+}
 
 export function applyRootToLife(actor, target, actionCount) {
   return socket.executeAsGM(_socketApplyRootToLife, actor, target, actionCount);
@@ -411,4 +420,15 @@ async function revertDamageSources(target) {
       continue;
     }
   }
+}
+
+async function _socketUpdateTargetWeaknessType(evEffect, damageType) {
+  console.log("we made it");
+  evEffect.update({
+    _id: evEffect._id,
+    "system.rules": [
+      { ...evEffect.system.rules[0], type: damageType },
+      { ...evEffect.system.rules[1] },
+    ],
+  });
 }

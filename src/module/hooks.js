@@ -7,6 +7,7 @@ import { targetEVPrimaryTarget } from "./utils/helpers.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
 import { createChatCardButton } from "./utils/chatCard.js";
 import { manageImplements, clearImplements } from "./implements/implements.js";
+import { updateTargetWeaknessType } from "./socket.js";
 
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
@@ -22,6 +23,7 @@ Hooks.on(
           message.flags?.pf2e?.context?.type === "saving-throw") &&
         speaker.isOwner
       ) {
+        updateWeaknessType(message, speaker);
         handleEsotericWarden(message);
       }
     }
@@ -30,6 +32,46 @@ Hooks.on(
   },
   { once: false }
 );
+
+async function updateWeaknessType(message, speaker) {
+  if (
+    speaker.class.name != "Thaumaturge" ||
+    message.flags?.pf2e?.context?.action != "strike" ||
+    message.flags?.pf2e?.origin?.type != "weapon"
+  )
+    return;
+  const strikeTarget = await fromUuid(
+    message.getFlag("pf2e-thaum-vuln", "targets")[0].actorUuid
+  );
+  const evEffect = strikeTarget.items.find(
+    (i) =>
+      i.slug ===
+        `personal-antithesis-target-${game.pf2e.system.sluggify(
+          speaker.name
+        )}` ||
+      i.slug ===
+        `mortal-weakness-target-${game.pf2e.system.sluggify(speaker.name)}`
+  );
+  if (!evEffect) return;
+  const strike = message._strike?.item.system;
+  let damageType = "physical";
+  if (strike.damage) {
+    if (strike.traits.toggles.versatile.selection) {
+      damageType = strike.traits.toggles.versatile.selection;
+    } else if (strike.traits.toggles.modular.selection) {
+      damageType = strike.traits.toggles.modular.selection;
+    } else {
+      damageType = strike.damage.damageType;
+    }
+  } else if (message.item.system.damageRolls.length != 0) {
+    damageType =
+      message.item.system.damageRolls[
+        Object.keys(message.item.system.damageRolls)[0]
+      ].damageType;
+  }
+  if (damageType === evEffect.system.rules[0].type) return;
+  updateTargetWeaknessType(evEffect, damageType);
+}
 
 async function handleEsotericWarden(message) {
   const speakerToken = await fromUuid(
