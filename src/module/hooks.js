@@ -35,7 +35,7 @@ Hooks.on(
 
 async function updateWeaknessType(message, speaker) {
   if (
-    speaker.class.name != "Thaumaturge" ||
+    speaker.class?.name != "Thaumaturge" ||
     message.flags?.pf2e?.context?.action != "strike" ||
     message.flags?.pf2e?.origin?.type != "weapon"
   )
