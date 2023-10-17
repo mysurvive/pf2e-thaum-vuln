@@ -161,27 +161,12 @@ export const amuletChatButton = {
         const diceTotalArea = html.find(".dice-roll.damage-roll");
 
         if (amulet?.isHeld) {
-          const evReactionBtn = `<button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance (${a.actor.name})</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button>`;
+          const evReactionBtn = `<button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button>`;
           $(diceTotalArea).after(
             $(evReactionBtn).click({ actor: a.actor }, function () {
               amuletsAbeyance(a.actor, targetedAlliesInRange, damageTypes);
             })
           );
-
-          setTimeout(function () {
-            while (
-              $(html).find(".pf2e-ev-reaction-btn span").width() +
-                $(html).find(".pf2e-ev-reaction-btn img").width() >
-              $(html).find(".pf2e-ev-reaction-btn").width()
-            ) {
-              let currentFontSize = parseInt(
-                $(html).find(".pf2e-ev-reaction-btn span").css("font-size")
-              );
-              $(html)
-                .find(".pf2e-ev-reaction-btn span")
-                .css("font-size", currentFontSize - 1);
-            }
-          }, 0);
         }
       }
     }

@@ -26,6 +26,7 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 <li> Shared Warding: A dialog asking to apply to nearby allies when Esoteric Warden is available. If chosen yes, all allies within 30 feet will have the Esoteric Warden effect applied to them.
 <li> Twin Weakness: Click the action in your actions tab on your character sheet, then click the button in the chat card. You will be prompted for the weapon you wish to attack with and your current map. On any roll but a critical failure, a damage roll will be put in the chat based on your current Exploit Vulnerability value.
 <li> Ubiquitous Weakness: After choosing Mortal Weakness when exploiting vulnerability, a dialog box will appear asking if you would like to apply your Mortal Weakness Effect to all allies within 30 ft. If yes, another dialog box will appear, giving you the option to choose any allies within 30 ft. to apply the effect to.
+<li> Root to Life: Target a dying creature and run the macro. You will be prompted to choose the one action or two action version of the feat. For the single action version, the dying condition will be removed and the unconscious condition will be added. For the two action version, the dying condition will be removed and the unconscious condition will be added. A recovery check will be made for all persistent damage on the creature at DC 10 rather than DC 15.
 </ul>
 
 This is a work in progress.

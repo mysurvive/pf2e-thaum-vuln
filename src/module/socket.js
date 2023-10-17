@@ -12,14 +12,27 @@ let socket;
 Hooks.once("socketlib.ready", () => {
   socket = socketlib.registerModule("pf2e-thaum-vuln");
   socket.register("createEffectOnTarget", _socketCreateEffectOnTarget);
-  socket.register("updateEVEffect", _socketUpdateEVEffect);
   socket.register("deleteEVEffect", _socketDeleteEVEffect);
   socket.register("applySWEffect", _socketApplySWEffect);
   socket.register("sharedWarding", _socketSharedWarding);
   socket.register("ubiquitousWeakness", _socketUbiquitousWeakness);
   socket.register("createRKDialog", _createRKDialog);
   socket.register("applyAbeyanceEffects", _socketApplyAbeyanceEffects);
+  socket.register("applyRootToLife", _socketApplyRootToLife);
+  socket.register("updateTargetWeaknessType", _socketUpdateTargetWeaknessType);
 });
+
+export function updateTargetWeaknessType(evEffect, damageType) {
+  return socket.executeAsGM(
+    _socketUpdateTargetWeaknessType,
+    evEffect,
+    damageType
+  );
+}
+
+export function applyRootToLife(actor, target, actionCount) {
+  return socket.executeAsGM(_socketApplyRootToLife, actor, target, actionCount);
+}
 
 export function createEffectOnTarget(a, effect, evTargets, iwrData) {
   let aID = a.uuid;
@@ -49,16 +62,6 @@ export async function applySWEffect(sa, selectedAlly, EVEffect) {
   return socket.executeAsGM(_socketApplySWEffect, sa, selectedAlly, EVEffect);
 }
 
-export function updateEVEffect(targ, effect, value, damageType) {
-  return socket.executeAsGM(
-    _socketUpdateEVEffect,
-    targ,
-    effect,
-    value,
-    damageType
-  );
-}
-
 export function deleteEVEffect(effects) {
   return socket.executeAsGM(_socketDeleteEVEffect, effects);
 }
@@ -83,11 +86,13 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
 
   if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID) {
     effect.system.rules[0].value = iwrData;
+    effect.system.rules[1].value = iwrData;
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
   } else if (
     effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID
   ) {
     effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
+    effect.system.rules[1].value = Math.floor(a.level / 2) + 2;
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
   }
 
@@ -128,36 +133,6 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
     }
   }
   return;
-}
-
-//This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
-//If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
-//If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
-async function _socketUpdateEVEffect(targ, effect, value, damageType) {
-  targ = await fromUuid(targ);
-  for (let eff of effect) {
-    eff = await fromUuid(eff);
-    if (
-      !eff.slug.startsWith("breached-defenses-target") &&
-      !eff.slug.startsWith("effect-primary-ev-target-")
-    ) {
-      const updates = {
-        _id: eff._id,
-        system: {
-          rules: [
-            {
-              key: "Weakness",
-              type: game.pf2e.system.sluggify(damageType),
-              value: value,
-              predicate: [],
-              slug: eff.system.rules[0]?.slug ?? null,
-            },
-          ],
-        },
-      };
-      await targ.updateEmbeddedDocuments("Item", [updates]);
-    }
-  }
 }
 
 //Deletes the effect from the actor passed to the method
@@ -382,4 +357,78 @@ async function _socketApplyAbeyanceEffects(a, abeyanceData) {
       ]);
     }
   }
+}
+
+async function _socketApplyRootToLife(actor, target, actionCount) {
+  const traits = [
+    "esoterica",
+    "manipulate",
+    "necromancy",
+    "primal",
+    "thaumaturge",
+  ];
+  actionCount === 2 ? traits.push("auditory") : null;
+  let chatMessage =
+    "<strong>Root to Life:</strong> The creature is no longer dying and is instead @UUID[Compendium.pf2e.conditionitems.Item.fBnFDH2MTzgFijKf]{Unconscious} at 0 Hit Points.";
+  actionCount === 2
+    ? (chatMessage +=
+        " You may attempt flat checks to remove each source of damage affecting the target.")
+    : null;
+  ChatMessage.create({ user: game.user.id, flavor: chatMessage });
+  target.actor.items.find((i) => i.slug === "dying").delete();
+  target.actor.createEmbeddedDocuments("Item", [
+    (
+      await fromUuid("Compendium.pf2e.conditionitems.Item.fBnFDH2MTzgFijKf")
+    ).toObject(),
+  ]);
+  if (actionCount === 2) {
+    updateDamageSources(target).then(revertDamageSources(target));
+  }
+}
+
+async function updateDamageSources(target) {
+  const persistentDamageSources = await target.actor.items.filter(
+    (i) => i.system.slug === "persistent-damage"
+  );
+
+  for (const damage of persistentDamageSources) {
+    damage.setFlag(
+      "pf2e-thaum-vuln",
+      "recoveryDC",
+      damage.system.persistent.dc
+    );
+    await damage.update({ _id: damage._id, "system.persistent.dc": 10 });
+    await damage.rollRecovery();
+  }
+  return Promise.resolve();
+}
+
+async function revertDamageSources(target) {
+  const refreshTarget = await fromUuid(target.document.uuid);
+  const newPersistentSources = await refreshTarget.actor.items.filter(
+    (i) => i.system.slug === "persistent-damage"
+  );
+  for (const damage of newPersistentSources) {
+    try {
+      const value = damage.getFlag("pf2e-thaum-vuln", "recoveryDC");
+      await damage.update({
+        _id: damage._id,
+        "system.persistent.dc": value,
+      });
+      damage.unsetFlag("pf2e-thaum-vuln", "recoveryDC");
+    } catch (error) {
+      continue;
+    }
+  }
+}
+
+async function _socketUpdateTargetWeaknessType(evEffect, damageType) {
+  console.log("we made it");
+  evEffect.update({
+    _id: evEffect._id,
+    "system.rules": [
+      { ...evEffect.system.rules[0], type: damageType },
+      { ...evEffect.system.rules[1] },
+    ],
+  });
 }

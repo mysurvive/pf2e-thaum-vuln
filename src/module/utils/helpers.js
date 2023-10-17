@@ -65,9 +65,14 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
       }
     }
     effPredicate = [
-      `target:effect:${game.pf2e.system.sluggify(
-        "Mortal Weakness Target" + sa.name
-      )}`,
+      {
+        or: [
+          `target:effect:${game.pf2e.system.sluggify(
+            "Mortal Weakness Target" + sa.name
+          )}`,
+          "target:mark:exploit-vulnerability",
+        ],
+      },
     ];
     effRuleSlug = "mortal-weakness-effect-magical";
     effSlug = "exploit-mortal-weakness";
@@ -78,9 +83,16 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
       evTargets = evTargets.concat(getSVTargets(t, eff, gIWR));
     }
     EWPredicate = "personal-antithesis-target";
-    effPredicate = `target:effect:${game.pf2e.system.sluggify(
-      "Personal Antithesis Target" + sa.name
-    )}`;
+    effPredicate = [
+      {
+        or: [
+          `target:effect:${game.pf2e.system.sluggify(
+            "Personal Antithesis Target" + sa.name
+          )}`,
+          "target:mark:personal-antithesis",
+        ],
+      },
+    ];
     effRuleSlug = "personal-antithesis-effect-magical";
     evMode = "personal-antithesis";
 
@@ -114,7 +126,6 @@ async function createEffectOnActor(sa, t, effect, rollDOS) {
   }
   //makes sure we don't have duplicates in the target array
   evTargets = [...new Set(evTargets)];
-
   let iwrData = getIWR(t);
   if (iwrData.weaknesses.length != 0) {
     iwrData = getGreatestIWR(iwrData.weaknesses)?.value;
