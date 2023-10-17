@@ -49,5 +49,8 @@
   "lint-staged": {
     "*.(js|cjs|mjs)": "eslint --fix",
     "*.(json|yml|css)": "prettier --write"
+  },
+  "dependencies": {
+    "electron": "^27.0.0"
   }
 }
