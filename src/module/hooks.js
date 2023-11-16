@@ -161,7 +161,9 @@ Hooks.on("deleteItem", async (item) => {
 
 Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
   const a = _sheet.actor;
-  if (a.class?.name === "Thaumaturge" && character.owner) {
+  // Add compatibility with xdy/symon's dual class macro
+  const classNameArray = a.class?.name.split(" ") ?? [];
+  if (classNameArray.includes("Thaumaturge") && character.owner) {
     //implement management buttons
     if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
       a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
@@ -274,8 +276,9 @@ function showImplementsOnSheet(inventoryList, a) {
 }
 
 Hooks.on("canvasReady", () => {
+  const classNameArray = game.user.character?.class?.name.split(" ") ?? [];
   if (
-    game.user.character?.class.name == "Thaumaturge" &&
+    classNameArray.includes("Thaumaturge") &&
     game.user.character?.sheet._state == 2
   ) {
     game.user.character.sheet._render(true);
