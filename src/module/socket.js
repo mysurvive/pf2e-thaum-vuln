@@ -272,11 +272,7 @@ async function _createRKDialog(saUuid, targUuid, skill) {
           options: [...rollOptions, "action:recall-knowledge"],
           notes,
           dc: { value: parseInt(rollDC) + parseInt(rollELModifier) },
-          traits: traits.map((t) => ({
-            name: t,
-            label: CONFIG.PF2E.actionTraits[t] ?? t,
-            description: CONFIG.PF2E.traitsDescriptions[t],
-          })),
+          traits: traits,
           flavor: "stuff",
           skipDialog: "true",
           rollMode: "gmroll",

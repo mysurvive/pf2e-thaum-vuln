@@ -11,8 +11,8 @@ async function createChatCardButton(message, html) {
   if (actionOrigin?.type === "action" || actionOrigin?.type === "feat") {
     const user = game.user;
     const speaker = message.actor;
-    const action = await fromUuid(actionOrigin.uuid);
-    if (SupportedActions.includes(action.slug)) {
+    const action = await fromUuid(actionOrigin?.uuid);
+    if (SupportedActions.includes(action?.slug)) {
       html = html.find(".message-content");
       const contentArea = html.find(".card-content");
       contentArea.append(
