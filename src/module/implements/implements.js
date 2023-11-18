@@ -1,4 +1,3 @@
-import { implementData } from ".";
 import { checkImplements, checkFeatValidity } from "./helpers";
 import { parseHTML } from "../utils/utils.js";
 
