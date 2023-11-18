@@ -13,9 +13,9 @@
   style="flex-basis: 200px; flex-shrink: 0; padding: 10px; text-align: center;"
 >
   {{#if (element selectedImplements name "trueName")}}
-    {{element selectedImplements name "trueName"}}
+    <p id="implementLabel">{{element selectedImplements name "trueName"}}</p>
   {{else}}
-    Drag an item here to designate it as an implement.
+    <p id="implementLabel">Drag an item here to designate it as an implement.</p>
   {{/if}}
 
 </span>
