@@ -1,4 +1,3 @@
-import { implementData } from "..";
 import { applyAbeyanceEffects } from "../../socket";
 import { INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID } from "../../utils";
 
@@ -14,7 +13,7 @@ async function amuletsAbeyance(a, allies, strikeDamageTypes) {
     damageTypes: strikeDamageTypes,
     adeptResistanceValue: adeptResistanceValue,
     abeyanceResistanceValue: abeyanceResistanceValue,
-    amuletBenefits: implementData.find((i) => i.name === "Amulet").benefits,
+    amuletBenefits: a.items.find((i) => i.name === "Amulet").description,
     amuletRank: amuletImplementData,
   };
 
@@ -225,7 +224,7 @@ export async function amuletIntensify() {
     !a.items.some((i) => i.slug === "intensify-vulnerability") ||
     !a
       .getFlag("pf2e-thaum-vuln", "selectedImplements")
-      .some((i) => i.name === "Amulet")
+      .some((i) => i?.name === "Amulet")
   )
     return ui.notifications.warn(
       "You do not have the ability to Intensify Vulnerability. Check your sheet to make sure you have Intensify Vulnerability and you have the Amulet implement chosen."

@@ -2,18 +2,4 @@
 {{> "modules/pf2e-thaum-vuln/templates/implementSelectedPartial.hbs"}}
 <span style="overflow:scroll; padding:10px;">
   <p>{{element impFlavor name "flavor"}}</p>
-  <h3>Initiate Benefit</h3>
-  <p>{{element impFlavor name "initiate"}}</p>
-  {{#if (element impFlavor name "adept")}}
-    <h3>Adept Benefit</h3>
-    <p>{{element impFlavor name "adept"}}</p>
-  {{/if}}
-  {{#if (element impFlavor name "paragon")}}
-    <h3>Paragon Benefit</h3>
-    <p>{{element impFlavor name "paragon"}}</p>
-  {{/if}}
-  {{#if (element impFlavor name "intensify")}}
-    <h3>Intensify Vulnerability</h3>
-    <p>{{element impFlavor name "intensify"}}</p>
-  {{/if}}
 </span>

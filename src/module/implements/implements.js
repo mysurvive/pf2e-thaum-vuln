@@ -112,7 +112,7 @@ export async function manageImplements(event) {
     }
   }
 
-  const impFlavor = getImplementFlavor(imps);
+  const impFlavor = getImplementFlavor(imps, a);
 
   let implementUuids;
   const passImps = {
@@ -213,57 +213,13 @@ async function handleDrop(event) {
     document.getElementById(`${$(dropFieldText).attr("id")}-drop-item-content`)
   );
 
-  const implementDataMatch = implementData.find(
-    (n) =>
-      game.i18n.localize(n.translatedName) ==
-      $(dropFieldText).attr("implement-type")
-  );
-
-  //clears the children in case there is something in there
-  $(newDropFieldContent).empty();
-
   $(newDropFieldContent).attr("item-uuid", dropData.uuid);
 
   //adds the image of the item to the area
-  $(newDropFieldContent).append(
-    $(
-      `<img src="${chosenItem.img}" style="flex-basis: 100px; flex-shrink: 0;">`
-    )
-  );
+  $(dropFieldText).find("img").attr("src", chosenItem.img);
 
   //creates another span that will hold the name of the item
-  const itemLabelBox = $(
-    '<span style="flex-basis: 200px; flex-shrink: 0; padding: 10px; text-align: center;"></span>'
-  );
-  $(itemLabelBox).text(chosenItem.name);
-  $(itemLabelBox).appendTo(newDropFieldContent);
-
-  //creates another span that will hold the description of the implement
-
-  let implementFlavor = $(
-    '<span style="overflow:scroll; padding:10px;"></span>'
-  );
-
-  $(implementFlavor).append(`<p>${implementDataMatch.flavor}</p>`);
-  $(implementFlavor).append("<h3>Initiate Benefit</h3>");
-  $(implementFlavor).append(`<p>${implementDataMatch.benefits.initiate}</p>`);
-  if ($(dropFieldText).attr("is-adept") === true) {
-    $(implementFlavor).append("<h3>Adept Benefit</h3>");
-    $(implementFlavor).append(`<p>${implementDataMatch.benefits.adept}</p>`);
-  }
-  if ($(dropFieldText).attr("is-paragon") === true) {
-    $(implementFlavor).append("<h3>Paragon Benefit</h3>");
-    $(implementFlavor).append(`<p>${implementDataMatch.benefits.paragon}</p>`);
-  }
-  if ($(dropFieldText).attr("can-intensify") === true) {
-    $(implementFlavor).append("<h3>Intensify Vulnerability</h3>");
-    $(implementFlavor).append(`<p>${implementDataMatch.intensify}</p>`);
-  }
-
-  $(implementFlavor).html(parseHTML($(implementFlavor).html()));
-  $(implementFlavor).appendTo($(newDropFieldContent));
-
-  $(newDropFieldContent).appendTo($(dropFieldText));
+  $(dropFieldText).find("#implementLabel").text(chosenItem.name);
 
   return chosenItem;
 }
@@ -278,36 +234,29 @@ function confirmImplements(dgEndContent) {
   return uuidCollection;
 }
 
-function getImplementFlavor(imps) {
+function getImplementFlavor(imps, a) {
   let impFlavor = {};
   for (const imp of imps) {
-    const implementDataMatch =
-      implementData.find(
-        (n) => game.i18n.localize(n.translatedName) == imp.name
-      ) ?? implementData.find((n) => n.name == imp.name);
+    const implementFeat = a.items.find((i) => i.name === imp.name);
     impFlavor = {
       ...impFlavor,
       [imp.name]: {
-        flavor: implementDataMatch.flavor,
-        initiate: implementDataMatch.benefits.initiate,
+        flavor: implementFeat.description,
       },
     };
     if (imp.adept === true) {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
-        adept: implementDataMatch.benefits.adept,
       };
     }
     if (imp.paragon === true) {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
-        paragon: implementDataMatch.benefits.paragon,
       };
     }
     if (imp.intensify === true) {
       impFlavor[imp.name] = {
         ...impFlavor[imp.name],
-        intensify: implementDataMatch.intensify,
       };
     }
   }
