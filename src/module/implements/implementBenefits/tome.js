@@ -162,14 +162,14 @@ async function constructEffect(actor) {
     },
     {
       key: "ActiveEffectLike",
-      mode: "upgrade",
+      mode: "override",
       predicate: ["paragon:tome"],
       path: "{item|flags.pf2e.rulesSelections.effectTomeFirstSkill}",
       value: 4,
     },
     {
       key: "ActiveEffectLike",
-      mode: "upgrade",
+      mode: "override",
       predicate: ["paragon:tome"],
       path: "{item|flags.pf2e.rulesSelections.effectTomeSecondSkill}",
       value: 4,

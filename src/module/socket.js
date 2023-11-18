@@ -419,7 +419,6 @@ async function revertDamageSources(target) {
 }
 
 async function _socketUpdateTargetWeaknessType(evEffect, damageType) {
-  console.log("we made it");
   evEffect.update({
     _id: evEffect._id,
     "system.rules": [

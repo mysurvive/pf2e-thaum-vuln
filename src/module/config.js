@@ -54,6 +54,14 @@ Hooks.on("init", async () => {
   });
 
   //game settings
+  game.settings.register("pf2e-thaum-vuln", "0124migration", {
+    name: "0.12.4 migration",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false,
+  });
+
   game.settings.register("pf2e-thaum-vuln", "useEVAutomation", {
     name: game.i18n.localize("pf2e-thaum-vuln.settings.EVAutomation.name"),
     hint: game.i18n.localize("pf2e-thaum-vuln.settings.EVAutomation.hint"),
