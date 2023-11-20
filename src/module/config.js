@@ -7,6 +7,7 @@ import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
 import { amuletIntensify } from "./implements/implementBenefits/amulet.js";
 import { tomeIntensify } from "./implements/implementBenefits/tome.js";
 import { rootToLife } from "./feats/rootToLife.js";
+import { lanternIntensify } from "./implements/implementBenefits/lantern.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
@@ -19,6 +20,7 @@ Hooks.on("init", async () => {
     amuletIntensify,
     tomeIntensify,
     rootToLife,
+    lanternIntensify,
   };
 
   loadTemplates([

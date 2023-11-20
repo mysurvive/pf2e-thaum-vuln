@@ -1,3 +1,5 @@
+import { INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID } from "../../utils";
+
 async function createEffectOnImplement(imps, a) {
   const lantern = await fromUuid(imps.find((i) => i.name === "Lantern").uuid);
   const oldLantern = a.items.find((i) =>
@@ -27,6 +29,12 @@ async function createEffectOnImplement(imps, a) {
       },
     },
     {
+      key: "Aura",
+      label: "Bright Light Indicator",
+      radius: 20,
+      predicate: ["lantern-implement-lit", { nor: ["adept:lantern"] }],
+    },
+    {
       key: "TokenLight",
       label: "Lantern Implement Light",
       predicate: [
@@ -49,6 +57,16 @@ async function createEffectOnImplement(imps, a) {
       },
     },
     {
+      key: "Aura",
+      label: "Bright Light Indicator",
+      radius: 30,
+      predicate: [
+        "lantern-implement-lit",
+        "adept:lantern",
+        { nor: ["paragon:lantern"] },
+      ],
+    },
+    {
       key: "TokenLight",
       label: "Lantern Implement Light",
       predicate: ["lantern-implement-lit", "paragon:lantern"],
@@ -65,6 +83,12 @@ async function createEffectOnImplement(imps, a) {
         dim: 80,
         shadows: 0.2,
       },
+    },
+    {
+      key: "Aura",
+      label: "Bright Light Indicator",
+      radius: 40,
+      predicate: ["lantern-implement-lit", "paragon:lantern"],
     },
     {
       domain: "all",
@@ -88,84 +112,23 @@ async function createEffectOnImplement(imps, a) {
       label: "Lantern Bright Light Perception",
       type: "status",
       value: 1,
+      predicate: ["lantern-implement-lit", "target-in-lantern-bright-light"],
+      slug: "lantern-per",
+      hideIfDisabled: true,
+    },
+    {
+      key: "FlatModifier",
+      selector: "all",
+      label: "Lantern Bright Light Recall Knowledge",
+      type: "status",
+      value: 1,
       predicate: [
         "lantern-implement-lit",
-        { or: ["target:distance:20", "target-in-lantern-bright-light"] },
+        "target-in-lantern-bright-light",
+        "action:recall-knowledge",
         { nor: ["adept:lantern"] },
       ],
-      slug: "lantern-per-initiate",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "skill-check",
-      label: "Lantern Bright Light Recall Knowledge",
-      type: "status",
-      value: 1,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:20", "target-in-lantern-bright-light"] },
-        { nor: ["adept:lantern"] },
-      ],
-      slug: "lantern-rk-initiate",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "perception",
-      label: "Lantern Bright Light Perception",
-      type: "status",
-      value: 1,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:30", "target-in-lantern-bright-light"] },
-        "adept:lantern",
-        { nor: ["paragon:lantern"] },
-      ],
-      slug: "lantern-per-adept",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "skill-check",
-      label: "Lantern Bright Light Recall Knowledge",
-      type: "status",
-      value: 1,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:30", "target-in-lantern-bright-light"] },
-        "adept:lantern",
-        { nor: ["paragon:lantern"] },
-      ],
-      slug: "lantern-rk-adept",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "perception",
-      label: "Lantern Bright Light Perception",
-      type: "status",
-      value: 1,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:40", "target-in-lantern-bright-light"] },
-        "paragon:lantern",
-      ],
-      slug: "lantern-per-paragon",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "skill-check",
-      label: "Lantern Bright Light Recall Knowledge",
-      type: "status",
-      value: 1,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:40", "target-in-lantern-bright-light"] },
-        "paragon:lantern",
-      ],
-      slug: "lantern-rk-paragon",
+      slug: "lantern-rk",
       hideIfDisabled: true,
     },
     {
@@ -176,132 +139,25 @@ async function createEffectOnImplement(imps, a) {
       value: 2,
       predicate: [
         "lantern-implement-lit",
-        { or: ["target:distance:20", "target-in-lantern-bright-light"] },
-        "adept:lantern",
-        "self:effect:intensify-vulnerability-lantern",
-        { nor: ["paragon:lantern"] },
-        {
-          or: [
-            "target:mark:personal-antithesis",
-            "target:mark:mortal-weakness",
-            "target:mark:breached-defenses",
-          ],
-        },
+        "target-in-lantern-bright-light",
+        "self:effect:lantern-intensify-vulnerability",
       ],
-      slug: "lantern-per-intensify-initiate",
+      slug: "lantern-per-intensify",
       hideIfDisabled: true,
     },
     {
       key: "FlatModifier",
-      selector: "skill-check",
+      selector: "all",
       label: "Lantern Bright Light Recall Knowledge (Intensify)",
       type: "status",
       value: 2,
       predicate: [
         "lantern-implement-lit",
-        { or: ["target:distance:20", "target-in-lantern-bright-light"] },
-        "adept:lantern",
-        "self:effect:intensify-vulnerability-lantern",
-        { nor: ["paragon:lantern"] },
-        {
-          or: [
-            "target:mark:personal-antithesis",
-            "target:mark:mortal-weakness",
-            "target:mark:breached-defenses",
-          ],
-        },
+        "target-in-lantern-bright-light",
+        "self:effect:lantern-intensify-vulnerability",
+        "action:recall-knowledge",
       ],
-      slug: "lantern-rk-intensify-initiate",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "perception",
-      label: "Lantern Bright Light Perception (Intensify)",
-      type: "status",
-      value: 2,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:30", "target-in-lantern-bright-light"] },
-        "adept:lantern",
-        "self:effect:intensify-vulnerability-lantern",
-        { nor: ["paragon:lantern"] },
-        {
-          or: [
-            "target:mark:personal-antithesis",
-            "target:mark:mortal-weakness",
-            "target:mark:breached-defenses",
-          ],
-        },
-      ],
-      slug: "lantern-per-intensify-adept",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "skill-check",
-      label: "Lantern Bright Light Recall Knowledge (Intensify)",
-      type: "status",
-      value: 2,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:30", "target-in-lantern-bright-light"] },
-        "adept:lantern",
-        "self:effect:intensify-vulnerability-lantern",
-        { nor: ["paragon:lantern"] },
-        {
-          or: [
-            "target:mark:personal-antithesis",
-            "target:mark:mortal-weakness",
-            "target:mark:breached-defenses",
-          ],
-        },
-      ],
-      slug: "lantern-rk-intensify-adept",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "perception",
-      label: "Lantern Bright Light Perception (Intensify)",
-      type: "status",
-      value: 2,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:40", "target-in-lantern-bright-light"] },
-        "paragon:lantern",
-        "self:effect:intensify-vulnerability-lantern",
-        {
-          or: [
-            "target:mark:personal-antithesis",
-            "target:mark:mortal-weakness",
-            "target:mark:breached-defenses",
-          ],
-        },
-      ],
-      slug: "lantern-per-intensify-paragon",
-      hideIfDisabled: true,
-    },
-    {
-      key: "FlatModifier",
-      selector: "skill-check",
-      label: "Lantern Bright Light Recall Knowledge (Intensify)",
-      type: "status",
-      value: 2,
-      predicate: [
-        "lantern-implement-lit",
-        { or: ["target:distance:40", "target-in-lantern-bright-light"] },
-        "paragon:lantern",
-        "self:effect:intensify-vulnerability-lantern",
-        {
-          or: [
-            "target:mark:personal-antithesis",
-            "target:mark:mortal-weakness",
-            "target:mark:breached-defenses",
-          ],
-        },
-      ],
-      slug: "lantern-rk-intensify-paragon",
+      slug: "lantern-rk-intensify",
       hideIfDisabled: true,
     }
   );
@@ -327,7 +183,8 @@ async function deleteOldLanternEffect(oldLantern) {
       oldLanternObj.system.rules[r].label ===
         "Lantern Bright Light Recall Knowledge (Intensify)" ||
       oldLanternObj.system.rules[r].label ===
-        "Lantern Bright Light Perception (Intensify)"
+        "Lantern Bright Light Perception (Intensify)" ||
+      oldLanternObj.system.rules[r].label === "Bright Light Indicator"
     ) {
       delete oldLanternObj.system.rules[r];
     }
@@ -353,3 +210,15 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
     createEffectOnImplement(imps, a);
   }
 });
+export async function lanternIntensify() {
+  const classNameArray = game.user?.character?.class?.name.split(" ") ?? [];
+  if (!classNameArray.includes("Thaumaturge") && !game.user.isGM) return;
+
+  const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
+
+  const lanternIntensifyEffect = (
+    await fromUuid(INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID)
+  ).toObject();
+
+  await a.createEmbeddedDocuments("Item", [lanternIntensifyEffect]);
+}
