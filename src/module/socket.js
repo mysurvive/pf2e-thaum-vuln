@@ -270,6 +270,7 @@ async function _createRKDialog(saUuid, targUuid, skill) {
           actor: sa,
           type: "skill-check",
           options: [...rollOptions, "action:recall-knowledge"],
+          domains: ["all", "check", "skill-check"],
           notes,
           dc: { value: parseInt(rollDC) + parseInt(rollELModifier) },
           traits: traits,
