@@ -2,35 +2,120 @@
   "pf2e-thaum-vuln": {
     "settings": {
       "EVAutomation": {
-        "name": "Użyj Exploit Vulnerability Automation",
-        "hint": "Jeśli zaznaczony, moduł automatycznie zaznaczy wszystkie ważne cele dla Mortal Weakness, Sympathetic Vulnerabilities itp. na bieżącej scenie. Nie zaznaczaj, jeśli chcesz ręcznie aktualizować cele za pomocą makra forceEV. Możesz chcieć wyłączyć tę opcję, jeśli stosujesz efekty podatności na exploity inaczej niż opisano w RAW."
+        "name": "Użyj Automatyzacji Exploit Vulnerability",
+        "hint": "Jeśli zaznaczony, moduł automatycznie zaznaczy wszystkie ważne cele dla Mortal Weakness, Sympathetic Vulnerabilities itp. na bieżącej scenie. Nie zaznaczaj, jeśli chcesz ręcznie aktualizować cele za pomocą makra forceEV. Możesz chcieć wyłączyć tę opcję, jeśli stosujesz efekty Exploit Vulnerability inaczej niż opisano w RAW."
       },
       "mystifyNumbers": {
         "name": "Mistyfikacja wartości IWR",
-        "hint": "Jeśli zanaczony, wyniki w oknie dialogowym podczas wykorzystywania luki nie będą wyświetlane - pokazywany będzie tylko rodzaj uszkodzenia."
+        "hint": "Jeśli zanaczony, wyniki w oknie dialogowym podczas exploiting a vulnerability nie będą wyświetlane - pokazywany będzie tylko rodzaj uszkodzenia."
       },
       "esotericLoreModifier": {
-        "name": "Modyfikator ST wiedzy ezoterycznej",
-        "hint": "Ustaw globalny modyfikator dla ST wiedzy ezoterycznej. Jeśli zostanie on zmieniony, zazwyczaj wynosi -2, aby wiedza ezoteryczna była zgodna z odpowiednią umiejętnością wiedzy dla celów przywoływania wiedzy."
+        "name": "Modyfikator ST Wiedzy Ezoterycznej",
+        "hint": "Ustaw globalny modyfikator dla ST Wiedzy Ezoterycznej. Jeśli zostanie on zmieniony, zazwyczaj wynosi -2, aby Wiedza Ezoteryczna była zgodna z odpowiednią umiejętnością wiedzy dla celów Przywołania Wiedzy."
       }
     },
     "notifications": {
       "warn": {
         "exploitVulnerability": {
-          "targetCount": "Wybierz jeden token Thaumaturge'a i namierz jedną istotę.",
-          "noExploitVulnerability": "Ten aktor nie ma możliwości wykorzystania podatności",
-          "noEsotericLoreSkill": "Ten aktor nie posiada umiejętności Wiedza ezoteryczna",
+          "targetCount": "Wybierz jeden token Thaumaturge'a i wyceluj w istotę.",
+          "noExploitVulnerability": "Ten aktor nie ma możliwości użycia Exploit Vulnerability",
+          "noEsotericLoreSkill": "Ten aktor nie posiada umiejętności Wiedza Ezoteryczna (Esoteric Lore)",
           "noMatchingDC": "Brak pasującego ST dla celu"
         },
         "cursedEffigy": {
-          "noAbility": "Nie masz możliwości stworzenia przeklętej podobizny",
-          "invalidTarget": "Wyceluj tylko w cel swojej podatności na exploity, aby stworzyć przeklętą podobiznę"
+          "noAbility": "Nie masz możliwości stworzenia cursed effigy",
+          "invalidTarget": "Wyceluj tylko w cel swojej zdolności exploit vulnerability, aby stworzyć cursed effigy"
         },
         "forceEV": {
-          "invalidTargets": "Wybierz jeden token Thaumaturge'a i namierz jedną lub więcej istot",
+          "invalidTargets": "Wybierz jeden token Thaumaturge'a i wyceluj jedną lub więcej istot",
           "eVNotActivated": "Wybrany token nie aktywował Exploit Vulnerability"
+        },
+        "shareWeakness": {
+          "noAbility": "Aktor nie ma możliwości do dzielenia się słabościami",
+          "invalidActorCount": "Wybierz tylko Thaumaturge'a używając Share Weakness i spróbuj ponownie.",
+          "noActiveMW": "Aktor nie ma aktywnego efektu Mortal Weakness"
+        },
+        "twinWeakness": {
+          "invalidTargetCount": "Wybierz tylko jeden cel, przeciwko któremu użyjesz Twin Weakness",
+          "invalidTarget": "Cel Twin Weakness musi być również celem Personal Antithesis lub Mortal Weakness",
+          "noValidEV": "Twój cel musi być pod wpływem Personal Antithesis lub Mortal Weakness, abyś mógł użyć Twin Weakness"
+        },
+        "strike": {
+          "invalidDamageType": "Typ obrażeń broni jest ustawiony na Nieokreślone, co jest nieprawidłowym typem obrażeń dla celów Exploit Vulnerability. Słabość nie zostanie zastosowana."
+        },
+        "mortalWeakness": {
+          "noWeakness": "Ta istota nie ma żadnych słabości, przeciwko którym można by wykorzystać Mortal Weakness."
         }
       }
+    },
+    "exploitVulnerability": {
+      "name": "Exploit Vulnerability",
+      "frequency": {
+        "label": "Częstotliwość",
+        "text": "raz na rundę"
+      },
+      "flavor": "Przeszukujesz swoje doświadczenia i wiedzę, aby znaleźć coś, co może odstraszyć wroga. Wyciągasz ze swojej ezoteryki przedmiot o odpowiednich nadprzyrodzonych właściwościach, a następnie używasz swojego narzędzia, by rozniecić resztki jego mocy. Wybierz istotę, którą widzisz i spróbuj wykonać test Wiedzy Ezoterycznej ze standardowym ST dla jej poziomu, podczas gdy wyciągasz odpowiedni przedmiot z ezoteryki i używasz swojego narzędzia, aby go wzmocnić. Zyskujesz następujące efekty do momentu ponownego wykorzystania Exploit Vulnerabilities.",
+      "requirements": {
+        "label": "Wymagania",
+        "text": "Trzymasz przyrząd w ręku"
+      },
+      "dialog": {
+        "prompt": "Wybierz podatność, którą chcesz wykorzystać.",
+        "paBonusLabel": "Premia do obrażeń od Personal Antithesis: ",
+        "weaknessLabel": "Słabości: ",
+        "resistanceLabel": "Odporności: ",
+        "immunityLabel": "Niewrażliwości: ",
+        "except": "Z wyjątkiem: ",
+        "doublevs": "Podwójne vs.: "
+      }
+    },
+    "personalAntithesis": {
+      "name": "Osobista antyteza (Personal Antithesis)"
+    },
+    "mortalWeakness": {
+      "name": "Śmiertelna słabość (Mortal Weakness)"
+    },
+    "breachedDefenses": {
+      "name": "Naruszona obrona (Breached Defenses)",
+      "bypassableLabel": "Najwyższa możliwa do ominięcia odporność: ",
+      "bypassLine": "{type}, ominięty przez {exception}"
+    },
+    "esotericWarden": {
+      "name": "Strażnik Ezoteryki (Esoteric Warden)",
+      "flavor": "Kiedy pomyślnie zastosujesz przeciwstawny materiał przeciwko stworzeniu, zabezpieczasz się również przed jego kolejnymi atakami. Gdy powiedzie ci się test na Exploit a Vulnerability, zyskujesz premię +1 do swojego KP przeciwko następnemu atakowi istoty oraz premię +1 do następnego rzutu obronnego przeciwko tej istocie; jeśli powiedzie ci się krytycznie, premie te wynoszą +2. Możesz uzyskać te premie tylko raz dziennie przeciwko konkretnej istocie, a korzyść kończy się, jeśli ponownie wykorzystasz Exploit Vulnerability."
+    },
+    "diverseLore": {
+      "name": "Różnorodna wiedza (Diverse Lore)",
+      "flavor": "Gdy uda ci się wykonać test Exploit a Vulnerability, porównaj wynik swojego testu Wiedzy Ezoterycznej ze ST do Przywołania Wiedzy dla tej istoty; jeśli liczba ta byłaby sukcesem lub sukcesem krytycznym, zdobywasz informacje tak, jakby udało ci się wykonać test Przywołania Wiedzy. "
+    },
+    "sharedWarding": {
+      "name": "Wspólna ochrona (Shared Warding)",
+      "flavor": "Chronisz swoich sojuszników przed atakami wrogów za każdym razem, gdy sam stosujesz te zabezpieczenia. Kiedy zyskujesz premię statusową do KP i rzutów obronnych dzięki Esoteric Warden, możesz przyznać tę samą premię wszystkim sojusznikom w promieniu 30 stóp.",
+      "prompt": "Czy chcesz zastosować efekt Esoteric Warden na wszystkich sojusznikach w promieniu 30 stóp?"
+    },
+    "shareWeakness": {
+      "name": "Współdzielenie słabości (Share Weakness)",
+      "prompt": "Wybierz sojusznika, z którym podzielisz się efektem Mortal Weakness.",
+      "flavor": "Wybierasz przedmiot ze swojej ezoteryki, który ma dla ciebie dużą wartość osobistą, taki jak medalion lub cenny pierścień, i przekaż go sojusznikowi, tworząc osobistą więź, która pozwala sojusznikowi wpływać na wroga tak, jakby był tobą. Uderzenia sojusznika nakładają osłabienie wynikające z twojej mortal weakness w taki sam sposób, jak twoje uderzenia. Ta korzyść kończy się wraz z wygaśnięciem twojej zdolności Exploit Vulnerability lub gdy ponownie podzielisz się słabością."
+    },
+    "ubiquitousWeakness": {
+      "name": "Wszechobecna słabość (Ubiquitous Weakness)",
+      "flavor": "Pielęgnujesz więzi ze swoimi towarzyszami, dzięki czemu możesz dzielić się korzyściami płynącymi z ezoteryki. Kiedy używasz opcji Exploit Vulnerability i wybierasz mortal weakness, możesz wybrać dowolną liczbę sojuszników w promieniu 30 stóp od ciebie. Ich Uderzenia nakładają osłabienie wynikające ze śmiertelnego osłabienia w taki sam sposób, jak twoje Uderzenia. Ta korzyść kończy się, gdy przestajesz korzystać z efektu Exploit Vulnerability. Ponieważ efekt ten zależy od magicznego wzmocnienia twojej więzi z sojusznikami, tylko sojusznicy, z którymi nawiązałeś relację w ciągu jednego lub więcej dni, otrzymują tę korzyść.",
+      "prompt": "Czy chcesz zastosować efekt Mortal Weakness na wszystkich sojusznikach w promieniu 30 stóp?"
+    },
+    "twinWeakness": {
+      "chatCardHeader": "Obrażenia: Twin Weakness",
+      "name": "Bliźniacza słabość (Twin Weakness)"
+    },
+    "dialog": {
+      "yes": "Tak",
+      "no": "Nie",
+      "confirm": "Potwierdź",
+      "cancel": "Anuluj",
+      "none": "brak"
+    },
+    "chatCard": {
+      "use": "Użyj {action}"
     }
   }
 }
