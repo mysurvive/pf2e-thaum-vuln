@@ -102,7 +102,8 @@ export const amuletChatButton = {
     if (!game.ready) return;
     const aArray =
       game.canvas.tokens.placeables.filter(
-        (t) => t?.actor?.class?.name === game.i18n.localize("PF2E.TraitThaumaturge")
+        (t) =>
+          t?.actor?.class?.name === game.i18n.localize("PF2E.TraitThaumaturge")
       ) ?? undefined;
     for (const a of aArray) {
       if (
@@ -194,7 +195,8 @@ async function checkChatForAbeyanceEffect(message, html) {
 
 async function removeLingeringEffect(combatant) {
   if (
-    combatant.actor?.class?.name === game.i18n.localize("PF2E.TraitThaumaturge") &&
+    combatant.actor?.class?.name ===
+      game.i18n.localize("PF2E.TraitThaumaturge") &&
     game.user.isGM &&
     !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
   ) {

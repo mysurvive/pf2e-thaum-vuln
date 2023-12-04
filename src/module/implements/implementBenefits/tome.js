@@ -343,7 +343,11 @@ async function deleteOldTomeEffect(oldTome) {
 
 export async function tomeIntensify() {
   const classNameArray = game.user?.character?.class?.name.split(" ") ?? [];
-  if (!classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) && !game.user.isGM) return;
+  if (
+    !classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
+    !game.user.isGM
+  )
+    return;
 
   const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
 
