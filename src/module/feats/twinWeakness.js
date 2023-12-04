@@ -98,7 +98,7 @@ async function twinWeakness() {
           )}</strong>
           <div class="tags">
           <span class="tag" data-trait="esoterica" data-description="PF2E.TraitDescriptionEsoterica">Esoterica</span>
-          <span class="tag" data-trait="thaumaturge" data-description="PF2E.TraitDescriptionThaumaturge">Thaumaturge</span>
+          <span class="tag" data-trait="PF2E.TraitThaumaturge" data-description="PF2E.TraitDescriptionThaumaturge">Thaumaturge</span>
           </div>`,
         });
       }

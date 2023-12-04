@@ -7,7 +7,7 @@ import { manageImplements } from "../implements";
 async function createTomeDialog(actor) {
   const classNameArray = actor?.class?.name.split(" ") ?? [];
   if (
-    classNameArray.includes("Thaumaturge") &&
+    classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
     actor
       .getFlag("pf2e-thaum-vuln", "selectedImplements")
       .some((i) => i.name === "Tome")
@@ -343,7 +343,7 @@ async function deleteOldTomeEffect(oldTome) {
 
 export async function tomeIntensify() {
   const classNameArray = game.user?.character?.class?.name.split(" ") ?? [];
-  if (!classNameArray.includes("Thaumaturge") && !game.user.isGM) return;
+  if (!classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) && !game.user.isGM) return;
 
   const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
 

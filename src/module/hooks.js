@@ -35,7 +35,7 @@ Hooks.on(
 
 async function updateWeaknessType(message, speaker) {
   if (
-    speaker.class?.name != "Thaumaturge" ||
+    speaker.class?.name != game.i18n.localize("PF2E.TraitThaumaturge") ||
     message.flags?.pf2e?.context?.action != "strike" ||
     message.flags?.pf2e?.origin?.type != "weapon"
   )
@@ -163,7 +163,7 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
   const a = _sheet.actor;
   // Add compatibility with xdy/symon's dual class macro
   const classNameArray = a.class?.name.split(" ") ?? [];
-  if (classNameArray.includes("Thaumaturge") && character.owner) {
+  if (classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) && character.owner) {
     //implement management buttons
     if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
       a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));

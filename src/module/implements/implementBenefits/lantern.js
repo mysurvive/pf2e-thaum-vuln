@@ -217,7 +217,7 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
 });
 export async function lanternIntensify() {
   const classNameArray = game.user?.character?.class?.name.split(" ") ?? [];
-  if (!classNameArray.includes("Thaumaturge") && !game.user.isGM) return;
+  if (!classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) && !game.user.isGM) return;
 
   const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
 

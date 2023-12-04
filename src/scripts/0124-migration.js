@@ -3,7 +3,7 @@ Hooks.on("ready", async () => {
     ui.notifications.info("Migrating PF2e Exploit Vulnerability 0.12.4 data.");
     await async function () {
       for (const user of game.users) {
-        if (user?.character?.class.name.split(" ").includes("Thaumaturge")) {
+        if (user?.character?.class.name.split(" ").includes(game.i18n.localize("PF2E.TraitThaumaturge"))) {
           const feats = user.character.items.filter((i) => i.type === "feat");
           const implementImprovementSourceIDs = [
             "Compendium.pf2e.classfeatures.Item.Obm4ItMIIr0whYeO",
