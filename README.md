@@ -11,10 +11,10 @@ This project is a carryover until the pf2e system for Foundry VTT implements Tha
 <strong>Make sure actors are assigned to players!</strong><br>
 <strong>IWR must be turned on in the PF2e System Automation Settings or damage will not be applied properly</strong><br>
 <strong>A thaumaturge's Esoteric Lore entry must be listed as Esoteric Lore, Esoteric, or Lore Esoteric or it will not work</strong>
-![Esoteric Lore Skill](src/assets/esotericLore.png)
-Don't use an importer. It breaks stuff.
-Seriously, not just with the module, but also in the system.
-Don't use them.
+![Esoteric Lore Skill](src/assets/esotericLore.png)<br>
+Don't use an importer. It breaks stuff.<br>
+Seriously, not just with the module, but also in the system.<br>
+Don't use them.<br>
 
 ## Functionality
 
