@@ -86,13 +86,11 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
 
   if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_SOURCEID) {
     effect.system.rules[0].value = iwrData;
-    effect.system.rules[1].value = iwrData;
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
   } else if (
     effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID
   ) {
     effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
-    effect.system.rules[1].value = Math.floor(a.level / 2) + 2;
     a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
   }
 
@@ -422,9 +420,6 @@ async function revertDamageSources(target) {
 async function _socketUpdateTargetWeaknessType(evEffect, damageType) {
   evEffect.update({
     _id: evEffect._id,
-    "system.rules": [
-      { ...evEffect.system.rules[0], type: damageType },
-      { ...evEffect.system.rules[1] },
-    ],
+    "system.rules": [{ ...evEffect.system.rules[0], type: damageType }],
   });
 }
