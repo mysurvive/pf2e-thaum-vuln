@@ -184,8 +184,8 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
         `<button type="button" class="clear-implements-button">Clear All Implements</button>`
       );
       inventoryList.append(
-        `<div class="inventory-header">
-    <h3 class="item-name">Thaumaturge Implements</h3></div>
+        `<header>
+    <h3 class="item-name">Thaumaturge Implements</h3></header>
     
     `
       );
@@ -265,10 +265,10 @@ function showImplementsOnSheet(inventoryList, a) {
   if (a.getFlag("pf2e-thaum-vuln", "selectedImplements") !== undefined) {
     for (const imp of a.getFlag("pf2e-thaum-vuln", "selectedImplements")) {
       const id = `[data-item-id="${imp?.uuid.split(".")[3]}`;
-      const inventoryItem = $(inventoryList).find($(".item")).filter($(id));
+      const inventoryItem = $(inventoryList).find($("li")).filter($(id));
 
       $(inventoryItem)
-        .find("div.item-name.rollable")
+        .find("div.item-name")
         .append(
           $(
             `<img class="item-image item-icon" title="${imp?.counter} implement" style="border-width: 0px; margin-left: 10px;" src="/modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />`
