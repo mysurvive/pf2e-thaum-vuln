@@ -271,7 +271,7 @@ function showImplementsOnSheet(inventoryList, a) {
         .find("div.item-name")
         .append(
           $(
-            `<img class="item-image item-icon" title="${imp?.counter} implement" style="border-width: 0px; margin-left: 10px;" src="/modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />`
+            `<img class="item-image item-icon" title="${imp?.counter} implement" style="border-width: 0px; margin-left: 10px;" src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />`
           )
         );
     }
