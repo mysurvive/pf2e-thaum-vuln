@@ -13,7 +13,8 @@ function recallEsotericKnowledge() {
       )
     );
   }
-  createRKDialog(sa, targ, skill);
+  createRKDialog(sa, targ);
+  ui.notifications.info("Recall Knowledge request sent to GM.");
 }
 
 export { recallEsotericKnowledge };

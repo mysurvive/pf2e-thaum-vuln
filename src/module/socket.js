@@ -66,14 +66,13 @@ export function deleteEVEffect(effects) {
   return socket.executeAsGM(_socketDeleteEVEffect, effects);
 }
 
-export function createRKDialog(sa, targ, skill) {
+export function createRKDialog(sa, targ) {
   const gmUserId = game.users.find((u) => u.isGM === true).id;
   return socket.executeAsUser(
     _createRKDialog,
     gmUserId,
     sa.uuid,
-    targ?.actor?.token?.uuid,
-    skill
+    targ?.actor?.token?.uuid
   );
 }
 
@@ -184,8 +183,12 @@ async function _socketSharedWarding(eff, a) {
   }
 }
 
-async function _createRKDialog(saUuid, targUuid, skill) {
+async function _createRKDialog(saUuid, targUuid) {
   const sa = await fromUuid(saUuid);
+  const skill =
+    sa.skills["esoteric-lore"] ??
+    sa.skills["esoteric"] ??
+    sa.skills["lore-esoteric"];
   const targ = await fromUuid(targUuid);
   const hasDiverseLore = sa.items.some((i) => i.slug === "diverse-lore");
   const esotericLoreModifier = game.settings.get(
@@ -304,7 +307,6 @@ async function _createRKDialog(saUuid, targUuid, skill) {
     buttons: dgButtons,
     default: "roll",
   }).render(true);
-  ui.notifications.info("Recall Knowledge request sent to GM.");
 }
 
 async function _socketApplyAbeyanceEffects(a, abeyanceData) {
