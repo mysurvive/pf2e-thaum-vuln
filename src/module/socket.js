@@ -66,11 +66,9 @@ export function deleteEVEffect(effects) {
   return socket.executeAsGM(_socketDeleteEVEffect, effects);
 }
 
-export function createRKDialog(sa, targ) {
-  const gmUserId = game.users.find((u) => u.isGM === true).id;
-  return socket.executeAsUser(
+export function createRKDialog(sa, targ, skill) {
+  return socket.executeAsGM(
     _createRKDialog,
-    gmUserId,
     sa.uuid,
     targ?.actor?.token?.uuid
   );
