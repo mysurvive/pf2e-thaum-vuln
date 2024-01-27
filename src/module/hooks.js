@@ -164,7 +164,8 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
   // Add compatibility with xdy/symon's dual class macro
   const classNameArray = a.class?.name.split(" ") ?? [];
   if (
-    classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
+    (classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) ||
+      classNameArray.includes("Thaumaturge")) &&
     character.owner
   ) {
     //implement management buttons
