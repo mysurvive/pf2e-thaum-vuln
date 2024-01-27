@@ -66,12 +66,8 @@ export function deleteEVEffect(effects) {
   return socket.executeAsGM(_socketDeleteEVEffect, effects);
 }
 
-export function createRKDialog(sa, targ, skill) {
-  return socket.executeAsGM(
-    _createRKDialog,
-    sa.uuid,
-    targ?.actor?.token?.uuid
-  );
+export function createRKDialog(sa, targ) {
+  return socket.executeAsGM(_createRKDialog, sa.uuid, targ?.actor?.token?.uuid);
 }
 
 export function applyAbeyanceEffects(a, abeyanceData) {
