@@ -206,7 +206,6 @@ async function deleteOldLanternEffect(oldLantern) {
 }
 
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  console.log("createImplementEffect hook called");
   if (
     game.user.id === userID &&
     imps.find((i) => i.name === "Lantern")?.uuid &&

@@ -49,7 +49,10 @@ async function amuletsAbeyance(a, allies, strikeDamageTypes) {
                     .find((i) => i.name === "Amulet").adept === true
                 ) {
                   for (const selector of $(dgEndContent).find("select")) {
-                    if (selector.id === "damage-type-" + chosenUuid) {
+                    if (
+                      selector.id === "damage-type-" + chosenUuid ||
+                      selector.id === "damage-type-adept"
+                    ) {
                       const charName = (await fromUuid(chosenUuid)).name;
                       const damageType = $(selector)[0].value;
                       abeyanceData[charName].lingeringDamageType = damageType;
