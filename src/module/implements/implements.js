@@ -88,7 +88,14 @@ export async function manageImplements(event) {
     if (a.items.some((i) => i.slug === "implement-adept")) {
       if (
         imp.name.toLowerCase() ===
-        a.items.find((i) => i.slug === "implement-adept").rules[0].selection
+        (
+          await fromUuid(
+            a.uuid +
+              ".Item." +
+              a.items.find((i) => i.slug === "implement-adept").rules[0]
+                .selection
+          )
+        ).name.toLowerCase()
       ) {
         imp.adept = true;
       }
@@ -96,7 +103,13 @@ export async function manageImplements(event) {
     if (a.items.some((i) => i.slug === "second-adept")) {
       if (
         imp.name.toLowerCase() ===
-        a.items.find((i) => i.slug === "second-adept").rules[0].selection
+        (
+          await fromUuid(
+            a.uuid +
+              ".Item." +
+              a.items.find((i) => i.slug === "second-adept").rules[0].selection
+          )
+        ).name.toLowerCase()
       ) {
         imp.adept = true;
       }
@@ -104,7 +117,14 @@ export async function manageImplements(event) {
     if (a.items.some((i) => i.slug === "implement-paragon")) {
       if (
         imp.name.toLowerCase() ===
-        a.items.find((i) => i.slug === "implement-paragon").rules[0].selection
+        (
+          await fromUuid(
+            a.uuid +
+              ".Item." +
+              a.items.find((i) => i.slug === "implement-paragon").rules[0]
+                .selection
+          )
+        ).name.toLowerCase()
       ) {
         imp.paragon = true;
       }
