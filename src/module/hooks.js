@@ -206,7 +206,7 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
 
     //EV Target Management
 
-    const strikesList = html.find(".sheet-body .actions-options");
+    const strikesList = html.find(".sheet-body .option-toggles");
     const EVTargetSection = $(
       `<fieldset class="actor.sheet" style="display:flex;flex-direction:column;border:1px solid;border-radius:5px;padding:5px;"><legend>Exploit Vulnerability</legend></fieldset>`
     );
