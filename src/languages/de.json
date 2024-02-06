@@ -1,0 +1,134 @@
+{
+  "pf2e-thaum-vuln": {
+    "settings": {
+      "EVAutomation": {
+        "name": "Schwachstellen ausnutzen Automatisierung verwenden",
+        "hint": "Wenn aktiviert, markiert das Modul automatisch alle gültigen Ziele für Tödliche Schwäche, Sympathische Schwachstellen usw. in der aktuellen Szene. Deaktiviere die Automatisierung, wenn du die Ziele manuell mit dem forceEV-Makro aktualisieren möchtest. Du solltest diese Option deaktivieren, wenn du die Effekte von Schwachstellen ausnutzen anders als in RAW beschrieben anwendest."
+      },
+      "mystifyNumbers": {
+        "name": "Werte für Immunitäten, Schwächen und Resistenzen verschleiern",
+        "hint": "Wenn aktiviert, werden im Dialog für Schwachstellen ausnutzen nicht die genauen Werte angezeigt, sondern nur die Art des Schadens."
+      },
+      "esotericLoreModifier": {
+        "name": "Kenntnis Esoterik SG Modifikator",
+        "hint": "Legt einen globalen Modifikator für den SG der Kenntnis Esoterik fest. Wenn er geändert wird, wird er normalerweise auf -2 gesetzt, um Kenntnis Esoterik an einer anwendbaren Kenntnisfertigkeit für die Zwecke von Wissen abrufen anzugleichen."
+      }
+    },
+
+    "notifications": {
+      "warn": {
+        "exploitVulnerability": {
+          "targetCount": "Wähle einen Thaumaturgen aus und ziele auf eine Kreatur.",
+          "noExploitVulnerability": "Dieser Charakter hat nicht die Fähigkeit, eine Schwachstelle auszunutzen",
+          "noEsotericLoreSkill": "Dieser Charakter verfügt nicht über die Fertigkeit Kenntnis Esoterik",
+          "noMatchingDC": "Kein passender SG für das Ziel"
+        },
+        "cursedEffigy": {
+          "invalidTarget": "Ziele nur auf das Ziel von Schwachstelle ausnutzen, um ein verfluchtes Abbild zu erstellen",
+          "noAbility": "Du hast nicht die Fähigkeit, ein verfluchtes Abbild zu erschaffen"
+        },
+        "forceEV": {
+          "invalidTargets": "Wähle einen Thaumaturgen aus und ziele auf mindestens eine Kreatur",
+          "eVNotActivated": "Die ausgewählte Kreatur hat Schwachstelle ausnutzen nicht aktiviert"
+        },
+        "mortalWeakness": {
+          "noWeakness": "Diese Kreatur hat keine Schwächen, gegen die eine Tödliche Schwachstelle ausgenutzt werden könnte."
+        },
+        "shareWeakness": {
+          "noAbility": "Der Charakter hat nicht die Fähigkeit, Schwachstellen zu teilen",
+          "noActiveMW": "Der Charakter hat keinen Tödliche Schwachstelle Effekt aktiv",
+          "invalidActorCount": "Wähle nur den Thaumaturgen der Schwachstelle teilen nutzt aus und versuche es erneut"
+        },
+        "twinWeakness": {
+          "noValidEV": "Dein Ziel muss von Persönliche Antithese oder Tödliche Schwachstelle betroffen sein, um Doppelte Schwachstelle anwenden zu können.",
+          "invalidTargetCount": "Wähle nur ein Ziel aus, gegen das du Doppelte Schwachstelle einsetzen willst",
+          "invalidTarget": "Das Ziel der Doppelten Schwachstelle muss auch das Ziel von Persönliche Antithese oder Tödliche Schwachstelle sein"
+        },
+        "strike": {
+          "invalidDamageType": "Der Schadenstyp der Waffe ist auf typlos eingestellt, was ein ungültiger Schadenstyp für die Zwecke von Schwachstelle ausnutzen ist. Die Schwäche wird nicht angewendet."
+        }
+      }
+    },
+
+    "exploitVulnerability": {
+      "name": "Schwachstellen ausnutzen",
+      "flavor": "Du wühlst in deinen Erinnerungen, womit du deinen Gegner zurückschlagen könntest. Du holst aus deiner Esoterica-Sammlung einen Gegenstand mit passenden übernatürlichen Eigenschaften hervor und nutzt dann dein Paraphernum, um die Rückstände seiner Kraft zu einem Feuer zu entfachen. Wähle eine Kreatur, die du sehen kannst, und lege einen Fertigkeitswurf für Kenntnis (Esoterik) gegen den Standard-SG für die Stufe des Zieles ab, während du den richtigen Gegenstand hervorholst und mit deinem Paraphernum auflädst. Du erlangst die folgenden Effekte, bis du Schwachstellen ausnutzen erneut einsetzt:",
+      "frequency": {
+        "label": "Häufigkeit",
+        "text": "Einmal pro Runde"
+      },
+      "requirements": {
+        "label": "Anforderungen",
+        "text": "Du hältst dein Paraphernum"
+      },
+      "dialog": {
+        "prompt": "Wähle die Schwachstelle, die du ausnutzen willst.",
+        "paBonusLabel": "Persönliche Antithese Bonus Schaden: ",
+        "weaknessLabel": "Schwächen: ",
+        "resistanceLabel": "Resistenzen: ",
+        "immunityLabel": "Immunitäten: ",
+        "except": "Ausnahmen: ",
+        "doublevs": "Doppelter Schaden gg.: "
+      }
+    },
+
+    "personalAntithesis": {
+      "name": "Persönliche Antithese"
+    },
+
+    "mortalWeakness": {
+      "name": "Tödliche Schwachstelle"
+    },
+
+    "breachedDefenses": {
+      "name": "Verteidigung durchbrechen",
+      "bypassableLabel": "Höchste umgehbare Resistenz: ",
+      "bypassLine": "{type}, außer {exception}"
+    },
+
+    "esotericWarden": {
+      "name": "Esoterischer Schutz",
+      "flavor": "Nutzt du antithetisches Material erfolgreich gegen eine Kreatur, schützt du dich zugleich gegen ihre nächsten Angriffe. Gelingt dir der Wurf für Schwachstellen ausnutzen, erlangst du einen Zustandsbonus von +1 jeweils auf deine RK gegen den nächsten Angriff der Kreatur und auf deinen nächsten Rettungsbonus gegen die Kreatur; im Fall eines Kritischen Erfolges steigen diese Boni jeweils auf +2. Du kannst diese Boni nur einmal am Tag gegen dieselbe Kreatur erlangen; der Vorteil endet vorzeitig, solltest du Schwachstellen ausnutzen erneut einsetzen."
+    },
+
+    "diverseLore": {
+      "name": "Vielseitige Kenntnis",
+      "flavor": "Gelingt dir der Wurf zum Schwachstellen ausnutzen, so vergleiche das Ergebnis deines Wurfes für Kenntnis (Esoterik) mit dem Wissen-abrufen-SG für diese Kreatur; wäre dies ein Erfolg oder Kritischer Erfolg, so erlangst du Informationen, als wäre dir der Wurf zum Wissen abrufen entsprechend gelungen."
+    },
+
+    "sharedWarding": {
+      "name": "Geteilter Schutz",
+      "flavor": "Du schützt deine Verbündeten gegen Angriffe eurer Gegner, wenn du selbst diese Schutzmaßnahmen für dich triffst. Wenn du einen Zustandsbonus auf deine RK und Rettungswürfe durch Esoterischen Schutz erlangst, kannst du denselben Vorteil allen Verbündeten innerhalb von 30 Fuß/9 m verleihen.",
+      "prompt": "Möchtest du den Effekt von Esoterischer Schutz auf alle Verbündeten innerhalb von 30 Fuß/9 m anwenden?"
+    },
+
+    "shareWeakness": {
+      "name": "Schwachstelle teilen",
+      "flavor": "Du wählst einen Gegenstand aus deiner Esoterica-Sammlung, der für dich großen persönlichen Wert besitzt, z.B. ein Medaillon oder einen geerbten Ring, und überreichst ihn einem Verbündeten. Dies erschafft eine persönliche Verbindung, die deinem Verbündeten gestattet, auf einen Gegner einzuwirken, als wäre er du: Die Angriffe des Verbündeten nutzen die Schwäche, die durch deine Tödliche Schwachstelle geschaffen wird, so wie es deine Angriffe tun. Dieser Vorteil endet, wenn du die Wirkungsdauer deiner Aktion Schwachstellen ausnutzen endet oder du Schwachstelle teilen erneut nutzt.",
+      "prompt": "Wähle einen Verbündeten aus, mit dem du deine Tödliche Schwachstelle teilen möchtest."
+    },
+
+    "ubiquitousWeakness": {
+      "name": "Mächtiges Schwachstelle teilen",
+      "flavor": "Du nährst die Bande zu deinen Kameraden und gestattest ihnen, die Vorteile deiner Esoterica zu teilen. Nutzt du die Aktion Schwachstellen ausnutzen und wählst Tödliche Schwachstelle, so wähle eine beliebige Anzahl von Verbündeten innerhalb von 30 Fuß/9 m Entfernung zu dir. Ihre Angriffe nutzen die Schwäche aus Tödliche Schwachstelle auf dieselbe Weise wie deine Angriffe. Dieser Vorteil endet, wenn du nicht länger von Schwachstellen ausnutzen profitierst. Da dieser Effekt darauf beruht, dass magisch deine Verbindung zu deinen Verbündeten gestärkt wird, können nur Verbündete von ihm profitieren, zu denen du im Laufe von wenigstens einem Tag einen Rapport aufgebaut hast.",
+      "prompt": "Möchtest du den Effekt von Tödliche Schwachstelle auf alle Verbündeten innerhalb von 30 Fuß/9 m anwenden?"
+    },
+
+    "twinWeakness": {
+      "name": "Doppelte Schwachstelle",
+      "chatCardHeader": "Schaden: Doppelte Schwachstelle"
+    },
+
+    "dialog": {
+      "yes": "Ja",
+      "no": "Nein",
+      "confirm": "Bestätigen",
+      "cancel": "Abbrechen",
+      "none": "keine"
+    },
+
+    "chatCard": {
+      "use": "Nutze {action}"
+    }
+  }
+}
