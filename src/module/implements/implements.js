@@ -165,7 +165,8 @@ export async function manageImplements(event) {
             for (const i of origin.keys()) {
               const changed =
                 origin[i]?.uuid != implementUuids[i] ? true : false;
-              impDelta.push({ name: origin[i]?.name, changed: changed });
+              const name = origin[i]?.name ?? imps[i]?.name;
+              impDelta.push({ name, changed });
             }
 
             a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
