@@ -139,6 +139,7 @@ async function constructEffect(actor) {
       predicate: ["adept:tome"],
       path: "{item|flags.pf2e.rulesSelections.effectTomeFirstSkill}",
       value: 3,
+      priority: 50,
     },
     {
       key: "ActiveEffectLike",
@@ -159,6 +160,7 @@ async function constructEffect(actor) {
           },
         ],
       },
+      priority: 50,
     },
     {
       key: "ActiveEffectLike",
