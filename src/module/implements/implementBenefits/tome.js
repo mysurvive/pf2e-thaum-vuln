@@ -308,11 +308,11 @@ async function createEffectOnImplement(imps, a) {
     },
     {
       key: "RollOption",
-      domain: "all",
       label: "Tome Implement Adept Benefit RK Success",
       option: "thaumaturge:tome:rk:success",
       toggleable: true,
       predicate: ["adept:tome"],
+      priority: 60,
     },
     {
       key: "FlatModifier",
