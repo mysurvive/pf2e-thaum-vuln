@@ -307,7 +307,11 @@ async function _socketApplyAbeyanceEffects(a, abeyanceData) {
   a = await fromUuid(a);
   const amuletImplementData = a.flags[
     "pf2e-thaum-vuln"
-  ].selectedImplements.find((i) => i.name === "Amulet");
+  ].selectedImplements.find(
+    (i) =>
+      i.name ===
+      game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
+  );
 
   for (const character in abeyanceData) {
     const amuletsAbeyanceEffect = (

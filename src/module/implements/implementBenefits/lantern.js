@@ -208,8 +208,16 @@ async function deleteOldLanternEffect(oldLantern) {
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
   if (
     game.user.id === userID &&
-    imps.find((i) => i.name === "Lantern")?.uuid &&
-    impDelta.find((i) => i.name === "Lantern")?.changed
+    imps.find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Lantern")
+    )?.uuid &&
+    impDelta.find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Lantern")
+    )?.changed
   ) {
     createEffectOnImplement(imps, a);
   }

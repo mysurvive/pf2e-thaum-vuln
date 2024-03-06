@@ -4,7 +4,11 @@ import { INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID } from "../../utils";
 async function amuletsAbeyance(a, allies, strikeDamageTypes) {
   const amuletImplementData = a
     .getFlag("pf2e-thaum-vuln", "selectedImplements")
-    .find((i) => i.name === "Amulet");
+    .find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
+    );
   const adeptResistanceValue = a.level < 15 ? 5 : 10;
   const abeyanceResistanceValue = 2 + a.level;
 
@@ -13,7 +17,11 @@ async function amuletsAbeyance(a, allies, strikeDamageTypes) {
     damageTypes: strikeDamageTypes,
     adeptResistanceValue: adeptResistanceValue,
     abeyanceResistanceValue: abeyanceResistanceValue,
-    amuletBenefits: a.items.find((i) => i.name === "Amulet").description,
+    amuletBenefits: a.items.find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
+    ).description,
     amuletRank: amuletImplementData,
   };
 
@@ -46,7 +54,13 @@ async function amuletsAbeyance(a, allies, strikeDamageTypes) {
                 if (
                   character
                     .getFlag("pf2e-thaum-vuln", "selectedImplements")
-                    .find((i) => i.name === "Amulet").adept === true
+                    .find(
+                      (i) =>
+                        i.name ===
+                        game.i18n.localize(
+                          "PF2E.SpecificRule.Thaumaturge.Implement.Amulet"
+                        )
+                    ).adept === true
                 ) {
                   for (const selector of $(dgEndContent).find("select")) {
                     if (
@@ -76,7 +90,13 @@ async function amuletsAbeyance(a, allies, strikeDamageTypes) {
           if (
             character
               .getFlag("pf2e-thaum-vuln", "selectedImplements")
-              .find((i) => i.name === "Amulet").paragon === true
+              .find(
+                (i) =>
+                  i.name ===
+                  game.i18n.localize(
+                    "PF2E.SpecificRule.Thaumaturge.Implement.Amulet"
+                  )
+              ).paragon === true
           ) {
             $(".character-button").css("background-color", "red");
             $(".character-button").attr("chosen", true);
@@ -111,14 +131,26 @@ export const amuletChatButton = {
     for (const a of aArray) {
       if (
         a?.actor.isOwner &&
-        a?.actor?.items.some((i) => i.name === "Amulet" && i.type === "feat") &&
+        a?.actor?.items.some(
+          (i) =>
+            i.name ===
+              game.i18n.localize(
+                "PF2E.SpecificRule.Thaumaturge.Implement.Amulet"
+              ) && i.type === "feat"
+        ) &&
         !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
       ) {
         const effectRange = 15;
         const targets = message.flags["pf2e-thaum-vuln"].targets;
         const amuletImplementData = a.actor
           .getFlag("pf2e-thaum-vuln", "selectedImplements")
-          .find((i) => i?.name === "Amulet");
+          .find(
+            (i) =>
+              i?.name ===
+              game.i18n.localize(
+                "PF2E.SpecificRule.Thaumaturge.Implement.Amulet"
+              )
+          );
         let targetedAlliesInRange = new Array();
         if (amuletImplementData?.paragon === true) {
           targetedAlliesInRange = canvas.tokens.placeables.filter(
@@ -158,7 +190,13 @@ export const amuletChatButton = {
 
         const amuletUuid = a.actor
           .getFlag("pf2e-thaum-vuln", "selectedImplements")
-          .find((i) => i.name === "Amulet").uuid;
+          .find(
+            (i) =>
+              i.name ===
+              game.i18n.localize(
+                "PF2E.SpecificRule.Thaumaturge.Implement.Amulet"
+              )
+          ).uuid;
 
         const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
         const diceTotalArea = html.find(".dice-roll.damage-roll");
@@ -237,7 +275,11 @@ export async function amuletIntensify() {
 
   const amuletUuid = a
     .getFlag("pf2e-thaum-vuln", "selectedImplements")
-    .find((i) => i.name === "Amulet").uuid;
+    .find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
+    ).uuid;
   const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
   if (!amulet?.isHeld)
     return ui.notifications.warn(

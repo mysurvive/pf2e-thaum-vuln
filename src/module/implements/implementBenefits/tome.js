@@ -10,17 +10,29 @@ async function createTomeDialog(actor) {
     classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
     actor
       .getFlag("pf2e-thaum-vuln", "selectedImplements")
-      .some((i) => i.name === "Tome")
+      .some(
+        (i) =>
+          i.name ===
+          game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
+      )
   ) {
     if (
       actor
         .getFlag("pf2e-thaum-vuln", "selectedImplements")
-        .find((i) => i.name === "Tome").uuid
+        .find(
+          (i) =>
+            i.name ===
+            game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
+        ).uuid
     ) {
       const tome = await fromUuid(
         actor
           .getFlag("pf2e-thaum-vuln", "selectedImplements")
-          .find((i) => i.name === "Tome").uuid
+          .find(
+            (i) =>
+              i.name ===
+              game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
+          ).uuid
       );
 
       new Dialog(
@@ -252,7 +264,13 @@ async function fixDeleteProficiencyForLore(item) {
 }
 
 async function createEffectOnImplement(imps, a) {
-  const tome = await fromUuid(imps.find((i) => i.name === "Tome").uuid);
+  const tome = await fromUuid(
+    imps.find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
+    ).uuid
+  );
   const oldTome = a.items.find((i) =>
     i.system.rules.find((r) => r.label === "Tome Implement Recall Knowledge")
   );
@@ -290,7 +308,7 @@ async function createEffectOnImplement(imps, a) {
     },
     {
       key: "RollOption",
-      domain: "attack-roll",
+      domain: "all",
       label: "Tome Implement Adept Benefit RK Success",
       option: "thaumaturge:tome:rk:success",
       toggleable: true,
@@ -396,8 +414,16 @@ Hooks.on("deleteItem", (item, _b, userID) => {
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
   if (
     game.user.id === userID &&
-    imps.find((i) => i.name === "Tome")?.uuid &&
-    impDelta.find((i) => i.name === "Tome")?.changed &&
+    imps.find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
+    )?.uuid &&
+    impDelta.find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
+    )?.changed &&
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
   ) {
     constructEffect(a);

@@ -333,7 +333,7 @@ Hooks.on("createItem", async (item) => {
         domain: "all",
         option: `${game.pf2e.system.sluggify(
           impRank
-        )}:${game.pf2e.system.sluggify(upgradedImplement.name)}`,
+        )}:${game.pf2e.system.sluggify(upgradedImplement.slug)}`,
       });
 
       upgradedImplement.update({
