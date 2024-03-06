@@ -11,7 +11,7 @@
   ],
   "compatibility": {
     "minimum": "11",
-    "verified": "11.313"
+    "verified": "11.315"
   },
   "relationships": {
     "systems": [
@@ -19,8 +19,8 @@
         "id": "pf2e",
         "type": "system",
         "compatibility": {
-          "minimum": "5.9.1",
-          "verified": "5.9.1"
+          "minimum": "5.13.0",
+          "verified": "5.13.6"
         }
       }
     ],
