@@ -286,5 +286,6 @@ function getImplementFlavor(imps, a) {
 
 export async function clearImplements(event) {
   const a = event.data.actor;
+  Hooks.callAll("deleteImplementEffects", a);
   await a.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
 }

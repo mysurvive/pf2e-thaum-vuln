@@ -430,3 +430,11 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
     createEffectOnImplement(imps, a);
   }
 });
+
+Hooks.on("deleteImplementEffects", (a) => {
+  const oldTome = a.items.find((i) =>
+    i.system.rules.find((r) => r.label === "Tome Implement Recall Knowledge")
+  );
+
+  deleteOldTomeEffect(oldTome);
+});

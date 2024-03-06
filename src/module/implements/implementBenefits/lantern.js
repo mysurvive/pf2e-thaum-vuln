@@ -222,6 +222,15 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
     createEffectOnImplement(imps, a);
   }
 });
+
+Hooks.on("deleteImplementEffects", (a) => {
+  const oldLantern = a.items.find((i) =>
+    i.system.rules.find((r) => r.label === "Lantern Implement Light")
+  );
+
+  deleteOldLanternEffect(oldLantern);
+});
+
 export async function lanternIntensify() {
   const classNameArray = game.user?.character?.class?.name.split(" ") ?? [];
   if (
