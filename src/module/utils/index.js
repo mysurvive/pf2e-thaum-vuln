@@ -43,6 +43,8 @@ const INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.d0gHXzfsHj6OpV54";
 const INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.atECc1SuDgUqNakg";
+const TOME_ADEPT_RK_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.kg1CwmxZfKx7xWF3";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -88,4 +90,5 @@ export {
   TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
   INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID,
   INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID,
+  TOME_ADEPT_RK_EFFECT_UUID,
 };
