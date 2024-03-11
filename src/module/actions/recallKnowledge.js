@@ -1,7 +1,7 @@
 import { createRKDialog } from "../socket";
 function recallEsotericKnowledge() {
   const sa = canvas.tokens.controlled[0].actor;
-  const targ = Array.from(game.user?.targets)[0];
+  const targ = game.user.targets.first();
   const skill =
     sa.skills["esoteric-lore"] ??
     sa.skills["esoteric"] ??

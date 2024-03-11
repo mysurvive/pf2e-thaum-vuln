@@ -17,6 +17,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("sharedWarding", _socketSharedWarding);
   socket.register("ubiquitousWeakness", _socketUbiquitousWeakness);
   socket.register("createRKDialog", _createRKDialog);
+  socket.register("RKCallback", _RKCallback);
   socket.register("applyAbeyanceEffects", _socketApplyAbeyanceEffects);
   socket.register("applyRootToLife", _socketApplyRootToLife);
   socket.register("updateTargetWeaknessType", _socketUpdateTargetWeaknessType);
@@ -67,7 +68,12 @@ export function deleteEVEffect(effects) {
 }
 
 export function createRKDialog(sa, targ) {
-  return socket.executeAsGM(_createRKDialog, sa.uuid, targ?.actor?.token?.uuid);
+  return socket.executeAsGM(
+    _createRKDialog,
+    game.user.id,
+    sa.uuid,
+    targ?.document?.uuid
+  );
 }
 
 export function applyAbeyanceEffects(a, abeyanceData) {
@@ -177,14 +183,33 @@ async function _socketSharedWarding(eff, a) {
   }
 }
 
-async function _createRKDialog(saUuid, targUuid) {
+// GM Does the RK roll, this tells the user who did the roll what happened.
+function RKCallback(userId, saUuid, targUuid, roll) {
+  return socket.executeAsUser(
+    _RKCallback,
+    userId,
+    saUuid,
+    targUuid,
+    roll.degreeOfSuccess
+  );
+}
+
+async function _RKCallback(saUuid, targUuid, degreeOfSuccess) {
+  const sa = await fromUuid(saUuid);
+  const targ = await fromUuid(targUuid);
+  Hooks.callAll("RKResult", sa, targ, degreeOfSuccess);
+}
+
+async function _createRKDialog(userId, saUuid, targUuid) {
   const sa = await fromUuid(saUuid);
   const skill =
     sa.skills["esoteric-lore"] ??
     sa.skills["esoteric"] ??
     sa.skills["lore-esoteric"];
   const targ = await fromUuid(targUuid);
-  const hasDiverseLore = sa.items.some((i) => i.slug === "diverse-lore");
+  const hasDiverseLore = sa.itemTypes.feat.some(
+    (i) => i.slug === "diverse-lore"
+  );
   const esotericLoreModifier = game.settings.get(
     "pf2e-thaum-vuln",
     "esotericLoreModifier"
@@ -282,7 +307,9 @@ async function _createRKDialog(saUuid, targUuid) {
             },
           };
         }
-        await game.pf2e.Check.roll(checkModifier, rollData);
+        const roll = await game.pf2e.Check.roll(checkModifier, rollData);
+        // Need to send the result back to the user who make the request.
+        RKCallback(userId, saUuid, targUuid, roll);
       },
     },
     cancel: {
