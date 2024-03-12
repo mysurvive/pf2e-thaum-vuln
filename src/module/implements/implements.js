@@ -1,6 +1,27 @@
 import { checkImplements, checkFeatValidity } from "./helpers";
 import { parseHTML } from "../utils/utils.js";
 
+class ManagedImplement {
+  constructor(featSlug, a, imp) {
+    this.counter =
+      featSlug === "first-implement-and-esoterica"
+        ? "First"
+        : featSlug === "second-implement"
+        ? "Second"
+        : featSlug === "third-implement"
+        ? "Third"
+        : undefined;
+    this.name = imp.name;
+    this.adept = false;
+    this.paragon = false;
+    this.intensify = false;
+    this.uuid =
+      a.getFlag("pf2e-thaum-vuln", "selectedImplements")[imp.slug]?.uuid ??
+      undefined;
+    this.slug = imp.slug;
+  }
+}
+
 export async function manageImplements(event) {
   const a = event?.data.actor ?? event;
   if (checkFeatValidity(a) === false) {
@@ -12,7 +33,7 @@ export async function manageImplements(event) {
   const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
   let passSelectedImplements = {};
 
-  for (const key of selectedImplements.keys()) {
+  for (const key of Object.keys(selectedImplements)) {
     if (selectedImplements[key]) {
       const impUuid = selectedImplements[key]?.uuid ?? undefined;
       let imp;
@@ -29,65 +50,33 @@ export async function manageImplements(event) {
     }
   }
 
-  const imps = [];
-  if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
-    const firstImplement = a.items.find(
-      (i) => i.slug === "first-implement-and-esoterica"
-    );
-    const imp = await fromUuid(
-      `${a.uuid}.Item.${firstImplement.rules[1].grantedId}`
-    );
-    imps.push({
-      counter: "First",
-      name: imp.name,
-      adept: false,
-      paragon: false,
-      intensify: false,
-      uuid:
-        a.getFlag("pf2e-thaum-vuln", "selectedImplements")[0]?.uuid ??
-        undefined,
-    });
+  const imps = {};
+
+  const firstImplement =
+    (await createManagedImplement("first-implement-and-esoterica", a)) ??
+    undefined;
+  const secondImplement =
+    (await createManagedImplement("second-implement", a)) ?? undefined;
+  const thirdImplement =
+    (await createManagedImplement("third-implement", a)) ?? undefined;
+
+  if (firstImplement) {
+    imps[firstImplement.name] = firstImplement.data;
   }
-  if (a.items.some((i) => i.slug === "second-implement")) {
-    const secondImplement = a.items.find((i) => i.slug === "second-implement");
-    const imp = await fromUuid(
-      `${a.uuid}.Item.${secondImplement.rules[1].grantedId}`
-    );
-    imps.push({
-      counter: "Second",
-      name: imp.name,
-      adept: false,
-      paragon: false,
-      intensify: false,
-      uuid:
-        a.getFlag("pf2e-thaum-vuln", "selectedImplements")[1]?.uuid ??
-        undefined,
-    });
+  if (secondImplement) {
+    imps[secondImplement.name] = secondImplement.data;
   }
-  if (a.items.some((i) => i.slug === "third-implement")) {
-    const thirdImplement = a.items.find((i) => i.slug === "third-implement");
-    const imp = await fromUuid(
-      `${a.uuid}.Item.${thirdImplement.rules[1].grantedId}`
-    );
-    imps.push({
-      counter: "Third",
-      name: imp.name,
-      adept: false,
-      paragon: false,
-      intensify: false,
-      uuid:
-        a.getFlag("pf2e-thaum-vuln", "selectedImplements")[2]?.uuid ??
-        undefined,
-    });
+  if (thirdImplement) {
+    imps[thirdImplement.name] = thirdImplement.data;
   }
 
-  for (let imp of imps) {
+  for (let key of Object.keys(imps)) {
     if (a.items.some((i) => i.slug === "intensify-vulnerability")) {
-      imp.intensify = true;
+      imps[key].intensify = true;
     }
     if (a.items.some((i) => i.slug === "implement-adept")) {
       if (
-        imp.name.toLowerCase() ===
+        imps[key].name.toLowerCase() ===
         (
           await fromUuid(
             a.uuid +
@@ -97,12 +86,12 @@ export async function manageImplements(event) {
           )
         ).name.toLowerCase()
       ) {
-        imp.adept = true;
+        imps[key].adept = true;
       }
     }
     if (a.items.some((i) => i.slug === "second-adept")) {
       if (
-        imp.name.toLowerCase() ===
+        imps[key].name.toLowerCase() ===
         (
           await fromUuid(
             a.uuid +
@@ -111,12 +100,12 @@ export async function manageImplements(event) {
           )
         ).name.toLowerCase()
       ) {
-        imp.adept = true;
+        imps[key].adept = true;
       }
     }
     if (a.items.some((i) => i.slug === "implement-paragon")) {
       if (
-        imp.name.toLowerCase() ===
+        imps[key].name.toLowerCase() ===
         (
           await fromUuid(
             a.uuid +
@@ -126,7 +115,7 @@ export async function manageImplements(event) {
           )
         ).name.toLowerCase()
       ) {
-        imp.paragon = true;
+        imps[key].paragon = true;
       }
     }
   }
@@ -157,12 +146,12 @@ export async function manageImplements(event) {
 
             implementUuids = confirmImplements(dgEndContent);
 
-            for (const key of imps.keys()) {
+            for (const key of Object.keys(imps)) {
               imps[key].uuid = implementUuids[key];
             }
 
             const impDelta = [];
-            for (const i of origin.keys()) {
+            for (const i of Object.keys(origin)) {
               const changed =
                 origin[i]?.uuid != implementUuids[i] ? true : false;
               const name = origin[i]?.name ?? imps[i]?.name;
@@ -245,43 +234,56 @@ async function handleDrop(event) {
 }
 
 function confirmImplements(dgEndContent) {
-  let uuidCollection = new Array();
+  let uuidCollection = {};
   const itemUuids = $(dgEndContent).find(".item-content-wrapper");
   $(itemUuids).each(function () {
-    if ($(this).attr("item-uuid") !== undefined)
-      uuidCollection.push($(this).attr("item-uuid"));
+    if ($(this).attr("item-uuid") !== undefined) {
+      uuidCollection[$(this).attr("item-slug")] = $(this).attr("item-uuid");
+    }
   });
   return uuidCollection;
 }
 
 function getImplementFlavor(imps, a) {
   let impFlavor = {};
-  for (const imp of imps) {
-    const implementFeat = a.items.find((i) => i.name === imp.name);
+  for (const imp of Object.keys(imps)) {
+    const implementFeat = a.items.find((i) => i.name === imps[imp].name);
     impFlavor = {
       ...impFlavor,
-      [imp.name]: {
+      [imps[imp].name]: {
         flavor: implementFeat.description,
       },
     };
-    if (imp.adept === true) {
-      impFlavor[imp.name] = {
-        ...impFlavor[imp.name],
+    if (imps[imp].adept === true) {
+      impFlavor[imps[imp].name] = {
+        ...impFlavor[imps[imp].name],
       };
     }
-    if (imp.paragon === true) {
-      impFlavor[imp.name] = {
-        ...impFlavor[imp.name],
+    if (imps[imp].paragon === true) {
+      impFlavor[imps[imp].name] = {
+        ...impFlavor[imps[imp].name],
       };
     }
-    if (imp.intensify === true) {
-      impFlavor[imp.name] = {
-        ...impFlavor[imp.name],
+    if (imps[imp].intensify === true) {
+      impFlavor[imps[imp].name] = {
+        ...impFlavor[imps[imp].name],
       };
     }
   }
 
   return impFlavor;
+}
+
+async function createManagedImplement(featSlug, a) {
+  if (a.items.some((i) => i.slug === featSlug)) {
+    const implement = a.items.find((i) => i.slug === featSlug);
+    const imp = await fromUuid(
+      `${a.uuid}.Item.${
+        implement.rules.find((r) => r.key === "GrantItem").grantedId
+      }`
+    );
+    return { name: imp.slug, data: new ManagedImplement(featSlug, a, imp) };
+  }
 }
 
 export async function clearImplements(event) {

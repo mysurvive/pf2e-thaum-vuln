@@ -1,7 +1,7 @@
 import { INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID } from "../../utils";
 
 async function createEffectOnImplement(imps, a) {
-  const lantern = await fromUuid(imps.find((i) => i.name === "Lantern").uuid);
+  const lantern = await fromUuid(imps["lantern"].uuid);
   const oldLantern = a.items.find((i) =>
     i.system.rules.find((r) => r.label === "Lantern Implement Light")
   );
@@ -208,11 +208,7 @@ async function deleteOldLanternEffect(oldLantern) {
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
   if (
     game.user.id === userID &&
-    imps.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Lantern")
-    )?.uuid &&
+    imps["lantern"]?.uuid &&
     impDelta.find(
       (i) =>
         i.name ===

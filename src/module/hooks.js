@@ -170,7 +170,7 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
   ) {
     //implement management buttons
     if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
-      a.setFlag("pf2e-thaum-vuln", "selectedImplements", new Array(3));
+      a.setFlag("pf2e-thaum-vuln", "selectedImplements", {});
     if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
       const inventoryList = html.find(
         ".sheet-body .inventory-list.directory-list.inventory-pane"
@@ -263,16 +263,17 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
 });
 
 function showImplementsOnSheet(inventoryList, a) {
-  if (a.getFlag("pf2e-thaum-vuln", "selectedImplements") !== undefined) {
-    for (const imp of a.getFlag("pf2e-thaum-vuln", "selectedImplements")) {
-      const id = `[data-item-id="${imp?.uuid.split(".")[3]}`;
+  const imps = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
+  if (imps) {
+    for (const key of Object.keys(imps)) {
+      const id = `[data-item-id="${imps[key]?.uuid?.split(".")[3]}`;
       const inventoryItem = $(inventoryList).find($("li")).filter($(id));
 
       $(inventoryItem)
         .find("div.item-name")
         .append(
           $(
-            `<img class="item-image item-icon" title="${imp?.counter} implement" style="border-width: 0px; margin-left: 10px;" src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />`
+            `<img class="item-image item-icon" title="${imps[key]?.counter} implement" style="border-width: 0px; margin-left: 10px;" src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />`
           )
         );
     }

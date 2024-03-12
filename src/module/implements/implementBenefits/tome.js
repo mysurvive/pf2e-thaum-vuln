@@ -264,13 +264,7 @@ async function fixDeleteProficiencyForLore(item) {
 }
 
 async function createEffectOnImplement(imps, a) {
-  const tome = await fromUuid(
-    imps.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
-    ).uuid
-  );
+  const tome = await fromUuid(imps["tome"].uuid);
   const oldTome = a.items.find((i) =>
     i.system.rules.find((r) => r.label === "Tome Implement Recall Knowledge")
   );
@@ -414,11 +408,7 @@ Hooks.on("deleteItem", (item, _b, userID) => {
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
   if (
     game.user.id === userID &&
-    imps.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
-    )?.uuid &&
+    imps["tome"].uuid &&
     impDelta.find(
       (i) =>
         i.name ===
