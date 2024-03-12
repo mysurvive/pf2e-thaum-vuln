@@ -14,7 +14,11 @@ function recallEsotericKnowledge() {
     );
   }
   createRKDialog(sa, targ);
-  ui.notifications.info("Recall Knowledge request sent to GM.");
+  ui.notifications.info(
+    game.i18n.localize(
+      "pf2e-thaum-vuln.notifications.info.recallKnowledge.requestSent"
+    )
+  );
 }
 
 export { recallEsotericKnowledge };
