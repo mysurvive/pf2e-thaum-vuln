@@ -6,6 +6,7 @@ import {
   PRIMARY_TARGET_EFFECT_UUID,
 } from "./utils/index.js";
 import { parseHTML } from "./utils/utils.js";
+import { getImplement } from "./implements/helpers.js";
 
 let socket;
 
@@ -330,15 +331,9 @@ async function _createRKDialog(userId, saUuid, targUuid) {
   }).render(true);
 }
 
-async function _socketApplyAbeyanceEffects(a, abeyanceData) {
-  a = await fromUuid(a);
-  const amuletImplementData = a.flags[
-    "pf2e-thaum-vuln"
-  ].selectedImplements.find(
-    (i) =>
-      i.name ===
-      game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
-  );
+async function _socketApplyAbeyanceEffects(actorUuid, abeyanceData) {
+  const a = await fromUuid(actorUuid);
+  const amuletImplementData = getImplement(a, "amulet");
 
   for (const character in abeyanceData) {
     const amuletsAbeyanceEffect = (

@@ -3,66 +3,42 @@ import {
   TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
 } from "../../utils";
 import { manageImplements } from "../implements";
+import { getImplement } from "../helpers";
 
 async function createTomeDialog(actor) {
-  const classNameArray = actor?.class?.name.split(" ") ?? [];
-  if (
-    classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
-    actor
-      .getFlag("pf2e-thaum-vuln", "selectedImplements")
-      .some(
-        (i) =>
-          i.name ===
-          game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
-      )
-  ) {
-    if (
-      actor
-        .getFlag("pf2e-thaum-vuln", "selectedImplements")
-        .find(
-          (i) =>
-            i.name ===
-            game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
-        ).uuid
-    ) {
-      const tome = await fromUuid(
-        actor
-          .getFlag("pf2e-thaum-vuln", "selectedImplements")
-          .find(
-            (i) =>
-              i.name ===
-              game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
-          ).uuid
-      );
+  const tomeFlags = getImplement(actor, "tome");
+  if (!tomeFlags) return;
 
-      new Dialog(
-        {
-          title: "Tome Implement Daily Preparation",
-          content: () =>
-            `<p>Would you like to change your Tome Implement skills?</p>`,
-          buttons: {
-            yes: {
-              label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
-              callback: () => {
-                constructEffect(actor, tome);
-              },
-            },
-            no: {
-              label: game.i18n.localize("pf2e-thaum-vuln.dialog.no"),
-              callback: () => {},
+  if (tomeFlags.uuid) {
+    const tome = await fromUuid(tomeFlags.uuid);
+
+    new Dialog(
+      {
+        title: "Tome Implement Daily Preparation",
+        content: () =>
+          `<p>Would you like to change your Tome Implement skills?</p>`,
+        buttons: {
+          yes: {
+            label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
+            callback: () => {
+              constructEffect(actor, tome);
             },
           },
-          default: "yes",
+          no: {
+            label: game.i18n.localize("pf2e-thaum-vuln.dialog.no"),
+            callback: () => {},
+          },
         },
-        actor,
-        tome
-      ).render(true);
-    } else {
-      manageImplements(actor);
-      return ui.notifications.warn(
-        "No Tome implement has been managed. Opening Implement Management sheet."
-      );
-    }
+        default: "yes",
+      },
+      actor,
+      tome
+    ).render(true);
+  } else {
+    manageImplements(actor);
+    return ui.notifications.warn(
+      "No Tome implement has been managed. Opening Implement Management sheet."
+    );
   }
 }
 
