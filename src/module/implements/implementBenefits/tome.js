@@ -440,3 +440,17 @@ Hooks.on("deleteImplementEffects", (a) => {
 
   deleteOldTomeEffect(oldTome);
 });
+
+Hooks.on("renderChatMessage", (message) => {
+  if (
+    !message.flags.pf2e.context?.options.some(
+      (o) => o === "target:mark:tome-adept-rk-success"
+    ) ||
+    !game.ready ||
+    message.isReroll
+  )
+    return;
+
+  const a = game.actors.get(message.speaker.actor);
+  a.items.find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID).delete();
+});
