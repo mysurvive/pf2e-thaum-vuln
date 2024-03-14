@@ -447,10 +447,13 @@ Hooks.on("renderChatMessage", (message) => {
       (o) => o === "target:mark:tome-adept-rk-success"
     ) ||
     !game.ready ||
-    message.isReroll
+    !message.actor.items.some(
+      (i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID
+    ) ||
+    message.actor.primaryUpdater !== game.user
   )
     return;
-
-  const a = game.actors.get(message.speaker.actor);
-  a.items.find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID).delete();
+  message.actor.items
+    .find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID)
+    .delete();
 });
