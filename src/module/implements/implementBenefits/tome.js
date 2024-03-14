@@ -443,17 +443,14 @@ Hooks.on("deleteImplementEffects", (a) => {
 
 Hooks.on("renderChatMessage", (message) => {
   if (
-    !message.flags.pf2e.context?.options.some(
-      (o) => o === "target:mark:tome-adept-rk-success"
-    ) ||
     !game.ready ||
-    !message.actor.items.some(
-      (i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID
-    ) ||
-    message.actor.primaryUpdater !== game.user
+    message.actor.primaryUpdater !== game.user ||
+    !message.flags.pf2e?.context?.options.some(
+      (o) => o === "target:mark:tome-adept-rk-success"
+    )
   )
     return;
-  message.actor.items
+  message.actor.itemTypes.effect
     .find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID)
-    .delete();
+    ?.delete();
 });
