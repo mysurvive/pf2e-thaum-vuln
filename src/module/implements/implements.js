@@ -142,7 +142,8 @@ export async function manageImplements(event) {
         complete: {
           label: "Confirm Changes",
           callback: (dgEndContent) => {
-            const origin = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
+            const origin =
+              a.getFlag("pf2e-thaum-vuln", "selectedImplements") ?? {};
 
             implementUuids = confirmImplements(dgEndContent);
 
@@ -151,12 +152,23 @@ export async function manageImplements(event) {
             }
 
             const impDelta = [];
+            for (const key of Object.keys(implementUuids)) {
+              const changed =
+                origin[key]?.uuid != implementUuids[key] ? true : false;
+              const name = origin[key]?.name ?? imps[key]?.name;
+              console.log(name, changed);
+              impDelta.push({ name, changed });
+            }
+
+            /*
+            const impDelta = [];
             for (const i of Object.keys(origin)) {
               const changed =
                 origin[i]?.uuid != implementUuids[i] ? true : false;
               const name = origin[i]?.name ?? imps[i]?.name;
+              console.log(name);
               impDelta.push({ name, changed });
-            }
+            }*/
 
             a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
 
