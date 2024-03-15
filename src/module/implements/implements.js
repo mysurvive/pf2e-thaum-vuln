@@ -160,16 +160,6 @@ export async function manageImplements(event) {
               impDelta.push({ name, changed });
             }
 
-            /*
-            const impDelta = [];
-            for (const i of Object.keys(origin)) {
-              const changed =
-                origin[i]?.uuid != implementUuids[i] ? true : false;
-              const name = origin[i]?.name ?? imps[i]?.name;
-              console.log(name);
-              impDelta.push({ name, changed });
-            }*/
-
             a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
 
             //refreshes the sheet so the implement items appear
