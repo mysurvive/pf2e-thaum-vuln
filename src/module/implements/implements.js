@@ -156,7 +156,9 @@ export async function manageImplements(event) {
               const changed =
                 origin[key]?.uuid != implementUuids[key] ? true : false;
               const name = origin[key]?.name ?? imps[key]?.name;
-              console.log(name, changed);
+
+              console.log(`${name} changed: ${changed}`);
+
               impDelta.push({ name, changed });
             }
 
