@@ -21,7 +21,9 @@
           "targetCount": "Select one Thaumaturge token and target one creature.",
           "noExploitVulnerability": "This actor does not have the ability to Exploit Vulnerability",
           "noEsotericLoreSkill": "This actor does not have the Esoteric Lore skill",
-          "noMatchingDC": "No matching DC for target"
+          "noMatchingDC": "No matching DC for target",
+          "noImplements": "You do not have implements selected. Go to the inventory tab on your character sheet, click manage implements, and assign items to your implements.",
+          "noHeldImplement": "You do not have one of your implements held in order to Exploit Vulnerability."
         },
         "cursedEffigy": {
           "invalidTarget": "Target only the target of your exploit vulnerability to create a cursed effigy",
@@ -46,7 +48,13 @@
         },
         "strike": {
           "invalidDamageType": "Weapon's damage type is set to Untyped which is an invalid damage type for the purposes of Exploit Vulnerability. Weakness will not be applied."
-        }
+        },
+        "rootToLife": {
+          "noAbility": "Selected actor does not have Root to Life",
+          "selectOne": "Select only one target for Root to Life",
+          "notDying": "Target is not dying"
+        },
+        "noToken": "No token selected."
       },
       "info": {
         "recallKnowledge": {
@@ -73,7 +81,14 @@
         "resistanceLabel": "Resistances: ",
         "immunityLabel": "Immunities: ",
         "except": "Except: ",
-        "doublevs": "Double vs.: "
+        "doublevs": "Double vs.: ",
+        "highestWeaknessLabel": "Highest Weakness"
+      },
+      "degreeOfSuccess": {
+        "criticalSuccess": "You remember the creature's weaknesses, and as you empower your esoterica, you have a flash of insight that grants even more knowledge about the creature. You learn all of the creature's resistances, weaknesses, and immunities, including the amounts of the resistances and weaknesses and any unusual weaknesses or vulnerabilities, such as what spells will pass through a golem's antimagic. You can exploit either the creature's mortal weakness or personal antithesis (see below). Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+        "success": "You recall an important fact about the creature, learning its highest weakness (or one of its highest weaknesses, if it has multiple with the same value) but not its other weaknesses, resistances, or immunities. You can exploit either the creature's mortal weakness or personal antithesis. Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+        "failure": "Failing to recall a salient weakness about the creature, you instead attempt to exploit a more personal vulnerability. You can exploit only the creature's personal antithesis. Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+        "criticalFailure": "You couldn't remember the right object to use and become distracted while you rummage through your esoterica. You become off-guard until the beginning of your next turn."
       }
     },
 
@@ -93,6 +108,9 @@
 
     "esotericWarden": {
       "name": "Esoteric Warden",
+      "effect": {
+        "name": "Esoteric Warden Effect"
+      },
       "flavor": "When you apply antithetical material against a creature successfully, you also ward yourself against its next attacks. When you succeed at your check to Exploit a Vulnerability, you gain a +1 status bonus to your AC against the creature's next attack and a +1 status bonus to your next saving throw against the creature; if you critically succeed, these bonuses are +2 instead. You can gain these bonuses only once per day against a particular creature, and the benefit ends if you Exploit Vulnerability again."
     },
 
@@ -124,12 +142,19 @@
       "chatCardHeader": "Damage: Twin Weakness"
     },
 
+    "rootToLife": {
+      "title": "Root To Life",
+      "selectActionCount": "Select whether to use one or two action variant."
+    },
+
     "dialog": {
       "yes": "Yes",
       "no": "No",
       "confirm": "Confirm",
       "cancel": "Cancel",
-      "none": "none"
+      "none": "none",
+      "oneAction": "One Action",
+      "twoAction": "Two Action"
     },
 
     "chatCard": {

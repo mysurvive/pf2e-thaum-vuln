@@ -4,34 +4,50 @@ import { applyRootToLife } from "../socket";
 function rootToLife() {
   const actor = game.user.character ?? canvas.tokens.controlled[0]?.actor;
   if (!actor) {
-    return ui.notifications.error("No token selected.");
+    return ui.notifications.warn(
+      game.i18n.localize("pf2e-thaum-vuln.notifications.warn.noToken")
+    );
   }
   const targets = Array.from(game.user.targets);
   if (!actor.items.some((i) => i.slug === "root-to-life")) {
-    return ui.notifications.warn("Selected actor does not have Root to Life");
+    return ui.notifications.warn(
+      game.i18n.localize(
+        "pf2e-thaum-vuln.notifications.warn.rootToLife.noAbility"
+      )
+    );
   }
   if (targets.length != 1) {
-    return ui.notifications.warn("Select only one target for Root to Life");
+    return ui.notifications.warn(
+      game.i18n.localize(
+        "pf2e-thaum-vuln.notifications.warn.rootToLife.selectOne"
+      )
+    );
   }
   const target = targets[0];
   if (!target.actor.items.some((i) => i.slug === "dying")) {
-    return ui.notifications.warn("Target is not dying");
+    return ui.notifications.warn(
+      game.i18n.localize(
+        "pf2e-thaum-vuln.notifications.warn.rootToLife.notDying"
+      )
+    );
   }
   new Dialog(
     {
-      title: "Root To Life",
+      title: game.i18n.localize("pf2e-thaum-vuln.rootToLife.title"),
       content: parseHTML(
-        `Select whether to use one or two action variant of @UUID[Compendium.pf2e.feats-srd.Item.oQVp2UhXVBcELma5]{Root to Life}`
+        `${game.i18n.localize(
+          "pf2e-thaum-vuln.rootToLife.selectActionCount"
+        )} @UUID[Compendium.pf2e.feats-srd.Item.oQVp2UhXVBcELma5]{Root to Life}`
       ),
       buttons: {
         oneAction: {
-          label: "One Action",
+          label: game.i18n.localize("pf2e-thaum-vuln.dialog.oneAction"),
           callback: () => {
             applyRootToLife(actor, target, 1);
           },
         },
         twoAction: {
-          label: "Two Action",
+          label: game.i18n.localize("pf2e-thaum-vuln.dialog.twoAction"),
           callback: () => {
             applyRootToLife(actor, target, 2);
           },
