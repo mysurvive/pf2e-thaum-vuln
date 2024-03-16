@@ -7,7 +7,6 @@ import { targetEVPrimaryTarget } from "./utils/helpers.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
 import { createChatCardButton } from "./utils/chatCard.js";
 import { manageImplements, clearImplements } from "./implements/implements.js";
-import { updateTargetWeaknessType } from "./socket.js";
 
 //This is a temporary fix until a later pf2e system update. The function hooks on renderChatMessage attack-rolls
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
@@ -16,7 +15,7 @@ Hooks.on(
   "renderChatMessage",
   async (message, html) => {
     if (canvas.initialized) {
-      const speaker = await fromUuid(`Actor.${message.speaker.actor}`);
+      const speaker = message.actor;
       if (
         (message.flags?.pf2e?.context?.type === "attack-roll" ||
           message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
@@ -40,9 +39,12 @@ async function updateWeaknessType(message, speaker) {
     message.flags?.pf2e?.origin?.type != "weapon"
   )
     return;
+
   const strikeTarget = await fromUuid(
     message.getFlag("pf2e-thaum-vuln", "targets")[0].actorUuid
   );
+  if (!strikeTarget.primaryUpdater) return;
+
   const evEffect = strikeTarget.items.find(
     (i) =>
       i.slug ===
@@ -69,8 +71,13 @@ async function updateWeaknessType(message, speaker) {
         Object.keys(message.item.system.damageRolls)[0]
       ].damageType;
   }
+
   if (damageType === evEffect.system.rules[0].type) return;
-  updateTargetWeaknessType(evEffect, damageType);
+
+  evEffect.update({
+    _id: evEffect._id,
+    "system.rules": [{ ...evEffect.system.rules[0], type: damageType }],
+  });
 }
 
 async function handleEsotericWarden(message) {
