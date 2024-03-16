@@ -75,7 +75,6 @@ async function updateWeaknessType(message, speaker) {
 
   if (damageType === evEffect.system.rules[0].type) return;
 
-  console.log(game.user);
   evEffect.update({
     _id: evEffect._id,
     "system.rules": [{ ...evEffect.system.rules[0], type: damageType }],
