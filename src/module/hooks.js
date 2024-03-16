@@ -43,7 +43,8 @@ async function updateWeaknessType(message, speaker) {
   const strikeTarget = await fromUuid(
     message.getFlag("pf2e-thaum-vuln", "targets")[0].actorUuid
   );
-  if (!strikeTarget.primaryUpdater) return;
+
+  if (strikeTarget.primaryUpdater !== game.user) return;
 
   const evEffect = strikeTarget.items.find(
     (i) =>
@@ -153,9 +154,10 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
 Hooks.on("deleteItem", async (item) => {
   const sa = item.parent;
   if (
-    item.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
-    item.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
-    item.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID
+    (item.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
+      item.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
+      item.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) &&
+    game.user === sa.primaryUpdater
   ) {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);
     await sa.unsetFlag("pf2e-thaum-vuln", "EVTargetID");
