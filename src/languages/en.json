@@ -12,6 +12,18 @@
       "esotericLoreModifier": {
         "name": "Esoteric Lore DC Modifier",
         "hint": "Set a global modifier for the Esoteric Lore DC. If changed, this is typically set to -2 to make Esoteric Lore align with an applicable lore skill for purposes of Recall Knowledge."
+      },
+      "enforceHeldImplement": {
+        "name": "Enforce Held Implement",
+        "hint": "Enforces the rule that an implement must be held to use Exploit Vulnerability."
+      },
+      "dailiesHandlesTome": {
+        "name": "PF2e Dailies Handles Tome",
+        "hint": "Allow PF2e Dailies to handle daily Tome implement skill choices."
+      },
+      "reactionCheckerHandlesAmulet": {
+        "name": "PF2e Reaction Checker Handles Amulet",
+        "hint": "Allow PF2e Reaction Checker to handle Amulet's Abeyance."
       }
     },
 
@@ -21,7 +33,9 @@
           "targetCount": "Select one Thaumaturge token and target one creature.",
           "noExploitVulnerability": "This actor does not have the ability to Exploit Vulnerability",
           "noEsotericLoreSkill": "This actor does not have the Esoteric Lore skill",
-          "noMatchingDC": "No matching DC for target"
+          "noMatchingDC": "No matching DC for target",
+          "noImplements": "You do not have implements selected. Go to the inventory tab on your character sheet, click manage implements, and assign items to your implements.",
+          "noHeldImplement": "You do not have one of your implements held in order to Exploit Vulnerability."
         },
         "cursedEffigy": {
           "invalidTarget": "Target only the target of your exploit vulnerability to create a cursed effigy",
@@ -46,6 +60,17 @@
         },
         "strike": {
           "invalidDamageType": "Weapon's damage type is set to Untyped which is an invalid damage type for the purposes of Exploit Vulnerability. Weakness will not be applied."
+        },
+        "rootToLife": {
+          "noAbility": "Selected actor does not have Root to Life",
+          "selectOne": "Select only one target for Root to Life",
+          "notDying": "Target is not dying"
+        },
+        "noToken": "No token selected."
+      },
+      "info": {
+        "recallKnowledge": {
+          "requestSent": "Recall Knowledge request sent to GM"
         }
       }
     },
@@ -68,7 +93,14 @@
         "resistanceLabel": "Resistances: ",
         "immunityLabel": "Immunities: ",
         "except": "Except: ",
-        "doublevs": "Double vs.: "
+        "doublevs": "Double vs.: ",
+        "highestWeaknessLabel": "Highest Weakness"
+      },
+      "degreeOfSuccess": {
+        "criticalSuccess": "You remember the creature's weaknesses, and as you empower your esoterica, you have a flash of insight that grants even more knowledge about the creature. You learn all of the creature's resistances, weaknesses, and immunities, including the amounts of the resistances and weaknesses and any unusual weaknesses or vulnerabilities, such as what spells will pass through a golem's antimagic. You can exploit either the creature's mortal weakness or personal antithesis (see below). Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+        "success": "You recall an important fact about the creature, learning its highest weakness (or one of its highest weaknesses, if it has multiple with the same value) but not its other weaknesses, resistances, or immunities. You can exploit either the creature's mortal weakness or personal antithesis. Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+        "failure": "Failing to recall a salient weakness about the creature, you instead attempt to exploit a more personal vulnerability. You can exploit only the creature's personal antithesis. Your unarmed and weapon Strikes against the creature also become magical if they weren't already.",
+        "criticalFailure": "You couldn't remember the right object to use and become distracted while you rummage through your esoterica. You become off-guard until the beginning of your next turn."
       }
     },
 
@@ -88,12 +120,17 @@
 
     "esotericWarden": {
       "name": "Esoteric Warden",
+      "effect": {
+        "name": "Esoteric Warden Effect"
+      },
       "flavor": "When you apply antithetical material against a creature successfully, you also ward yourself against its next attacks. When you succeed at your check to Exploit a Vulnerability, you gain a +1 status bonus to your AC against the creature's next attack and a +1 status bonus to your next saving throw against the creature; if you critically succeed, these bonuses are +2 instead. You can gain these bonuses only once per day against a particular creature, and the benefit ends if you Exploit Vulnerability again."
     },
 
     "diverseLore": {
       "name": "Diverse Lore",
-      "flavor": "When you succeed at your check to Exploit a Vulnerability, compare the result of your Esoteric Lore check to the DC to Recall Knowledge for that creature; if that number would be a success or a critical success, you gain information as if you had succeeded at the Recall Knowledge check. "
+      "flavor": "When you succeed at your check to Exploit a Vulnerability, compare the result of your Esoteric Lore check to the DC to Recall Knowledge for that creature; if that number would be a success or a critical success, you gain information as if you had succeeded at the Recall Knowledge check. ",
+      "penalty": "Diverse Lore Penalty",
+      "recallKnowledgeNote": "The character's wandering studies mean they've heard rumors or theories about almost every topic... though admittedly, their sources aren't always the most reliable. They can take a –2 penalty to your check to Recall Knowledge with Esoteric Lore to Recall Knowledge about any topic, not just the usual topics available for Esoteric Lore."
     },
 
     "sharedWarding": {
@@ -119,12 +156,84 @@
       "chatCardHeader": "Damage: Twin Weakness"
     },
 
+    "rootToLife": {
+      "title": "Root To Life",
+      "selectActionCount": "Select whether to use one or two action variant.",
+      "outcome": "The creature is no longer dying and is instead unconscious at 0 Hit Points:",
+      "twoActionOutcome": " You may attempt flat checks to remove each source of damage affecting the target."
+    },
+
+    "esotericLore": {
+      "name": "Esoteric Lore"
+    },
+
+    "dubiousKnowledge": {
+      "name": "Dubious Knowledge",
+      "degreeOfSuccess": {
+        "failure": "When the character fails (but doesn't critically fail) a Recall Knowledge check using any skill, they learn a bit of true knowledge and a bit of erroneous knowledge, but they don't have any way to differentiate which is which."
+      }
+    },
+
+    "recallKnowledge": {
+      "name": "Recall Knowledge",
+      "dialog": {
+        "request": "Someone is requesting a Recall Knowledge check using their Esoteric Lore skill.",
+        "featRefLabel": "Action/Feat References:",
+        "dcRefLabel": "DC References:",
+        "rollSettings": "Roll Settings",
+        "targetTypeLabelDefault": "Haunt, Curse, or Creature",
+        "targetTypeLabelDL": "Anything",
+        "rawDC": "Raw DC (excluding any modifiers above):"
+      },
+      "degreeOfSuccess": {
+        "criticalSuccess": "The character recalls the knowledge accurately and gains additional information or context.",
+        "success": "The character recalls the knowledge accurately or gain a useful clue about their current situation.",
+        "criticalFailure": "The character recalls incorrect information or gains an erroneous or misleading clue."
+      },
+      "esotericKnowledgeLabel": "Recall Esoteric Knowledge:"
+    },
+
+    "manageImplements": {
+      "implementHeader": "Thaumaturge Implements",
+      "manageImplementsButton": "Manage Implements",
+      "clearImplementsButton": "Clear All Implements"
+    },
+
+    "targetManagement": {
+      "evActive": "EV Active:",
+      "evMode": "EV Mode:",
+      "evPrimaryTargetButton": "Target EV Primary Target",
+      "active": "Active",
+      "inactive": "Inactive",
+      "notOnScene": "EV Primary Target Not On Current Scene"
+    },
+
     "dialog": {
       "yes": "Yes",
       "no": "No",
       "confirm": "Confirm",
       "cancel": "Cancel",
-      "none": "none"
+      "none": "none",
+      "oneAction": "One Action",
+      "twoAction": "Two Action",
+      "character": "Character:",
+      "target": "Target:",
+      "manageImplements": {
+        "dragItem": "Drag an item here to designate it as an implement.",
+        "implement": "Implement"
+      },
+      "amuletsAbeyance": {
+        "name": "Amulet's Abeyance",
+        "resistanceValueLabel": "Abeyance Resistance Value:",
+        "allTriggeringDamage": "to all triggering damage",
+        "description": "You forcefully present your amulet to turn away harm. You or a target ally within 15 feet gain resistance to all damage against the triggering damage. The resistance is equal to 2 + your level.",
+        "adeptBenefitLabel": "Adept Benefit",
+        "lingeringResistanceValue": "Lingering Resistance Value:",
+        "paragonBenefitLabel": "Paragon Benefit",
+        "selectAllies": "Click an icon to select who should get the benefit of Amulet's Abeyance",
+        "selectDamageType": "Select a damage type to apply a lingering resistance:",
+        "noResistances": "No damage resistances to apply lingering resistance."
+      }
     },
 
     "chatCard": {

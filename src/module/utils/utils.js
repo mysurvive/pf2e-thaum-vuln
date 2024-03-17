@@ -1,5 +1,5 @@
 function parseHTML(string) {
-  const regex = /@UUID\[[\w.-]+\]\{[\w' ]+\}/g;
+  const regex = /@UUID\[[\w.-]+\]\{[\w'\s]+\}/g;
   var m;
   let newHTML = string;
   while ((m = regex.exec(string)) != null) {

@@ -15,7 +15,9 @@
   {{#if (element selectedImplements name "trueName")}}
     <p id="implementLabel">{{element selectedImplements name "trueName"}}</p>
   {{else}}
-    <p id="implementLabel">Drag an item here to designate it as an implement.</p>
+    <p id="implementLabel">{{localize
+        "pf2e-thaum-vuln.dialog.manageImplements.dragItem"
+      }}.</p>
   {{/if}}
 
 </span>

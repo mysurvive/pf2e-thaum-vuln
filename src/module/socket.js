@@ -231,7 +231,7 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         const rollOptions = sa.getRollOptions(["skill-check", skill.slug]);
         const diverseLoreModifier = new game.pf2e.Modifier({
           slug: "diverse-lore-penalty",
-          label: "Diverse Lore Penalty",
+          label: game.i18n.localize("pf2e-thaum-vuln.diverseLore.penalty"),
           modifier: parseInt(rollTarget),
           type: "untyped",
           enabled: true,
@@ -241,13 +241,16 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         });
 
         const outcomes = {
-          criticalSuccess:
-            "The character recalls the knowledge accurately and gains additional information or context.",
-          success:
-            "The character recalls the knowledge accurately or gain a useful clue about their current situation.",
+          criticalSuccess: game.i18n.localize(
+            "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.criticalSuccess"
+          ),
+          success: game.i18n.localize(
+            "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.success"
+          ),
           failure: "",
-          criticalFailure:
-            "The character recalls incorrect information or gains an erroneous or misleading clue.",
+          criticalFailure: game.i18n.localize(
+            "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.criticalFailure"
+          ),
         };
 
         const notes = Object.entries(outcomes).map(([outcome, text]) => ({
@@ -259,8 +262,10 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         }));
 
         notes.push({
-          title: "Dubious Knowledge",
-          text: "When the character fails (but doesn't critically fail) a Recall Knowledge check using any skill, they learn a bit of true knowledge and a bit of erroneous knowledge, but they don't have any way to differentiate which is which.",
+          title: game.i18n.localize("pf2e-thaum-vuln.dubiousKnowledge.name"),
+          text: game.i18n.localize(
+            "pf2e-thaum-vuln.dubiousKnowledge.degreeOfSuccess.failure"
+          ),
           outcome: ["failure"],
         });
 
@@ -268,11 +273,15 @@ async function _createRKDialog(userId, saUuid, targUuid) {
           traits.push("thaumaturge");
           notes.push({
             title: game.i18n.localize("pf2e-thaum-vuln.diverseLore.name"),
-            text: "The character's wandering studies mean they've heard rumors or theories about almost every topic... though admittedly, their sources aren't always the most reliable. They can take a –2 penalty to your check to Recall Knowledge with Esoteric Lore to Recall Knowledge about any topic, not just the usual topics available for Esoteric Lore.",
+            text: game.i18n.localize(
+              "pf2e-thaum-vuln.diverseLore.recallKnowledgeNote"
+            ),
           });
         }
 
-        const flavor = `Recall Esoteric Knowledge: ${skill.label}`;
+        const flavor = `${game.i18n.localize(
+          "pf2e-thaum-vuln.recallKnowledge.esotericKnowledgeLabel"
+        )} ${skill.label}`;
         const checkModifier = new game.pf2e.CheckModifier(
           flavor,
           skill,
@@ -305,12 +314,14 @@ async function _createRKDialog(userId, saUuid, targUuid) {
       },
     },
     cancel: {
-      label: "Cancel",
+      label: game.i18n.localize("pf2e-thaum-vuln.dialog.cancel"),
       callback: () => {},
     },
   };
   new Dialog({
-    title: `Recall Knowledge (Thaumaturge): ${sa.name}`,
+    title: `${game.i18n.localize(
+      "pf2e-thaum-vuln.recallKnowledge.name"
+    )} (${game.i18n.localize("PF2E.TraitThaumaturge")}): ${sa.name}`,
     content: parseHTML(
       await renderTemplate(
         "modules/pf2e-thaum-vuln/templates/rkDialog.hbs",
@@ -376,11 +387,15 @@ async function _socketApplyRootToLife(actor, target, actionCount) {
     "thaumaturge",
   ];
   actionCount === 2 ? traits.push("auditory") : null;
-  let chatMessage =
-    "<strong>Root to Life:</strong> The creature is no longer dying and is instead @UUID[Compendium.pf2e.conditionitems.Item.fBnFDH2MTzgFijKf]{Unconscious} at 0 Hit Points.";
+  let chatMessage = `<strong>${game.i18n.localize(
+    "pf2e-thaum-vuln.rootToLife.title"
+  )}:</strong> ${game.i18n.localize(
+    "pf2e-thaum-vuln.rootToLife.outcome"
+  )} @UUID[Compendium.pf2e.conditionitems.Item.fBnFDH2MTzgFijKf]{Unconscious}`;
   actionCount === 2
-    ? (chatMessage +=
-        " You may attempt flat checks to remove each source of damage affecting the target.")
+    ? (chatMessage += game.i18n.localize(
+        "pf2e-thaum-vuln.rootToLife.twoActionOutcome"
+      ))
     : null;
   ChatMessage.create({ user: game.user.id, flavor: chatMessage });
   target.actor.items.find((i) => i.slug === "dying").delete();
