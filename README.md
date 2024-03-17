@@ -3,6 +3,9 @@
 <img src="https://img.shields.io/badge/PF2e_System-5.14.0-red"><br>
 <img src="https://img.shields.io/github/downloads/MySurvive/pf2e-thaum-vuln/latest/module.zip">
 <img src="https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpf2e-thaum-vuln&colorB=4aa94a"><br>
+  <a href="https://weblate.foundryvtt-hub.com/engage/pf2e-thaum-vuln/">
+<img src="https://weblate.foundryvtt-hub.com/widget/pf2e-thaum-vuln/svg-badge.svg" alt="Translation status" />
+</a><br>
 <a href='https://ko-fi.com/U7U5VLCAV' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 <br>
 PF2e Exploit Vulnerability is a module for Foundry VTT which implements automation for the Thaumaturge class abilities, features, and feats until implemented in the system.<br><br>
