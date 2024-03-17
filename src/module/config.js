@@ -6,6 +6,7 @@ import { forceEVTarget } from "./utils/forceEV.js";
 import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
 import { amuletIntensify } from "./implements/implementBenefits/amulet.js";
 import { tomeIntensify } from "./implements/implementBenefits/tome.js";
+import { regaliaIntensify } from "./implements/implementBenefits/regalia.js";
 import { rootToLife } from "./feats/rootToLife.js";
 import { lanternIntensify } from "./implements/implementBenefits/lantern.js";
 
