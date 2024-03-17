@@ -102,8 +102,12 @@ Hooks.on("init", async () => {
   });
 
   game.settings.register("pf2e-thaum-vuln", "enforceHeldImplement", {
-    name: "Enforce Held Implement",
-    hint: "Enforces the rule that an implement must be held to use Exploit Vulnerability.",
+    name: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.enforceHeldImplement.name"
+    ),
+    hint: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.enforceHeldImplement.hint"
+    ),
     scope: "world",
     config: true,
     type: Boolean,
@@ -114,8 +118,12 @@ Hooks.on("init", async () => {
   });
 
   game.settings.register("pf2e-thaum-vuln", "dailiesHandlesTome", {
-    name: "PF2e Dailies Handles Tome",
-    hint: "Allow PF2e Dailies to handle daily Tome implement skill choices. (https://github.com/reonZ/pf2e-dailies)",
+    name: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.dailiesHandlesTome.name"
+    ),
+    hint: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.dailiesHandlesTome.hint"
+    ),
     scope: "world",
     config: true,
     type: Boolean,
@@ -126,8 +134,12 @@ Hooks.on("init", async () => {
   });
 
   game.settings.register("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet", {
-    name: "PF2e Reaction Checker Handles Amulet",
-    hint: "Allow PF2e Reaction Checker to handle Amulet's Abeyance. (https://github.com/reyzor1991/foundry-vtt-pf2e-reaction/)",
+    name: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.reactionCheckerHandlesAmulet.name"
+    ),
+    hint: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.reactionCheckerHandlesAmulet.hint"
+    ),
     scope: "world",
     config: true,
     type: Boolean,

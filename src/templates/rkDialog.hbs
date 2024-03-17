@@ -1,29 +1,58 @@
 <style type="text/css">
-    .modifier-row {display:flex; width:100%; align-items: center; margin-bottom:5px;}
+  .modifier-row {display:flex; width:100%; align-items: center;
+  margin-bottom:5px;}
 </style>
 <div class="text-field">
-    <p>{{name}} is requesting a Recall Knowledge check using their Esoteric Lore skill{{#if targ.name}} against the {{targ.name}}{{/if}}.</p>
-    <p>Action/Feat References: @UUID[Compendium.pf2e.actionspf2e.1OagaWtBpVXExToo]{Recall Knowledge} @UUID[Compendium.pf2e.actionspf2e.cvQmPkJtybMcHinK]{Esoteric Lore} @UUID[Compendium.pf2e.feats-srd.1Bt7uCW2WI4sM84P]{Dubious Knowledge} {{#if hasDiverseLore}}@UUID[Compendium.pf2e.feats-srd.KlqKpeq5OmTRxVHb]{Diverse Lore}{{/if}}</p>
-    <p>DC References: @UUID[Compendium.pf2e.journals.JournalEntry.S55aqwWIzpQRFhcq.JournalEntryPage.dRu66xNqJ9Ihe1or]{Difficulty Classes}</p>
-    <fieldset style=`border: 1px; border-radius: 25px;`>
-        <legend>Roll Settings</legend>
-        <span class="modifier-row">
-            <label for="el-modifier">Esoteric Lore DC Modifier: </label>
-            <input type="number" id="el-modifier" value="{{esotericLoreModifier}}"/>
-        </span>
-        <span class="modifier-row">
-            <label for="target">Target: </label>
-            <select name="target" id="target">
-                <option value="0">Haunt, Curse, or Creature</option>
-                {{#if hasDiverseLore}}
-                <option value="-2">Anything (-2)</option>
-                {{/if}}
-            </select>
-        </span>
-        <hr>
-        <span class="modifier-row">
-            <label for="dc">Raw DC (excluding any modifiers above): </label>
-            <input type="number" id="dc" value="{{targ.dc}}"/>
-        </span>
-    </fieldset>
+  <p>{{localize "pf2e-thaum-vuln.recallKnowledge.dialog.request"}}<br />
+    {{localize "pf2e-thaum-vuln.dialog.character"}}
+    {{name}}<br />
+    {{localize "pf2e-thaum-vuln.dialog.target"}}{{#if targ.name}}
+      {{targ.name}}
+    {{else}} {{localize "pf2e-thaum-vuln.dialog.none"}}{{/if}}
+  </p>
+  <p>{{localize "pf2e-thaum-vuln.recallKnowledge.dialog.featRefLabel"}}
+    @UUID[Compendium.pf2e.actionspf2e.1OagaWtBpVXExToo]{Recall Knowledge}
+    @UUID[Compendium.pf2e.actionspf2e.cvQmPkJtybMcHinK]{Esoteric Lore}
+    @UUID[Compendium.pf2e.feats-srd.1Bt7uCW2WI4sM84P]{Dubious Knowledge}{{#if
+      hasDiverseLore
+    }}@UUID[Compendium.pf2e.feats-srd.KlqKpeq5OmTRxVHb]{Diverse Lore}{{/if}}
+  </p>
+  <p>{{localize "pf2e-thaum-vuln.recallKnowledge.dialog.dcRefLabel"}}
+    @UUID[Compendium.pf2e.journals.JournalEntry.S55aqwWIzpQRFhcq.JournalEntryPage.dRu66xNqJ9Ihe1or]{Difficulty
+    Classes}
+  </p>
+  <fieldset style="`border:" 1px; border-radius: 25px;`>
+    <legend>{{localize
+        "pf2e-thaum-vuln.recallKnowledge.dialog.rollSettings"
+      }}</legend>
+    <span class="modifier-row">
+      <label for="el-modifier">{{localize
+          "pf2e-thaum-vuln.settings.esotericLoreModifier.name"
+        }}:
+      </label>
+      <input type="number" id="el-modifier" value="{{esotericLoreModifier}}" />
+    </span>
+    <span class="modifier-row">
+      <label for="target">{{localize "pf2e-thaum-vuln.dialog.target"}} </label>
+      <select name="target" id="target">
+        <option value="0">{{localize
+            "pf2e-thaum-vuln.recallKnowledge.dialog.targetTypeLabelDefault"
+          }}</option>
+        {{#if hasDiverseLore}}
+          <option value="-2">{{localize
+              "pf2e-thaum-vuln.recallKnowledge.dialog.targetTypeLabelDL"
+            }}
+            (-2)</option>
+        {{/if}}
+      </select>
+    </span>
+    <hr />
+    <span class="modifier-row">
+      <label for="dc">{{localize
+          "pf2e-thaum-vuln.recallKnowledge.dialog.rawDC"
+        }}
+      </label>
+      <input type="number" id="dc" value="{{targ.dc}}" />
+    </span>
+  </fieldset>
 </div>

@@ -188,14 +188,20 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
         `<div class="implement-button-region actor.sheet" style="display:flex; margin-bottom:1em;"></div>`
       );
       const manageImplementButton = $(
-        `<button type="button" class="manage-implements-button">Manage Implements</button>`
+        `<button type="button" class="manage-implements-button">${game.i18n.localize(
+          "pf2e-thaum-vuln.manageImplements.manageImplementsButton"
+        )}</button>`
       );
       const clearImplementButton = $(
-        `<button type="button" class="clear-implements-button">Clear All Implements</button>`
+        `<button type="button" class="clear-implements-button">${game.i18n.localize(
+          "pf2e-thaum-vuln.manageImplements.clearImplementsButton"
+        )}</button>`
       );
       inventoryList.append(
         `<header>
-    <h3 class="item-name">Thaumaturge Implements</h3></header>
+    <h3 class="item-name">${game.i18n.localize(
+      "pf2e-thaum-vuln.manageImplements.implementHeader"
+    )}</h3></header>
     
     `
       );
@@ -217,13 +223,25 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
 
     const strikesList = html.find(".sheet-body .option-toggles");
     const EVTargetSection = $(
-      `<fieldset class="actor.sheet" style="display:flex;flex-direction:column;border:1px solid;border-radius:5px;padding:5px;"><legend>Exploit Vulnerability</legend></fieldset>`
+      `<fieldset class="actor.sheet" style="display:flex;flex-direction:column;border:1px solid;border-radius:5px;padding:5px;"><legend>${game.i18n.localize(
+        "pf2e-thaum-vuln.exploitVulnerability.name"
+      )}</legend></fieldset>`
     );
-    const EVActive = $(`<label for="EVActive">EV Active: </label>`);
+    const EVActive = $(
+      `<label for="EVActive">${game.i18n.localize(
+        "pf2e-thaum-vuln.targetManagement.evActive"
+      )} </label>`
+    );
     const EVActiveLabel = $(`<span style="flex-direction:row;"></span>`);
-    const EVModeLabel = $(`<label for="EVMode">EV Mode: </label>`);
+    const EVModeLabel = $(
+      `<label for="EVMode">${game.i18n.localize(
+        "pf2e-thaum-vuln.targetManagement.evMode"
+      )} </label>`
+    );
     const EVTargetBtn = $(
-      `<button type="button" class="target-primary-btn">Target EV Primary Target</button>`
+      `<button type="button" class="target-primary-btn">${game.i18n.localize(
+        "pf2e-thaum-vuln.targetManagement.evPrimaryTargetButton"
+      )}</button>`
     );
     if (a.getFlag("pf2e-thaum-vuln", "activeEV") === true) {
       const EVMode = a.getFlag("pf2e-thaum-vuln", "EVMode");
@@ -241,7 +259,11 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
       });
       EVActiveLabel.append(
         EVActive,
-        $(`<span name="EVActive" style="color:#00c000;">Active</span>`)
+        $(
+          `<span name="EVActive" style="color:#00c000;">${game.i18n.localize(
+            "pf2e-thaum-vuln.targetManagement.active"
+          )}</span>`
+        )
       );
       EVTargetSection.append(EVActiveLabel);
       EVTargetSection.append(EVModeLabel);
@@ -255,14 +277,20 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
       } else {
         EVTargetSection.append(
           $(
-            `<span style="text-align:center;color:#ff4040;">EV Primary Target Not On Current Scene</span>`
+            `<span style="text-align:center;color:#ff4040;">${game.i18n.localize(
+              "pf2e-thaum-vuln.targetManagement.notOnScene"
+            )}</span>`
           )
         );
       }
     } else {
       EVActiveLabel.append(
         EVActive,
-        $(`<span name="EVActive" style="color:#ff4040;">Inactive</span>`)
+        $(
+          `<span name="EVActive" style="color:#ff4040;">${game.i18n.localize(
+            "pf2e-thaum-vuln.targetManagement.inactive"
+          )}</span>`
+        )
       );
       EVTargetSection.append(EVActiveLabel);
     }
