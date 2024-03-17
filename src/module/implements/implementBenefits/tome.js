@@ -418,10 +418,9 @@ Hooks.on("deleteItem", (item, _b, userID) => {
 });
 
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  console.log("tome", imps);
   if (
     game.user.id === userID &&
-    imps["tome"].uuid &&
+    imps["tome"]?.uuid &&
     impDelta.find(
       (i) =>
         i.name ===

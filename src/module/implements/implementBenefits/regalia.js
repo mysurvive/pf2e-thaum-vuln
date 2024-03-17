@@ -1,7 +1,4 @@
-import { createEffectOnImplement } from "../helpers";
-
-const regaliaIndicator = "Effect: Regalia Aura";
-const regaliaRules = [
+const newRegaliaRules = [
   {
     key: "FlatModifier",
     selector: ["deception", "diplomacy", "intimidation"],
@@ -50,17 +47,69 @@ const regaliaRules = [
   },
 ];
 
+async function createEffectOnImplement(imps, a) {
+  const regalia = await fromUuid(imps["regalia"].uuid);
+  const oldRegalia = a.items.find((i) =>
+    i.system.rules.find((r) => r.label === "Regalia Implement Initiate")
+  );
+
+  deleteOldRegaliaEffect(oldRegalia);
+
+  const regaliaRules = regalia.system.rules;
+  for (const rule of newRegaliaRules) {
+    regaliaRules.push(rule);
+  }
+
+  console.log(regaliaRules);
+  regalia.update({ _id: regalia._id, "system.rules": regaliaRules });
+}
+
+async function deleteOldRegaliaEffect(oldRegalia) {
+  if (!oldRegalia) return;
+
+  const oldRegaliaObj = oldRegalia.toObject();
+
+  for (const r in oldRegaliaObj.system.rules) {
+    if (
+      oldRegaliaObj.system.rules[r].label === "Regalia Implement Initiate" ||
+      oldRegaliaObj.system.rules[r].label ===
+        "Regalia Follow The Expert Bonus" ||
+      oldRegaliaObj.system.rules[r].label === "Regalia Implement Adept" ||
+      oldRegaliaObj.system.rules[r].slug === "regalia-aura"
+    ) {
+      delete oldRegaliaObj.system.rules[r];
+    }
+  }
+
+  const rules = oldRegaliaObj.system.rules.filter((r) => {
+    return r !== undefined;
+  });
+
+  await oldRegalia.update({ _id: oldRegalia._id, "system.rules": rules });
+}
+
 function regaliaIntensify() {}
 
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  console.log(imps);
   if (
     game.user.id === userID &&
-    imps.find((i) => i.name === "Regalia")?.uuid &&
-    impDelta.find((i) => i.name === "Regalia")?.changed
+    imps["regalia"]?.uuid &&
+    impDelta.find(
+      (i) =>
+        i.name ===
+        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Regalia")
+    )?.changed
   ) {
-    createEffectOnImplement(imps, a, "Regalia", regaliaIndicator, regaliaRules);
+    createEffectOnImplement(imps, a);
   }
+});
+
+Hooks.on("deleteImplementEffects", (a) => {
+  const oldRegalia = a.items.find((i) =>
+    i.system.rules.find((r) => r.label === "Regalia Implement Initiate")
+  );
+
+  deleteOldRegaliaEffect(oldRegalia);
 });
 
 export { regaliaIntensify };
