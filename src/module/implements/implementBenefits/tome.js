@@ -1,6 +1,7 @@
 import {
   INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID,
   TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
+  TOME_ADEPT_RK_EFFECT_UUID,
 } from "../../utils";
 import { manageImplements } from "../implements";
 import { getImplement } from "../helpers";
@@ -273,16 +274,8 @@ async function createEffectOnImplement(imps, a) {
       value: 1,
       type: "circumstance",
       label: "Tome Implement Adept RK Success",
-      predicate: ["thaumaturge:tome:rk:success", "adept:tome"],
+      predicate: ["adept:tome", "target:mark:tome-adept-rk-success"],
       hideIfDisabled: true,
-    },
-    {
-      key: "RollOption",
-      label: "Tome Implement Adept Benefit RK Success",
-      option: "thaumaturge:tome:rk:success",
-      toggleable: true,
-      predicate: ["adept:tome"],
-      priority: 60,
     },
     {
       key: "FlatModifier",
@@ -356,6 +349,49 @@ export async function tomeIntensify() {
   await a.createEmbeddedDocuments("Item", [tomeIntensifyEffect]);
 }
 
+async function tomeRKResult(sa, targ, degreeOfSuccess) {
+  // Must have target of RK check to apply mark to, and be tome adept
+  if (!getImplement(sa, "tome")?.adept) return;
+
+  // Check for an active encounter.  RK rolls are exploration mode too.
+  if (!game.combats.active?.started) return;
+
+  const oldEffect = sa.itemTypes.effect.find(
+    (e) => e.flags.core?.sourceId === TOME_ADEPT_RK_EFFECT_UUID
+  );
+  if (oldEffect) {
+    // Already used RK this turn? Use an unexpired effect to tell us.
+    if (!oldEffect.isExpired) return;
+    await oldEffect.delete();
+  }
+
+  // Get RK Effect's TokenMark RE and inject the target's UUID
+  let effect = (await fromUuid(TOME_ADEPT_RK_EFFECT_UUID)).toObject();
+  (effect.flags.core ??= {}).sourceId = TOME_ADEPT_RK_EFFECT_UUID;
+  effect.name += ` (${targ.name})`;
+  let re = effect.system.rules.find(
+    (r) => r.key === "TokenMark" && r.slug === "tome-adept-rk-success"
+  );
+  if (!re) {
+    console.log(
+      "Unable to find TokenMark RE on Tome Adept RK Success Effect?!"
+    );
+    return;
+  }
+  re.uuid = targ.uuid;
+  if (degreeOfSuccess < 2) {
+    re.slug = "tome-adept-rk-failure";
+    effect.name += " (failure)";
+  } else {
+    effect.name += " (success)";
+  }
+  await sa.createEmbeddedDocuments("Item", [effect]);
+}
+
+Hooks.on("RKResult", (actor, targetDoc, degreeOfSuccess) => {
+  if (actor && targetDoc) tomeRKResult(actor, targetDoc, degreeOfSuccess);
+});
+
 Hooks.on("pf2e.restForTheNight", (actor) => {
   if (!game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome"))
     createTomeDialog(actor);
@@ -403,4 +439,18 @@ Hooks.on("deleteImplementEffects", (a) => {
   );
 
   deleteOldTomeEffect(oldTome);
+});
+
+Hooks.on("renderChatMessage", (message) => {
+  if (
+    !game.ready ||
+    message.actor.primaryUpdater !== game.user ||
+    !message.flags.pf2e?.context?.options.some(
+      (o) => o === "target:mark:tome-adept-rk-success"
+    )
+  )
+    return;
+  message.actor.itemTypes.effect
+    .find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID)
+    ?.delete();
 });

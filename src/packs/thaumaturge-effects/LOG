@@ -1,17 +1,14 @@
-2023/12/16-13:07:29.817 2618 Recovering log #181
-2023/12/16-13:07:29.817 2618 Level-0 table #183: started
-2023/12/16-13:07:29.820 2618 Level-0 table #183: 9439 bytes OK
-2023/12/16-13:07:29.820 2618 Recovering log #184
-2023/12/16-13:07:29.829 2618 Delete type=0 #181
-2023/12/16-13:07:29.829 2618 Delete type=0 #184
-2023/12/16-13:07:29.829 2618 Delete type=2 #185
-2023/12/16-13:07:29.829 2618 Delete type=3 #180
-2023/12/16-13:07:29.829 39d4 Compacting 4@0 + 1@1 files
-2023/12/16-13:07:29.835 39d4 Generated table #186@0: 21 keys, 13114 bytes
-2023/12/16-13:07:29.835 39d4 Compacted 4@0 + 1@1 files => 13114 bytes
-2023/12/16-13:07:29.838 39d4 compacted to: files[ 0 1 0 0 0 0 0 ]
-2023/12/16-13:07:29.839 39d4 Delete type=2 #170
-2023/12/16-13:07:29.839 39d4 Delete type=2 #172
-2023/12/16-13:07:29.839 39d4 Delete type=2 #175
-2023/12/16-13:07:29.839 39d4 Delete type=2 #178
-2023/12/16-13:07:29.839 39d4 Delete type=2 #183
+2024/03/09-12:30:10.975826 7ffa82ffd640 Recovering log #199
+2024/03/09-12:30:10.989953 7ffa82ffd640 Delete type=3 #197
+2024/03/09-12:30:10.989968 7ffa82ffd640 Delete type=0 #199
+2024/03/09-12:55:10.977175 7ff7f29c0640 Level-0 table #204: started
+2024/03/09-12:55:10.982090 7ff7f29c0640 Level-0 table #204: 13026 bytes OK
+2024/03/09-12:55:10.987660 7ff7f29c0640 Delete type=0 #202
+2024/03/09-12:55:10.987760 7ff7f29c0640 Manual compaction at level-0 from '!folders!A5LcQoSo0NG6WhAR' @ 72057594037927935 : 1 .. '!items!zo2vRmRcEWLNwPIN' @ 0 : 0; will stop at '!items!zo2vRmRcEWLNwPIN' @ 209 : 1
+2024/03/09-12:55:10.987764 7ff7f29c0640 Compacting 1@0 + 1@1 files
+2024/03/09-12:55:10.992828 7ff7f29c0640 Generated table #205@0: 22 keys, 12958 bytes
+2024/03/09-12:55:10.992836 7ff7f29c0640 Compacted 1@0 + 1@1 files => 12958 bytes
+2024/03/09-12:55:10.998909 7ff7f29c0640 compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/03/09-12:55:10.998942 7ff7f29c0640 Delete type=2 #204
+2024/03/09-12:55:10.998974 7ff7f29c0640 Delete type=2 #192
+2024/03/09-12:55:10.999017 7ff7f29c0640 Manual compaction at level-0 from '!items!zo2vRmRcEWLNwPIN' @ 209 : 1 .. '!items!zo2vRmRcEWLNwPIN' @ 0 : 0; will stop at (end)
