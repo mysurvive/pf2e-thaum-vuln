@@ -58,11 +58,12 @@ async function updateWeaknessType(message, speaker) {
   if (!evEffect) return;
   const strike = message._strike?.item.system;
   let damageType = "physical";
+  console.log(strike.traits.toggles);
   if (strike.damage) {
-    if (strike.traits.toggles.versatile.selection) {
-      damageType = strike.traits.toggles.versatile.selection;
-    } else if (strike.traits.toggles.modular.selection) {
-      damageType = strike.traits.toggles.modular.selection;
+    if (strike.traits.toggles.versatile.selected) {
+      damageType = strike.traits.toggles.versatile.selected;
+    } else if (strike.traits.toggles.modular.selected) {
+      damageType = strike.traits.toggles.modular.selected;
     } else {
       damageType = strike.damage.damageType;
     }
