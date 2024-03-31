@@ -5,12 +5,12 @@
 </style>
 <div class="amulets-abeyance-dialog" dmg="{{damageTypes}}">
   <div class="amulets-abeyance-flavor">
-    <h3>{{localize "pf2e-thaum.vuln.amuletsAbeyance.name"}}
-      &#40;{{localize "pf2e-thaum-vuln.amuletsAbeyance.resistanceValueLabel"}}
+    <h3>{{localize "pf2e-thaum-vuln.dialog.amuletsAbeyance.name"}}
+      &#40;{{localize "pf2e-thaum-vuln.dialog.amuletsAbeyance.resistanceValueLabel"}}
       {{abeyanceResistanceValue}}
-      {{localize "pf2e-thaum.vuln.amuletsAbeyance.allTriggeringDamage"}}
+      {{localize "pf2e-thaum-vuln.dialog.amuletsAbeyance.allTriggeringDamage"}}
       {{#each damageTypes}}&#91;{{this}}&#93;{{/each}}&#41;</h3>
-    <p>{{localize "pf2e-thaum.vuln.amuletsAbeyance.description"}}</p>
+    <p>{{localize "pf2e-thaum-vuln.dialog.amuletsAbeyance.description"}}</p>
     {{#if amuletRank.adept}}
       <h3>{{localize
           "pf2e-thaum-vuln.dialog.amuletsAbeyance.adeptBenefitLabel"
