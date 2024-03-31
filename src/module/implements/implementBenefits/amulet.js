@@ -94,7 +94,7 @@ async function amuletsAbeyance(a, allies, strikeDamageTypes) {
       close: () => {},
     },
     a
-  ).render(true, { width: canvas.dimensions.width / 6 });
+  ).render(true, { width: 750 });
 }
 
 //async function checkChatForAmulet(message, html) {
