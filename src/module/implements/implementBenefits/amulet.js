@@ -1,8 +1,5 @@
 import { applyAbeyanceEffects } from "../../socket";
-import {
-  AMULET_FEAT_SOURCEID,
-  INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
-} from "../../utils";
+import { INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID } from "../../utils";
 import { getImplement } from "../helpers";
 
 async function amuletsAbeyance(a, allies, strikeDamageTypes) {
@@ -109,9 +106,7 @@ export const amuletChatButton = {
     for (const a of aArray) {
       if (
         a?.actor.isOwner &&
-        a?.actor?.itemTypes.feat.some(
-          (i) => i.sourceId === AMULET_FEAT_SOURCEID
-        ) &&
+        getImplement(a.actor, "amulet") &&
         !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
       ) {
         const effectRange = 15;
@@ -171,24 +166,19 @@ export const amuletChatButton = {
   },
 };
 
-async function checkChatForAbeyanceEffect(message, html) {
+async function checkChatForAbeyanceEffect(message) {
   if (
-    !canvas.initialized ||
-    game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
+    !game.ready ||
+    game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet") ||
+    message.flags.pf2e?.appliedDamage === undefined || // null means damage applied, but reduced to zero
+    !message.actor?.isOwner
   )
     return;
-  const damageTakenCard = $(html).find(".damage-taken");
-  if (damageTakenCard.length <= 0) return;
-  if (game.user.isGM) {
-    const abeyanceTokens = canvas.tokens.placeables.filter((t) =>
-      t?.actor?.items.find((i) => i.slug === "effect-amulets-abeyance")
-    );
-    for (const token of abeyanceTokens) {
-      token.actor.items
-        .find((i) => i.slug === "effect-amulets-abeyance")
-        .delete();
-    }
-  }
+
+  // Probably better to use sourceId, but it's not set when the effect is made.
+  message.actor?.itemTypes.effect
+    .find((t) => t.slug === "effect-amulets-abeyance")
+    ?.delete();
 }
 
 async function removeLingeringEffect(combatant) {
@@ -253,5 +243,8 @@ Hooks.on("pf2e.startTurn", async (combatant) => {
 
 Hooks.on("renderChatMessage", async (message, html) => {
   amuletChatButton.listen(message, html);
-  checkChatForAbeyanceEffect(message, html);
+});
+
+Hooks.on("createChatMessage", async (message) => {
+  checkChatForAbeyanceEffect(message);
 });
