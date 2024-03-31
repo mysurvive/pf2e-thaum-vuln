@@ -8,39 +8,59 @@ class Implement {
     this.implementItem = implementItem;
   }
 
-  get implementItem() {
-    return this.implementItem;
+  intensifyImplement() {
+    return ui.notifications.warn(
+      game.i18n.localize(
+        "pf2e-thaum-exploitVuln.notifications.warn.intensifyImplement.invalid"
+      )
+    );
   }
 
-  set implementItem(item) {
-    this.implementItem = item;
-  }
+  async createEffectsOnItem(item) {
+    console.log("createEffectsOnItem");
+    const implement = await fromUuid(item);
 
-  intensifyImplement() {}
+    if (this.implementItem) this.deleteEffectsOnItem();
 
-  createEffectsOnItem(item) {
-    const implement = item;
-
-    this.deleteEffectsOnItem();
-
-    const implementRules = implement.system.rules;
-    for (const rule in this.#rules) {
+    const implementRules = implement.system?.rules ?? [];
+    for (const rule of this.#rules) {
       implementRules.push(rule);
     }
 
     implement.update({ _id: implement._id, "system.rules": implementRules });
-    this.implementItem(implement);
+    this.implementItem = implement.uuid;
   }
 
-  deleteEffectsOnItem() {
-    const oldImplement = this.implementItem;
+  async deleteEffectsOnItem() {
+    console.log("deleteEffectsOnItem");
+    //if (!this.implementItem) return;
 
-    for (const i in oldImplement.system.rules) {
-      for (const r in this.rules) {
-        if (oldImplement.system.rules[i] == this.rules[r])
-          delete oldImplement.system.rules[i];
+    const oldImplement = await fromUuid(this.implementItem);
+    const oldImplementObj = oldImplement.toObject();
+
+    for (const i in oldImplementObj.system.rules) {
+      for (const r in this.#rules) {
+        if (oldImplementObj.system.rules[i].label == this.#rules[r].label) {
+          console.log(
+            "deleting match: ",
+            oldImplementObj.system.rules[i],
+            this.#rules[r]
+          );
+          delete oldImplementObj.system.rules[i];
+        }
       }
     }
+    console.log("made it out");
+    const newRules = oldImplementObj.system.rules.filter((r) => {
+      return r !== undefined && r !== null;
+    });
+
+    console.log(newRules);
+
+    await oldImplement.update({
+      _id: oldImplement._id,
+      "system.rules": newRules,
+    });
   }
 }
 

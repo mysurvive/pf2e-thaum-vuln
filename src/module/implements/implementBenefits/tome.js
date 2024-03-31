@@ -8,7 +8,7 @@ import { getImplement } from "../helpers";
 import { Implement } from "../implement";
 
 class Tome extends Implement {
-  constructor(actor) {
+  constructor(actor, implementItem) {
     const tomeRules = [
       {
         key: "FlatModifier",
@@ -71,7 +71,7 @@ class Tome extends Implement {
             yes: {
               label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
               callback: () => {
-                constructEffect(this.actor, tome);
+                this.dailyPreparation();
               },
             },
             no: {
@@ -93,6 +93,7 @@ class Tome extends Implement {
   }
 
   async dailyPreparation() {
+    console.log("dailyPreparation");
     const effect = (
       await fromUuid(TOME_IMPLEMENT_BENEFIT_EFFECT_UUID)
     ).toObject();
@@ -109,7 +110,8 @@ class Tome extends Implement {
         value: `system.skills.${skill}.rank`,
       });
     }
-    const tomeRules = [
+
+    effect.system.rules.push(
       {
         adjustName: true,
         choices: skills,
@@ -210,13 +212,15 @@ class Tome extends Implement {
         predicate: ["paragon:tome"],
         path: "{item|flags.pf2e.rulesSelections.effectTomeSecondSkill}",
         value: 4,
-      },
-    ];
+      }
+    );
+
+    this.actor.createEmbeddedDocuments("Item", [effect]);
   }
 
-  async fixAddProficiencyForLore() {
+  async fixAddProficiencyForLore(item) {
+    console.log("fixAddProficiencyForLore");
     const a = this.actor;
-    const item = this.implementItem;
     const selections = [
       item.rules[0].selection
         ? item.rules[0].selection.split(".")[2]
@@ -263,8 +267,8 @@ class Tome extends Implement {
     }
   }
 
-  async fixDeleteProficiencyForLore() {
-    const item = this.implementItem;
+  async fixDeleteProficiencyForLore(item) {
+    console.log("fixDeleteProficiencyForLore");
     if (!item.slug === "effect-tome-implement") return;
     const a = this.actor;
     const selections = [
@@ -332,9 +336,36 @@ class Tome extends Implement {
     }
     await sa.createEmbeddedDocuments("Item", [effect]);
   }
+
+  async intensifyImplement() {
+    const classNameArray = game.user?.character?.class?.name.split(" ") ?? [];
+    if (
+      !classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
+      !game.user.isGM
+    )
+      return;
+
+    const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
+
+    const tomeIntensifyEffect = (
+      await fromUuid(INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID)
+    ).toObject();
+
+    const flatRoll = await new Roll("1d20").roll({ async: true });
+    flatRoll.toMessage({
+      flavor:
+        "<strong>Intensify Vulnerability: Tome.</strong><br>Your tome's power not only reads a creature's present but even records its future actions. When you use Intensify Vulnerability, roll a d20 and set the result aside. At any time until the start of your next turn, you can use the d20 result you set aside for an attack roll to Strike the target of your Exploit Vulnerability, instead of rolling a new d20; this is a fortune effect.",
+    });
+
+    tomeIntensifyEffect.flags["pf2e-thaum-vuln"].tomeRollValue =
+      flatRoll.result;
+
+    await a.createEmbeddedDocuments("Item", [tomeIntensifyEffect]);
+  }
 }
 
 /** old code */
+/*
 async function createTomeDialog(actor) {
   const tomeFlags = getImplement(actor, "tome");
   if (!tomeFlags) return;
@@ -716,7 +747,7 @@ async function tomeRKResult(sa, targ, degreeOfSuccess) {
   }
   await sa.createEmbeddedDocuments("Item", [effect]);
 }
-
+*/
 Hooks.on("RKResult", (actor, targetDoc, degreeOfSuccess) => {
   if (actor && targetDoc) tomeRKResult(actor, targetDoc, degreeOfSuccess);
 });
@@ -727,26 +758,37 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
 });
 
 Hooks.on("createItem", (item, _b, userID) => {
+  console.log("createItemHook");
   if (
     game.user.id === userID &&
     item.slug === "effect-tome-implement" &&
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
   ) {
-    fixAddProficiencyForLore(item);
+    const actor =
+      game.users.find((i) => i.id === userID).character ?? _token.actor;
+    const _tome = new Tome(actor, getImplement(actor, "tome").uuid);
+    console.log("implement thing", getImplement(actor, "tome"));
+    _tome.fixAddProficiencyForLore(item);
   }
 });
 
 Hooks.on("deleteItem", (item, _b, userID) => {
+  console.log("deleteItemHook");
   if (
     game.user.id === userID &&
     item.slug === "effect-tome-implement" &&
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
   ) {
-    fixDeleteProficiencyForLore(item);
+    const actor =
+      game.users.find((i) => i.id === userID).character ?? _token.actor;
+    const _tome = new Tome(actor, getImplement(actor, "tome").uuid);
+    console.log("Retrieving from flag", getImplement(actor, "tome"));
+    _tome.fixDeleteProficiencyForLore(item);
   }
 });
 
-Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
+Hooks.on("createImplementEffects", async (userID, a, impDelta, imps) => {
+  console.log("createImplementEffectsHook");
   if (
     game.user.id === userID &&
     imps["tome"]?.uuid &&
@@ -757,21 +799,32 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
     )?.changed &&
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
   ) {
-    constructEffect(a);
-    createEffectOnImplement(imps, a);
-    const _tome = new Tome(a);
-    console.log(_tome);
-    _tome.createDialog();
-    _tome.createEffectsOnItem();
+    //constructEffect(a);
+    //createEffectOnImplement(imps, a);
+    const _tome = new Tome(a, imps["tome"].uuid);
+    //_tome.createDialog();
+    //_tome.createEffectsOnItem();
+    a.setFlag(
+      "pf2e-thaum-vuln",
+      "selectedImplements.tome.implementClass",
+      _tome
+    );
+    _tome.dailyPreparation();
+    _tome.createEffectsOnItem(_tome.implementItem);
   }
 });
 
 Hooks.on("deleteImplementEffects", (a) => {
-  const oldTome = a.items.find((i) =>
+  if (getImplement(a, "tome")) {
+    console.log(getImplement(a, "tome"));
+    const _tome = new Tome(a, getImplement(a, "tome").uuid);
+    _tome.deleteEffectsOnItem();
+  }
+  /*const oldTome = a.items.find((i) =>
     i.system.rules.find((r) => r.label === "Tome Implement Recall Knowledge")
   );
 
-  deleteOldTomeEffect(oldTome);
+  deleteOldTomeEffect(oldTome);*/
 });
 
 Hooks.on("createChatMessage", (message) => {
