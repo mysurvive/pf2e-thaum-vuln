@@ -1,9 +1,10 @@
-export async function intensifyImplement() {
-  const imps =
-    game.user.character?.getFlag("pf2e-thaum-vuln", "selectedImplements") ??
-    _token.actor?.getFlag("pf2e-thaum-vuln", "selectedImplements");
+import { constructChildImplement } from "./impDict.js";
 
-  const dialogButtons = {};
+async function intensifyImplement() {
+  const actor = game.user.character ?? _token.actor;
+  const imps = actor.getFlag("pf2e-thaum-vuln", "selectedImplements");
+
+  let dialogButtons = {};
 
   for (const key of Object.keys(imps)) {
     dialogButtons = {
@@ -11,7 +12,12 @@ export async function intensifyImplement() {
       [key]: {
         label: imps[key].name,
         callback: () => {
-          imps[key].implementClass.intensifyImplement();
+          const targetImp = constructChildImplement(
+            imps[key].name,
+            actor,
+            imps[key].uuid
+          );
+          targetImp.intensifyImplement();
         },
       },
     };
@@ -27,3 +33,5 @@ export async function intensifyImplement() {
     buttons: dialogButtons,
   }).render(true);
 }
+
+export { intensifyImplement };

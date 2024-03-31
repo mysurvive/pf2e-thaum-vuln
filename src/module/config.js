@@ -5,8 +5,8 @@ import { twinWeakness } from "./feats/twinWeakness.js";
 import { forceEVTarget } from "./utils/forceEV.js";
 import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
 import { amuletIntensify } from "./implements/implementBenefits/amulet.js";
-import { intensifyImplement } from "./implements/intensifyImplement.js";
 import { rootToLife } from "./feats/rootToLife.js";
+import { intensifyImplement } from "./implements/intensifyImplement.js";
 import { lanternIntensify } from "./implements/implementBenefits/lantern.js";
 
 Hooks.on("init", async () => {

@@ -251,7 +251,9 @@ function confirmImplements(dgEndContent) {
 function getImplementFlavor(imps, a) {
   let impFlavor = {};
   for (const imp of Object.keys(imps)) {
-    const implementFeat = a.items.find((i) => i.name === imps[imp].name);
+    const implementFeat = a.itemTypes.feat.find(
+      (i) => i.name === imps[imp].name
+    );
     impFlavor = {
       ...impFlavor,
       [imps[imp].name]: {
