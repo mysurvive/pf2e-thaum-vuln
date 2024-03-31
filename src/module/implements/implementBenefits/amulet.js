@@ -166,24 +166,19 @@ export const amuletChatButton = {
   },
 };
 
-async function checkChatForAbeyanceEffect(message, html) {
+async function checkChatForAbeyanceEffect(message) {
   if (
-    !canvas.initialized ||
-    game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
+    !game.ready ||
+    game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet") ||
+    message.flags.pf2e?.appliedDamage === undefined || // null means damage applied, but reduced to zero
+    !message.actor?.isOwner
   )
     return;
-  const damageTakenCard = $(html).find(".damage-taken");
-  if (damageTakenCard.length <= 0) return;
-  if (game.user.isGM) {
-    const abeyanceTokens = canvas.tokens.placeables.filter((t) =>
-      t?.actor?.items.find((i) => i.slug === "effect-amulets-abeyance")
-    );
-    for (const token of abeyanceTokens) {
-      token.actor.items
-        .find((i) => i.slug === "effect-amulets-abeyance")
-        .delete();
-    }
-  }
+
+  // Probably better to use sourceId, but it's not set when the effect is made.
+  message.actor?.itemTypes.effect
+    .find((t) => t.slug === "effect-amulets-abeyance")
+    ?.delete();
 }
 
 async function removeLingeringEffect(combatant) {
@@ -248,5 +243,8 @@ Hooks.on("pf2e.startTurn", async (combatant) => {
 
 Hooks.on("renderChatMessage", async (message, html) => {
   amuletChatButton.listen(message, html);
-  checkChatForAbeyanceEffect(message, html);
+});
+
+Hooks.on("createChatMessage", async (message) => {
+  checkChatForAbeyanceEffect(message);
 });
