@@ -441,16 +441,16 @@ Hooks.on("deleteImplementEffects", (a) => {
   deleteOldTomeEffect(oldTome);
 });
 
-Hooks.on("renderChatMessage", (message) => {
+Hooks.on("createChatMessage", (message) => {
   if (
-    !game.ready ||
-    message.actor.primaryUpdater !== game.user ||
-    !message.flags.pf2e?.context?.options.some(
+    game.ready &&
+    message.flags.pf2e?.context?.type === "attack-roll" &&
+    message.flags.pf2e?.context?.options?.some(
       (o) => o === "target:mark:tome-adept-rk-success"
     )
-  )
-    return;
-  message.actor.itemTypes.effect
-    .find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID)
-    ?.delete();
+  ) {
+    message.actor.itemTypes.effect
+      .find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID)
+      ?.delete();
+  }
 });
