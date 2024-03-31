@@ -50,7 +50,7 @@
     <div class="damage-type-row" style="flex-direction:column">
       {{#each allies}}
         <div class="damage-selection" style="margin-bottom:0.2rem">
-          {{#removeFromArray @root.damageType "untyped"}}
+          {{#removeFromArray @root.damageTypes "untyped"}}
             <label for="damage-type-{{document.uuid}}">{{localize
                 "pf2e-thaum-vuln.dialog.amuletsAbeyance.selectDamageType"
               }}
