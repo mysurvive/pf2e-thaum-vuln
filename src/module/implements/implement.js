@@ -1,10 +1,8 @@
 class Implement {
-  #rules;
-
   constructor(slug, actor, rules, implementItem) {
     this.slug = slug;
     this.actor = actor;
-    if (rules) this.#rules = rules;
+    if (rules) this.rules = rules;
     this.implementItem = implementItem;
   }
 
@@ -22,7 +20,7 @@ class Implement {
     if (this.implementItem) this.deleteEffectsOnItem();
 
     const implementRules = implement.system?.rules ?? [];
-    for (const rule of this.#rules) {
+    for (const rule of this.rules) {
       implementRules.push(rule);
     }
 
@@ -35,8 +33,8 @@ class Implement {
     const oldImplementObj = oldImplement.toObject();
 
     for (const i in oldImplementObj.system.rules) {
-      for (const r in this.#rules) {
-        if (oldImplementObj.system.rules[i]?.label == this.#rules[r]?.label) {
+      for (const r in this.rules) {
+        if (oldImplementObj.system.rules[i]?.label == this.rules[r]?.label) {
           delete oldImplementObj.system.rules[i];
         }
       }
