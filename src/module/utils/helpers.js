@@ -264,6 +264,30 @@ function targetEVPrimaryTarget(a) {
   }
 }
 
+// Create an effect object, using an existing effect uuid as a template.
+//
+// An optional origin can be supplied, to set the actor/token/item creating the
+// effect.  Origin is normally set when dragging an effect from chat, but the
+// module code bypasses that step.
+async function createEffectData(uuid, origin = null) {
+  const effect = (await fromUuid(uuid)).toObject();
+  (effect.flags.core ??= {}).sourceId = uuid;
+  if (origin !== null) {
+    // If context is set, then all these properties are non-optional, but can be null
+    effect.system.context = {
+      origin: {
+        actor: origin.actor ?? null,
+        token: origin.token ?? null,
+        item: origin.item ?? null,
+        spellcasting: origin.spellcasting ?? null,
+      },
+      roll: null,
+      target: null,
+    };
+  }
+  return effect;
+}
+
 export {
   targetEVPrimaryTarget,
   getMWTargets,
@@ -272,4 +296,5 @@ export {
   getIWR,
   getActorEVEffect,
   BDGreatestBypassableResistance,
+  createEffectData,
 };
