@@ -42,7 +42,7 @@ function checkFeatValidity(a) {
 // Returns implement data for named implement, or undefined if that implement isn't
 // present.
 function getImplement(actor, implement) {
-  return actor.getFlag("pf2e-thaum-vuln", "selectedImplements")[implement];
+  return actor.getFlag("pf2e-thaum-vuln", "selectedImplements")?.[implement];
 }
 
 export { checkImplements, checkFeatValidity, getImplement };

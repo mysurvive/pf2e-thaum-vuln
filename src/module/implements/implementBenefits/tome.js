@@ -352,6 +352,8 @@ class Tome extends Implement {
     tomeIntensifyEffect.flags["pf2e-thaum-vuln"].tomeRollValue =
       flatRoll.result;
 
+    tomeIntensifyEffect.name += ` [${flatRoll.result}]`;
+
     await a.createEmbeddedDocuments("Item", [tomeIntensifyEffect]);
   }
 }
