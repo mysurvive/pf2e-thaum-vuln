@@ -225,40 +225,7 @@ class Amulet extends Implement {
     a.createEmbeddedDocuments("Item", [intensifyAmuletEffect]);
     //TODO: add chat message stating the abeyance effect has been used
   }
-
-  removeLingeringEffect(combatant) {
-    const lingeringEffectTokens = canvas.tokens.placeables.filter((t) =>
-      t.actor.items.find(
-        (i) =>
-          i.slug === "effect-amulets-abeyance-lingering-resistance" &&
-          i.getFlag("pf2e-thaum-vuln", "effectSource") === combatant.actor.uuid
-      )
-    );
-    for (const token of lingeringEffectTokens) {
-      token.actor.items
-        .find(
-          (i) =>
-            i.slug === "effect-amulets-abeyance-lingering-resistance" &&
-            i.getFlag("pf2e-thaum-vuln", "effectSource") ===
-              combatant.actor.uuid
-        )
-        .delete();
-    }
-  }
 }
-
-Hooks.on("pf2e.startTurn", async (combatant) => {
-  if (
-    combatant.actor?.class?.name ===
-      game.i18n.localize("PF2E.TraitThaumaturge") &&
-    game.user.isGM &&
-    !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
-  ) {
-    const actor = combatant.actor;
-    const _amulet = actor.attributes.implements["amulet"];
-    _amulet.removeLingeringEffect(combatant);
-  }
-});
 
 Hooks.on("renderChatMessage", async (message, html) => {
   const _amulet = message.actor?.attributes?.implements?.["amulet"];
