@@ -68,7 +68,9 @@
         },
         "noToken": "No token selected.",
         "intensifyImplement": {
-          "invalid": "The selected implement's Intensify Implement ability is not currently supported in PF2e Exploit Vulnerability."
+          "invalid": "The selected implement's Intensify Implement ability is not currently supported in PF2e Exploit Vulnerability.",
+          "noIntensify": "You do not have the ability to Intensify Vulnerability. Check your sheet to make sure you have Intensify Vulnerability as a feat.",
+          "notHeld": "You must be holding your implement to use Intensify Vulnerability"
         }
       },
       "info": {

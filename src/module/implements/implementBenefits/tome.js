@@ -330,15 +330,12 @@ class Tome extends Implement {
   }
 
   async intensifyImplement() {
-    //TODO: Error checking for not having intensify
-    const classNameArray = game.user?.character?.class?.name.split(" ") ?? [];
+    const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
     if (
-      !classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
-      !game.user.isGM
+      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
+      !getImplement(a, "tome")
     )
       return;
-
-    const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
 
     const tomeIntensifyEffect = (
       await fromUuid(INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID)
@@ -360,16 +357,19 @@ class Tome extends Implement {
 }
 
 Hooks.on("RKResult", (actor, targetDoc, degreeOfSuccess) => {
-  if (actor && targetDoc) {
-    const _tome = new Tome(actor, getImplement(actor, "tome").uuid);
+  if (actor && targetDoc && getImplement(actor, "tome")) {
+    const _tome = new Tome(actor, getImplement(actor, "tome")?.uuid);
     _tome.tomeRKResult(actor, targetDoc, degreeOfSuccess);
   }
 });
 
 Hooks.on("pf2e.restForTheNight", (actor) => {
-  if (!game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")) {
+  if (
+    !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome") &&
+    getImplement(actor, "tome")
+  ) {
     const _tome = new Tome(actor, getImplement(actor, "tome").uuid);
-    _tome.createTomeDialog(actor);
+    _tome.dailyPreparation(actor);
   }
 });
 

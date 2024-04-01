@@ -195,18 +195,22 @@ class Amulet extends Implement {
   async intensifyImplement() {
     const a = game.user?.character?.actor ?? canvas.tokens.controlled[0]?.actor;
     if (
-      !a.items.some((i) => i.slug === "intensify-vulnerability") ||
+      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
       !getImplement(a, "amulet")
     )
       return ui.notifications.warn(
-        "You do not have the ability to Intensify Vulnerability. Check your sheet to make sure you have Intensify Vulnerability and you have the Amulet implement chosen."
+        game.i18n.localize(
+          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.noIntensify"
+        )
       );
 
     const amuletUuid = getImplement(a, "amulet")?.uuid;
     const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
     if (!amulet?.isHeld)
       return ui.notifications.warn(
-        "You must be holding your Amulet to use Intensify Vulnerability"
+        game.i18n.localize(
+          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.notHeld"
+        )
       );
 
     const intensifyAmuletEffect = (

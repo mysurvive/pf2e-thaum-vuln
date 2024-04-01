@@ -165,13 +165,16 @@ class Lantern extends Implement {
   }
 
   async intensifyImplement() {
-    const classNameArray = this.actor.class?.name.split(" ") ?? [];
+    const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
     if (
-      !classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
-      !game.user.isGM
+      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
+      !getImplement(a, "lantern")
     )
-      return;
-
+      return ui.notifications.warn(
+        game.i18n.localize(
+          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.noIntensify"
+        )
+      );
     const lanternIntensifyEffect = (
       await fromUuid(INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID)
     ).toObject();
