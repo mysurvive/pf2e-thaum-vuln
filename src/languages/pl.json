@@ -12,6 +12,18 @@
       "esotericLoreModifier": {
         "name": "Modyfikator ST Wiedzy Ezoterycznej",
         "hint": "Ustaw globalny modyfikator dla ST Wiedzy Ezoterycznej. Jeśli zostanie on zmieniony, zazwyczaj wynosi -2, aby Wiedza Ezoteryczna była zgodna z odpowiednią umiejętnością wiedzy dla celów Przywołania Wiedzy."
+      },
+      "enforceHeldImplement": {
+        "name": "Egzekwowanie i wdrożenie",
+        "hint": "Egzekwuje zasadę, że implementacja musi być utrzymywana w celu wykorzystania Exploit Vulnerability."
+      },
+      "reactionCheckerHandlesAmulet": {
+        "hint": "Zezwól PF2e Reaction Checker na obsługę Amulet's Abeyance.",
+        "name": "PF2e Reaction Checker obejmuje Amulet"
+      },
+      "dailiesHandlesTome": {
+        "hint": "Umożliwienie PF2e Dailies obsługi codziennych wyborów umiejętności implementacji Tome.",
+        "name": "PF2e Dailies obejmuje Tome"
       }
     },
     "notifications": {
@@ -20,7 +32,9 @@
           "targetCount": "Wybierz jeden token Thaumaturge'a i wyceluj w istotę.",
           "noExploitVulnerability": "Ten aktor nie ma możliwości użycia Exploit Vulnerability",
           "noEsotericLoreSkill": "Ten aktor nie posiada umiejętności Wiedza Ezoteryczna (Esoteric Lore)",
-          "noMatchingDC": "Brak pasującego ST dla celu"
+          "noMatchingDC": "Brak pasującego ST dla celu",
+          "noImplements": "Nie masz wybranych implementów. Przejdź do zakładki ekwipunku na karcie postaci, kliknij zarządzaj implementami i przypisz przedmioty do implementów.",
+          "noHeldImplement": "Nie posiadasz jednego ze swoich implementów, aby wykorzystać Exploit Vulnerability."
         },
         "cursedEffigy": {
           "noAbility": "Nie masz możliwości stworzenia cursed effigy",
@@ -45,6 +59,17 @@
         },
         "mortalWeakness": {
           "noWeakness": "Ta istota nie ma żadnych słabości, przeciwko którym można by wykorzystać Mortal Weakness."
+        },
+        "rootToLife": {
+          "noAbility": "Wybrany aktor nie ma Korzeni Życia",
+          "selectOne": "Wybierz tylko jeden cel dla Korzeni Życia",
+          "notDying": "Cel nie umiera"
+        },
+        "noToken": "Nie wybrano żadnego tokena."
+      },
+      "info": {
+        "recallKnowledge": {
+          "requestSent": "Przywołanie Wiedzy wysyła prośbę do MG"
         }
       }
     },
@@ -66,7 +91,14 @@
         "resistanceLabel": "Odporności: ",
         "immunityLabel": "Niewrażliwości: ",
         "except": "Z wyjątkiem: ",
-        "doublevs": "Podwójne vs.: "
+        "doublevs": "Podwójne vs.: ",
+        "highestWeaknessLabel": "Największa Słabość"
+      },
+      "degreeOfSuccess": {
+        "criticalSuccess": "Zapamiętujesz słabe punkty stworzenia, a gdy wzmacniasz swoje umiejętności ezoteryczne, masz przebłysk wglądu, który daje ci jeszcze więcej wiedzy o stworzeniu. Poznajesz wszystkie odporności, słabości i niewrażliwości danej istoty, w tym ich wartości oraz wszelkie nietypowe słabości i podatności, np. jakie zaklęcia przejdą przez antymagię golema. Możesz wykorzystać śmiertelną słabość lub osobistą antytezę stworzenia (patrz poniżej). Ataki bez broni i z bronią przeciwko stworzeniu również stają się magiczne, jeśli wcześniej nie były.",
+        "success": "Przypominasz sobie ważny fakt o stworzeniu, ucząc się jego największej słabości (lub jednej z największych słabości, jeśli ma kilka o tej samej wartości), ale nie innych słabości, odporności lub niewrażliwości. Możesz wykorzystać śmiertelną słabość lub osobistą antytezę danej istoty. Ataki bez broni i z bronią przeciwko tej istocie również stają się magiczne, jeśli wcześniej nie były.",
+        "failure": "Jeśli nie uda ci się przypomnieć sobie istotnej słabości tej istoty, zamiast tego spróbujesz wykorzystać bardziej osobisty słaby punkt. Możesz wykorzystać tylko osobistą antytezę danej istoty. Twoje ataki bez broni i z bronią przeciwko tej istocie również stają się magiczne, o ile wcześniej takie nie były.",
+        "criticalFailure": "Nie pamiętasz, jakiego przedmiotu użyć i rozpraszasz się, grzebiąc w swojej ezoteryce. Stajesz się odsłonięty aż do początku swojej następnej tury."
       }
     },
     "personalAntithesis": {
@@ -82,11 +114,16 @@
     },
     "esotericWarden": {
       "name": "Strażnik Ezoteryki (Esoteric Warden)",
-      "flavor": "Kiedy pomyślnie zastosujesz przeciwstawny materiał przeciwko stworzeniu, zabezpieczasz się również przed jego kolejnymi atakami. Gdy powiedzie ci się test na Exploit a Vulnerability, zyskujesz premię +1 do swojego KP przeciwko następnemu atakowi istoty oraz premię +1 do następnego rzutu obronnego przeciwko tej istocie; jeśli powiedzie ci się krytycznie, premie te wynoszą +2. Możesz uzyskać te premie tylko raz dziennie przeciwko konkretnej istocie, a korzyść kończy się, jeśli ponownie wykorzystasz Exploit Vulnerability."
+      "flavor": "Kiedy pomyślnie zastosujesz przeciwstawny materiał przeciwko stworzeniu, zabezpieczasz się również przed jego kolejnymi atakami. Gdy powiedzie ci się test na Exploit a Vulnerability, zyskujesz premię +1 do swojego KP przeciwko następnemu atakowi istoty oraz premię +1 do następnego rzutu obronnego przeciwko tej istocie; jeśli powiedzie ci się krytycznie, premie te wynoszą +2. Możesz uzyskać te premie tylko raz dziennie przeciwko konkretnej istocie, a korzyść kończy się, jeśli ponownie wykorzystasz Exploit Vulnerability.",
+      "effect": {
+        "name": "Efekt Ezoterycznego Strażnika"
+      }
     },
     "diverseLore": {
       "name": "Różnorodna wiedza (Diverse Lore)",
-      "flavor": "Gdy uda ci się wykonać test Exploit a Vulnerability, porównaj wynik swojego testu Wiedzy Ezoterycznej ze ST do Przywołania Wiedzy dla tej istoty; jeśli liczba ta byłaby sukcesem lub sukcesem krytycznym, zdobywasz informacje tak, jakby udało ci się wykonać test Przywołania Wiedzy. "
+      "flavor": "Gdy uda ci się wykonać test Exploit a Vulnerability, porównaj wynik swojego testu Wiedzy Ezoterycznej ze ST do Przywołania Wiedzy dla tej istoty; jeśli liczba ta byłaby sukcesem lub sukcesem krytycznym, zdobywasz informacje tak, jakby udało ci się wykonać test Przywołania Wiedzy. ",
+      "recallKnowledgeNote": "Wędrowne studia bohatera oznaczają, że słyszał on plotki lub teorie na niemal każdy temat... choć trzeba przyznać, że ich źródła nie zawsze są najbardziej wiarygodne. Postać może przyjąć karę -2 do testu Przywoływania Wiedzy z Wiedzą Ezoteryczną, aby przywołać wiedzę na dowolny temat, nie tylko na tematy dostępne dla Wiedzy Ezoterycznej.",
+      "penalty": "Kara Rozległej Wiedzy"
     },
     "sharedWarding": {
       "name": "Wspólna ochrona (Shared Warding)",
@@ -112,10 +149,76 @@
       "no": "Nie",
       "confirm": "Potwierdź",
       "cancel": "Anuluj",
-      "none": "brak"
+      "none": "brak",
+      "amuletsAbeyance": {
+        "description": "Siłą prezentujesz swój amulet, aby odwrócić od siebie obrażenia. Ty lub sojusznik znajdujący się w promieniu 15 stóp zyskujecie odporność na wszystkie obrażenia przeciwko obrażeniom wyzwalającym. Odporność jest równa 2 + twój poziom.",
+        "name": "Zawieszenie Amuletu",
+        "resistanceValueLabel": "Wartość odporności zawieszenia:",
+        "allTriggeringDamage": "do wszystkich wyzwalających obrażeń",
+        "adeptBenefitLabel": "Korzyść Adepta",
+        "lingeringResistanceValue": "Utrzymująca się wartość odporności:",
+        "paragonBenefitLabel": "Korzyść Paragonu",
+        "selectAllies": "Kliknij ikonę, aby wybrać, kto powinien skorzystać z Zawieszenia Amuletu",
+        "selectDamageType": "Wybierz typ obrażeń, aby zastosować długotrwałą odporność:",
+        "noResistances": "Brak odporności na obrażenia, aby zastosować długotrwałą odporność."
+      },
+      "oneAction": "Jedna akcja",
+      "twoAction": "Dwie akcje",
+      "character": "Postać:",
+      "target": "Cel:",
+      "manageImplements": {
+        "dragItem": "Przeciągnij element tutaj, aby oznaczyć go jako implement.",
+        "implement": "Implement"
+      }
     },
     "chatCard": {
       "use": "Użyj {action}"
+    },
+    "dubiousKnowledge": {
+      "degreeOfSuccess": {
+        "failure": "Gdy postać nie zaliczy (ale nie krytycznie) testu Przywołania Wiedzy przy użyciu dowolnej umiejętności, uczy się trochę prawdziwej wiedzy i trochę błędnej wiedzy, ale nie ma żadnego sposobu na rozróżnienie, która jest która."
+      },
+      "name": "Wątpliwa Wiedza"
+    },
+    "rootToLife": {
+      "title": "Korzenie Życia",
+      "selectActionCount": "Wybierz, czy chcesz użyć jednej czy dwóch akcji.",
+      "outcome": "Istota nie jest już umierająca, a zamiast tego jest nieprzytomna i ma 0 Punktów Wytrzymałości:",
+      "twoActionOutcome": " Możesz wykonać płaskie testy, aby usunąć każde źródło obrażeń wpływające na cel."
+    },
+    "esotericLore": {
+      "name": "Wiedza Ezoteryczna"
+    },
+    "recallKnowledge": {
+      "name": "Przywołanie Wiedzy",
+      "dialog": {
+        "request": "Ktoś prosi o sprawdzenie wiedzy za pomocą umiejętności Wiedza Ezoteryczna.",
+        "featRefLabel": "Odniesienia do Akcji/Atutu:",
+        "dcRefLabel": "Odniesienia do ST:",
+        "rollSettings": "Ustawienia rzutu",
+        "targetTypeLabelDefault": "Nawiedzenie, Klątwa lub Stworzenie",
+        "targetTypeLabelDL": "Cokolwiek",
+        "rawDC": "Surowe ST (bez powyższych modyfikatorów):"
+      },
+      "degreeOfSuccess": {
+        "criticalSuccess": "Postać dokładnie przypomina sobie wiedzę i zyskuje dodatkowe informacje lub kontekst.",
+        "success": "Postać dokładnie przypomina sobie wiedzę lub zyskuje przydatną wskazówkę na temat swojej obecnej sytuacji.",
+        "criticalFailure": "Postać przypomina sobie nieprawidłowe informacje lub otrzymuje błędne lub mylące wskazówki."
+      },
+      "esotericKnowledgeLabel": "Przywołanie Wiedzy Ezoterycznej:"
+    },
+    "manageImplements": {
+      "implementHeader": "Implementacje Thaumaturge'a",
+      "manageImplementsButton": "Zarządzaj Implementami",
+      "clearImplementsButton": "Wyczyść wszystkie implementy"
+    },
+    "targetManagement": {
+      "evActive": "EV Aktywne:",
+      "evMode": "Tryb EV:",
+      "evPrimaryTargetButton": "Cel główny EV",
+      "active": "Aktywny",
+      "inactive": "Nieaktywny",
+      "notOnScene": "Główny cel EV nie znajduje się na bieżącej scenie"
     }
   }
 }
