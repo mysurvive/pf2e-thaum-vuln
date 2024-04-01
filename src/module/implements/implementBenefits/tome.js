@@ -330,6 +330,7 @@ class Tome extends Implement {
   }
 
   async intensifyImplement() {
+    //TODO: Error checking for not having intensify
     const classNameArray = game.user?.character?.class?.name.split(" ") ?? [];
     if (
       !classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) &&
@@ -421,7 +422,7 @@ Hooks.on("createImplementEffects", async (userID, a, impDelta, imps) => {
 });
 
 Hooks.on("deleteImplementEffects", (a) => {
-  if (getImplement(a, "tome")) {
+  if (getImplement(a, "tome")?.uuid) {
     const _tome = new Tome(a, getImplement(a, "tome").uuid);
     _tome.deleteEffectsOnItem();
   }

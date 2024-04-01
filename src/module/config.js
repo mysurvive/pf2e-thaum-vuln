@@ -6,7 +6,6 @@ import { forceEVTarget } from "./utils/forceEV.js";
 import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
 import { rootToLife } from "./feats/rootToLife.js";
 import { intensifyImplement } from "./implements/intensifyImplement.js";
-import { lanternIntensify } from "./implements/implementBenefits/lantern.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
@@ -17,7 +16,6 @@ Hooks.on("init", async () => {
     forceEVTarget,
     recallEsotericKnowledge,
     rootToLife,
-    lanternIntensify,
     intensifyImplement,
   };
 
