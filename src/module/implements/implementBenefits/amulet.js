@@ -267,7 +267,7 @@ Hooks.on("renderChatMessage", async (message, html) => {
   _amulet.listenForAbeyanceChat(message, html);
 });
 
-Hooks.on("createChatMessage", async (message) => {
+Hooks.on("preCreateChatMessage", async (message) => {
   const actor = message.actor;
   if (!actor || actor == null) return;
   const _amulet = actor.attributes.implements["amulet"];
