@@ -261,16 +261,14 @@ Hooks.on("pf2e.startTurn", async (combatant) => {
 });
 
 Hooks.on("renderChatMessage", async (message, html) => {
-  const actor = message?.actor;
-  if (!actor || actor == null) return;
-  const _amulet = actor.attributes.implements["amulet"];
+  const _amulet = message.actor?.attributes?.implements?.["amulet"];
+  if (!_amulet) return;
   _amulet.listenForAbeyanceChat(message, html);
 });
 
 Hooks.on("preCreateChatMessage", async (message) => {
-  const actor = message.actor;
-  if (!actor || actor == null) return;
-  const _amulet = actor.attributes.implements["amulet"];
+  const _amulet = message.actor?.attributes?.implements?.["amulet"];
+  if (!_amulet) return;
   _amulet.checkChatForAbeyanceEffect(message);
 });
 
