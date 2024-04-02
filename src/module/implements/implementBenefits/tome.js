@@ -369,7 +369,7 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
     getImplement(actor, "tome")
   ) {
     const _tome = new Tome(actor, getImplement(actor, "tome").uuid);
-    _tome.dailyPreparation(actor);
+    _tome.createDailyPreparationDialog(actor);
   }
 });
 
