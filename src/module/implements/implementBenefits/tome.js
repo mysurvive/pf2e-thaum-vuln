@@ -441,7 +441,7 @@ Hooks.on("deleteImplementEffects", (a) => {
   deleteOldTomeEffect(oldTome);
 });
 
-Hooks.on("createChatMessage", (message) => {
+Hooks.on("preCreateChatMessage", (message) => {
   if (
     game.ready &&
     message.flags.pf2e?.context?.type === "attack-roll" &&

@@ -245,6 +245,6 @@ Hooks.on("renderChatMessage", async (message, html) => {
   amuletChatButton.listen(message, html);
 });
 
-Hooks.on("createChatMessage", async (message) => {
+Hooks.on("preCreateChatMessage", async (message) => {
   checkChatForAbeyanceEffect(message);
 });
