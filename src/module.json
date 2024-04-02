@@ -33,6 +33,15 @@
           "minimum": "1.0.13",
           "verified": "1.0.13"
         }
+      },
+      {
+        "id": "lib-wrapper",
+        "type": "module",
+        "manifest": "https://raw.githubusercontent.com/ruipin/fvtt-lib-wrapper/master/module.json",
+        "compatibility": {
+          "minimum": "1.12.13.0",
+          "verified": "1.12.13.0"
+        }
       }
     ]
   },

@@ -4,13 +4,13 @@ import { Lantern } from "./implementBenefits/lantern";
 import { Implement } from "./implement";
 
 const impDict = new Map([
-  ["Tome", Tome],
-  ["Amulet", Amulet],
-  ["Lantern", Lantern],
+  ["tome", Tome],
+  ["amulet", Amulet],
+  ["lantern", Lantern],
 ]);
 
 function constructChildImplement(implement, actor, item) {
-  const childImp = impDict.get(implement) ?? Implement;
+  const childImp = impDict.get(implement.toLowerCase()) ?? Implement;
   return new childImp(actor, item);
 }
 

@@ -247,25 +247,6 @@ class Amulet extends Implement {
   }
 }
 
-Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  if (
-    game.user.id === userID &&
-    imps["amulet"]?.uuid &&
-    impDelta.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
-    )?.changed
-  ) {
-    const _amulet = new Amulet(a, imps["amulet"].uuid);
-    a.setFlag(
-      "pf2e-thaum-vuln",
-      "selectedImplements.amulet.implementClass",
-      _amulet
-    );
-  }
-});
-
 Hooks.on("pf2e.startTurn", async (combatant) => {
   if (
     combatant.actor?.class?.name ===
@@ -274,7 +255,7 @@ Hooks.on("pf2e.startTurn", async (combatant) => {
     !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
   ) {
     const actor = combatant.actor;
-    const _amulet = new Amulet(actor, getImplement(actor, "amulet")?.uuid);
+    const _amulet = actor.attributes.implements["amulet"];
     _amulet.removeLingeringEffect(combatant);
   }
 });
@@ -282,14 +263,14 @@ Hooks.on("pf2e.startTurn", async (combatant) => {
 Hooks.on("renderChatMessage", async (message, html) => {
   const actor = message?.actor;
   if (!actor || actor == null) return;
-  const _amulet = new Amulet(actor, getImplement(actor, "amulet")?.uuid);
+  const _amulet = actor.attributes.implements["amulet"];
   _amulet.listenForAbeyanceChat(message, html);
 });
 
 Hooks.on("createChatMessage", async (message) => {
   const actor = message.actor;
   if (!actor || actor == null) return;
-  const _amulet = new Amulet(actor, getImplement(actor, "amulet")?.uuid);
+  const _amulet = actor.attributes.implements["amulet"];
   _amulet.checkChatForAbeyanceEffect(message);
 });
 

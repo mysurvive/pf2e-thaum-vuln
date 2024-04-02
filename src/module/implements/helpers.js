@@ -43,6 +43,7 @@ function checkFeatValidity(a) {
 // present.
 function getImplement(actor, implement) {
   return actor.getFlag("pf2e-thaum-vuln", "selectedImplements")?.[implement];
+  //return actor.attributes.implements?.[implement];
 }
 
 export { checkImplements, checkFeatValidity, getImplement };

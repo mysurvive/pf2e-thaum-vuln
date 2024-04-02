@@ -6,6 +6,7 @@ import { forceEVTarget } from "./utils/forceEV.js";
 import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
 import { rootToLife } from "./feats/rootToLife.js";
 import { intensifyImplement } from "./implements/intensifyImplement.js";
+import { constructChildImplement } from "./implements/impDict.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
@@ -24,6 +25,35 @@ Hooks.on("init", async () => {
     "modules/pf2e-thaum-vuln/templates/implementSelectedPartial.hbs",
     "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
   ]);
+
+  /** Wraps the prepareDerivedData function on actors to add implement classes to the actor. */
+  libWrapper.register(
+    "pf2e-thaum-vuln",
+    "CONFIG.PF2E.Actor.documentClasses.character.prototype.prepareDerivedData",
+    function (wrapped, ...args) {
+      const selectedImplements = this.getFlag(
+        "pf2e-thaum-vuln",
+        "selectedImplements"
+      );
+      if (selectedImplements && Object.keys(selectedImplements)?.length !== 0) {
+        let implementClasses;
+        for (const key of Object.keys(selectedImplements)) {
+          implementClasses = {
+            ...implementClasses,
+            [key]: constructChildImplement(
+              key,
+              this,
+              selectedImplements[key]?.uuid
+            ),
+          };
+        }
+        this.attributes.implements = implementClasses;
+      }
+
+      wrapped(...args);
+    }
+  );
+
   Handlebars.registerHelper("element", (object, element, selection) => {
     if (object[element] === undefined) return undefined;
     if (object[element][selection] === undefined) return undefined;

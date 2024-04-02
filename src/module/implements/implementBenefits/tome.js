@@ -358,7 +358,7 @@ class Tome extends Implement {
 
 Hooks.on("RKResult", (actor, targetDoc, degreeOfSuccess) => {
   if (actor && targetDoc && getImplement(actor, "tome")) {
-    const _tome = new Tome(actor, getImplement(actor, "tome")?.uuid);
+    const _tome = actor.attributes.implements["tome"];
     _tome.tomeRKResult(actor, targetDoc, degreeOfSuccess);
   }
 });
@@ -368,7 +368,7 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome") &&
     getImplement(actor, "tome")
   ) {
-    const _tome = new Tome(actor, getImplement(actor, "tome").uuid);
+    const _tome = actor.attributes.implements["tome"];
     _tome.createDailyPreparationDialog(actor);
   }
 });
@@ -381,7 +381,7 @@ Hooks.on("createItem", (item, _b, userID) => {
   ) {
     const actor =
       game.users.find((i) => i.id === userID).character ?? _token.actor;
-    const _tome = new Tome(actor, getImplement(actor, "tome").uuid);
+    const _tome = actor.attributes.implements["tome"];
     _tome.fixAddProficiencyForLore(item);
   }
 });
@@ -394,7 +394,7 @@ Hooks.on("deleteItem", (item, _b, userID) => {
   ) {
     const actor =
       game.users.find((i) => i.id === userID).character ?? _token.actor;
-    const _tome = new Tome(actor, getImplement(actor, "tome").uuid);
+    const _tome = actor.attributes.implements["tome"];
     _tome.fixDeleteProficiencyForLore(item);
   }
 });
@@ -410,12 +410,7 @@ Hooks.on("createImplementEffects", async (userID, a, impDelta, imps) => {
     )?.changed &&
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
   ) {
-    const _tome = new Tome(a, imps["tome"].uuid);
-    a.setFlag(
-      "pf2e-thaum-vuln",
-      "selectedImplements.tome.implementClass",
-      _tome
-    );
+    const _tome = a.attributes.implements["tome"];
     _tome.dailyPreparation();
     _tome.createEffectsOnItem(_tome.implementItem);
   }
@@ -423,7 +418,7 @@ Hooks.on("createImplementEffects", async (userID, a, impDelta, imps) => {
 
 Hooks.on("deleteImplementEffects", (a) => {
   if (getImplement(a, "tome")?.uuid) {
-    const _tome = new Tome(a, getImplement(a, "tome").uuid);
+    const _tome = a.attributes.implements["tome"];
     _tome.deleteEffectsOnItem();
   }
 });
