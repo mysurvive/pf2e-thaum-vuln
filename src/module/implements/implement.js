@@ -39,6 +39,8 @@ class Implement {
   async createEffectsOnItem(item) {
     const implement = await fromUuid(item);
 
+    console.log(implement);
+
     if (this.implementItem) this.deleteEffectsOnItem();
 
     const implementRules = implement.system?.rules ?? [];
