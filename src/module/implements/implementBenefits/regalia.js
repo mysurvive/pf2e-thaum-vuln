@@ -12,6 +12,7 @@ class Regalia extends Implement {
         label: "Regalia Implement Initiate",
         predicate: [],
         hideIfDisabled: true,
+        slug: "regalia-implement-initiate",
       },
       {
         key: "Aura",
@@ -52,6 +53,7 @@ class Regalia extends Implement {
         label: "Regalia Implement Adept",
         predicate: ["adept:regalia", "proficiency:master"],
         hideIfDisabled: true,
+        slug: "regalia-implement-adept",
       },
       {
         key: "AdjustDegreeOfSuccess",
@@ -61,9 +63,13 @@ class Regalia extends Implement {
         },
         predicate: [
           "paragon:regalia",
-          "action:coerce",
-          "action:make-an-impression",
-          "action:request",
+          {
+            or: [
+              "action:coerce",
+              "action:make-an-impression",
+              "action:request",
+            ],
+          },
         ],
       },
     ];
@@ -82,9 +88,7 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
         game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Regalia")
     )?.changed
   ) {
-    console.log("imps", imps["regalia"].uuid);
     const _regalia = a.attributes.implements["regalia"];
-    console.log("_regalia", _regalia);
     _regalia.createEffectsOnItem(imps["regalia"].uuid);
   }
 });
