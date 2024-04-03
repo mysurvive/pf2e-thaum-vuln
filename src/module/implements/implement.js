@@ -1,12 +1,10 @@
 class Implement {
-  rules = [];
   constructor(actor, implementItem, rules, slug) {
     this.slug = slug;
     this.actor = actor;
-    if (rules) this.rules = rules;
+    this.rules = rules ? rules : [];
     this.implementItem = implementItem;
     this.baseFeat = actor.itemTypes.feat.find((i) => i.slug === slug);
-    console.log(this.baseFeat, this.actor);
     this.adept = actor.itemTypes.feat.find(
       (i) =>
         (i.slug === "implement-adept" || i.slug === "second-adept") &&
