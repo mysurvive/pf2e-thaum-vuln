@@ -70,11 +70,11 @@ class Regalia extends Implement {
       },
     ];
 
-    super("regalia", actor, regaliaRules, implementItem);
+    super(actor, implementItem, regaliaRules, "regalia");
   }
 }
 
-Hooks.on("createImplementEffects", async (userID, a, impDelta, imps) => {
+Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
   if (
     game.user.id === userID &&
     imps["regalia"]?.uuid &&
@@ -87,7 +87,7 @@ Hooks.on("createImplementEffects", async (userID, a, impDelta, imps) => {
     console.log("imps", imps["regalia"].uuid);
     const _regalia = a.attributes.implements["regalia"];
     console.log("_regalia", _regalia);
-    _regalia.createEffectsOnItem(_regalia.implementItem);
+    _regalia.createEffectsOnItem(imps["regalia"].uuid);
   }
 });
 
