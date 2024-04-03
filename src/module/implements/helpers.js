@@ -4,7 +4,7 @@ async function checkImplements(a) {
   let updateFlag = false;
   for (const imp in selectedImplements) {
     if (!a.items.some((i) => i?.uuid === selectedImplements[imp]?.uuid)) {
-      newImplements[imp] = null;
+      newImplements[imp].uuid = null;
       updateFlag = true;
     }
   }
@@ -42,7 +42,8 @@ function checkFeatValidity(a) {
 // Returns implement data for named implement, or undefined if that implement isn't
 // present.
 function getImplement(actor, implement) {
-  return actor.getFlag("pf2e-thaum-vuln", "selectedImplements")[implement];
+  return actor.getFlag("pf2e-thaum-vuln", "selectedImplements")?.[implement];
+  //return actor.attributes.implements?.[implement];
 }
 
 export { checkImplements, checkFeatValidity, getImplement };

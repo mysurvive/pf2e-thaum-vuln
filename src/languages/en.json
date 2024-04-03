@@ -66,7 +66,12 @@
           "selectOne": "Select only one target for Root to Life",
           "notDying": "Target is not dying"
         },
-        "noToken": "No token selected."
+        "noToken": "No token selected.",
+        "intensifyImplement": {
+          "invalid": "The selected implement's Intensify Implement ability is not currently supported in PF2e Exploit Vulnerability.",
+          "noIntensify": "You do not have the ability to Intensify Vulnerability. Check your sheet to make sure you have Intensify Vulnerability as a feat.",
+          "notHeld": "You must be holding your implement to use Intensify Vulnerability"
+        }
       },
       "info": {
         "recallKnowledge": {
@@ -233,6 +238,10 @@
         "selectAllies": "Click an icon to select who should get the benefit of Amulet's Abeyance",
         "selectDamageType": "Select a damage type to apply a lingering resistance:",
         "noResistances": "No damage resistances to apply lingering resistance."
+      },
+      "intensifyImplement": {
+        "content": "Select which of your implements you would like to intensify.",
+        "title": "Intensify Implement"
       }
     },
 

@@ -50,79 +50,18 @@ export async function manageImplements(event) {
     }
   }
 
-  const imps = {};
-
-  const firstImplement =
-    (await createManagedImplement("first-implement-and-esoterica", a)) ??
-    undefined;
-  const secondImplement =
-    (await createManagedImplement("second-implement", a)) ?? undefined;
-  const thirdImplement =
-    (await createManagedImplement("third-implement", a)) ?? undefined;
-
-  if (firstImplement) {
-    imps[firstImplement.name] = firstImplement.data;
-  }
-  if (secondImplement) {
-    imps[secondImplement.name] = secondImplement.data;
-  }
-  if (thirdImplement) {
-    imps[thirdImplement.name] = thirdImplement.data;
-  }
+  const imps = await createManagedImplements(a);
 
   for (let key of Object.keys(imps)) {
-    if (a.items.some((i) => i.slug === "intensify-vulnerability")) {
-      imps[key].intensify = true;
-    }
-    if (a.items.some((i) => i.slug === "implement-adept")) {
-      if (
-        imps[key].name.toLowerCase() ===
-        (
-          await fromUuid(
-            a.uuid +
-              ".Item." +
-              a.items.find((i) => i.slug === "implement-adept").rules[0]
-                .selection
-          )
-        ).name.toLowerCase()
-      ) {
-        imps[key].adept = true;
-      }
-    }
-    if (a.items.some((i) => i.slug === "second-adept")) {
-      if (
-        imps[key].name.toLowerCase() ===
-        (
-          await fromUuid(
-            a.uuid +
-              ".Item." +
-              a.items.find((i) => i.slug === "second-adept").rules[0].selection
-          )
-        ).name.toLowerCase()
-      ) {
-        imps[key].adept = true;
-      }
-    }
-    if (a.items.some((i) => i.slug === "implement-paragon")) {
-      if (
-        imps[key].name.toLowerCase() ===
-        (
-          await fromUuid(
-            a.uuid +
-              ".Item." +
-              a.items.find((i) => i.slug === "implement-paragon").rules[0]
-                .selection
-          )
-        ).name.toLowerCase()
-      ) {
-        imps[key].paragon = true;
-      }
-    }
+    imps[key].adept = a.attributes.implements[key].adept;
+    imps[key].paragon = a.attributes.implements[key].paragon;
+    imps[key].intensify = a.attributes.implements[key].intensify;
   }
 
   const impFlavor = getImplementFlavor(imps, a);
 
   let implementUuids;
+
   const passImps = {
     implements: imps,
     impFlavor: impFlavor,
@@ -251,7 +190,9 @@ function confirmImplements(dgEndContent) {
 function getImplementFlavor(imps, a) {
   let impFlavor = {};
   for (const imp of Object.keys(imps)) {
-    const implementFeat = a.items.find((i) => i.name === imps[imp].name);
+    const implementFeat = a.itemTypes.feat.find(
+      (i) => i.name === imps[imp].name
+    );
     impFlavor = {
       ...impFlavor,
       [imps[imp].name]: {
@@ -278,20 +219,37 @@ function getImplementFlavor(imps, a) {
   return impFlavor;
 }
 
-async function createManagedImplement(featSlug, a) {
-  if (a.items.some((i) => i.slug === featSlug)) {
-    const implement = a.items.find((i) => i.slug === featSlug);
-    const imp = await fromUuid(
-      `${a.uuid}.Item.${
-        implement.rules.find((r) => r.key === "GrantItem").grantedId
-      }`
-    );
-    return { name: imp.slug, data: new ManagedImplement(featSlug, a, imp) };
+async function createManagedImplements(a) {
+  const featSlugs = [
+    "first-implement-and-esoterica",
+    "second-implement",
+    "third-implement",
+  ];
+
+  let imps = {};
+  for (const feat of featSlugs) {
+    const impFeat = a.itemTypes.feat.find((i) => i.slug === feat);
+    if (impFeat) {
+      const grantedImplement = a.itemTypes.feat.find(
+        (f) => f.slug === impFeat.rules.find((r) => r.key === "GrantItem").flag
+      );
+      imps = {
+        ...imps,
+        [grantedImplement.slug]: new ManagedImplement(
+          feat,
+          a,
+          grantedImplement
+        ),
+      };
+    }
   }
+  return imps;
 }
 
 export async function clearImplements(event) {
   const a = event.data.actor;
   Hooks.callAll("deleteImplementEffects", a);
-  await a.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
+  const imps = await createManagedImplements(a);
+  a.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
+  a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
 }

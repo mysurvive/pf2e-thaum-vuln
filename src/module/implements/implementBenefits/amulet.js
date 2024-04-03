@@ -1,102 +1,14 @@
 import { applyAbeyanceEffects } from "../../socket";
 import { INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID } from "../../utils";
 import { getImplement } from "../helpers";
+import { Implement } from "../implement";
 
-async function amuletsAbeyance(a, allies, strikeDamageTypes) {
-  const amuletImplementData = getImplement(a, "amulet");
-  const adeptResistanceValue = a.level < 15 ? 5 : 10;
-  const abeyanceResistanceValue = 2 + a.level;
+class Amulet extends Implement {
+  constructor(actor, implementItem) {
+    super(actor, implementItem, [], "amulet");
+  }
 
-  const dgContent = {
-    allies: allies,
-    damageTypes: strikeDamageTypes,
-    adeptResistanceValue: adeptResistanceValue,
-    abeyanceResistanceValue: abeyanceResistanceValue,
-    amuletBenefits: a.items.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
-    ).description,
-    amuletRank: amuletImplementData,
-  };
-
-  new Dialog(
-    {
-      title: "Amulet's Abeyance",
-      content: await renderTemplate(
-        "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
-        dgContent
-      ),
-      buttons: {
-        confirm: {
-          label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
-          callback: async (dgEndContent) => {
-            let abeyanceData = {};
-            const character = a;
-            const damageTypes = $(dgEndContent)
-              .find(".amulets-abeyance-dialog")
-              .attr("dmg")
-              .split(",");
-            for (const btn of $(dgEndContent).find(".character-button")) {
-              if ($(btn).attr("chosen")) {
-                const chosenUuid = $(btn).attr("id");
-                const charName = (await fromUuid(chosenUuid)).name;
-                abeyanceData[charName] = {
-                  uuid: chosenUuid,
-                  abeyanceDamageType: damageTypes,
-                };
-
-                if (getImplement(character, "amulet")?.adept) {
-                  for (const selector of $(dgEndContent).find("select")) {
-                    if (
-                      selector.id === "damage-type-" + chosenUuid ||
-                      selector.id === "damage-type-adept"
-                    ) {
-                      const charName = (await fromUuid(chosenUuid)).name;
-                      const damageType = $(selector)[0].value;
-                      abeyanceData[charName].lingeringDamageType = damageType;
-                    }
-                  }
-                }
-              }
-            }
-            applyAbeyanceEffects(character.uuid, abeyanceData);
-          },
-        },
-        cancel: {
-          label: game.i18n.localize("pf2e-thaum-vuln.dialog.cancel"),
-          callback: () => {},
-        },
-      },
-      default: "confirm",
-      render: () => {
-        $(document).ready(function () {
-          const character = a;
-          if (getImplement(character, "amulet")?.paragon) {
-            $(".character-button").css("background-color", "red");
-            $(".character-button").attr("chosen", true);
-          }
-          if ($(".character-button").length === 1) {
-            $(".character-button").css("background-color", "red");
-            $(".character-button").attr("chosen", true);
-          }
-          $(".character-button").bind("click", function (e) {
-            $(e.target).siblings().removeAttr("chosen");
-            $(".character-button").css("background-color", "rgba(0,0,0,0)");
-            $(e.currentTarget).css("background-color", "red");
-            $(e.currentTarget).attr("chosen", true);
-          });
-        });
-      },
-      close: () => {},
-    },
-    a
-  ).render(true, { width: 750 });
-}
-
-//async function checkChatForAmulet(message, html) {
-export const amuletChatButton = {
-  listen: async (message, html) => {
+  async listenForAbeyanceChat(message, html) {
     if (!game.ready) return;
     const aArray =
       game.canvas.tokens.placeables.filter(
@@ -157,37 +69,164 @@ export const amuletChatButton = {
           const evReactionBtn = `<button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button>`;
           $(diceTotalArea).after(
             $(evReactionBtn).click({ actor: a.actor }, function () {
-              amuletsAbeyance(a.actor, targetedAlliesInRange, damageTypes);
+              const _amulet = new Amulet(
+                a.actor,
+                getImplement(a.actor, "amulet")?.uuid
+              );
+              _amulet.amuletsAbeyance(
+                a.actor,
+                targetedAlliesInRange,
+                damageTypes
+              );
             })
           );
         }
       }
     }
-  },
-};
+  }
 
-async function checkChatForAbeyanceEffect(message) {
-  if (
-    !game.ready ||
-    game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet") ||
-    message.flags.pf2e?.appliedDamage === undefined || // null means damage applied, but reduced to zero
-    !message.actor?.isOwner
-  )
-    return;
+  async amuletsAbeyance(a, allies, strikeDamageTypes) {
+    const amuletImplementData = getImplement(a, "amulet");
+    const adeptResistanceValue = a.level < 15 ? 5 : 10;
+    const abeyanceResistanceValue = 2 + a.level;
 
-  // Probably better to use sourceId, but it's not set when the effect is made.
-  message.actor?.itemTypes.effect
-    .find((t) => t.slug === "effect-amulets-abeyance")
-    ?.delete();
-}
+    const dgContent = {
+      allies: allies,
+      damageTypes: strikeDamageTypes,
+      adeptResistanceValue: adeptResistanceValue,
+      abeyanceResistanceValue: abeyanceResistanceValue,
+      amuletBenefits: a.items.find(
+        (i) =>
+          i.name ===
+          game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
+      ).description,
+      amuletRank: amuletImplementData,
+    };
 
-async function removeLingeringEffect(combatant) {
-  if (
-    combatant.actor?.class?.name ===
-      game.i18n.localize("PF2E.TraitThaumaturge") &&
-    game.user.isGM &&
-    !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
-  ) {
+    new Dialog(
+      {
+        title: "Amulet's Abeyance",
+        content: await renderTemplate(
+          "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
+          dgContent
+        ),
+        buttons: {
+          confirm: {
+            label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
+            callback: async (dgEndContent) => {
+              let abeyanceData = {};
+              const character = a;
+              const damageTypes = $(dgEndContent)
+                .find(".amulets-abeyance-dialog")
+                .attr("dmg")
+                .split(",");
+              for (const btn of $(dgEndContent).find(".character-button")) {
+                if ($(btn).attr("chosen")) {
+                  const chosenUuid = $(btn).attr("id");
+                  const charName = (await fromUuid(chosenUuid)).name;
+                  abeyanceData[charName] = {
+                    uuid: chosenUuid,
+                    abeyanceDamageType: damageTypes,
+                  };
+
+                  if (getImplement(character, "amulet")?.adept) {
+                    for (const selector of $(dgEndContent).find("select")) {
+                      if (
+                        selector.id === "damage-type-" + chosenUuid ||
+                        selector.id === "damage-type-adept"
+                      ) {
+                        const charName = (await fromUuid(chosenUuid)).name;
+                        const damageType = $(selector)[0].value;
+                        abeyanceData[charName].lingeringDamageType = damageType;
+                      }
+                    }
+                  }
+                }
+              }
+              applyAbeyanceEffects(character.uuid, abeyanceData);
+            },
+          },
+          cancel: {
+            label: game.i18n.localize("pf2e-thaum-vuln.dialog.cancel"),
+            callback: () => {},
+          },
+        },
+        default: "confirm",
+        render: () => {
+          $(document).ready(function () {
+            const character = a;
+            if (getImplement(character, "amulet")?.paragon) {
+              $(".character-button").css("background-color", "red");
+              $(".character-button").attr("chosen", true);
+            }
+            if ($(".character-button").length === 1) {
+              $(".character-button").css("background-color", "red");
+              $(".character-button").attr("chosen", true);
+            }
+            $(".character-button").bind("click", function (e) {
+              $(e.target).siblings().removeAttr("chosen");
+              $(".character-button").css("background-color", "rgba(0,0,0,0)");
+              $(e.currentTarget).css("background-color", "red");
+              $(e.currentTarget).attr("chosen", true);
+            });
+          });
+        },
+        close: () => {},
+      },
+      a
+    ).render(true, { width: 750 });
+  }
+
+  async checkChatForAbeyanceEffect(message) {
+    if (
+      !game.ready ||
+      game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet") ||
+      message.flags.pf2e?.appliedDamage === undefined || // null means damage applied, but reduced to zero
+      !message.actor?.isOwner
+    )
+      return;
+
+    // Probably better to use sourceId, but it's not set when the effect is made.
+    message.actor?.itemTypes.effect
+      .find((t) => t.slug === "effect-amulets-abeyance")
+      ?.delete();
+  }
+
+  async intensifyImplement() {
+    const a = game.user?.character?.actor ?? canvas.tokens.controlled[0]?.actor;
+    if (
+      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
+      !getImplement(a, "amulet")
+    )
+      return ui.notifications.warn(
+        game.i18n.localize(
+          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.noIntensify"
+        )
+      );
+
+    const amuletUuid = getImplement(a, "amulet")?.uuid;
+    const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
+    if (!amulet?.isHeld)
+      return ui.notifications.warn(
+        game.i18n.localize(
+          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.notHeld"
+        )
+      );
+
+    const intensifyAmuletEffect = (
+      await fromUuid(INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID)
+    ).toObject();
+    intensifyAmuletEffect.system.rules[0].predicate = [
+      "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
+    ];
+    intensifyAmuletEffect.system.rules[1].predicate = [
+      "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
+    ];
+    a.createEmbeddedDocuments("Item", [intensifyAmuletEffect]);
+    //TODO: add chat message stating the abeyance effect has been used
+  }
+
+  removeLingeringEffect(combatant) {
     const lingeringEffectTokens = canvas.tokens.placeables.filter((t) =>
       t.actor.items.find(
         (i) =>
@@ -208,43 +247,29 @@ async function removeLingeringEffect(combatant) {
   }
 }
 
-export async function amuletIntensify() {
-  const a = game.user?.character?.actor ?? canvas.tokens.controlled[0]?.actor;
-  if (
-    !a.items.some((i) => i.slug === "intensify-vulnerability") ||
-    !getImplement(a, "amulet")
-  )
-    return ui.notifications.warn(
-      "You do not have the ability to Intensify Vulnerability. Check your sheet to make sure you have Intensify Vulnerability and you have the Amulet implement chosen."
-    );
-
-  const amuletUuid = getImplement(a, "amulet")?.uuid;
-  const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
-  if (!amulet?.isHeld)
-    return ui.notifications.warn(
-      "You must be holding your Amulet to use Intensify Vulnerability"
-    );
-
-  const intensifyAmuletEffect = (
-    await fromUuid(INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID)
-  ).toObject();
-  intensifyAmuletEffect.system.rules[0].predicate = [
-    "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
-  ];
-  intensifyAmuletEffect.system.rules[1].predicate = [
-    "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
-  ];
-  a.createEmbeddedDocuments("Item", [intensifyAmuletEffect]);
-}
-
 Hooks.on("pf2e.startTurn", async (combatant) => {
-  removeLingeringEffect(combatant);
+  if (
+    combatant.actor?.class?.name ===
+      game.i18n.localize("PF2E.TraitThaumaturge") &&
+    game.user.isGM &&
+    !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
+  ) {
+    const actor = combatant.actor;
+    const _amulet = actor.attributes.implements["amulet"];
+    _amulet.removeLingeringEffect(combatant);
+  }
 });
 
 Hooks.on("renderChatMessage", async (message, html) => {
-  amuletChatButton.listen(message, html);
+  const _amulet = message.actor?.attributes?.implements?.["amulet"];
+  if (!_amulet) return;
+  _amulet.listenForAbeyanceChat(message, html);
 });
 
 Hooks.on("preCreateChatMessage", async (message) => {
-  checkChatForAbeyanceEffect(message);
+  const _amulet = message.actor?.attributes?.implements?.["amulet"];
+  if (!_amulet) return;
+  _amulet.checkChatForAbeyanceEffect(message);
 });
+
+export { Amulet };
