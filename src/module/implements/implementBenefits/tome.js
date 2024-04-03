@@ -379,8 +379,7 @@ Hooks.on("createItem", (item, _b, userID) => {
     item.slug === "effect-tome-implement" &&
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
   ) {
-    const actor =
-      game.users.find((i) => i.id === userID).character ?? _token.actor;
+    const actor = item.parent;
     const _tome = actor.attributes.implements["tome"];
     _tome.fixAddProficiencyForLore(item);
   }
@@ -392,14 +391,13 @@ Hooks.on("deleteItem", (item, _b, userID) => {
     item.slug === "effect-tome-implement" &&
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
   ) {
-    const actor =
-      game.users.find((i) => i.id === userID).character ?? _token.actor;
+    const actor = item.parent;
     const _tome = actor.attributes.implements["tome"];
     _tome.fixDeleteProficiencyForLore(item);
   }
 });
 
-Hooks.on("createImplementEffects", async (userID, a, impDelta, imps) => {
+Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
   if (
     game.user.id === userID &&
     imps["tome"]?.uuid &&
@@ -412,7 +410,7 @@ Hooks.on("createImplementEffects", async (userID, a, impDelta, imps) => {
   ) {
     const _tome = a.attributes.implements["tome"];
     _tome.dailyPreparation();
-    _tome.createEffectsOnItem(_tome.implementItem);
+    _tome.createEffectsOnItem(imps["tome"].uuid);
   }
 });
 
