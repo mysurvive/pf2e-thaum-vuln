@@ -5,7 +5,7 @@ import { Implement } from "../implement";
 
 class Amulet extends Implement {
   constructor(actor, implementItem) {
-    super("amulet", actor, [], implementItem);
+    super(actor, implementItem, [], "amulet");
   }
 
   async listenForAbeyanceChat(message, html) {

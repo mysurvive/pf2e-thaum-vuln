@@ -51,7 +51,7 @@ class Tome extends Implement {
       },
     ];
 
-    super("tome", actor, tomeRules, implementItem);
+    super(actor, implementItem, tomeRules, "tome");
   }
 
   async createDailyPreparationDialog() {

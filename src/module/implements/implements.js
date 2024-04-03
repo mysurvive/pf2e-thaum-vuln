@@ -295,5 +295,9 @@ async function createManagedImplement(featSlug, a) {
 export async function clearImplements(event) {
   const a = event.data.actor;
   Hooks.callAll("deleteImplementEffects", a);
-  await a.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
+  const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
+  for (const implement of Object.keys(selectedImplements)) {
+    selectedImplements[implement].uuid = "";
+  }
+  await a.setFlag("pf2e-thaum-vuln", "selectedImplements", selectedImplements);
 }

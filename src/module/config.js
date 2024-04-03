@@ -35,7 +35,11 @@ Hooks.on("init", async () => {
         "pf2e-thaum-vuln",
         "selectedImplements"
       );
-      if (selectedImplements && Object.keys(selectedImplements)?.length !== 0) {
+      if (
+        selectedImplements &&
+        Object.keys(selectedImplements)?.length !== 0 &&
+        game.ready
+      ) {
         let implementClasses;
         for (const key of Object.keys(selectedImplements)) {
           implementClasses = {

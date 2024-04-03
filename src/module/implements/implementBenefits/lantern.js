@@ -161,7 +161,7 @@ class Lantern extends Implement {
         hideIfDisabled: true,
       },
     ];
-    super("lantern", actor, lanternRules, implementItem);
+    super(actor, implementItem, lanternRules, "lantern");
   }
 
   async intensifyImplement() {

@@ -4,7 +4,7 @@ async function checkImplements(a) {
   let updateFlag = false;
   for (const imp in selectedImplements) {
     if (!a.items.some((i) => i?.uuid === selectedImplements[imp]?.uuid)) {
-      newImplements[imp] = null;
+      newImplements[imp].uuid = null;
       updateFlag = true;
     }
   }
