@@ -65,7 +65,12 @@
           "selectOne": "Wybierz tylko jeden cel dla Korzeni Życia",
           "notDying": "Cel nie umiera"
         },
-        "noToken": "Nie wybrano żadnego tokena."
+        "noToken": "Nie wybrano żadnego tokena.",
+        "intensifyImplement": {
+          "invalid": "Umiejętność Intensyfikacji Implementacji wybranego narzędzia nie jest obecnie obsługiwana w PF2e Exploit Vulnerability.",
+          "noIntensify": "Nie posiadasz zdolności Zwiększenie Podatności. Sprawdź swoją kartę, aby upewnić się, że posiadasz Zwiększenie Podatności jako atut.",
+          "notHeld": "Aby korzystać z funkcji Zwiększenie Podatności, musisz posiadać narzędzie"
+        }
       },
       "info": {
         "recallKnowledge": {
@@ -169,6 +174,10 @@
       "manageImplements": {
         "dragItem": "Przeciągnij element tutaj, aby oznaczyć go jako implement.",
         "implement": "Implement"
+      },
+      "intensifyImplement": {
+        "title": "Wzmocnienie Narzędzia",
+        "content": "Wybierz narzędzia, które chcesz wzmocnić."
       }
     },
     "chatCard": {
