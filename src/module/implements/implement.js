@@ -42,7 +42,7 @@ class Implement {
   async createEffectsOnItem(item) {
     const implement = await fromUuid(item);
 
-    if (this.item) this.deleteEffectsOnItem();
+    if (implement) this.deleteEffectsOnItem();
 
     const implementRules = implement.system?.rules ?? [];
     for (const rule of this.rules) {
@@ -54,23 +54,13 @@ class Implement {
   }
 
   async deleteEffectsOnItem() {
-    const oldImplementObj = this.item.toObject();
-
-    for (const i in oldImplementObj.system.rules) {
-      for (const r in this.rules) {
-        if (oldImplementObj.system.rules[i]?.label == this.rules[r]?.label) {
-          delete oldImplementObj.system.rules[i];
-        }
-      }
+    if (this.item) {
+      const ruleLabels = new Set(this.rules.map((r) => r.label));
+      const newRules = this.item.system.rules.filter(
+        (r) => !ruleLabels.has(r.label)
+      );
+      await this.item.update({ _id: this.item._id, "system.rules": newRules });
     }
-    const newRules = oldImplementObj.system.rules.filter((r) => {
-      return r !== undefined && r !== null;
-    });
-
-    await this.item.update({
-      _id: this.item._id,
-      "system.rules": newRules,
-    });
   }
 }
 
