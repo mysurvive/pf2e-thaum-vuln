@@ -6,6 +6,7 @@ import {
   PRIMARY_TARGET_EFFECT_UUID,
 } from "./utils/index.js";
 import { parseHTML } from "./utils/utils.js";
+import { createEffectData } from "./utils/helpers.js";
 import { getImplement } from "./implements/helpers.js";
 
 let socket;
@@ -338,9 +339,10 @@ async function _socketApplyAbeyanceEffects(actorUuid, abeyanceData) {
   const amuletImplementData = getImplement(a, "amulet");
 
   for (const character in abeyanceData) {
-    const amuletsAbeyanceEffect = (
-      await fromUuid(AMULETS_ABEYANCE_EFFECT_UUID)
-    ).toObject();
+    const amuletsAbeyanceEffect = await createEffectData(
+      AMULETS_ABEYANCE_EFFECT_UUID,
+      { actor: actorUuid }
+    );
 
     const charToken = await fromUuid(abeyanceData[character].uuid);
     amuletsAbeyanceEffect.name += " " + character;
@@ -350,9 +352,7 @@ async function _socketApplyAbeyanceEffects(actorUuid, abeyanceData) {
       type: "all-damage",
       value: 2 + a.level,
     });
-    await charToken.actor.createEmbeddedDocuments("Item", [
-      amuletsAbeyanceEffect,
-    ]);
+    const effects = [amuletsAbeyanceEffect];
     if (
       amuletImplementData.adept === true &&
       abeyanceData[character].lingeringDamageType
@@ -360,9 +360,10 @@ async function _socketApplyAbeyanceEffects(actorUuid, abeyanceData) {
       const lingeringResistanceValue = a.level < 15 ? 5 : 10;
       const lingeringResistanceType =
         abeyanceData[character].lingeringDamageType;
-      const abeyanceLingeringEffect = (
-        await fromUuid(AMULETS_ABEYANCE_LINGERING_EFFECT_UUID)
-      ).toObject();
+      const abeyanceLingeringEffect = await createEffectData(
+        AMULETS_ABEYANCE_LINGERING_EFFECT_UUID,
+        { actor: actorUuid }
+      );
       abeyanceLingeringEffect.system.rules.push({
         key: "Resistance",
         type: lingeringResistanceType,
@@ -371,10 +372,9 @@ async function _socketApplyAbeyanceEffects(actorUuid, abeyanceData) {
       abeyanceLingeringEffect.flags["pf2e-thaum-vuln"] = {
         effectSource: a.uuid,
       };
-      await charToken.actor.createEmbeddedDocuments("Item", [
-        abeyanceLingeringEffect,
-      ]);
+      effects.push(abeyanceLingeringEffect);
     }
+    charToken.actor.createEmbeddedDocuments("Item", effects);
   }
 }
 
