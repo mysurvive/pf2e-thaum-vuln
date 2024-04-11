@@ -1,11 +1,14 @@
 class Implement {
-  constructor(actor, implementItem, rules, slug) {
+  constructor(actor, itemUuid, rules, slug) {
     this.slug = slug;
     this.actor = actor;
     this.rules = rules ? rules : [];
-    this.implementItem = implementItem;
-    this.baseFeat = actor.itemTypes.feat.find((i) => i.slug === slug);
-    this.adept = actor.itemTypes.feat.find(
+    //TODO: .split()ting the uuid seems like the best thing to do until the flags can be changed
+    //to ids from uuids and a migration script is written.
+    this.itemId = itemUuid?.split(".")[3] ?? undefined;
+    this.item = this.actor.inventory.get(this.itemId);
+    this.baseFeat = this.actor.itemTypes.feat.find((i) => i.slug === slug);
+    this.adept = this.actor.itemTypes.feat.find(
       (i) =>
         (i.slug === "implement-adept" || i.slug === "second-adept") &&
         i.rules.some(
@@ -14,14 +17,14 @@ class Implement {
     )
       ? true
       : false;
-    this.paragon = actor.itemTypes.feat
+    this.paragon = this.actor.itemTypes.feat
       .find((i) => i.slug === "implement-paragon")
       ?.rules.some(
         (r) => r.selection !== undefined && r.selection === this.baseFeat?._id
       )
       ? true
       : false;
-    this.intensify = actor.itemTypes.feat.some(
+    this.intensify = this.actor.itemTypes.feat.some(
       (i) => i.slug === "intensify-vulnerability"
     )
       ? true
@@ -39,7 +42,7 @@ class Implement {
   async createEffectsOnItem(item) {
     const implement = await fromUuid(item);
 
-    if (this.implementItem) this.deleteEffectsOnItem();
+    if (implement) this.deleteEffectsOnItem();
 
     const implementRules = implement.system?.rules ?? [];
     for (const rule of this.rules) {
@@ -47,28 +50,17 @@ class Implement {
     }
 
     implement.update({ _id: implement._id, "system.rules": implementRules });
-    this.implementItem = implement.uuid;
+    this.itemId = implement.id;
   }
 
   async deleteEffectsOnItem() {
-    const oldImplement = await fromUuid(this.implementItem);
-    const oldImplementObj = oldImplement.toObject();
-
-    for (const i in oldImplementObj.system.rules) {
-      for (const r in this.rules) {
-        if (oldImplementObj.system.rules[i]?.label == this.rules[r]?.label) {
-          delete oldImplementObj.system.rules[i];
-        }
-      }
+    if (this.item) {
+      const ruleLabels = new Set(this.rules.map((r) => r.label));
+      const newRules = this.item.system.rules.filter(
+        (r) => !ruleLabels.has(r.label)
+      );
+      await this.item.update({ _id: this.item._id, "system.rules": newRules });
     }
-    const newRules = oldImplementObj.system.rules.filter((r) => {
-      return r !== undefined && r !== null;
-    });
-
-    await oldImplement.update({
-      _id: oldImplement._id,
-      "system.rules": newRules,
-    });
   }
 }
 

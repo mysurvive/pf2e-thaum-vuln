@@ -40,17 +40,12 @@ Hooks.on("init", async () => {
         Object.keys(selectedImplements)?.length !== 0 &&
         game.ready
       ) {
-        let implementClasses;
-        for (const key of Object.keys(selectedImplements)) {
-          implementClasses = {
-            ...implementClasses,
-            [key]: constructChildImplement(
-              key,
-              this,
-              selectedImplements[key]?.uuid
-            ),
-          };
-        }
+        const implementClasses = Object.fromEntries(
+          Object.entries(selectedImplements).map(([k, imp]) => [
+            k,
+            constructChildImplement(k, this, imp.uuid),
+          ])
+        );
         this.attributes.implements = implementClasses;
       }
 

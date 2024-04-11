@@ -34,20 +34,18 @@ export async function manageImplements(event) {
   let passSelectedImplements = {};
 
   for (const key of Object.keys(selectedImplements)) {
-    if (selectedImplements[key]) {
-      const impUuid = selectedImplements[key]?.uuid ?? undefined;
-      let imp;
-      if (impUuid) imp = await fromUuid(impUuid);
-      const impImgPath = imp?.img ?? undefined;
-      const impTrueName = imp?.name ?? undefined;
-      passSelectedImplements = {
-        ...passSelectedImplements,
-        [selectedImplements[key].name]: {
-          image: impImgPath,
-          trueName: impTrueName,
-        },
-      };
-    }
+    const impUuid = selectedImplements[key]?.uuid ?? undefined;
+    let imp;
+    if (impUuid) imp = await fromUuid(impUuid);
+    const impImgPath = imp?.img ?? undefined;
+    const impTrueName = imp?.name ?? undefined;
+    passSelectedImplements = {
+      ...passSelectedImplements,
+      [selectedImplements[key].name]: {
+        image: impImgPath,
+        trueName: impTrueName,
+      },
+    };
   }
 
   const imps = await createManagedImplements(a);
