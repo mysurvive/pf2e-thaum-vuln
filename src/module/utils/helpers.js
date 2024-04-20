@@ -10,19 +10,22 @@ function getMWTargets(t) {
   return targs;
 }
 
-//Gets and returns the highest IWR value from an array that is passed in
+/**
+ * Gets and returns the highest IWR value from an array that is passed in
+ *
+ * @param iwr An array of weaknesses pulled from the target actor
+ * @returns   The highest weakness from the target or a randomly selected weakness if the target
+ *            has multiple highest weaknesses of the same value
+ */
 function getGreatestIWR(iwr) {
   if (iwr) {
     let gIWR = iwr[0];
-    let allGIWR = [];
     for (const n of iwr) {
       if (n.value >= gIWR.value) {
-        if (n.value === gIWR.value) {
-          allGIWR.push(n);
-        }
         gIWR = n;
       }
     }
+    const allGIWR = iwr.filter((w) => w.value === gIWR.value);
     if (allGIWR.length > 1) {
       gIWR = allGIWR[Math.floor(Math.random() * allGIWR.length)];
     }
