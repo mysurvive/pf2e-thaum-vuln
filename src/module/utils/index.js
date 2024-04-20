@@ -55,6 +55,8 @@ const REGALIA_AURA_ADEPT_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lr1UVbxaToPGdSvw";
 const REGALIA_AURA_PARAGON_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.rrxQvikt1U3qe4Jx";
+const INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.9tc7D61ZL6yzXYZ2";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -106,4 +108,5 @@ export {
   REGALIA_AURA_INITIATE_EFFECT_UUID,
   REGALIA_AURA_ADEPT_EFFECT_UUID,
   REGALIA_AURA_PARAGON_EFFECT_UUID,
+  INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID,
 };

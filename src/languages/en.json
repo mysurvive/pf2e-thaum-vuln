@@ -216,6 +216,18 @@
     "implements": {
       "regalia": {
         "frightenedReminder": "Reduce frightened condition by 1 due to Thaumaturge Regalia aura."
+      },
+      "weapon": {
+        "implementsInterruption": {
+          "title": {
+            "success": "Weapon: Implement's Interruption",
+            "failure": "Implement's Interruption Failure"
+          },
+          "text": {
+            "success": "You disrupt the triggering action.",
+            "failure": "You deal damage to the target: "
+          }
+        }
       }
     },
 
