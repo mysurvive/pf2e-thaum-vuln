@@ -84,7 +84,7 @@ export async function manageImplements(event) {
       buttons: {
         complete: {
           label: "Confirm Changes",
-          callback: (dgEndContent) => {
+          callback: async (dgEndContent) => {
             const origin =
               a.getFlag("pf2e-thaum-vuln", "selectedImplements") ?? {};
 
@@ -105,7 +105,7 @@ export async function manageImplements(event) {
               impDelta.push({ name, changed });
             }
 
-            a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
+            await a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
 
             //refreshes the sheet so the implement items appear
             a.sheet._render(true);
