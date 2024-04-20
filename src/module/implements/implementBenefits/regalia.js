@@ -118,7 +118,21 @@ class Regalia extends Implement {
     super(actor, implementItem, regaliaRules, "regalia");
   }
 
-  intensifyImplement() {}
+  async intensifyImplement() {
+    const a = game.user?.character ?? _token.actor;
+    if (
+      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
+      !getImplement(a, "regalia")
+    )
+      return;
+
+    const regaliaIntensifyEffect = (
+      await fromUuid(
+        "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.qHe8lT8ROOKwFNkg"
+      )
+    ).toObject();
+    await a.createEmbeddedDocuments("Item", [regaliaIntensifyEffect]);
+  }
 }
 
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
