@@ -1,6 +1,5 @@
 import { checkImplements, checkFeatValidity } from "./helpers";
 import { parseHTML } from "../utils/utils.js";
-import { getImplement } from "./helpers";
 
 class ManagedImplement {
   constructor(featSlug, a, imp) {
