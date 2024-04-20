@@ -213,6 +213,12 @@
       "notOnScene": "EV Primary Target Not On Current Scene"
     },
 
+    "implements": {
+      "regalia": {
+        "frightenedReminder": "Reduce frightened condition by 1 due to Thaumaturge Regalia aura."
+      }
+    },
+
     "dialog": {
       "yes": "Yes",
       "no": "No",

@@ -16,22 +16,18 @@ class Regalia extends Implement {
       },
       {
         key: "Aura",
-        radius: 500,
+        radius: 15,
         effects: [
           {
             affects: "allies",
             events: ["enter"],
-            uuid: "Item.7lf9PJMMidflGW3F",
-            predicate: ["target:effect:follow-the-expert"],
+            uuid: "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.W0hOUNf7dJHmJ63j",
           },
         ],
-        traits: ["visual"],
-        label: "Regalia Follow The Expert Bonus",
-        slug: "regalia-follow-the-expert-bonus",
-        appearance: {
-          border: null,
-          highlight: { alpha: 0, color: "#000000" },
-        },
+        traits: ["emotion", "mental", "visual"],
+        label: "Regalia Aura - Initiate",
+        slug: "regalia-aura-initiate",
+        predicate: [{ nor: ["adept:regalia", "paragon:regalia"] }],
       },
       {
         key: "Aura",
@@ -40,12 +36,28 @@ class Regalia extends Implement {
           {
             affects: "allies",
             events: ["enter"],
-            uuid: "Item.KHgPNbkHnU20zPHG",
+            uuid: "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lr1UVbxaToPGdSvw",
           },
         ],
         traits: ["emotion", "mental", "visual"],
-        label: "Regalia Aura",
-        slug: "regalia-aura",
+        label: "Regalia Aura - Adept",
+        slug: "regalia-aura-adept",
+        predicate: ["adept:regalia", { not: "paragon:regalia" }],
+      },
+      {
+        key: "Aura",
+        radius: 15,
+        effects: [
+          {
+            affects: "allies",
+            events: ["enter"],
+            uuid: "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.rrxQvikt1U3qe4Jx",
+          },
+        ],
+        traits: ["emotion", "mental", "visual"],
+        label: "Regalia Aura - Paragon",
+        slug: "regalia-aura-paragon",
+        predicate: ["paragon:regalia"],
       },
       {
         key: "FlatModifier",
@@ -74,10 +86,39 @@ class Regalia extends Implement {
           },
         ],
       },
+      {
+        key: "ActiveEffectLike",
+        mode: "override",
+        path: "flags.pf2e.followTheExpert.minimum",
+        value: 1,
+      },
+      {
+        key: "ActiveEffectLike",
+        mode: "upgrade",
+        path: "flags.pf2e.followTheExpert.bonus.trained",
+        value: 3,
+        predicate: ["paragon:regalia"],
+      },
+      {
+        key: "ActiveEffectLike",
+        mode: "upgrade",
+        path: "flags.pf2e.followTheExpert.bonus.expert",
+        value: 4,
+        predicate: ["paragon:regalia"],
+      },
+      {
+        key: "ActiveEffectLike",
+        mode: "upgrade",
+        path: "flags.pf2e.followTheExpert.bonus.master",
+        value: 4,
+        predicate: ["paragon:regalia"],
+      },
     ];
 
     super(actor, implementItem, regaliaRules, "regalia");
   }
+
+  intensifyImplement() {}
 }
 
 Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
@@ -99,6 +140,46 @@ Hooks.on("deleteImplementEffects", (a) => {
   if (getImplement(a, "regalia")?.uuid) {
     const _regalia = a.attributes.implements["regalia"];
     _regalia.deleteEffectsOnItem();
+  }
+});
+
+Hooks.on("pf2e.endTurn", (combatant) => {
+  /**
+   * Finds all actors who are frightened and have the Regalia Aura effect
+   * applied to them, and reminds them via a whisper at the end of the
+   * Thaumaturge's turn to reduce their frightened value by 1.
+   */
+  const combatActor = game.actors.get(combatant.actorId);
+  // Exits early if the combatant doesn't have the implements.regalia attribute on their actor
+  if (!combatActor.attributes.implements?.["regalia"]) return;
+  const frightenedUserActors = game.users
+    .map((u) => {
+      if (
+        u.character?.itemTypes.condition.some(
+          (c) =>
+            c.sourceId ===
+            "Compendium.pf2e.conditionitems.Item.TBSHQspnbcqxsmjL"
+        ) &&
+        u.character?.itemTypes.effect.some(
+          (e) =>
+            e.slug === "effect-regalia-aura-initiate" ||
+            e.slug === "effect-regalia-aura-adept" ||
+            e.slug === "effect-regalia-aura-paragon"
+        )
+      )
+        return u.id;
+    })
+    .filter((u) => u != undefined);
+  // Don't attempt to send whispers if there are no targets for the whispers
+  if (frightenedUserActors.length > 0) {
+    ChatMessage.create({
+      user: game.user.id,
+      type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
+      whisper: frightenedUserActors,
+      content: game.i18n.localize(
+        "pf2e-thaum-vuln.implements.regalia.frightenedReminder"
+      ),
+    });
   }
 });
 
