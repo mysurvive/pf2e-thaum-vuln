@@ -1,5 +1,11 @@
 import { Implement } from "../implement";
 import { getImplement } from "../helpers";
+import {
+  INTENSIFY_VULNERABILITY_REGALIA_EFFECT_UUID,
+  REGALIA_AURA_ADEPT_EFFECT_UUID,
+  REGALIA_AURA_INITIATE_EFFECT_UUID,
+  REGALIA_AURA_PARAGON_EFFECT_UUID,
+} from "../../utils";
 
 class Regalia extends Implement {
   constructor(actor, implementItem) {
@@ -21,7 +27,7 @@ class Regalia extends Implement {
           {
             affects: "allies",
             events: ["enter"],
-            uuid: "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.W0hOUNf7dJHmJ63j",
+            uuid: REGALIA_AURA_INITIATE_EFFECT_UUID,
           },
         ],
         traits: ["emotion", "mental", "visual"],
@@ -36,7 +42,7 @@ class Regalia extends Implement {
           {
             affects: "allies",
             events: ["enter"],
-            uuid: "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lr1UVbxaToPGdSvw",
+            uuid: REGALIA_AURA_ADEPT_EFFECT_UUID,
           },
         ],
         traits: ["emotion", "mental", "visual"],
@@ -51,7 +57,7 @@ class Regalia extends Implement {
           {
             affects: "allies",
             events: ["enter"],
-            uuid: "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.rrxQvikt1U3qe4Jx",
+            uuid: REGALIA_AURA_PARAGON_EFFECT_UUID,
           },
         ],
         traits: ["emotion", "mental", "visual"],
@@ -119,19 +125,9 @@ class Regalia extends Implement {
   }
 
   async intensifyImplement() {
-    const a = game.user?.character ?? _token.actor;
-    if (
-      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
-      !getImplement(a, "regalia")
-    )
-      return;
-
-    const regaliaIntensifyEffect = (
-      await fromUuid(
-        "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.qHe8lT8ROOKwFNkg"
-      )
-    ).toObject();
-    await a.createEmbeddedDocuments("Item", [regaliaIntensifyEffect]);
+    await this.actor.createEmbeddedDocuments("Item", [
+      (await fromUuid(INTENSIFY_VULNERABILITY_REGALIA_EFFECT_UUID)).toObject(),
+    ]);
   }
 }
 

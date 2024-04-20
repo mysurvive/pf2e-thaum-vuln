@@ -47,6 +47,14 @@ const TOME_ADEPT_RK_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.kg1CwmxZfKx7xWF3";
 const AMULET_FEAT_SOURCEID =
   "Compendium.pf2e.classfeatures.Item.PoclGJ7BCEyIuqJe";
+const INTENSIFY_VULNERABILITY_REGALIA_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.qHe8lT8ROOKwFNkg";
+const REGALIA_AURA_INITIATE_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.W0hOUNf7dJHmJ63j";
+const REGALIA_AURA_ADEPT_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lr1UVbxaToPGdSvw";
+const REGALIA_AURA_PARAGON_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.rrxQvikt1U3qe4Jx";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -94,4 +102,8 @@ export {
   INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID,
   TOME_ADEPT_RK_EFFECT_UUID,
   AMULET_FEAT_SOURCEID,
+  INTENSIFY_VULNERABILITY_REGALIA_EFFECT_UUID,
+  REGALIA_AURA_INITIATE_EFFECT_UUID,
+  REGALIA_AURA_ADEPT_EFFECT_UUID,
+  REGALIA_AURA_PARAGON_EFFECT_UUID,
 };
