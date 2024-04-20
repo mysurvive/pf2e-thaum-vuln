@@ -12,8 +12,20 @@ class ManagedImplement {
         ? "Third"
         : undefined;
     this.name = imp.name;
-    this.adept = false;
-    this.paragon = false;
+
+    const baseFeatSelectionID = a.itemTypes.feat.find(
+      (f) => f.slug === featSlug
+    ).grants[0].id;
+    this.adept = a.itemTypes.feat.some((f) => {
+      f.getFlag("pf2e", "rulesSelections.implementAdept") ===
+        baseFeatSelectionID ||
+        f.getFlag("pf2e", "rulesSelections.secondAdept") ===
+          baseFeatSelectionID;
+    });
+    this.paragon = a.itemTypes.feat.some((f) => {
+      f.getFlag("pf2e", "rulesSelections.implementParagon") ===
+        baseFeatSelectionID;
+    });
     this.intensify = false;
     this.uuid =
       a.getFlag("pf2e-thaum-vuln", "selectedImplements")[imp.slug]?.uuid ??
@@ -49,12 +61,6 @@ export async function manageImplements(event) {
   }
 
   const imps = await createManagedImplements(a);
-
-  for (let key of Object.keys(imps)) {
-    imps[key].adept = a.attributes.implements[key].adept;
-    imps[key].paragon = a.attributes.implements[key].paragon;
-    imps[key].intensify = a.attributes.implements[key].intensify;
-  }
 
   const impFlavor = getImplementFlavor(imps, a);
 
