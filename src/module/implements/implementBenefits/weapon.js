@@ -1,5 +1,6 @@
 import { Implement } from "../implement";
 import { getImplement } from "../helpers";
+import { INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID } from "../../utils";
 
 class Weapon extends Implement {
   constructor(actor, implementItem) {
@@ -18,9 +19,13 @@ class Weapon extends Implement {
       {
         key: "Note",
         selector: "attack-roll",
-        text: "You disrupt the triggering action.",
+        text: game.i18n.localize(
+          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.text.success"
+        ),
         outcome: ["criticalSuccess"],
-        title: "Weapon: Implement's Interruption",
+        title: game.i18n.localize(
+          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.success"
+        ),
         predicate: [
           { not: "paragon:weapon" },
           "implements-interruption-attack",
@@ -30,18 +35,27 @@ class Weapon extends Implement {
       {
         key: "Note",
         selector: "attack-roll",
-        text: `You deal @Damage[1[{item|system.damage.damageType}]].`,
+        text:
+          game.i18n.localize(
+            "pf2e-thaum-vuln.implements.weapon.implementsInterruption.text.failure"
+          ) + "@Damage[1[{item|system.damage.damageType}]]",
         outcome: ["failure"],
-        title: "Implement's Interruption Failure",
+        title: game.i18n.localize(
+          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.failure"
+        ),
         predicate: ["adept:weapon", "implements-interruption-attack"],
         slug: "implements-interruption-adept",
       },
       {
         key: "Note",
         selector: "attack-roll",
-        text: "You disrupt the triggering action.",
+        text: game.i18n.localize(
+          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.text.success"
+        ),
         outcome: ["success", "criticalSuccess"],
-        title: "Weapon: Implement's Interruption",
+        title: game.i18n.localize(
+          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.success"
+        ),
         predicate: ["paragon:weapon", "implements-interruption-attack"],
         slug: "implements-interruption-paragon",
       },
@@ -52,7 +66,7 @@ class Weapon extends Implement {
 
   async intensifyImplement() {
     this.actor.createEmbeddedDocuments("Item", [
-      (await fromUuid("Item.28Jkfm6xZrSUEmsz")).toObject(),
+      (await fromUuid(INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID)).toObject(),
     ]);
   }
 }
