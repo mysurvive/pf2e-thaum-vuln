@@ -8,7 +8,7 @@ class Amulet extends Implement {
     super(actor, implementItem, [], "amulet");
   }
 
-  async listenForAbeyanceChat(message, html) {
+  static async listenForAbeyanceChat(message, html) {
     if (!game.ready) return;
     const aArray =
       game.canvas.tokens.placeables.filter(
@@ -177,7 +177,7 @@ class Amulet extends Implement {
     ).render(true, { width: 750 });
   }
 
-  async checkChatForAbeyanceEffect(message) {
+  static async checkChatForAbeyanceEffect(message) {
     if (
       !game.ready ||
       game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet") ||
@@ -228,15 +228,11 @@ class Amulet extends Implement {
 }
 
 Hooks.on("renderChatMessage", async (message, html) => {
-  const _amulet = message.actor?.attributes?.implements?.["amulet"];
-  if (!_amulet) return;
-  _amulet.listenForAbeyanceChat(message, html);
+  Amulet.listenForAbeyanceChat(message, html);
 });
 
 Hooks.on("preCreateChatMessage", async (message) => {
-  const _amulet = message.actor?.attributes?.implements?.["amulet"];
-  if (!_amulet) return;
-  _amulet.checkChatForAbeyanceEffect(message);
+  Amulet.checkChatForAbeyanceEffect(message);
 });
 
 export { Amulet };
