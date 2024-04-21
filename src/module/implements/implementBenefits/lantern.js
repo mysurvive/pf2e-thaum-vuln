@@ -194,7 +194,7 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
     )?.changed
   ) {
     const _lantern = a.attributes.implements["lantern"];
-    _lantern.createEffectsOnItem(imps["lantern".uuid]);
+    _lantern.createEffectsOnItem(imps["lantern"].uuid);
   }
 });
 
