@@ -9,78 +9,73 @@ class Amulet extends Implement {
   }
 
   static async listenForAbeyanceChat(message, html) {
-    if (!game.ready) return;
-    const aArray =
-      game.canvas.tokens.placeables.filter(
-        (t) =>
-          t?.actor?.class?.name === game.i18n.localize("PF2E.TraitThaumaturge")
-      ) ?? undefined;
-    for (const a of aArray) {
+    if (
+      !game.ready ||
+      game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
+    )
+      return;
+    for (const a of game.canvas.tokens.placeables.filter(
+      (t) => t.actor?.isOwner && t.actor?.attributes?.implements?.amulet
+    )) {
+      const effectRange = 15;
+      const targets = message.flags["pf2e-thaum-vuln"].targets;
+      const amuletImplementData = getImplement(a.actor, "amulet");
+      let targetedAlliesInRange = new Array();
+      if (amuletImplementData?.paragon === true) {
+        targetedAlliesInRange = canvas.tokens.placeables.filter(
+          (token) =>
+            token.actor?.alliance === "party" &&
+            a.distanceTo(token) <= effectRange
+        );
+      } else {
+        for (const target of targets) {
+          const targetToken = await fromUuid(target.tokenUuid);
+          if (
+            targetToken._object.actor.alliance === "party" &&
+            a.distanceTo(targetToken._object) <= effectRange
+          ) {
+            targetedAlliesInRange.push(targetToken._object);
+          }
+        }
+      }
+
       if (
-        a?.actor.isOwner &&
-        getImplement(a.actor, "amulet") &&
-        !game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
-      ) {
-        const effectRange = 15;
-        const targets = message.flags["pf2e-thaum-vuln"].targets;
-        const amuletImplementData = getImplement(a.actor, "amulet");
-        let targetedAlliesInRange = new Array();
-        if (amuletImplementData?.paragon === true) {
-          targetedAlliesInRange = canvas.tokens.placeables.filter(
-            (token) =>
-              token.actor?.alliance === "party" &&
-              a.distanceTo(token) <= effectRange
-          );
-        } else {
-          for (const target of targets) {
-            const targetToken = await fromUuid(target.tokenUuid);
-            if (
-              targetToken._object.actor.alliance === "party" &&
-              a.distanceTo(targetToken._object) <= effectRange
-            ) {
-              targetedAlliesInRange.push(targetToken._object);
-            }
-          }
+        message.isDamageRoll === false ||
+        a.actor.getFlag("pf2e-thaum-vuln", "activeEV") !== true ||
+        a.actor.getFlag("pf2e-thaum-vuln", "primaryEVTarget") !==
+          `Scene.${message.speaker.scene}.Token.${message.speaker.token}.Actor.${message.speaker.actor}` ||
+        targetedAlliesInRange.length <= 0
+      )
+        continue;
+
+      let damageTypes = new Array();
+      const rolls = message.rolls;
+      for (const roll of rolls) {
+        const instances = roll.instances;
+        for (const instance of instances) {
+          damageTypes.push(instance.type);
         }
+      }
 
-        if (
-          message.isDamageRoll === false ||
-          a.actor.getFlag("pf2e-thaum-vuln", "activeEV") !== true ||
-          a.actor.getFlag("pf2e-thaum-vuln", "primaryEVTarget") !==
-            `Scene.${message.speaker.scene}.Token.${message.speaker.token}.Actor.${message.speaker.actor}` ||
-          targetedAlliesInRange.length <= 0
-        )
-          continue;
+      const amuletUuid = getImplement(a.actor, "amulet")?.uuid;
+      const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
+      const diceTotalArea = html.find(".dice-roll.damage-roll");
 
-        let damageTypes = new Array();
-        const rolls = message.rolls;
-        for (const roll of rolls) {
-          const instances = roll.instances;
-          for (const instance of instances) {
-            damageTypes.push(instance.type);
-          }
-        }
-
-        const amuletUuid = getImplement(a.actor, "amulet")?.uuid;
-        const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
-        const diceTotalArea = html.find(".dice-roll.damage-roll");
-
-        if (amulet?.isHeld) {
-          const evReactionBtn = `<button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button>`;
-          $(diceTotalArea).after(
-            $(evReactionBtn).click({ actor: a.actor }, function () {
-              const _amulet = new Amulet(
-                a.actor,
-                getImplement(a.actor, "amulet")?.uuid
-              );
-              _amulet.amuletsAbeyance(
-                a.actor,
-                targetedAlliesInRange,
-                damageTypes
-              );
-            })
-          );
-        }
+      if (amulet?.isHeld) {
+        const evReactionBtn = `<button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button>`;
+        $(diceTotalArea).after(
+          $(evReactionBtn).click({ actor: a.actor }, function () {
+            const _amulet = new Amulet(
+              a.actor,
+              getImplement(a.actor, "amulet")?.uuid
+            );
+            _amulet.amuletsAbeyance(
+              a.actor,
+              targetedAlliesInRange,
+              damageTypes
+            );
+          })
+        );
       }
     }
   }
