@@ -1,13 +1,16 @@
 class Implement {
+  #actor;
+  #baseFeat;
+  #rules;
+
   constructor(actor, itemUuid, rules, slug) {
     this.slug = slug;
-    this.actor = actor;
-    this.rules = rules ? rules : [];
+    this.#actor = actor;
+    this.#rules = rules ? rules : [];
     //TODO: .split()ting the uuid seems like the best thing to do until the flags can be changed
     //to ids from uuids and a migration script is written.
     this.itemId = itemUuid?.split(".")[3] ?? undefined;
-    this.item = this.actor.inventory.get(this.itemId);
-    this.baseFeat = this.actor.itemTypes.feat.find((i) => i.slug === slug);
+    this.#baseFeat = this.actor.itemTypes.feat.find((i) => i.slug === slug);
     this.adept = this.actor.itemTypes.feat.find(
       (i) =>
         (i.slug === "implement-adept" || i.slug === "second-adept") &&
@@ -29,6 +32,22 @@ class Implement {
     )
       ? true
       : false;
+  }
+
+  get item() {
+    return this.actor.inventory.get(this.itemId);
+  }
+
+  get actor() {
+    return this.#actor;
+  }
+
+  get baseFeat() {
+    return this.#baseFeat;
+  }
+
+  get rules() {
+    return this.#rules;
   }
 
   intensifyImplement() {
