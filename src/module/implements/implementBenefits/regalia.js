@@ -23,6 +23,7 @@ class Regalia extends Implement {
       {
         key: "Aura",
         radius: 15,
+        level: 5,
         effects: [
           {
             affects: "allies",
@@ -38,6 +39,7 @@ class Regalia extends Implement {
       {
         key: "Aura",
         radius: 15,
+        level: 15,
         effects: [
           {
             affects: "allies",
@@ -53,6 +55,7 @@ class Regalia extends Implement {
       {
         key: "Aura",
         radius: 15,
+        level: 20,
         effects: [
           {
             affects: "allies",
