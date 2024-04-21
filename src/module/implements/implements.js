@@ -235,7 +235,7 @@ async function createManagedImplements(a) {
     const impFeat = a.itemTypes.feat.find((i) => i.slug === feat);
     if (impFeat) {
       const grantedImplement = a.itemTypes.feat.find(
-        (f) => f.slug === impFeat.rules.find((r) => r.key === "GrantItem").flag
+        (f) => f.slug === impFeat.grants[0].slug
       );
       imps = {
         ...imps,
