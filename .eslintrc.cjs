@@ -5,14 +5,14 @@
 
 module.exports = {
   parserOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 13,
     extraFileExtensions: [".cjs", ".mjs"],
     sourceType: "module",
   },
 
   env: {
     browser: true,
-    es6: true,
+    es2022: true,
   },
 
   globals: {
