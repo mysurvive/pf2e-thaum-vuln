@@ -31,22 +31,29 @@ Hooks.on("init", async () => {
     "pf2e-thaum-vuln",
     "CONFIG.PF2E.Actor.documentClasses.character.prototype.prepareDerivedData",
     function (wrapped, ...args) {
-      const selectedImplements = this.getFlag(
-        "pf2e-thaum-vuln",
-        "selectedImplements"
-      );
       if (
-        selectedImplements &&
-        Object.keys(selectedImplements)?.length !== 0 &&
-        game.ready
+        this.class?.name &&
+        this.class?.name
+          .split(" ")
+          .includes(game.i18n.localize("PF2E.TraitThaumaturge"))
       ) {
-        const implementClasses = Object.fromEntries(
-          Object.entries(selectedImplements).map(([k, imp]) => [
-            k,
-            constructChildImplement(k, this, imp.uuid),
-          ])
+        const selectedImplements = this.getFlag(
+          "pf2e-thaum-vuln",
+          "selectedImplements"
         );
-        this.attributes.implements = implementClasses;
+        if (
+          selectedImplements &&
+          Object.keys(selectedImplements)?.length !== 0 &&
+          game.ready
+        ) {
+          const implementClasses = Object.fromEntries(
+            Object.entries(selectedImplements).map(([k, imp]) => [
+              k,
+              constructChildImplement(k, this, imp.uuid),
+            ])
+          );
+          this.attributes.implements = implementClasses;
+        }
       }
 
       wrapped(...args);
