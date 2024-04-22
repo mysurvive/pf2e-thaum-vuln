@@ -330,16 +330,27 @@ Hooks.on("canvasReady", () => {
 // reintroduces roll options such as adept:tome, or paragon:regalia
 Hooks.on("createItem", async (item) => {
   const implementImprovementSourceIDs = [
+    "Compendium.pf2e.classfeatures.Item.VSQJtzQE6ikKdsnP",
+    "Compendium.pf2e.classfeatures.Item.Z8WpDAdAXyefLB7Q",
+    "Compendium.pf2e.classfeatures.Item.zxZzjN2T53wnH4vU",
     "Compendium.pf2e.classfeatures.Item.Obm4ItMIIr0whYeO",
     "Compendium.pf2e.classfeatures.Item.ZEUxZ4Ta1kDPHiq5",
     "Compendium.pf2e.classfeatures.Item.QEtgbY8N2V4wTbsI",
   ];
+
   if (implementImprovementSourceIDs.includes(item.sourceId)) {
-    const upgradedImplement = await fromUuid(
+    console.log(item);
+    const upgradedImplement =
+      item.parent.items.get(
+        item.rules.find((i) => i.key === "ChoiceSet").selection
+      ) ?? item.grants[0];
+
+    /*await fromUuid(
       `${item.parent.uuid}.Item.${
         item.rules.find((i) => i.key === "ChoiceSet").selection
       }`
-    );
+    );*/
+    console.log(upgradedImplement);
     let impRules = upgradedImplement.system.rules;
     let impRank;
     let changeFlag = false;
@@ -362,6 +373,13 @@ Hooks.on("createItem", async (item) => {
       )
     ) {
       impRank = "Adept";
+      changeFlag = true;
+    } else if (
+      !upgradedImplement.system.rules.some(
+        (r) => r.label === "Implement Rank Initiate"
+      )
+    ) {
+      impRank = "Initiate";
       changeFlag = true;
     }
     if (changeFlag) {
