@@ -106,9 +106,25 @@ class Regalia extends Implement {
         key: "ActiveEffectLike",
         mode: "upgrade",
         path: "flags.pf2e.followTheExpert.bonus.trained",
+        value: 2,
+        phase: "afterDerived",
+        predicate: ["adept:regalia"],
+      },
+      {
+        key: "ActiveEffectLike",
+        mode: "upgrade",
+        path: "flags.pf2e.followTheExpert.bonus.trained",
         value: 3,
         phase: "afterDerived",
         predicate: ["paragon:regalia"],
+      },
+      {
+        key: "ActiveEffectLike",
+        mode: "upgrade",
+        path: "flags.pf2e.followTheExpert.bonus.expert",
+        value: 3,
+        phase: "afterDerived",
+        predicate: ["adept:regalia"],
       },
       {
         key: "ActiveEffectLike",
@@ -124,7 +140,7 @@ class Regalia extends Implement {
         path: "flags.pf2e.followTheExpert.bonus.master",
         value: 4,
         phase: "afterDerived",
-        predicate: ["paragon:regalia"],
+        predicate: [{ or: ["paragon:regalia", "adept:regalia"] }],
       },
     ];
 
