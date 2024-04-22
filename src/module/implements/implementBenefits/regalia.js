@@ -99,6 +99,7 @@ class Regalia extends Implement {
         key: "ActiveEffectLike",
         mode: "override",
         path: "flags.pf2e.followTheExpert.minimum",
+        phase: "afterDerived",
         value: 1,
       },
       {
@@ -106,6 +107,7 @@ class Regalia extends Implement {
         mode: "upgrade",
         path: "flags.pf2e.followTheExpert.bonus.trained",
         value: 3,
+        phase: "afterDerived",
         predicate: ["paragon:regalia"],
       },
       {
@@ -113,6 +115,7 @@ class Regalia extends Implement {
         mode: "upgrade",
         path: "flags.pf2e.followTheExpert.bonus.expert",
         value: 4,
+        phase: "afterDerived",
         predicate: ["paragon:regalia"],
       },
       {
@@ -120,6 +123,7 @@ class Regalia extends Implement {
         mode: "upgrade",
         path: "flags.pf2e.followTheExpert.bonus.master",
         value: 4,
+        phase: "afterDerived",
         predicate: ["paragon:regalia"],
       },
     ];
