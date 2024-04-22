@@ -228,6 +228,23 @@
       "active": "Aktywny",
       "inactive": "Nieaktywny",
       "notOnScene": "Główny cel EV nie znajduje się na bieżącej scenie"
+    },
+    "implements": {
+      "regalia": {
+        "frightenedReminder": ""
+      },
+      "weapon": {
+        "implementsInterruption": {
+          "title": {
+            "success": "",
+            "failure": ""
+          },
+          "text": {
+            "success": "",
+            "failure": ""
+          }
+        }
+      }
     }
   }
 }

@@ -12,6 +12,18 @@
       "esotericLoreModifier": {
         "name": "Modificateur de DD de Connaissance ésotérique",
         "hint": "Fice un modificateur global pour le DD de Connaissance ésotérique. S'il est changé, il est typiquement fixé à -2 pour faire s'aligner Connaissance ésotérique avec une compétence de connaissance applicable pour Se souvenir."
+      },
+      "enforceHeldImplement": {
+        "hint": "",
+        "name": ""
+      },
+      "reactionCheckerHandlesAmulet": {
+        "hint": "",
+        "name": ""
+      },
+      "dailiesHandlesTome": {
+        "name": "",
+        "hint": ""
       }
     },
     "notifications": {
@@ -20,7 +32,9 @@
           "targetCount": "Sélectionnez un pion Thaumaturge et ciblez une créature.",
           "noExploitVulnerability": "Cet acteur n'a pas la capacité Exploiter la vulnérabilité",
           "noEsotericLoreSkill": "Cet acteur n'a pas la connaissance \"Esoteric Lore\" (Ne fonctionne qu'avec le nom en VO)",
-          "noMatchingDC": "Aucun DD correspondant pour la cible"
+          "noMatchingDC": "Aucun DD correspondant pour la cible",
+          "noHeldImplement": "",
+          "noImplements": ""
         },
         "cursedEffigy": {
           "noAbility": "Vous n'avez pas la capacité pour créé une effigie maudite",
@@ -45,6 +59,22 @@
         },
         "strike": {
           "invalidDamageType": "Le type de dégâts de l'arme est défini sur Untyped, ce qui est un type de dégâts non valide dans le cadre de Exploit Vulnerability. La faiblesse ne sera pas appliquée."
+        },
+        "intensifyImplement": {
+          "invalid": "",
+          "noIntensify": "",
+          "notHeld": ""
+        },
+        "rootToLife": {
+          "noAbility": "",
+          "selectOne": "",
+          "notDying": ""
+        },
+        "noToken": ""
+      },
+      "info": {
+        "recallKnowledge": {
+          "requestSent": ""
         }
       }
     },
@@ -65,9 +95,16 @@
         "resistanceLabel": "Résistances : ",
         "immunityLabel": "Immunités : ",
         "except": "Sauf : ",
-        "doublevs": "Double contre : "
+        "doublevs": "Double contre : ",
+        "highestWeaknessLabel": ""
       },
-      "flavor": "Vous fouillez dans vos expériences et votre apprentissage pour identifier quelque chose qui pourrait repousser votre ennemi. Vous récupérez un objet parmi vos ésotéricas avec les qualités surnaturelles appropriées puis utilisez votre implément pour rallumer les vestiges de son pouvoir et en faire un brasier. Sélectionnez une créature que vous pouvez voir et tentez un test de Connaissance ésotérique contre un DD standard pour son niveau tout en récupérant le bon objet parmi vos ésotéricas et utilisez votre implément pour lui donner du pouvoir. Vous bénéficiez des effets suivants jusqu'à ce que vous Exploitiez les vulnérabilités de nouveau."
+      "flavor": "Vous fouillez dans vos expériences et votre apprentissage pour identifier quelque chose qui pourrait repousser votre ennemi. Vous récupérez un objet parmi vos ésotéricas avec les qualités surnaturelles appropriées puis utilisez votre implément pour rallumer les vestiges de son pouvoir et en faire un brasier. Sélectionnez une créature que vous pouvez voir et tentez un test de Connaissance ésotérique contre un DD standard pour son niveau tout en récupérant le bon objet parmi vos ésotéricas et utilisez votre implément pour lui donner du pouvoir. Vous bénéficiez des effets suivants jusqu'à ce que vous Exploitiez les vulnérabilités de nouveau.",
+      "degreeOfSuccess": {
+        "success": "",
+        "failure": "",
+        "criticalFailure": "",
+        "criticalSuccess": ""
+      }
     },
     "personalAntithesis": {
       "name": "Antithèse personnelle"
@@ -82,11 +119,16 @@
     },
     "esotericWarden": {
       "name": "Gardien ésotérique",
-      "flavor": "Lorsque vous appliquez avec succès une matière antithétique contre une créature, vous vous prémunissez également contre ses prochaines attaques. Lorsque vous réussissez votre test pour Exploiter la vulnérabilité, vous obtenez un bonus de statut de +1 à la CA contre la prochaine attaque de la créature et un bonus de statut de +1 à votre prochain jet de sauvegarde contre la créature. Si vous obtenez un succès critique, ces bonus sont de +2 à la place. Vous ne pouvez gagner ces bonus qu'une fois par jour contre une créature particulière et cet avantage prend fin si vous Exploitez la vulnérabilité de nouveau."
+      "flavor": "Lorsque vous appliquez avec succès une matière antithétique contre une créature, vous vous prémunissez également contre ses prochaines attaques. Lorsque vous réussissez votre test pour Exploiter la vulnérabilité, vous obtenez un bonus de statut de +1 à la CA contre la prochaine attaque de la créature et un bonus de statut de +1 à votre prochain jet de sauvegarde contre la créature. Si vous obtenez un succès critique, ces bonus sont de +2 à la place. Vous ne pouvez gagner ces bonus qu'une fois par jour contre une créature particulière et cet avantage prend fin si vous Exploitez la vulnérabilité de nouveau.",
+      "effect": {
+        "name": ""
+      }
     },
     "diverseLore": {
       "name": "Connaissance diversifiée",
-      "flavor": "Lorsque vous obtenez un succès sur votre test pour Exploiter la vulnérabilité, comparez le résultat de votre test de Connaissances ésotériques au DD pour Vous souvenir de cette créature. Si ce résultat vous aurait permis d'atteindre un succès ou un succès critique, vous obtenez des informations comme si vous aviez réussi le test pour Vous souvenir. "
+      "flavor": "Lorsque vous obtenez un succès sur votre test pour Exploiter la vulnérabilité, comparez le résultat de votre test de Connaissances ésotériques au DD pour Vous souvenir de cette créature. Si ce résultat vous aurait permis d'atteindre un succès ou un succès critique, vous obtenez des informations comme si vous aviez réussi le test pour Vous souvenir. ",
+      "penalty": "",
+      "recallKnowledgeNote": ""
     },
     "sharedWarding": {
       "name": "Protection partagée",
@@ -112,10 +154,97 @@
       "no": "Non",
       "confirm": "Confirmer",
       "cancel": "Annuler",
-      "none": "Aucun"
+      "none": "Aucun",
+      "amuletsAbeyance": {
+        "description": "",
+        "adeptBenefitLabel": "",
+        "paragonBenefitLabel": "",
+        "lingeringResistanceValue": "",
+        "name": "",
+        "resistanceValueLabel": "",
+        "allTriggeringDamage": "",
+        "selectAllies": "",
+        "selectDamageType": "",
+        "noResistances": ""
+      },
+      "intensifyImplement": {
+        "title": "",
+        "content": ""
+      },
+      "oneAction": "",
+      "twoAction": "",
+      "character": "",
+      "target": "",
+      "manageImplements": {
+        "dragItem": "",
+        "implement": ""
+      }
     },
     "chatCard": {
       "use": "Utiliser {action}"
+    },
+    "rootToLife": {
+      "selectActionCount": "",
+      "outcome": "",
+      "title": "",
+      "twoActionOutcome": ""
+    },
+    "esotericLore": {
+      "name": ""
+    },
+    "dubiousKnowledge": {
+      "name": "",
+      "degreeOfSuccess": {
+        "failure": ""
+      }
+    },
+    "recallKnowledge": {
+      "name": "",
+      "dialog": {
+        "featRefLabel": "",
+        "targetTypeLabelDefault": "",
+        "rawDC": "",
+        "rollSettings": "",
+        "request": "",
+        "dcRefLabel": "",
+        "targetTypeLabelDL": ""
+      },
+      "degreeOfSuccess": {
+        "criticalSuccess": "",
+        "criticalFailure": "",
+        "success": ""
+      },
+      "esotericKnowledgeLabel": ""
+    },
+    "manageImplements": {
+      "implementHeader": "",
+      "manageImplementsButton": "",
+      "clearImplementsButton": ""
+    },
+    "targetManagement": {
+      "evActive": "",
+      "evMode": "",
+      "inactive": "",
+      "notOnScene": "",
+      "evPrimaryTargetButton": "",
+      "active": ""
+    },
+    "implements": {
+      "weapon": {
+        "implementsInterruption": {
+          "title": {
+            "success": "",
+            "failure": ""
+          },
+          "text": {
+            "failure": "",
+            "success": ""
+          }
+        }
+      },
+      "regalia": {
+        "frightenedReminder": ""
+      }
     }
   }
 }

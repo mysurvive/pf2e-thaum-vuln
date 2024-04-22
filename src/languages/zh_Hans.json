@@ -12,6 +12,18 @@
       "esotericLoreModifier": {
         "name": "秘传学识（Esoteric Lore）DC调整值",
         "hint": "为秘传学识DC设置全局调整值，一般设置为-2，即用秘传学识替代任意学识技能进行回忆知识时的减值。"
+      },
+      "enforceHeldImplement": {
+        "hint": "",
+        "name": ""
+      },
+      "dailiesHandlesTome": {
+        "name": "",
+        "hint": ""
+      },
+      "reactionCheckerHandlesAmulet": {
+        "name": "",
+        "hint": ""
       }
     },
     "notifications": {
@@ -20,7 +32,9 @@
           "targetCount": "选择一个奇术师指示物，并指定一个生物为目标。",
           "noExploitVulnerability": "该角色没有弱点发掘能力",
           "noEsotericLoreSkill": "该角色没有秘传学识（Esoteric Lore）技能",
-          "noMatchingDC": "没有找到符合目标的DC"
+          "noMatchingDC": "没有找到符合目标的DC",
+          "noImplements": "",
+          "noHeldImplement": ""
         },
         "cursedEffigy": {
           "noAbility": "你没有创建诅咒雕像的能力",
@@ -45,6 +59,22 @@
         },
         "strike": {
           "invalidDamageType": "武器伤害类型当前为“无类型”，该伤害类型对弱点发掘无效，弱点数值不会被添加。"
+        },
+        "intensifyImplement": {
+          "noIntensify": "",
+          "notHeld": "",
+          "invalid": ""
+        },
+        "rootToLife": {
+          "noAbility": "",
+          "selectOne": "",
+          "notDying": ""
+        },
+        "noToken": ""
+      },
+      "info": {
+        "recallKnowledge": {
+          "requestSent": ""
         }
       }
     },
@@ -65,9 +95,16 @@
         "resistanceLabel": "抗性： ",
         "immunityLabel": "免疫： ",
         "except": "除外： ",
-        "doublevs": "对抗以下攻击抗性加倍： "
+        "doublevs": "对抗以下攻击抗性加倍： ",
+        "highestWeaknessLabel": ""
       },
-      "flavor": "你遍历你的经验和学问，以识别某件可能能反制你的对手的物品。你从你的秘藏中找到一件具有合适的超自然特质的物品，然后使用你的奇具将其中残余的力量烧成熊熊烈火。选择一个你可以看见的生物，并尝试一次秘传学识（Esoteric Lore）检定，对抗该生物等级的标准DC，此时你从秘藏中找出了合适的物品，并使用你的奇具给予它力量。你获得如下效果，直到你再次使用弱点发掘。"
+      "flavor": "你遍历你的经验和学问，以识别某件可能能反制你的对手的物品。你从你的秘藏中找到一件具有合适的超自然特质的物品，然后使用你的奇具将其中残余的力量烧成熊熊烈火。选择一个你可以看见的生物，并尝试一次秘传学识（Esoteric Lore）检定，对抗该生物等级的标准DC，此时你从秘藏中找出了合适的物品，并使用你的奇具给予它力量。你获得如下效果，直到你再次使用弱点发掘。",
+      "degreeOfSuccess": {
+        "criticalSuccess": "",
+        "failure": "",
+        "success": "",
+        "criticalFailure": ""
+      }
     },
     "personalAntithesis": {
       "name": "个体克制"
@@ -82,11 +119,16 @@
     },
     "esotericWarden": {
       "name": "秘传守护",
-      "flavor": "当你成功对一个生物应用了克制性的材料时，你也能保护自己对抗其下一次攻击。当你在弱点发掘的检定中成功，你在对抗该生物的下一次攻击的AC上获得+1状态加值，并在你对抗该生物的下一次豁免骰上获得+1状态加值；如果你大成功，这些加值改为+2。你每天针对一个特定生物只能获得这些加值一次，且如果你再次使用弱点发掘，该增益终止。"
+      "flavor": "当你成功对一个生物应用了克制性的材料时，你也能保护自己对抗其下一次攻击。当你在弱点发掘的检定中成功，你在对抗该生物的下一次攻击的AC上获得+1状态加值，并在你对抗该生物的下一次豁免骰上获得+1状态加值；如果你大成功，这些加值改为+2。你每天针对一个特定生物只能获得这些加值一次，且如果你再次使用弱点发掘，该增益终止。",
+      "effect": {
+        "name": ""
+      }
     },
     "diverseLore": {
       "name": "多样学识",
-      "flavor": "当你在弱点发掘检定中成功，将你的秘传学识检定结果与对该生物进行回忆知识时所需的DC相比较；如果这个数字是一次成功或大成功，你如同在回忆知识检定中成功一般获得信息。 "
+      "flavor": "当你在弱点发掘检定中成功，将你的秘传学识检定结果与对该生物进行回忆知识时所需的DC相比较；如果这个数字是一次成功或大成功，你如同在回忆知识检定中成功一般获得信息。 ",
+      "penalty": "",
+      "recallKnowledgeNote": ""
     },
     "sharedWarding": {
       "name": "共享守护",
@@ -112,10 +154,97 @@
       "no": "否",
       "confirm": "确认",
       "cancel": "取消",
-      "none": "无"
+      "none": "无",
+      "twoAction": "",
+      "character": "",
+      "intensifyImplement": {
+        "content": "",
+        "title": ""
+      },
+      "oneAction": "",
+      "target": "",
+      "manageImplements": {
+        "dragItem": "",
+        "implement": ""
+      },
+      "amuletsAbeyance": {
+        "name": "",
+        "resistanceValueLabel": "",
+        "allTriggeringDamage": "",
+        "description": "",
+        "adeptBenefitLabel": "",
+        "lingeringResistanceValue": "",
+        "paragonBenefitLabel": "",
+        "selectAllies": "",
+        "selectDamageType": "",
+        "noResistances": ""
+      }
     },
     "chatCard": {
       "use": "使用{action}"
+    },
+    "esotericLore": {
+      "name": ""
+    },
+    "dubiousKnowledge": {
+      "name": "",
+      "degreeOfSuccess": {
+        "failure": ""
+      }
+    },
+    "recallKnowledge": {
+      "name": "",
+      "dialog": {
+        "request": "",
+        "dcRefLabel": "",
+        "targetTypeLabelDefault": "",
+        "targetTypeLabelDL": "",
+        "rawDC": "",
+        "featRefLabel": "",
+        "rollSettings": ""
+      },
+      "degreeOfSuccess": {
+        "success": "",
+        "criticalFailure": "",
+        "criticalSuccess": ""
+      },
+      "esotericKnowledgeLabel": ""
+    },
+    "manageImplements": {
+      "implementHeader": "",
+      "clearImplementsButton": "",
+      "manageImplementsButton": ""
+    },
+    "targetManagement": {
+      "evPrimaryTargetButton": "",
+      "active": "",
+      "notOnScene": "",
+      "evActive": "",
+      "inactive": "",
+      "evMode": ""
+    },
+    "implements": {
+      "regalia": {
+        "frightenedReminder": ""
+      },
+      "weapon": {
+        "implementsInterruption": {
+          "text": {
+            "success": "",
+            "failure": ""
+          },
+          "title": {
+            "success": "",
+            "failure": ""
+          }
+        }
+      }
+    },
+    "rootToLife": {
+      "outcome": "",
+      "twoActionOutcome": "",
+      "selectActionCount": "",
+      "title": ""
     }
   }
 }
