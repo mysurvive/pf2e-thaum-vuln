@@ -231,17 +231,17 @@
     },
     "implements": {
       "regalia": {
-        "frightenedReminder": ""
+        "frightenedReminder": "Zmniejsza stan przerażenia o 1 dzięki aurze Thaumaturge Regalia."
       },
       "weapon": {
         "implementsInterruption": {
           "title": {
-            "success": "",
-            "failure": ""
+            "success": "Broń: Przerwanie narzędzia",
+            "failure": "Porażka w przerwaniu narzędzia"
           },
           "text": {
-            "success": "",
-            "failure": ""
+            "success": "Zakłócasz działanie wyzwalające.",
+            "failure": "Zadajesz obrażenia celowi: "
           }
         }
       }
