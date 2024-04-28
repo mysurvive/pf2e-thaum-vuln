@@ -402,12 +402,14 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
       (i) =>
         i.name ===
         game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
-    )?.changed &&
-    !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
+    )?.changed
   ) {
     const tome = getImplement(a, "tome");
-    tome.dailyPreparation();
     tome.createEffectsOnItem(imps["tome"].uuid);
+
+    if (!game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")) {
+      tome.dailyPreparation();
+    }
   }
 });
 
