@@ -109,7 +109,7 @@ export async function manageImplements(event) {
 
             //refreshes the sheet so the implement items appear
             a.sheet._render(true);
-            Hooks.callAll(
+            Hooks.call(
               "createImplementEffects",
               game.user.id,
               a,
@@ -252,7 +252,7 @@ async function createManagedImplements(a) {
 
 export async function clearImplements(event) {
   const a = event.data.actor;
-  Hooks.callAll("deleteImplementEffects", a);
+  await Hooks.callAll("deleteImplementEffects", a);
   const imps = await createManagedImplements(a);
   a.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
   a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);

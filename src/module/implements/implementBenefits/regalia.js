@@ -170,9 +170,9 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
 });
 
 Hooks.on("deleteImplementEffects", (a) => {
-  if (getImplement(a, "regalia")?.uuid) {
-    const _regalia = a.attributes.implements["regalia"];
-    _regalia.deleteEffectsOnItem();
+  const regalia = getImplement(a, "regalia");
+  if (regalia?.item) {
+    regalia.deleteEffectsOnItem();
   }
 });
 

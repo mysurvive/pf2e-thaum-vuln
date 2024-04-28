@@ -55,11 +55,8 @@ class Tome extends Implement {
   }
 
   async createDailyPreparationDialog() {
-    const tomeFlags = getImplement(this.actor, "tome");
-    if (!tomeFlags) return;
-    if (tomeFlags.uuid) {
-      const tome = await fromUuid(tomeFlags.uuid);
-
+    const tome = this.item;
+    if (tome) {
       new Dialog(
         {
           title: "Tome Implement Daily Preparation",
@@ -368,8 +365,8 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome") &&
     getImplement(actor, "tome")
   ) {
-    const _tome = actor.attributes.implements["tome"];
-    _tome.createDailyPreparationDialog(actor);
+    const tome = getImplement(actor, "tome");
+    tome.createDailyPreparationDialog(actor);
   }
 });
 
@@ -405,19 +402,21 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
       (i) =>
         i.name ===
         game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
-    )?.changed &&
-    !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")
+    )?.changed
   ) {
-    const _tome = a.attributes.implements["tome"];
-    _tome.dailyPreparation();
-    _tome.createEffectsOnItem(imps["tome"].uuid);
+    const tome = getImplement(a, "tome");
+    tome.createEffectsOnItem(imps["tome"].uuid);
+
+    if (!game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")) {
+      tome.dailyPreparation();
+    }
   }
 });
 
 Hooks.on("deleteImplementEffects", (a) => {
-  if (getImplement(a, "tome")?.uuid) {
-    const _tome = a.attributes.implements["tome"];
-    _tome.deleteEffectsOnItem();
+  const tome = getImplement(a, "tome");
+  if (tome?.item) {
+    tome.deleteEffectsOnItem();
   }
 });
 
