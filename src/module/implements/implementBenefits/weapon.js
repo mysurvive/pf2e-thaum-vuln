@@ -81,15 +81,15 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
         game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Weapon")
     )?.changed
   ) {
-    const _weapon = a.attributes.implements["weapon"];
-    _weapon.createEffectsOnItem(imps["weapon"].uuid);
+    const weapon = getImplement(a, "weapon");
+    weapon.createEffectsOnItem(imps["weapon"].uuid);
   }
 });
 
 Hooks.on("deleteImplementEffects", (a) => {
-  if (getImplement(a, "weapon")?.uuid) {
-    const _weapon = a.attributes.implements["weapon"];
-    _weapon.deleteEffectsOnItem();
+  const weapon = getImplement(a, "weapon");
+  if (weapon?.item) {
+    weapon.deleteEffectsOnItem();
   }
 });
 

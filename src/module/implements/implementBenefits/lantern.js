@@ -193,15 +193,15 @@ Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
         game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Lantern")
     )?.changed
   ) {
-    const _lantern = a.attributes.implements["lantern"];
-    _lantern.createEffectsOnItem(imps["lantern"].uuid);
+    const lantern = getImplement(a, "lantern");
+    lantern.createEffectsOnItem(imps["lantern"].uuid);
   }
 });
 
 Hooks.on("deleteImplementEffects", (a) => {
-  if (getImplement(a, "lantern")?.uuid) {
-    const _lantern = a.attributes.implements["lantern"];
-    _lantern.deleteEffectsOnItem();
+  const lantern = getImplement(a, "lantern");
+  if (lantern?.item) {
+    lantern.deleteEffectsOnItem();
   }
 });
 

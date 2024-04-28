@@ -57,23 +57,14 @@ class Amulet extends Implement {
         }
       }
 
-      const amuletUuid = getImplement(a.actor, "amulet")?.uuid;
-      const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
+      const amulet = getImplement(a.actor, "amulet");
       const diceTotalArea = html.find(".dice-roll.damage-roll");
 
-      if (amulet?.isHeld) {
-        const evReactionBtn = `<button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button>`;
+      if (amulet?.item?.isHeld) {
+        const evReactionBtn = `<span class="pf2e-ev-reaction-area">${a.actor.name}: <button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button></span>`;
         $(diceTotalArea).after(
           $(evReactionBtn).click({ actor: a.actor }, function () {
-            const _amulet = new Amulet(
-              a.actor,
-              getImplement(a.actor, "amulet")?.uuid
-            );
-            _amulet.amuletsAbeyance(
-              a.actor,
-              targetedAlliesInRange,
-              damageTypes
-            );
+            amulet.amuletsAbeyance(a.actor, targetedAlliesInRange, damageTypes);
           })
         );
       }
@@ -199,8 +190,7 @@ class Amulet extends Implement {
         )
       );
 
-    const amuletUuid = getImplement(a, "amulet")?.uuid;
-    const amulet = amuletUuid ? await fromUuid(amuletUuid) : undefined;
+    const amulet = this.item;
     if (!amulet?.isHeld)
       return ui.notifications.warn(
         game.i18n.localize(
