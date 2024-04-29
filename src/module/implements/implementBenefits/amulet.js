@@ -89,78 +89,79 @@ class Amulet extends Implement {
       amuletRank: amuletImplementData,
     };
 
-    new Dialog(
-      {
-        title: "Amulet's Abeyance",
-        content: await renderTemplate(
-          "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
-          dgContent
-        ),
-        buttons: {
-          confirm: {
-            label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
-            callback: async (dgEndContent) => {
-              let abeyanceData = {};
-              const character = a;
-              const damageTypes = $(dgEndContent)
-                .find(".amulets-abeyance-dialog")
-                .attr("dmg")
-                .split(",");
-              for (const btn of $(dgEndContent).find(".character-button")) {
-                if ($(btn).attr("chosen")) {
-                  const chosenUuid = $(btn).attr("id");
-                  const charName = (await fromUuid(chosenUuid)).name;
-                  abeyanceData[charName] = {
-                    uuid: chosenUuid,
-                    abeyanceDamageType: damageTypes,
-                  };
+    new Dialog({
+      title: "Amulet's Abeyance",
+      content: await renderTemplate(
+        "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
+        dgContent
+      ),
+      buttons: {
+        confirm: {
+          label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
+          callback: async (dgEndContent) => {
+            let abeyanceData = {};
+            const character = a;
+            const damageTypes = $(dgEndContent)
+              .find(".amulets-abeyance-dialog")
+              .attr("dmg")
+              .split(",");
+            for (const btn of $(dgEndContent).find(".character-button")) {
+              if ($(btn).attr("chosen")) {
+                const chosenUuid = $(btn).attr("id");
+                const charName = (await fromUuid(chosenUuid)).name;
+                abeyanceData[charName] = {
+                  uuid: chosenUuid,
+                  abeyanceDamageType: damageTypes,
+                };
 
-                  if (getImplement(character, "amulet")?.adept) {
-                    for (const selector of $(dgEndContent).find("select")) {
-                      if (
-                        selector.id === "damage-type-" + chosenUuid ||
-                        selector.id === "damage-type-adept"
-                      ) {
-                        const charName = (await fromUuid(chosenUuid)).name;
-                        const damageType = $(selector)[0].value;
-                        abeyanceData[charName].lingeringDamageType = damageType;
-                      }
+                if (getImplement(character, "amulet")?.adept) {
+                  for (const selector of $(dgEndContent).find("select")) {
+                    if (
+                      selector.id === "damage-type-" + chosenUuid ||
+                      selector.id === "damage-type-adept"
+                    ) {
+                      const charName = (await fromUuid(chosenUuid)).name;
+                      const damageType = $(selector)[0].value;
+                      abeyanceData[charName].lingeringDamageType = damageType;
                     }
                   }
                 }
               }
-              applyAbeyanceEffects(character.uuid, abeyanceData);
-            },
-          },
-          cancel: {
-            label: game.i18n.localize("pf2e-thaum-vuln.dialog.cancel"),
-            callback: () => {},
+            }
+            applyAbeyanceEffects(character.uuid, abeyanceData);
           },
         },
-        default: "confirm",
-        render: () => {
-          $(document).ready(function () {
-            const character = a;
-            if (getImplement(character, "amulet")?.paragon) {
-              $(".character-button").css("background-color", "red");
-              $(".character-button").attr("chosen", true);
-            }
-            if ($(".character-button").length === 1) {
-              $(".character-button").css("background-color", "red");
-              $(".character-button").attr("chosen", true);
-            }
-            $(".character-button").bind("click", function (e) {
-              $(e.target).siblings().removeAttr("chosen");
-              $(".character-button").css("background-color", "rgba(0,0,0,0)");
-              $(e.currentTarget).css("background-color", "red");
-              $(e.currentTarget).attr("chosen", true);
-            });
-          });
+        cancel: {
+          label: game.i18n.localize("pf2e-thaum-vuln.dialog.cancel"),
+          callback: () => {},
         },
-        close: () => {},
       },
-      a
-    ).render(true, { width: 750 });
+      default: "confirm",
+      render: () => {
+        $(document).ready(() => {
+          if (this.paragon || $(".character-button").length === 1) {
+            $(".character-button").attr("chosen", true);
+          }
+          $(".character-button").bind("click", (e) => {
+            const button = $(e.target);
+            if (this.paragon) {
+              if (button.attr("chosen")) {
+                button.removeAttr("chosen");
+              } else {
+                button.attr("chosen", true);
+              }
+            } else {
+              button
+                .parent()
+                .siblings()
+                .find(".character-button")
+                .removeAttr("chosen");
+              button.attr("chosen", true);
+            }
+          });
+        });
+      },
+    }).render(true, { width: 750 });
   }
 
   static async checkChatForAbeyanceEffect(message) {

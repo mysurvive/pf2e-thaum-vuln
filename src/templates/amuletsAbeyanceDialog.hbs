@@ -2,6 +2,15 @@
   .amulets-abeyance-btn-row{padding:0.5rem; display:flex; flex-wrap:wrap;
   justify-content: space-around;} .damage-type-row{display:flex;
   justify-content:center; align-items:center; padding-bottom:0.5rem;}
+  .character-button {
+    background-color: transparent;
+    background-size:contain;
+    width:10rem;
+    height:10rem;
+  }
+  .character-button[chosen] {
+    background-color: red;
+  }
 </style>
 <div class="amulets-abeyance-dialog" dmg="{{damageTypes}}">
   <div class="amulets-abeyance-flavor">
@@ -39,7 +48,7 @@
         <button
           type="button"
           class="character-button"
-          style="background: url({{document.texture.src}});background-size:contain; width:10rem; height:10rem;"
+          style="background-image:url({{document.texture.src}});"
           id="{{document.uuid}}"
         ></button>
         <p style="text-align: center">{{name}}</p>
