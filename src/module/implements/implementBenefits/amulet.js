@@ -1,5 +1,8 @@
 import { applyAbeyanceEffects } from "../../socket";
-import { INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID } from "../../utils";
+import {
+  INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
+  PRIMARY_TARGET_EFFECT_UUID,
+} from "../../utils";
 import { getImplement } from "../helpers";
 import { Implement } from "../implement";
 
@@ -8,85 +11,102 @@ class Amulet extends Implement {
     super(actor, implementItem, [], "amulet");
   }
 
-  static async listenForAbeyanceChat(message, html) {
-    if (
-      !game.ready ||
-      game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet")
-    )
-      return;
-    for (const a of game.canvas.tokens.placeables.filter(
-      (t) => t.actor?.isOwner && t.actor?.attributes?.implements?.amulet
-    )) {
-      const effectRange = 15;
-      const targets = message.flags["pf2e-thaum-vuln"].targets;
-      const amuletImplementData = getImplement(a.actor, "amulet");
-      let targetedAlliesInRange = new Array();
-      if (amuletImplementData?.paragon === true) {
-        targetedAlliesInRange = canvas.tokens.placeables.filter(
-          (token) =>
-            token.actor?.alliance === "party" &&
-            a.distanceTo(token) <= effectRange
-        );
-      } else {
-        for (const target of targets) {
-          const targetToken = await fromUuid(target.tokenUuid);
-          if (
-            targetToken._object.actor.alliance === "party" &&
-            a.distanceTo(targetToken._object) <= effectRange
-          ) {
-            targetedAlliesInRange.push(targetToken._object);
-          }
-        }
-      }
+  // Is token an ally we can abey for?
+  isAbeyableToken(token, myToken) {
+    return (
+      myToken &&
+      token.actor?.alliance == this.actor.alliance &&
+      token.distanceTo(myToken) <= 15
+    );
+  }
 
+  // Add data about which thaumaturge(s), if any, can use abeyance to the damage roll message flags.
+  static addAbeyanceData(message) {
+    if (!game.ready || !message.isDamageRoll || !message.actor) return;
+
+    // First, check if attacker is an EV target, since most attackers won't be
+    const thaums = message.actor.itemTypes.effect
+      .filter((e) => e.flags.core.sourceId === PRIMARY_TARGET_EFFECT_UUID)
+      .map((e) => e.origin);
+    if (thaums.length == 0) return;
+
+    // Turn target UUID list into Tokens
+    const targets =
+      message
+        .getFlag("pf2e-thaum-vuln", "targets")
+        ?.map((t) => fromUuidSync(t.tokenUuid)?.object) ?? [];
+    // Note, getFlag('pf2e', 'context.target') already exists for strike damage rolls...
+
+    // For any thaums with the attacker as EV target, check if an allied target is within 15'
+    let abeyers = [];
+    for (const thaum of thaums) {
+      const amulet = getImplement(thaum, "amulet");
       if (
-        message.isDamageRoll === false ||
-        a.actor.getFlag("pf2e-thaum-vuln", "activeEV") !== true ||
-        a.actor.getFlag("pf2e-thaum-vuln", "primaryEVTarget") !==
-          `Scene.${message.speaker.scene}.Token.${message.speaker.token}.Actor.${message.speaker.actor}` ||
-        targetedAlliesInRange.length <= 0
+        thaum.getFlag("pf2e-thaum-vuln", "primaryEVTarget") !==
+          message.actor.uuid ||
+        !amulet?.item?.isHeld
       )
         continue;
 
-      let damageTypes = new Array();
-      const rolls = message.rolls;
-      for (const roll of rolls) {
-        const instances = roll.instances;
-        for (const instance of instances) {
-          damageTypes.push(instance.type);
-        }
+      // If we aren't in the initiative, combatant isn't defined
+      const token =
+        thaum.combatant?.token.object ??
+        game.canvas.tokens.placeables.find((t) => t.actor == thaum);
+      if (targets.some((t) => amulet.isAbeyableToken(t, token))) {
+        abeyers.push({
+          actorUuid: thaum.uuid,
+          tokenUuid: token.document.uuid,
+        });
       }
-
-      const amulet = getImplement(a.actor, "amulet");
-      const diceTotalArea = html.find(".dice-roll.damage-roll");
-
-      if (amulet?.item?.isHeld) {
-        const evReactionBtn = `<span class="pf2e-ev-reaction-area">${a.actor.name}: <button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button></span>`;
-        $(diceTotalArea).after(
-          $(evReactionBtn).click({ actor: a.actor }, function () {
-            amulet.amuletsAbeyance(a.actor, targetedAlliesInRange, damageTypes);
-          })
-        );
-      }
+    }
+    if (abeyers.length > 0) {
+      message.updateSource({ "flags.pf2e-thaum-vuln.abeyers": abeyers });
     }
   }
 
-  async amuletsAbeyance(a, allies, strikeDamageTypes) {
-    const amuletImplementData = getImplement(a, "amulet");
-    const adeptResistanceValue = a.level < 15 ? 5 : 10;
-    const abeyanceResistanceValue = 2 + a.level;
+  // Add a "Use Abeyance" button to a chat message
+  static addAbeyanceButton(message, html) {
+    const abeyers = message.getFlag("pf2e-thaum-vuln", "abeyers");
+    if (!abeyers) return;
+
+    // Actors, that we own, that can abey
+    const actors = abeyers
+      .map((abeyer) => fromUuidSync(abeyer.actorUuid))
+      .filter((a) => a.isOwner);
+    if (!actors.length) return;
+
+    const diceTotalArea = html.find(".dice-roll.damage-roll");
+    for (const actor of actors) {
+      const tokenUuid = abeyers.find(
+        (abeyer) => abeyer.actorUuid === actor.uuid
+      ).tokenUuid;
+      const evReactionBtn = `<span class="pf2e-ev-reaction-area">${actor.name}: <button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button></span>`;
+      $(diceTotalArea).after(
+        $(evReactionBtn).on("click", () =>
+          getImplement(actor, "amulet")?.amuletsAbeyance(message, tokenUuid)
+        )
+      );
+    }
+  }
+
+  async amuletsAbeyance(message, tokenUuid) {
+    const token = fromUuidSync(tokenUuid).object;
+    // Turn target UUID list into Tokens
+    const attackTargets =
+      message
+        .getFlag("pf2e-thaum-vuln", "targets")
+        ?.map((t) => fromUuidSync(t.tokenUuid)?.object) ?? [];
+    const allies = (
+      this.paragon ? canvas.tokens.placeables : attackTargets
+    ).filter((t) => this.isAbeyableToken(t, token));
 
     const dgContent = {
-      allies: allies,
-      damageTypes: strikeDamageTypes,
-      adeptResistanceValue: adeptResistanceValue,
-      abeyanceResistanceValue: abeyanceResistanceValue,
-      amuletBenefits: a.items.find(
-        (i) =>
-          i.name ===
-          game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Amulet")
-      ).description,
-      amuletRank: amuletImplementData,
+      allies,
+      damageTypes: message.rolls.flatMap((r) => r.instances.map((i) => i.type)),
+      adeptResistanceValue: this.actor.level < 15 ? 5 : 10,
+      abeyanceResistanceValue: this.actor.level + 2,
+      amuletBenefits: this.baseFeat.description,
+      amuletRank: this,
     };
 
     new Dialog({
@@ -100,35 +120,29 @@ class Amulet extends Implement {
           label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
           callback: async (dgEndContent) => {
             let abeyanceData = {};
-            const character = a;
-            const damageTypes = $(dgEndContent)
-              .find(".amulets-abeyance-dialog")
-              .attr("dmg")
-              .split(",");
-            for (const btn of $(dgEndContent).find(".character-button")) {
-              if ($(btn).attr("chosen")) {
-                const chosenUuid = $(btn).attr("id");
-                const charName = (await fromUuid(chosenUuid)).name;
-                abeyanceData[charName] = {
-                  uuid: chosenUuid,
-                  abeyanceDamageType: damageTypes,
-                };
+            for (const btn of $(dgEndContent).find(
+              ".character-button[chosen]"
+            )) {
+              const chosenUuid = $(btn).attr("id");
+              const charName = (await fromUuid(chosenUuid)).name;
+              abeyanceData[charName] = {
+                uuid: chosenUuid,
+              };
 
-                if (getImplement(character, "amulet")?.adept) {
-                  for (const selector of $(dgEndContent).find("select")) {
-                    if (
-                      selector.id === "damage-type-" + chosenUuid ||
-                      selector.id === "damage-type-adept"
-                    ) {
-                      const charName = (await fromUuid(chosenUuid)).name;
-                      const damageType = $(selector)[0].value;
-                      abeyanceData[charName].lingeringDamageType = damageType;
-                    }
+              if (this.adept) {
+                for (const selector of $(dgEndContent).find("select")) {
+                  if (
+                    selector.id === "damage-type-" + chosenUuid ||
+                    selector.id === "damage-type-adept"
+                  ) {
+                    const charName = (await fromUuid(chosenUuid)).name;
+                    const damageType = $(selector)[0].value;
+                    abeyanceData[charName].lingeringDamageType = damageType;
                   }
                 }
               }
             }
-            applyAbeyanceEffects(character.uuid, abeyanceData);
+            applyAbeyanceEffects(this.actor.uuid, abeyanceData);
           },
         },
         cancel: {
@@ -167,7 +181,6 @@ class Amulet extends Implement {
   static async checkChatForAbeyanceEffect(message) {
     if (
       !game.ready ||
-      game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet") ||
       message.flags.pf2e?.appliedDamage === undefined || // null means damage applied, but reduced to zero
       !message.actor?.isOwner
     )
@@ -213,12 +226,18 @@ class Amulet extends Implement {
   }
 }
 
-Hooks.on("renderChatMessage", async (message, html) => {
-  Amulet.listenForAbeyanceChat(message, html);
+Hooks.on("renderChatMessage", (message, html) => {
+  Amulet.addAbeyanceButton(message, html);
 });
 
-Hooks.on("preCreateChatMessage", async (message) => {
-  Amulet.checkChatForAbeyanceEffect(message);
+// Add the hook on init so that it's after the hooks.js hooks
+Hooks.once("init", () => {
+  Hooks.on("preCreateChatMessage", (message) => {
+    if (game.settings.get("pf2e-thaum-vuln", "reactionCheckerHandlesAmulet"))
+      return;
+    Amulet.checkChatForAbeyanceEffect(message);
+    Amulet.addAbeyanceData(message);
+  });
 });
 
 export { Amulet };
