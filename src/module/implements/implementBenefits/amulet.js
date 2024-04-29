@@ -4,6 +4,7 @@ import {
   PRIMARY_TARGET_EFFECT_UUID,
 } from "../../utils";
 import { getImplement } from "../helpers";
+import { messageTargetTokens } from "../../utils/helpers";
 import { Implement } from "../implement";
 
 class Amulet extends Implement {
@@ -31,11 +32,7 @@ class Amulet extends Implement {
     if (thaums.length == 0) return;
 
     // Turn target UUID list into Tokens
-    const targets =
-      message
-        .getFlag("pf2e-thaum-vuln", "targets")
-        ?.map((t) => fromUuidSync(t.tokenUuid)?.object) ?? [];
-    // Note, getFlag('pf2e', 'context.target') already exists for strike damage rolls...
+    const targets = messageTargetTokens(message);
 
     // For any thaums with the attacker as EV target, check if an allied target is within 15'
     let abeyers = [];
@@ -91,13 +88,8 @@ class Amulet extends Implement {
 
   async amuletsAbeyance(message, tokenUuid) {
     const token = fromUuidSync(tokenUuid).object;
-    // Turn target UUID list into Tokens
-    const attackTargets =
-      message
-        .getFlag("pf2e-thaum-vuln", "targets")
-        ?.map((t) => fromUuidSync(t.tokenUuid)?.object) ?? [];
     const allies = (
-      this.paragon ? canvas.tokens.placeables : attackTargets
+      this.paragon ? canvas.tokens.placeables : messageTargetTokens(message)
     ).filter((t) => this.isAbeyableToken(t, token));
 
     const dgContent = {
