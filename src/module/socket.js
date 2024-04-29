@@ -97,9 +97,10 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
         effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_SOURCEID) &&
       a.getFlag("pf2e-thaum-vuln", "primaryEVTarget") === targ
     ) {
-      const primaryEVTargetEffect = (
-        await fromUuid(PRIMARY_TARGET_EFFECT_UUID)
-      ).toObject();
+      const primaryEVTargetEffect = await createEffectData(
+        PRIMARY_TARGET_EFFECT_UUID,
+        { actor: a.uuid }
+      );
       primaryEVTargetEffect.system.slug +=
         "-" + game.pf2e.system.sluggify(a.name);
       primaryEVTargetEffect.name += ": " + a.name;
