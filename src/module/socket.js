@@ -7,7 +7,6 @@ import {
 } from "./utils/index.js";
 import { parseHTML } from "./utils/utils.js";
 import { createEffectData } from "./utils/helpers.js";
-import { getImplement } from "./implements/helpers.js";
 
 let socket;
 
@@ -337,42 +336,38 @@ async function _createRKDialog(userId, saUuid, targUuid) {
 
 async function _socketApplyAbeyanceEffects(actorUuid, abeyanceData) {
   const a = await fromUuid(actorUuid);
-  const amuletImplementData = getImplement(a, "amulet");
 
-  for (const character in abeyanceData) {
+  for (const [tokenUuid, abeyanceDatum] of Object.entries(abeyanceData)) {
+    const charToken = await fromUuid(tokenUuid);
+
     const amuletsAbeyanceEffect = await createEffectData(
       AMULETS_ABEYANCE_EFFECT_UUID,
       { actor: actorUuid }
     );
-
-    const charToken = await fromUuid(abeyanceData[character].uuid);
-    amuletsAbeyanceEffect.name += " " + character;
-    amuletsAbeyanceEffect.slug += "-" + game.pf2e.system.sluggify(character);
+    amuletsAbeyanceEffect.name += ` (${a.name})`;
+    amuletsAbeyanceEffect.slug += "-" + game.pf2e.system.sluggify(a.name);
     amuletsAbeyanceEffect.system.rules.push({
       key: "Resistance",
       type: "all-damage",
       value: 2 + a.level,
     });
     const effects = [amuletsAbeyanceEffect];
-    if (
-      amuletImplementData.adept === true &&
-      abeyanceData[character].lingeringDamageType
-    ) {
+    if (abeyanceDatum.lingeringDamageType) {
       const lingeringResistanceValue = a.level < 15 ? 5 : 10;
-      const lingeringResistanceType =
-        abeyanceData[character].lingeringDamageType;
       const abeyanceLingeringEffect = await createEffectData(
         AMULETS_ABEYANCE_LINGERING_EFFECT_UUID,
         { actor: actorUuid }
       );
+      const damageName = game.i18n.localize(
+        CONFIG.PF2E.damageTypes[abeyanceDatum.lingeringDamageType] ??
+          abeyanceDatum.lingeringDamageType
+      );
+      abeyanceLingeringEffect.name += ` (${damageName})`;
       abeyanceLingeringEffect.system.rules.push({
         key: "Resistance",
-        type: lingeringResistanceType,
+        type: abeyanceDatum.lingeringDamageType,
         value: lingeringResistanceValue,
       });
-      abeyanceLingeringEffect.flags["pf2e-thaum-vuln"] = {
-        effectSource: a.uuid,
-      };
       effects.push(abeyanceLingeringEffect);
     }
     charToken.actor.createEmbeddedDocuments("Item", effects);

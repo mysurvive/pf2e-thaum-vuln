@@ -110,28 +110,20 @@ class Amulet extends Implement {
       buttons: {
         confirm: {
           label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
-          callback: async (dgEndContent) => {
+          callback: (dgEndContent) => {
             let abeyanceData = {};
             for (const btn of $(dgEndContent).find(
               ".character-button[chosen]"
             )) {
               const chosenUuid = $(btn).attr("id");
-              const charName = (await fromUuid(chosenUuid)).name;
-              abeyanceData[charName] = {
-                uuid: chosenUuid,
-              };
-
+              abeyanceData[chosenUuid] = {};
               if (this.adept) {
-                for (const selector of $(dgEndContent).find("select")) {
-                  if (
-                    selector.id === "damage-type-" + chosenUuid ||
-                    selector.id === "damage-type-adept"
-                  ) {
-                    const charName = (await fromUuid(chosenUuid)).name;
-                    const damageType = $(selector)[0].value;
-                    abeyanceData[charName].lingeringDamageType = damageType;
-                  }
-                }
+                const id = this.paragon
+                  ? `#damage-type-${chosenUuid.replace(/\./g, "\\.")}`
+                  : "#damage-type-adept";
+                const selector = $(dgEndContent).find(id);
+                const damageType = $(selector)[0].value;
+                abeyanceData[chosenUuid].lingeringDamageType = damageType;
               }
             }
             applyAbeyanceEffects(this.actor.uuid, abeyanceData);
