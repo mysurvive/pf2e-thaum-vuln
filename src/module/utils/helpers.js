@@ -152,6 +152,22 @@ async function createEffectData(uuid, origin = null) {
   return effect;
 }
 
+// Return an array of Tokens that are the targets of the message.  Message
+// should be something that has targets, like a damage roll.
+function messageTargetTokens(message) {
+  // It's ok to use fromUuidSync here since any tokens that are the targets of a
+  // current attack will surely be in the game.
+  return (
+    message
+      .getFlag("pf2e-thaum-vuln", "targets")
+      ?.map((t) => fromUuidSync(t.tokenUuid)?.object) ?? []
+  );
+
+  // The system already has a flag, getFlag('pf2e', 'context.target'), for the
+  // target of attack damage rolls.  But it's limited to one target and doesn't
+  // get set on saving throw spell damage rolls.
+}
+
 export {
   targetEVPrimaryTarget,
   getMWTargets,
@@ -160,4 +176,5 @@ export {
   getActorEVEffect,
   BDGreatestBypassableResistance,
   createEffectData,
+  messageTargetTokens,
 };

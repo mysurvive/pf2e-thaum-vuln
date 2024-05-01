@@ -22,6 +22,9 @@ module.exports = {
     isEmpty: "readonly",
     libWrapper: "readonly",
     socketlib: "readonly",
+
+    // @typhonjs-fvtt/eslint-config-foundry.js hasn't been updated in 3 years, missing some stuff
+    fromUuidSync: "readonly",
   },
 
   extends: [
