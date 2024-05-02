@@ -35,7 +35,7 @@
           "noEsotericLoreSkill": "This actor does not have the Esoteric Lore skill",
           "noMatchingDC": "No matching DC for target",
           "noImplements": "You do not have implements selected. Go to the inventory tab on your character sheet, click manage implements, and assign items to your implements.",
-          "noHeldImplement": "You do not have one of your implements held in order to Exploit Vulnerability."
+          "noHeldImplement": "You must have one of your implements held in order to Exploit Vulnerability."
         },
         "cursedEffigy": {
           "invalidTarget": "Target only the target of your exploit vulnerability to create a cursed effigy",
