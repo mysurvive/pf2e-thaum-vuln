@@ -1,10 +1,11 @@
 import { ESOTERIC_WARDEN_EFFECT_UUID } from "../utils/index.js";
+import { createEffectData } from "../utils/helpers.js";
 import { sharedWardingDialog } from "./sharedWarding.js";
 
 async function createEsotericWarden(rollDOS, EWPredicate, sa, t) {
   const hasSharedWarding = sa.items.some((i) => i.slug === "shared-warding");
 
-  let EWEffect = (await fromUuid(ESOTERIC_WARDEN_EFFECT_UUID)).toObject();
+  const EWEffect = await createEffectData(ESOTERIC_WARDEN_EFFECT_UUID);
   const bonus = rollDOS === 3 ? 2 : rollDOS === 2 ? 1 : 0;
   EWEffect.system.rules[0].value = bonus;
   EWEffect.system.rules[1].value = bonus;
