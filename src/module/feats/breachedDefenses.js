@@ -43,11 +43,6 @@ async function createBreachedDefenses(sa, eff, bypassable) {
   );
   bypassRule.value = exception.exception;
   bypassRule.property = exception.property;
-  bypassRule.predicate = [
-    `target:effect:${game.pf2e.system.sluggify(
-      "Breached Defenses Target" + sa.name
-    )}`,
-  ];
   await sa.setFlag("pf2e-thaum-vuln", "EVValue", exception.exception);
 
   return {

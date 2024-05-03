@@ -1,7 +1,0 @@
-2024/04/21-09:31:03.573 6acc Recovering log #264
-2024/04/21-09:31:03.573 6acc Level-0 table #267: started
-2024/04/21-09:31:03.580 6acc Level-0 table #267: 1633 bytes OK
-2024/04/21-09:31:03.580 6acc Recovering log #271
-2024/04/21-09:31:03.588 6acc Delete type=0 #264
-2024/04/21-09:31:03.588 6acc Delete type=0 #271
-2024/04/21-09:31:03.588 6acc Delete type=3 #262
