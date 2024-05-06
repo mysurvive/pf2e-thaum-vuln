@@ -18,14 +18,6 @@ async function createBreachedDefenses(sa, eff, bypassable) {
     },
   };
 
-  const evMode = "breached-defenses";
-  const effPredicate = [
-    `target:effect:${game.pf2e.system.sluggify(
-      "Breached Defenses Target" + sa.name
-    )}`,
-  ];
-  const effRuleSlug = "breached-defenses-bypass";
-
   //force ghost touch property rune on things that are immune to it
   if (bypassable.exceptions.includes("ghost-touch")) {
     bypassable.exceptions[0] = "ghost-touch";
@@ -43,24 +35,17 @@ async function createBreachedDefenses(sa, eff, bypassable) {
       }
     }
   })();
+  if (!exception)
+    return ui.notifications.error(`Don't know how to bypass ${bypassable}`);
 
-  eff.system.rules.find(
-    (rules) => rules.slug === "breached-defenses-bypass"
-  ).value = exception?.exception;
-  eff.system.rules.find(
-    (rules) => rules.slug === "breached-defenses-bypass"
-  ).property = exception?.property;
-  eff.system.rules.find(
-    (rules) => rules.slug === "breached-defenses-bypass"
-  ).predicate = `target:effect:${game.pf2e.system.sluggify(
-    "Breached Defenses Target" + sa.name
-  )}`;
-  await sa.setFlag("pf2e-thaum-vuln", "EVValue", exception?.exception);
+  const bypassRule = eff.system.rules.find(
+    (rule) => rule.slug === "breached-defenses-bypass"
+  );
+  bypassRule.value = exception.exception;
+  bypassRule.property = exception.property;
+  await sa.setFlag("pf2e-thaum-vuln", "EVValue", exception.exception);
 
   return {
-    evMode: evMode,
-    effPredicate: effPredicate,
-    effRuleSlug: effRuleSlug,
     exception: exception,
   };
 }
