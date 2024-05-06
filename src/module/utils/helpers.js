@@ -168,6 +168,11 @@ function messageTargetTokens(message) {
   // get set on saving throw spell damage rolls.
 }
 
+// Does the actor have the feat, searching by slug
+function hasFeat(actor, slug) {
+  return actor.itemTypes.feat.some((feat) => feat.slug === slug);
+}
+
 export {
   targetEVPrimaryTarget,
   getMWTargets,
@@ -176,5 +181,6 @@ export {
   getActorEVEffect,
   BDGreatestBypassableResistance,
   createEffectData,
+  hasFeat,
   messageTargetTokens,
 };
