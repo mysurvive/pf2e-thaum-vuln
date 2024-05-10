@@ -27,7 +27,7 @@ class Amulet extends Implement {
 
     // First, check if attacker is an EV target, since most attackers won't be
     const thaums = message.actor.itemTypes.effect
-      .filter((e) => e.flags.core.sourceId === PRIMARY_TARGET_EFFECT_UUID)
+      .filter((e) => e.flags.core?.sourceId === PRIMARY_TARGET_EFFECT_UUID)
       .map((e) => e.origin);
     if (thaums.length == 0) return;
 
