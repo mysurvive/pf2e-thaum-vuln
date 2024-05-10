@@ -1,4 +1,5 @@
 import { createEffectOnTarget } from "../socket";
+import { createEffectData } from "../utils/helpers.js";
 import { CURSED_EFFIGY_UUID } from "../utils/index.js";
 
 async function cursedEffigy() {
@@ -20,9 +21,11 @@ async function cursedEffigy() {
       )
     );
   }
-  createEffectOnTarget(a, await fromUuid(CURSED_EFFIGY_UUID), [
-    t[0].actor.uuid,
-  ]);
+  createEffectOnTarget(
+    a,
+    await createEffectData(CURSED_EFFIGY_UUID, { actor: a.uuid }),
+    [t[0].actor.uuid]
+  );
 }
 
 export { cursedEffigy };

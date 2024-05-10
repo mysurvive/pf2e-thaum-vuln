@@ -4,7 +4,7 @@ import {
   PRIMARY_TARGET_EFFECT_UUID,
 } from "../../utils";
 import { getImplement } from "../helpers";
-import { messageTargetTokens } from "../../utils/helpers";
+import { createEffectData, messageTargetTokens } from "../../utils/helpers";
 import { Implement } from "../implement";
 
 class Amulet extends Implement {
@@ -196,9 +196,10 @@ class Amulet extends Implement {
         )
       );
 
-    const intensifyAmuletEffect = (
-      await fromUuid(INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID)
-    ).toObject();
+    const intensifyAmuletEffect = await createEffectData(
+      INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
+      { actor: this.actor.uuid }
+    );
     intensifyAmuletEffect.system.rules[0].predicate = [
       "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
     ];
