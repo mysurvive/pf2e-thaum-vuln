@@ -5,7 +5,9 @@ import { sharedWardingDialog } from "./sharedWarding.js";
 async function createEsotericWarden(rollDOS, EWPredicate, sa, t) {
   const hasSharedWarding = sa.items.some((i) => i.slug === "shared-warding");
 
-  const EWEffect = await createEffectData(ESOTERIC_WARDEN_EFFECT_UUID);
+  const EWEffect = await createEffectData(ESOTERIC_WARDEN_EFFECT_UUID, {
+    actor: sa.uuid,
+  });
   const bonus = rollDOS === 3 ? 2 : rollDOS === 2 ? 1 : 0;
   EWEffect.system.rules[0].value = bonus;
   EWEffect.system.rules[1].value = bonus;

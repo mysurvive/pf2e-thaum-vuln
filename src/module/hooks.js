@@ -1,7 +1,7 @@
 import {
-  MORTAL_WEAKNESS_EFFECT_SOURCEID,
-  PERSONAL_ANTITHESIS_EFFECT_SOURCEID,
-  BREACHED_DEFENSES_EFFECT_SOURCEID,
+  MORTAL_WEAKNESS_EFFECT_UUID,
+  PERSONAL_ANTITHESIS_EFFECT_UUID,
+  BREACHED_DEFENSES_EFFECT_UUID,
 } from "./utils/index.js";
 import { targetEVPrimaryTarget } from "./utils/helpers.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
@@ -154,9 +154,9 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
 Hooks.on("deleteItem", async (item) => {
   const sa = item.parent;
   if (
-    (item.sourceId === MORTAL_WEAKNESS_EFFECT_SOURCEID ||
-      item.sourceId === PERSONAL_ANTITHESIS_EFFECT_SOURCEID ||
-      item.sourceId === BREACHED_DEFENSES_EFFECT_SOURCEID) &&
+    (item.sourceId === MORTAL_WEAKNESS_EFFECT_UUID ||
+      item.sourceId === PERSONAL_ANTITHESIS_EFFECT_UUID ||
+      item.sourceId === BREACHED_DEFENSES_EFFECT_UUID) &&
     game.user === sa.primaryUpdater
   ) {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);

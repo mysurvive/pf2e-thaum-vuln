@@ -1,6 +1,7 @@
 import { INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID } from "../../utils";
 import { Implement } from "../implement";
 import { getImplement } from "../helpers";
+import { createEffectData } from "../../utils/helpers";
 
 class Lantern extends Implement {
   constructor(actor, implementItem) {
@@ -175,9 +176,10 @@ class Lantern extends Implement {
           "pf2e-thaum-vuln.notifications.warn.intensifyImplement.noIntensify"
         )
       );
-    const lanternIntensifyEffect = (
-      await fromUuid(INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID)
-    ).toObject();
+    const lanternIntensifyEffect = await createEffectData(
+      INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID,
+      { actor: this.actor.uuid }
+    );
 
     await this.actor.createEmbeddedDocuments("Item", [lanternIntensifyEffect]);
   }
