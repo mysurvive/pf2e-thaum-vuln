@@ -3,7 +3,7 @@ import { TargetEffectSourceIDs } from ".";
 function getMWTargets(t) {
   let targs = new Array();
   for (let token of canvas.tokens.objects.children) {
-    if (token?.actor?.name === t.actor.name) {
+    if (token?.actor?.sourceId === t.actor.sourceId) {
       targs.push(token.actor.uuid);
     }
   }
@@ -152,6 +152,27 @@ async function createEffectData(uuid, origin = null) {
   return effect;
 }
 
+// Return an array of Tokens that are the targets of the message.  Message
+// should be something that has targets, like a damage roll.
+function messageTargetTokens(message) {
+  // It's ok to use fromUuidSync here since any tokens that are the targets of a
+  // current attack will surely be in the game.
+  return (
+    message
+      .getFlag("pf2e-thaum-vuln", "targets")
+      ?.map((t) => fromUuidSync(t.tokenUuid)?.object) ?? []
+  );
+
+  // The system already has a flag, getFlag('pf2e', 'context.target'), for the
+  // target of attack damage rolls.  But it's limited to one target and doesn't
+  // get set on saving throw spell damage rolls.
+}
+
+// Does the actor have the feat, searching by slug
+function hasFeat(actor, slug) {
+  return actor.itemTypes.feat.some((feat) => feat.slug === slug);
+}
+
 export {
   targetEVPrimaryTarget,
   getMWTargets,
@@ -160,4 +181,6 @@ export {
   getActorEVEffect,
   BDGreatestBypassableResistance,
   createEffectData,
+  hasFeat,
+  messageTargetTokens,
 };

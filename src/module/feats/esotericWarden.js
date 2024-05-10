@@ -1,18 +1,16 @@
 import { ESOTERIC_WARDEN_EFFECT_UUID } from "../utils/index.js";
+import { createEffectData } from "../utils/helpers.js";
 import { sharedWardingDialog } from "./sharedWarding.js";
 
 async function createEsotericWarden(rollDOS, EWPredicate, sa, t) {
   const hasSharedWarding = sa.items.some((i) => i.slug === "shared-warding");
 
-  let EWEffect = (await fromUuid(ESOTERIC_WARDEN_EFFECT_UUID)).toObject();
-  const EWRulePredicate = new Array(
-    "origin:effect:" + game.pf2e.system.sluggify(EWPredicate + sa.name)
-  );
+  const EWEffect = await createEffectData(ESOTERIC_WARDEN_EFFECT_UUID, {
+    actor: sa.uuid,
+  });
   const bonus = rollDOS === 3 ? 2 : rollDOS === 2 ? 1 : 0;
   EWEffect.system.rules[0].value = bonus;
   EWEffect.system.rules[1].value = bonus;
-  EWEffect.system.rules[0].predicate = EWRulePredicate;
-  EWEffect.system.rules[1].predicate = EWRulePredicate;
 
   //makes sure a player can't use Esoteric Warden on the same creature twice
   if (!sa.getFlag("pf2e-thaum-vuln", "EWImmuneTargs")?.includes(t.actor.uuid)) {

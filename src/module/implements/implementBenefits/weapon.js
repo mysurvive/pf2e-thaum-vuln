@@ -1,5 +1,6 @@
 import { Implement } from "../implement";
 import { getImplement } from "../helpers";
+import { createEffectData } from "../../utils/helpers";
 import { INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID } from "../../utils";
 
 class Weapon extends Implement {
@@ -66,7 +67,9 @@ class Weapon extends Implement {
 
   async intensifyImplement() {
     this.actor.createEmbeddedDocuments("Item", [
-      (await fromUuid(INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID)).toObject(),
+      await createEffectData(INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID, {
+        actor: this.actor.uuid,
+      }),
     ]);
   }
 }

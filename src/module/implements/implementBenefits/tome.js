@@ -3,6 +3,7 @@ import {
   TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
   TOME_ADEPT_RK_EFFECT_UUID,
 } from "../../utils";
+import { createEffectData } from "../../utils/helpers";
 import { getImplement } from "../helpers";
 import { Implement } from "../implement";
 
@@ -85,9 +86,9 @@ class Tome extends Implement {
   }
 
   async dailyPreparation() {
-    const effect = (
-      await fromUuid(TOME_IMPLEMENT_BENEFIT_EFFECT_UUID)
-    ).toObject();
+    const effect = await createEffectData(TOME_IMPLEMENT_BENEFIT_EFFECT_UUID, {
+      actor: this.actor.uuid,
+    });
 
     const currentTomeEffect = this.actor.items.find(
       (i) => i.slug === "effect-tome-implement"
@@ -304,7 +305,9 @@ class Tome extends Implement {
     }
 
     // Get RK Effect's TokenMark RE and inject the target's UUID
-    let effect = (await fromUuid(TOME_ADEPT_RK_EFFECT_UUID)).toObject();
+    let effect = await createEffectData(TOME_ADEPT_RK_EFFECT_UUID, {
+      actor: this.actor.uuid,
+    });
     (effect.flags.core ??= {}).sourceId = TOME_ADEPT_RK_EFFECT_UUID;
     effect.name += ` (${targ.name})`;
     let re = effect.system.rules.find(
@@ -334,9 +337,10 @@ class Tome extends Implement {
     )
       return;
 
-    const tomeIntensifyEffect = (
-      await fromUuid(INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID)
-    ).toObject();
+    const tomeIntensifyEffect = await createEffectData(
+      INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID,
+      { actor: this.actor.uuid }
+    );
 
     const flatRoll = await new Roll("1d20").roll({ async: true });
     flatRoll.toMessage({

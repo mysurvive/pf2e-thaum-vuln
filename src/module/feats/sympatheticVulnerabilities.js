@@ -21,7 +21,7 @@ function getSVTargets(t, effect, gIWR) {
   } else if (effect.name.includes("Exploit Personal Antithesis")) {
     if (t.actor.traits.has("humanoid")) return [];
     for (let token of canvas.tokens.objects.children) {
-      if (token.actor?.name === t.actor.name) {
+      if (token.actor?.sourceId === t.actor.sourceId) {
         targs.push(token.actor.uuid);
       }
     }
