@@ -53,6 +53,12 @@ Hooks.on("init", async () => {
             ])
           );
           this.attributes.implements = implementClasses;
+          // Get options like "self:implement:tome:rank:2"
+          for (const implement of Object.values(implementClasses)) {
+            implement.rollOptions.forEach(
+              (o) => (this.flags.pf2e.rollOptions.all[o] = true)
+            );
+          }
         }
       }
 

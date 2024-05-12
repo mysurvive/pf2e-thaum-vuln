@@ -50,6 +50,15 @@ class Implement {
     return this.#rules;
   }
 
+  // 1/2/3 = initiate, adept, paragon.  Maybe archetype = 0?
+  get rank() {
+    return this.paragon ? 3 : this.adept ? 2 : 1;
+  }
+
+  get rollOptions() {
+    return [`self:implement:${this.slug}:rank:${this.rank}`];
+  }
+
   intensifyImplement() {
     return ui.notifications.warn(
       game.i18n.localize(
