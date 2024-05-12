@@ -20,18 +20,18 @@ class Implement {
     )
       ? true
       : false;
-    this.paragon = this.actor.itemTypes.feat
-      .find((i) => i.slug === "implement-paragon")
-      ?.rules.some(
-        (r) => r.selection !== undefined && r.selection === this.baseFeat?._id
-      )
-      ? true
-      : false;
+    this.paragon =
+      this.actor.itemTypes.feat
+        .find((i) => i.slug === "implement-paragon")
+        ?.rules.some(
+          (r) => r.selection !== undefined && r.selection === this.baseFeat?._id
+        ) ?? false;
     this.intensify = this.actor.itemTypes.feat.some(
       (i) => i.slug === "intensify-vulnerability"
-    )
-      ? true
-      : false;
+    );
+    this.intensified = this.actor.itemTypes.effect.some(
+      (e) => e.slug === `intensify-vulnerability-${this.slug}`
+    );
   }
 
   get item() {
