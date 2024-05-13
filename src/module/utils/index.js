@@ -94,6 +94,7 @@ const TargetEffectSourceIDs = new Array(
 );
 
 export {
+  THAUMATURGE_DEDICATION_FEAT_UUID,
   ImplementFeats,
   SupportedActions,
   EXPLOIT_VULNERABILITY_ACTION_ID,

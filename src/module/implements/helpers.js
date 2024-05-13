@@ -1,3 +1,5 @@
+import { THAUMATURGE_DEDICATION_FEAT_UUID } from "../utils";
+
 async function checkImplements(a) {
   const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
   let newImplements = selectedImplements;
@@ -14,8 +16,10 @@ async function checkImplements(a) {
 }
 
 function checkFeatValidity(a) {
-  const firstImplementFeat = a.items.find(
-    (i) => i.slug === "first-implement-and-esoterica"
+  const firstImplementFeat = a.itemTypes.feat.find(
+    (i) =>
+      i.slug === "first-implement-and-esoterica" ||
+      i.sourceId === THAUMATURGE_DEDICATION_FEAT_UUID
   );
   if (!firstImplementFeat) {
     console.error(

@@ -4,7 +4,8 @@ import { parseHTML } from "../utils/utils.js";
 class ManagedImplement {
   constructor(featSlug, a, imp) {
     this.counter =
-      featSlug === "first-implement-and-esoterica"
+      featSlug === "first-implement-and-esoterica" ||
+      featSlug === "thaumaturge-dedication"
         ? "First"
         : featSlug === "second-implement"
         ? "Second"
@@ -228,6 +229,7 @@ async function createManagedImplements(a) {
     "first-implement-and-esoterica",
     "second-implement",
     "third-implement",
+    "thaumaturge-dedication",
   ];
 
   let imps = {};

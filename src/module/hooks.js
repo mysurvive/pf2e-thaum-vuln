@@ -5,6 +5,7 @@ import {
   GLIMPSE_VULNERABILITY_TARGET_UUID,
   GLIMPSE_VULNERABILITY_EFFECT_UUID,
   ImplementFeats,
+  THAUMATURGE_DEDICATION_FEAT_UUID,
 } from "./utils/index.js";
 import {
   changeImplementRankRollOptions,
@@ -186,50 +187,52 @@ Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
   const classNameArray = a.class?.name.split(" ") ?? [];
   if (
     (classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) ||
-      classNameArray.includes("Thaumaturge")) &&
+      classNameArray.includes("Thaumaturge") ||
+      a.itemTypes.feat.some(
+        (f) => f.sourceId === THAUMATURGE_DEDICATION_FEAT_UUID
+      )) &&
     character.owner
   ) {
     //implement management buttons
     if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
       a.setFlag("pf2e-thaum-vuln", "selectedImplements", {});
-    if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
-      const inventoryList = html.find(
-        ".sheet-body .inventory-list.directory-list.inventory-pane"
-      );
-      const implementButtonRegion = $(
-        `<div class="implement-button-region actor.sheet" style="display:flex; margin-bottom:1em;"></div>`
-      );
-      const manageImplementButton = $(
-        `<button type="button" class="manage-implements-button">${game.i18n.localize(
-          "pf2e-thaum-vuln.manageImplements.manageImplementsButton"
-        )}</button>`
-      );
-      const clearImplementButton = $(
-        `<button type="button" class="clear-implements-button">${game.i18n.localize(
-          "pf2e-thaum-vuln.manageImplements.clearImplementsButton"
-        )}</button>`
-      );
-      inventoryList.append(
-        `<header>
+
+    const inventoryList = html.find(
+      ".sheet-body .inventory-list.directory-list.inventory-pane"
+    );
+    const implementButtonRegion = $(
+      `<div class="implement-button-region actor.sheet" style="display:flex; margin-bottom:1em;"></div>`
+    );
+    const manageImplementButton = $(
+      `<button type="button" class="manage-implements-button">${game.i18n.localize(
+        "pf2e-thaum-vuln.manageImplements.manageImplementsButton"
+      )}</button>`
+    );
+    const clearImplementButton = $(
+      `<button type="button" class="clear-implements-button">${game.i18n.localize(
+        "pf2e-thaum-vuln.manageImplements.clearImplementsButton"
+      )}</button>`
+    );
+    inventoryList.append(
+      `<header>
     <h3 class="item-name">${game.i18n.localize(
       "pf2e-thaum-vuln.manageImplements.implementHeader"
     )}</h3></header>
     
     `
-      );
+    );
 
-      showImplementsOnSheet(inventoryList, a);
+    showImplementsOnSheet(inventoryList, a);
 
-      implementButtonRegion.append(manageImplementButton);
-      implementButtonRegion.append(clearImplementButton);
-      inventoryList.append(implementButtonRegion);
-      $(manageImplementButton).click({ actor: a }, function (event) {
-        manageImplements(event);
-      });
-      $(clearImplementButton).click({ actor: a }, function (event) {
-        clearImplements(event);
-      });
-    }
+    implementButtonRegion.append(manageImplementButton);
+    implementButtonRegion.append(clearImplementButton);
+    inventoryList.append(implementButtonRegion);
+    $(manageImplementButton).click({ actor: a }, function (event) {
+      manageImplements(event);
+    });
+    $(clearImplementButton).click({ actor: a }, function (event) {
+      clearImplements(event);
+    });
 
     //EV Target Management
 

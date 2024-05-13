@@ -8,6 +8,7 @@ import { rootToLife } from "./feats/rootToLife.js";
 import { intensifyImplement } from "./implements/intensifyImplement.js";
 import { constructChildImplement } from "./implements/impDict.js";
 import { glimpseVulnerability } from "./feats/glimpseVulnerability.js";
+import { THAUMATURGE_DEDICATION_FEAT_UUID } from "./utils/index.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
@@ -35,9 +36,12 @@ Hooks.on("init", async () => {
     function (wrapped, ...args) {
       if (
         this.class?.name &&
-        this.class?.name
+        (this.class?.name
           .split(" ")
-          .includes(game.i18n.localize("PF2E.TraitThaumaturge"))
+          .includes(game.i18n.localize("PF2E.TraitThaumaturge")) ||
+          this.itemTypes.feat.some(
+            (f) => f.sourceId === THAUMATURGE_DEDICATION_FEAT_UUID
+          ))
       ) {
         const selectedImplements = this.getFlag(
           "pf2e-thaum-vuln",
