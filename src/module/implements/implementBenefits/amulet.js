@@ -8,6 +8,8 @@ import { createEffectData, messageTargetTokens } from "../../utils/helpers";
 import { Implement } from "../implement";
 
 class Amulet extends Implement {
+  static intensifyEffectUuid = INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID;
+
   constructor(actor, implementItem) {
     super(actor, implementItem, [], "amulet");
   }
@@ -174,40 +176,6 @@ class Amulet extends Implement {
     message.actor?.itemTypes.effect
       .find((t) => t.slug === "effect-amulets-abeyance")
       ?.delete();
-  }
-
-  async intensifyImplement() {
-    const a = game.user?.character?.actor ?? canvas.tokens.controlled[0]?.actor;
-    if (
-      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
-      !getImplement(a, "amulet")
-    )
-      return ui.notifications.warn(
-        game.i18n.localize(
-          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.noIntensify"
-        )
-      );
-
-    const amulet = this.item;
-    if (!amulet?.isHeld)
-      return ui.notifications.warn(
-        game.i18n.localize(
-          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.notHeld"
-        )
-      );
-
-    const intensifyAmuletEffect = await createEffectData(
-      INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
-      { actor: this.actor.uuid }
-    );
-    intensifyAmuletEffect.system.rules[0].predicate = [
-      "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
-    ];
-    intensifyAmuletEffect.system.rules[1].predicate = [
-      "origin:effect:primary-ev-target-" + game.pf2e.system.sluggify(a.name),
-    ];
-    a.createEmbeddedDocuments("Item", [intensifyAmuletEffect]);
-    //TODO: add chat message stating the abeyance effect has been used
   }
 }
 

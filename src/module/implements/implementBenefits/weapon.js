@@ -1,9 +1,10 @@
 import { Implement } from "../implement";
 import { getImplement } from "../helpers";
-import { createEffectData } from "../../utils/helpers";
 import { INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID } from "../../utils";
 
 class Weapon extends Implement {
+  static intensifyEffectUuid = INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID;
+
   constructor(actor, implementItem) {
     const weaponRules = [
       {
@@ -63,14 +64,6 @@ class Weapon extends Implement {
     ];
 
     super(actor, implementItem, weaponRules, "weapon");
-  }
-
-  async intensifyImplement() {
-    this.actor.createEmbeddedDocuments("Item", [
-      await createEffectData(INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID, {
-        actor: this.actor.uuid,
-      }),
-    ]);
   }
 }
 

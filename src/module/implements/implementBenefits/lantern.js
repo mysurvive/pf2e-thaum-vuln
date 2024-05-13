@@ -5,9 +5,10 @@ import {
 } from "../../utils";
 import { Implement } from "../implement";
 import { getImplement } from "../helpers";
-import { createEffectData } from "../../utils/helpers";
 
 class Lantern extends Implement {
+  static intensifyEffectUuid = INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID;
+
   constructor(actor, implementItem) {
     const lanternRules = [
       {
@@ -88,25 +89,6 @@ class Lantern extends Implement {
       },
     ];
     super(actor, implementItem, lanternRules, "lantern");
-  }
-
-  async intensifyImplement() {
-    const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
-    if (
-      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
-      !getImplement(a, "lantern")
-    )
-      return ui.notifications.warn(
-        game.i18n.localize(
-          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.noIntensify"
-        )
-      );
-    const lanternIntensifyEffect = await createEffectData(
-      INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID,
-      { actor: this.actor.uuid }
-    );
-
-    await this.actor.createEmbeddedDocuments("Item", [lanternIntensifyEffect]);
   }
 }
 
