@@ -49,6 +49,24 @@ const REGALIA_AURA_PARAGON_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.rrxQvikt1U3qe4Jx";
 const INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.9tc7D61ZL6yzXYZ2";
+const GLIMPSE_VULNERABILITY_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.C3uK5ZCwKl5H64pZ";
+const GLIMPSE_VULNERABILITY_TARGET_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.DmEyj8rjn2MN5h8a";
+const FIRST_IMPLEMENT_FEAT_UUID =
+  "Compendium.pf2e.classfeatures.Item.VSQJtzQE6ikKdsnP";
+const SECOND_IMPLEMENT_FEAT_UUID =
+  "Compendium.pf2e.classfeatures.Item.Z8WpDAdAXyefLB7Q";
+const FIRST_ADEPT_FEAT_UUID =
+  "Compendium.pf2e.classfeatures.Item.Obm4ItMIIr0whYeO";
+const SECOND_ADEPT_FEAT_UUID =
+  "Compendium.pf2e.classfeatures.Item.ZEUxZ4Ta1kDPHiq5";
+const IMPLEMENT_PARAGON_FEAT_UUID =
+  "Compendium.pf2e.classfeatures.Item.QEtgbY8N2V4wTbsI";
+const THAUMATURGE_DEDICATION_FEAT_UUID =
+  "Compendium.pf2e.feats-srd.Item.gQAQRHxpFKEkNQFs";
+const IMPLEMENT_INITIATE_FEAT_UUID =
+  "Compendium.pf2e.feats-srd.Item.mrM07U3MyElcLEx4";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -57,14 +75,26 @@ const SupportedActions = [
   "twin-weakness",
 ];
 
+const ImplementFeats = [
+  FIRST_IMPLEMENT_FEAT_UUID,
+  SECOND_IMPLEMENT_FEAT_UUID,
+  FIRST_ADEPT_FEAT_UUID,
+  SECOND_ADEPT_FEAT_UUID,
+  IMPLEMENT_PARAGON_FEAT_UUID,
+  THAUMATURGE_DEDICATION_FEAT_UUID,
+  IMPLEMENT_INITIATE_FEAT_UUID,
+];
+
 const TargetEffectSourceIDs = new Array(
   MORTAL_WEAKNESS_TARGET_UUID,
   PERSONAL_ANTITHESIS_TARGET_UUID,
   BREACHED_DEFENSES_TARGET_UUID,
+  GLIMPSE_VULNERABILITY_TARGET_UUID,
   CURSED_EFFIGY_UUID
 );
 
 export {
+  ImplementFeats,
   SupportedActions,
   EXPLOIT_VULNERABILITY_ACTION_ID,
   MORTAL_WEAKNESS_EFFECT_UUID,
@@ -93,4 +123,6 @@ export {
   REGALIA_AURA_ADEPT_EFFECT_UUID,
   REGALIA_AURA_PARAGON_EFFECT_UUID,
   INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID,
+  GLIMPSE_VULNERABILITY_EFFECT_UUID,
+  GLIMPSE_VULNERABILITY_TARGET_UUID,
 };

@@ -7,6 +7,7 @@ import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
 import { rootToLife } from "./feats/rootToLife.js";
 import { intensifyImplement } from "./implements/intensifyImplement.js";
 import { constructChildImplement } from "./implements/impDict.js";
+import { glimpseVulnerability } from "./feats/glimpseVulnerability.js";
 
 Hooks.on("init", async () => {
   game.pf2eThaumVuln = {
@@ -18,6 +19,7 @@ Hooks.on("init", async () => {
     recallEsotericKnowledge,
     rootToLife,
     intensifyImplement,
+    glimpseVulnerability,
   };
 
   loadTemplates([

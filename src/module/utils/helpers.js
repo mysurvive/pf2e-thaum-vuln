@@ -173,7 +173,85 @@ function hasFeat(actor, slug) {
   return actor.itemTypes.feat.some((feat) => feat.slug === slug);
 }
 
+function changeImplementRankRollOptions(item) {
+  const implementFeats = item.parent.itemTypes.feat.filter((f) =>
+    f.system.traits.otherTags.includes("thaumaturge-implement")
+  );
+
+  for (const feat of implementFeats) {
+    const implementRankRules = [
+      {
+        key: "RollOption",
+        label: "Implement Rank Paragon",
+        domain: "all",
+        option: `paragon:${game.pf2e.system.sluggify(feat.slug)}`,
+        slug: "thaumaturge-implement-paragon",
+        predicate: ["parent:tag:thaumaturge-implement-paragon"],
+        priority: 50,
+        ignored: false,
+        phase: "applyAEs",
+        suboptions: [],
+        mergeable: false,
+        value: true,
+      },
+      {
+        key: "RollOption",
+        label: "Implement Rank Adept",
+        domain: "all",
+        option: `adept:${game.pf2e.system.sluggify(feat.slug)}`,
+        slug: "thaumaturge-implement-adept",
+        predicate: ["parent:tag:thaumaturge-implement-adept"],
+        priority: 50,
+        ignored: false,
+        phase: "applyAEs",
+        suboptions: [],
+        mergeable: false,
+        value: true,
+      },
+      {
+        key: "RollOption",
+        label: "Implement Rank Initiate",
+        domain: "all",
+        option: `inititate:${game.pf2e.system.sluggify(feat.slug)}`,
+        slug: "thaumaturge-implement-initiate",
+        predicate: ["parent:tag:thaumaturge-implement-initiate"],
+        priority: 50,
+        ignored: false,
+        phase: "applyAEs",
+        suboptions: [],
+        mergeable: false,
+        value: true,
+      },
+    ];
+    const impRules = feat.system.rules.filter(
+      (r) => !implementRankRules.some((t) => t.slug === r.slug)
+    );
+
+    const updRules = Array.from(
+      [
+        ...impRules,
+        ...implementRankRules.filter((r) =>
+          feat.system.traits.otherTags.includes(r.slug)
+        ),
+      ]
+        .reduce(
+          (previous, current) => previous.set(current.slug, current),
+          new Map()
+        )
+        .values()
+    );
+    if (JSON.stringify(impRules) === JSON.stringify(updRules)) {
+      continue;
+    }
+    feat.update({
+      _id: feat._id,
+      "system.rules": updRules,
+    });
+  }
+}
+
 export {
+  changeImplementRankRollOptions,
   targetEVPrimaryTarget,
   getMWTargets,
   getGreatestIWR,

@@ -2,8 +2,15 @@ import {
   MORTAL_WEAKNESS_EFFECT_UUID,
   PERSONAL_ANTITHESIS_EFFECT_UUID,
   BREACHED_DEFENSES_EFFECT_UUID,
+  GLIMPSE_VULNERABILITY_TARGET_UUID,
+  GLIMPSE_VULNERABILITY_EFFECT_UUID,
+  ImplementFeats,
 } from "./utils/index.js";
-import { targetEVPrimaryTarget } from "./utils/helpers.js";
+import {
+  changeImplementRankRollOptions,
+  hasFeat,
+  targetEVPrimaryTarget,
+} from "./utils/helpers.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
 import { createChatCardButton } from "./utils/chatCard.js";
 import { manageImplements, clearImplements } from "./implements/implements.js";
@@ -34,7 +41,8 @@ Hooks.on(
 
 async function updateWeaknessType(message, speaker) {
   if (
-    speaker.class?.name != game.i18n.localize("PF2E.TraitThaumaturge") ||
+    (speaker.class?.name != game.i18n.localize("PF2E.TraitThaumaturge") &&
+      !hasFeat(speaker, "thaumaturge-dedication")) ||
     message.flags?.pf2e?.context?.action != "strike" ||
     message.flags?.pf2e?.origin?.type != "weapon"
   )
@@ -53,7 +61,8 @@ async function updateWeaknessType(message, speaker) {
           speaker.name
         )}` ||
       i.slug ===
-        `mortal-weakness-target-${game.pf2e.system.sluggify(speaker.name)}`
+        `mortal-weakness-target-${game.pf2e.system.sluggify(speaker.name)}` ||
+      i.sourceId === GLIMPSE_VULNERABILITY_TARGET_UUID
   );
   if (!evEffect) return;
   const strike = message._strike?.item.system;
@@ -152,11 +161,14 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
 
 //sets pertinent flags when one of the Exploit Vulnerability effects are deleted
 Hooks.on("deleteItem", async (item) => {
+  if (ImplementFeats.includes(item.sourceId))
+    changeImplementRankRollOptions(item);
   const sa = item.parent;
   if (
     (item.sourceId === MORTAL_WEAKNESS_EFFECT_UUID ||
       item.sourceId === PERSONAL_ANTITHESIS_EFFECT_UUID ||
-      item.sourceId === BREACHED_DEFENSES_EFFECT_UUID) &&
+      item.sourceId === BREACHED_DEFENSES_EFFECT_UUID ||
+      item.sourceId === GLIMPSE_VULNERABILITY_EFFECT_UUID) &&
     game.user === sa.primaryUpdater
   ) {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);
@@ -329,73 +341,6 @@ Hooks.on("canvasReady", () => {
 
 // reintroduces roll options such as adept:tome, or paragon:regalia
 Hooks.on("createItem", async (item) => {
-  const implementImprovementSourceIDs = [
-    "Compendium.pf2e.classfeatures.Item.VSQJtzQE6ikKdsnP",
-    "Compendium.pf2e.classfeatures.Item.Z8WpDAdAXyefLB7Q",
-    "Compendium.pf2e.classfeatures.Item.zxZzjN2T53wnH4vU",
-    "Compendium.pf2e.classfeatures.Item.Obm4ItMIIr0whYeO",
-    "Compendium.pf2e.classfeatures.Item.ZEUxZ4Ta1kDPHiq5",
-    "Compendium.pf2e.classfeatures.Item.QEtgbY8N2V4wTbsI",
-  ];
-
-  if (implementImprovementSourceIDs.includes(item.sourceId)) {
-    console.log(item);
-    const upgradedImplement =
-      item.parent.items.get(
-        item.rules.find((i) => i.key === "ChoiceSet").selection
-      ) ?? item.grants[0];
-
-    /*await fromUuid(
-      `${item.parent.uuid}.Item.${
-        item.rules.find((i) => i.key === "ChoiceSet").selection
-      }`
-    );*/
-    console.log(upgradedImplement);
-    let impRules = upgradedImplement.system.rules;
-    let impRank;
-    let changeFlag = false;
-    if (
-      upgradedImplement.system.traits.otherTags.includes(
-        "thaumaturge-implement-paragon"
-      ) &&
-      !upgradedImplement.system.rules.some(
-        (r) => r.label === "Implement Rank Paragon"
-      )
-    ) {
-      impRank = "Paragon";
-      changeFlag = true;
-    } else if (
-      upgradedImplement.system.traits.otherTags.includes(
-        "thaumaturge-implement-adept"
-      ) &&
-      !upgradedImplement.system.rules.some(
-        (r) => r.label === "Implement Rank Adept"
-      )
-    ) {
-      impRank = "Adept";
-      changeFlag = true;
-    } else if (
-      !upgradedImplement.system.rules.some(
-        (r) => r.label === "Implement Rank Initiate"
-      )
-    ) {
-      impRank = "Initiate";
-      changeFlag = true;
-    }
-    if (changeFlag) {
-      impRules.push({
-        key: "RollOption",
-        label: `Implement Rank ${impRank}`,
-        domain: "all",
-        option: `${game.pf2e.system.sluggify(
-          impRank
-        )}:${game.pf2e.system.sluggify(upgradedImplement.slug)}`,
-      });
-
-      upgradedImplement.update({
-        _id: upgradedImplement._id,
-        "system.rules": impRules,
-      });
-    }
-  }
+  if (ImplementFeats.includes(item.sourceId))
+    changeImplementRankRollOptions(item);
 });
