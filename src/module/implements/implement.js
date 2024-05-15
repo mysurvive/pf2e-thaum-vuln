@@ -20,18 +20,18 @@ class Implement {
     )
       ? true
       : false;
-    this.paragon = this.actor.itemTypes.feat
-      .find((i) => i.slug === "implement-paragon")
-      ?.rules.some(
-        (r) => r.selection !== undefined && r.selection === this.baseFeat?._id
-      )
-      ? true
-      : false;
+    this.paragon =
+      this.actor.itemTypes.feat
+        .find((i) => i.slug === "implement-paragon")
+        ?.rules.some(
+          (r) => r.selection !== undefined && r.selection === this.baseFeat?._id
+        ) ?? false;
     this.intensify = this.actor.itemTypes.feat.some(
       (i) => i.slug === "intensify-vulnerability"
-    )
-      ? true
-      : false;
+    );
+    this.intensified = this.actor.itemTypes.effect.some(
+      (e) => e.slug === `intensify-vulnerability-${this.slug}`
+    );
   }
 
   get item() {
@@ -48,6 +48,15 @@ class Implement {
 
   get rules() {
     return this.#rules;
+  }
+
+  // 1/2/3 = initiate, adept, paragon.  Maybe archetype = 0?
+  get rank() {
+    return this.paragon ? 3 : this.adept ? 2 : 1;
+  }
+
+  get rollOptions() {
+    return [`self:implement:${this.slug}:rank:${this.rank}`];
   }
 
   intensifyImplement() {

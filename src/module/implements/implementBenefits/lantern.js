@@ -1,4 +1,8 @@
-import { INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID } from "../../utils";
+import {
+  INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID,
+  IN_LANTERN_LIGHT_ALLY_EFFECT_UUID,
+  IN_LANTERN_LIGHT_ENEMY_EFFECT_UUID,
+} from "../../utils";
 import { Implement } from "../implement";
 import { getImplement } from "../helpers";
 import { createEffectData } from "../../utils/helpers";
@@ -7,9 +11,16 @@ class Lantern extends Implement {
   constructor(actor, implementItem) {
     const lanternRules = [
       {
+        key: "ActiveEffectLike",
+        mode: "upgrade",
+        path: "flags.pf2e-thaum-vuln.lantern.radius",
+        value: "@actor.attributes.implements.lantern.rank*10+10",
+        phase: "afterDerived",
+      },
+      {
         key: "TokenLight",
         label: "Lantern Implement Light",
-        predicate: ["lantern-implement-lit", { nor: ["adept:lantern"] }],
+        predicate: ["lantern-implement-lit"],
         value: {
           alpha: 0.45,
           animation: {
@@ -18,73 +29,28 @@ class Lantern extends Implement {
             type: "flame",
           },
           attenuation: 0.4,
-          bright: 20,
+          bright: "@actor.flags.pf2e-thaum-vuln.lantern.radius",
           color: "#ffae3d",
-          dim: 40,
+          dim: "@actor.flags.pf2e-thaum-vuln.lantern.radius*2",
           shadows: 0.2,
         },
       },
       {
         key: "Aura",
         label: "Bright Light Indicator",
-        radius: 20,
-        predicate: ["lantern-implement-lit", { nor: ["adept:lantern"] }],
-      },
-      {
-        key: "TokenLight",
-        label: "Lantern Implement Light",
-        predicate: [
-          "lantern-implement-lit",
-          "adept:lantern",
-          { nor: ["paragon:lantern"] },
+        radius: "@actor.flags.pf2e-thaum-vuln.lantern.radius",
+        predicate: ["lantern-implement-lit"],
+        effects: [
+          {
+            uuid: IN_LANTERN_LIGHT_ALLY_EFFECT_UUID,
+            affects: "allies",
+            includesSelf: false,
+          },
+          {
+            uuid: IN_LANTERN_LIGHT_ENEMY_EFFECT_UUID,
+            affects: "enemies",
+          },
         ],
-        value: {
-          alpha: 0.45,
-          animation: {
-            intensity: 1,
-            speed: 2,
-            type: "flame",
-          },
-          attenuation: 0.4,
-          bright: 30,
-          color: "#ffae3d",
-          dim: 60,
-          shadows: 0.2,
-        },
-      },
-      {
-        key: "Aura",
-        label: "Bright Light Indicator",
-        radius: 30,
-        predicate: [
-          "lantern-implement-lit",
-          "adept:lantern",
-          { nor: ["paragon:lantern"] },
-        ],
-      },
-      {
-        key: "TokenLight",
-        label: "Lantern Implement Light",
-        predicate: ["lantern-implement-lit", "paragon:lantern"],
-        value: {
-          alpha: 0.45,
-          animation: {
-            intensity: 1,
-            speed: 2,
-            type: "flame",
-          },
-          attenuation: 0.4,
-          bright: 40,
-          color: "#ffae3d",
-          dim: 80,
-          shadows: 0.2,
-        },
-      },
-      {
-        key: "Aura",
-        label: "Bright Light Indicator",
-        radius: 40,
-        predicate: ["lantern-implement-lit", "paragon:lantern"],
       },
       {
         domain: "all",
@@ -94,72 +60,31 @@ class Lantern extends Implement {
         toggleable: true,
       },
       {
-        domain: "all",
-        key: "RollOption",
-        label: "Target Within Lantern Bright Light",
-        option: "target-in-lantern-bright-light",
-        toggleable: true,
-        predicate: ["lantern-implement-lit"],
-        hideIfDisabled: true,
-      },
-      {
         key: "FlatModifier",
         selector: "perception",
-        label: "Lantern Bright Light Perception",
+        label: "In Lantern Light",
         type: "status",
         value: 1,
         predicate: [
           "lantern-implement-lit",
-          "target-in-lantern-bright-light",
+          "target:effect:in-lantern-light-enemy",
           { not: "check:type:initiative" },
         ],
-        slug: "lantern-per",
-        hideIfDisabled: true,
+        slug: "lantern-perception",
       },
       {
         key: "FlatModifier",
-        selector: "all",
-        label: "Lantern Bright Light Recall Knowledge",
-        type: "status",
+        selector: "skill-check",
+        label: "In Lantern Light",
         value: 1,
         predicate: [
           "lantern-implement-lit",
-          "target-in-lantern-bright-light",
+          "target:effect:in-lantern-light-enemy",
           "action:recall-knowledge",
-          { nor: ["adept:lantern"] },
+          { not: "check:statistic:perception" },
         ],
+        hideIfDisabled: true,
         slug: "lantern-rk",
-        hideIfDisabled: true,
-      },
-      {
-        key: "FlatModifier",
-        selector: "perception",
-        label: "Lantern Bright Light Perception (Intensify)",
-        type: "status",
-        value: 2,
-        predicate: [
-          "lantern-implement-lit",
-          "target-in-lantern-bright-light",
-          "self:effect:lantern-intensify-vulnerability",
-          { not: "check:type:initiative" },
-        ],
-        slug: "lantern-per-intensify",
-        hideIfDisabled: true,
-      },
-      {
-        key: "FlatModifier",
-        selector: "all",
-        label: "Lantern Bright Light Recall Knowledge (Intensify)",
-        type: "status",
-        value: 2,
-        predicate: [
-          "lantern-implement-lit",
-          "target-in-lantern-bright-light",
-          "self:effect:lantern-intensify-vulnerability",
-          "action:recall-knowledge",
-        ],
-        slug: "lantern-rk-intensify",
-        hideIfDisabled: true,
       },
     ];
     super(actor, implementItem, lanternRules, "lantern");
