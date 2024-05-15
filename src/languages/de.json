@@ -14,18 +14,19 @@
         "hint": "Legt einen globalen Modifikator für den SG der Kenntnis Esoterik fest. Wenn er geändert wird, wird er normalerweise auf -2 gesetzt, um Kenntnis Esoterik an einer anwendbaren Kenntnisfertigkeit für die Zwecke von Wissen abrufen anzugleichen."
       },
       "enforceHeldImplement": {
-        "name": "",
-        "hint": ""
+        "name": "Paraphernum halten erzwingen",
+        "hint": "Erzwingt die Regel, dass ein Paraphernum gehalten werden muss, um Schwachstellen ausnutzen verwenden zu können."
       },
       "dailiesHandlesTome": {
-        "name": "",
-        "hint": ""
+        "name": "PF2e Dailies übernimmt das Buchparaphernum",
+        "hint": "Ermöglicht es PF2e Dailies, das Buchparaphernum zu übernehmen."
       },
       "reactionCheckerHandlesAmulet": {
-        "name": "",
-        "hint": ""
+          "name": "PF2e Reaction Checker übernimmt das Amulettparaphernum",
+          "hint": "Ermöglicht es PF2e Reaction Checker, die Schützendes Amulett Reaktion zu übernehmen."
       }
     },
+
     "notifications": {
       "warn": {
         "exploitVulnerability": {
@@ -33,8 +34,8 @@
           "noExploitVulnerability": "Dieser Charakter hat nicht die Fähigkeit, eine Schwachstelle auszunutzen",
           "noEsotericLoreSkill": "Dieser Charakter verfügt nicht über die Fertigkeit Kenntnis Esoterik",
           "noMatchingDC": "Kein passender SG für das Ziel",
-          "noImplements": "",
-          "noHeldImplement": ""
+          "noImplements": "Du hast kein Paraphernum ausgewählt. Gehe zum Inventar-Tab auf deinem Charakterbogen, klicke auf 'Paraphernum verwalten' und weise Gegenstände deinen Paraphernalien zu.",
+          "noHeldImplement": "Du musst eines deiner Paraphernalien in der Hand halten, um Schwachstelle ausnutzen verwenden zu können."
         },
         "cursedEffigy": {
           "invalidTarget": "Ziele nur auf das Ziel von Schwachstelle ausnutzen, um ein verfluchtes Abbild zu erstellen",
@@ -60,24 +61,25 @@
         "strike": {
           "invalidDamageType": "Der Schadenstyp der Waffe ist auf typlos eingestellt, was ein ungültiger Schadenstyp für die Zwecke von Schwachstelle ausnutzen ist. Die Schwäche wird nicht angewendet."
         },
-        "intensifyImplement": {
-          "invalid": "",
-          "noIntensify": "",
-          "notHeld": ""
-        },
         "rootToLife": {
-          "noAbility": "",
-          "selectOne": "",
-          "notDying": ""
+          "noAbility": "Der gewählte Charakter hat nicht die Fähigkeit im Leben verwurzeln",
+          "selectOne": "Wähle nur einen Charakter aus für die Aktion im Leben verwurzeln",
+          "notDying": "Das Ziel ist nicht sterbend"       
         },
-        "noToken": ""
+        "noToken": "Es wurde kein Token ausgewählt.",
+        "intensifyImplement": {
+          "invalid": "Die Fähigkeit des ausgewählten Paraphernums ist derzeit nicht in PF2e Exploit Vulnerability implementiert.",
+          "noIntensify": "Du hast nicht die Fähigkeit Schwachstellen intensivieren. Bitte überprüfe deinen Charakterbogen und stelle sicher, dass du das Schwachstelle intensivieren Talent besitzt.",
+          "notHeld": "Du musst dein Paraphernum in der Hand halten, um Schwachstellen intensivieren verwenden zu können."
+        }
       },
       "info": {
         "recallKnowledge": {
-          "requestSent": ""
+          "requestSent": "Wissen abrufen Anfrage wurde an den SL gesendet"
         }
       }
     },
+
     "exploitVulnerability": {
       "name": "Schwachstellen ausnutzen",
       "flavor": "Du wühlst in deinen Erinnerungen, womit du deinen Gegner zurückschlagen könntest. Du holst aus deiner Esoterica-Sammlung einen Gegenstand mit passenden übernatürlichen Eigenschaften hervor und nutzt dann dein Paraphernum, um die Rückstände seiner Kraft zu einem Feuer zu entfachen. Wähle eine Kreatur, die du sehen kannst, und lege einen Fertigkeitswurf für Kenntnis (Esoterik) gegen den Standard-SG für die Stufe des Zieles ab, während du den richtigen Gegenstand hervorholst und mit deinem Paraphernum auflädst. Du erlangst die folgenden Effekte, bis du Schwachstellen ausnutzen erneut einsetzt:",
@@ -97,154 +99,172 @@
         "immunityLabel": "Immunitäten: ",
         "except": "Ausnahmen: ",
         "doublevs": "Doppelter Schaden gg.: ",
-        "highestWeaknessLabel": ""
+        "highestWeaknessLabel": "Höchste Schwäche"
       },
       "degreeOfSuccess": {
-        "criticalSuccess": "",
-        "criticalFailure": "",
-        "success": "",
-        "failure": ""
+        "criticalSuccess": "Kritischer Erfolg",
+        "criticalFailure": "Kritischer Fehlschlag",
+        "success": "Erfolg",
+        "failure": "Fehlschlag"
       }
     },
+
     "personalAntithesis": {
       "name": "Persönliche Antithese"
     },
+
     "mortalWeakness": {
       "name": "Tödliche Schwachstelle"
     },
+
     "breachedDefenses": {
       "name": "Verteidigung durchbrechen",
       "bypassableLabel": "Höchste umgehbare Resistenz: ",
       "bypassLine": "{type}, außer {exception}"
     },
+
     "esotericWarden": {
       "name": "Esoterischer Schutz",
-      "flavor": "Nutzt du antithetisches Material erfolgreich gegen eine Kreatur, schützt du dich zugleich gegen ihre nächsten Angriffe. Gelingt dir der Wurf für Schwachstellen ausnutzen, erlangst du einen Zustandsbonus von +1 jeweils auf deine RK gegen den nächsten Angriff der Kreatur und auf deinen nächsten Rettungsbonus gegen die Kreatur; im Fall eines Kritischen Erfolges steigen diese Boni jeweils auf +2. Du kannst diese Boni nur einmal am Tag gegen dieselbe Kreatur erlangen; der Vorteil endet vorzeitig, solltest du Schwachstellen ausnutzen erneut einsetzen.",
       "effect": {
-        "name": ""
-      }
+        "name": "Effekt: Esoterischer Schutz"
+      },
+      "flavor": "Nutzt du antithetisches Material erfolgreich gegen eine Kreatur, schützt du dich zugleich gegen ihre nächsten Angriffe. Gelingt dir der Wurf für Schwachstellen ausnutzen, erlangst du einen Zustandsbonus von +1 jeweils auf deine RK gegen den nächsten Angriff der Kreatur und auf deinen nächsten Rettungsbonus gegen die Kreatur; im Fall eines Kritischen Erfolges steigen diese Boni jeweils auf +2. Du kannst diese Boni nur einmal am Tag gegen dieselbe Kreatur erlangen; der Vorteil endet vorzeitig, solltest du Schwachstellen ausnutzen erneut einsetzen."
     },
+
     "diverseLore": {
       "name": "Vielseitige Kenntnis",
       "flavor": "Gelingt dir der Wurf zum Schwachstellen ausnutzen, so vergleiche das Ergebnis deines Wurfes für Kenntnis (Esoterik) mit dem Wissen-abrufen-SG für diese Kreatur; wäre dies ein Erfolg oder Kritischer Erfolg, so erlangst du Informationen, als wäre dir der Wurf zum Wissen abrufen entsprechend gelungen.",
-      "penalty": "",
-      "recallKnowledgeNote": ""
+      "penalty": "Vielseitige Kenntnis (Malus)",
+      "recallKnowledgeNote": "Während deiner Wanderschaft und Studien hast du zu nahezu allen Themen Gerüchte und Theorien vernommen – auch wenn nicht alle Quellen wirklich zuverlässig sind. Du kannst einen Malus von -2 auf deinen Fertigkeitswurf für Kenntnis (Esoterik) zum Wissen abrufen akzeptieren und dafür Wissen zu jedem beliebigen Thema abrufen, statt nur für die für Kenntnis (Esoterik) zulässigen Themen."
     },
+
     "sharedWarding": {
       "name": "Geteilter Schutz",
       "flavor": "Du schützt deine Verbündeten gegen Angriffe eurer Gegner, wenn du selbst diese Schutzmaßnahmen für dich triffst. Wenn du einen Zustandsbonus auf deine RK und Rettungswürfe durch Esoterischen Schutz erlangst, kannst du denselben Vorteil allen Verbündeten innerhalb von 30 Fuß/9 m verleihen.",
       "prompt": "Möchtest du den Effekt von Esoterischer Schutz auf alle Verbündeten innerhalb von 30 Fuß/9 m anwenden?"
     },
+
     "shareWeakness": {
       "name": "Schwachstelle teilen",
       "flavor": "Du wählst einen Gegenstand aus deiner Esoterica-Sammlung, der für dich großen persönlichen Wert besitzt, z.B. ein Medaillon oder einen geerbten Ring, und überreichst ihn einem Verbündeten. Dies erschafft eine persönliche Verbindung, die deinem Verbündeten gestattet, auf einen Gegner einzuwirken, als wäre er du: Die Angriffe des Verbündeten nutzen die Schwäche, die durch deine Tödliche Schwachstelle geschaffen wird, so wie es deine Angriffe tun. Dieser Vorteil endet, wenn du die Wirkungsdauer deiner Aktion Schwachstellen ausnutzen endet oder du Schwachstelle teilen erneut nutzt.",
       "prompt": "Wähle einen Verbündeten aus, mit dem du deine Tödliche Schwachstelle teilen möchtest."
     },
+
     "ubiquitousWeakness": {
       "name": "Mächtiges Schwachstelle teilen",
       "flavor": "Du nährst die Bande zu deinen Kameraden und gestattest ihnen, die Vorteile deiner Esoterica zu teilen. Nutzt du die Aktion Schwachstellen ausnutzen und wählst Tödliche Schwachstelle, so wähle eine beliebige Anzahl von Verbündeten innerhalb von 30 Fuß/9 m Entfernung zu dir. Ihre Angriffe nutzen die Schwäche aus Tödliche Schwachstelle auf dieselbe Weise wie deine Angriffe. Dieser Vorteil endet, wenn du nicht länger von Schwachstellen ausnutzen profitierst. Da dieser Effekt darauf beruht, dass magisch deine Verbindung zu deinen Verbündeten gestärkt wird, können nur Verbündete von ihm profitieren, zu denen du im Laufe von wenigstens einem Tag einen Rapport aufgebaut hast.",
       "prompt": "Möchtest du den Effekt von Tödliche Schwachstelle auf alle Verbündeten innerhalb von 30 Fuß/9 m anwenden?"
     },
+
     "twinWeakness": {
       "name": "Doppelte Schwachstelle",
       "chatCardHeader": "Schaden: Doppelte Schwachstelle"
     },
+
+    "recallKnowledge": {
+      "degreeOfSuccess": {
+        "criticalFailure": "Kritischer Fehlschlag",
+        "success": "Erfolg",
+        "criticalSuccess": "Kritischer Erfolg"
+      },
+      "esotericKnowledgeLabel": "Esoterisches Wissen abrufen:",
+      "dialog": {
+        "targetTypeLabelDefault": "Flüche, Spukerscheinungen und Kreaturen jeder Kategorie",
+        "targetTypeLabelDL": "Jedes beliebige Thema",
+        "rawDC": "Roher SG (ohne obrige Modifikatoren):",
+        "request": "Jemand möchte eine Wissen abrufen Probe mit Kenntnis (Esoterik) durchführen.",
+        "dcRefLabel": "SG Referenzen:",
+        "rollSettings": "Wurf Einstellungen",
+        "featRefLabel": "Aktion/Talent Referenzen:"
+      },
+      "name": "Wissen abrufen"
+    },
+
+    "manageImplements": {
+      "implementHeader": "Thaumaturgen Paraphernalien",
+      "manageImplementsButton": "Paraphernalien verwalten",
+      "clearImplementsButton": "Alle Paraphernalien löschen"
+    },
+
+    "targetManagement": {
+      "evActive": "SA Aktiv:",
+      "evMode": "SA Modus:",
+      "evPrimaryTargetButton": "Ziele auf primäres Ziel von SA",
+      "active": "Aktiv",
+      "notOnScene": "Das Ziel ist nicht auf der aktuellen Szene",
+      "inactive": "Nicht aktiv"
+    },
+
+    "implements": {
+      "regalia": {
+        "frightenedReminder": "Reduziere Verängstigung um 1 aufgrund der Aura der Insignienparaphernalien"
+      },
+      "weapon": {
+        "implementsInterruption": {
+          "title": {
+            "success": "Waffe: Störendes Paraphernum",
+            "failure": "Störendes Paraphernum Fehlschlag"
+          },
+          "text": {
+            "failure": "Du fügst dem Ziel Schaden zu: ",
+            "success": "Du unterbrichst die auslösende Handlung."
+          }
+        }
+      }
+    },
+
+    "rootToLife": {
+      "title": "Im Leben verwurzeln",
+      "selectActionCount": "Wähle die ein oder zwei Aktionen variante.",
+      "outcome": "Die Kreatur besitzt nicht länger den Zustand Sterbend, sondern den Zustand Bewusstlos bei 0 Trefferpunkten.",
+      "twoActionOutcome": "Lege Einfache Würfe für jeden Anhaltenden Schaden ab, unter dem das Ziel leidet; aufgrund der besonders effektiven Hilfe beträgt der SG 10 statt der üblichen 15."
+    },
+
+    "esotericLore": {
+      "name": "Esoterisches Wissen"
+    },
+
+    "dubiousKnowledge": {
+      "name": "Gefährliches Halbwissen",
+      "degreeOfSuccess": {
+        "failure": "When the character fails (but doesn't critically fail) a Recall Knowledge check using any skill, they learn a bit of true knowledge and a bit of erroneous knowledge, but they don't have any way to differentiate which is which."
+      }
+    },
+    
     "dialog": {
       "yes": "Ja",
       "no": "Nein",
       "confirm": "Bestätigen",
       "cancel": "Abbrechen",
       "none": "keine",
-      "twoAction": "",
-      "character": "",
+      "oneAction": "Eine Aktion",
+      "twoAction": "Zwei Aktionen",
+      "character": "Charakter:",
+      "target": "Ziel:",
+      "manageImplements": {
+        "implement": "Paraphernum",
+        "dragItem": "Ziehe einen Gegenstand hierher, um ihn als Paraphernum zu verwenden."
+      },
       "amuletsAbeyance": {
-        "adeptBenefitLabel": "",
-        "lingeringResistanceValue": "",
-        "paragonBenefitLabel": "",
-        "selectAllies": "",
-        "selectDamageType": "",
-        "noResistances": "",
-        "name": "",
-        "description": "",
-        "allTriggeringDamage": "",
-        "resistanceValueLabel": ""
+        "name": "Schützendes Amulett",
+        "resistanceValueLabel": "Schützendes Amulett Resistenz:",
+        "allTriggeringDamage": "für alle auslösenden Schäden",
+        "description": "Du präsentierst energisch dein Amulett, um Schaden abzuwehren. Du oder ein maximal 15 Fuß/4,50 m entfernter Verbündeter erhalten Resistenz gegen alle Schadensarten hinsichtlich des auslösenden Schadens. Die Resistenz entspricht deiner Stufe +2.",
+        "adeptBenefitLabel": "Adeptenvorteil",
+        "lingeringResistanceValue": "Anhaltender Schutz Resistenz:",
+        "paragonBenefitLabel": "Paragonvorteil",
+        "selectAllies": "Klicke auf ein Symbol, um auszuwählen, wer von Schützendes Amulett profitieren soll",
+        "selectDamageType": "Wähle eine Schadensart für den anhaltenden Schutz aus:",
+        "noResistances": "Keine Schadensresistenzen für den anhaltenden Schutz."
       },
       "intensifyImplement": {
-        "content": "",
-        "title": ""
-      },
-      "target": "",
-      "manageImplements": {
-        "implement": "",
-        "dragItem": ""
-      },
-      "oneAction": ""
+        "content": "Wähle ein Paraphernum aus, um es zu intensivieren.",
+        "title": "Paraphernum intensivieren"
+      }
     },
+
     "chatCard": {
       "use": "Nutze {action}"
-    },
-    "recallKnowledge": {
-      "degreeOfSuccess": {
-        "criticalFailure": "",
-        "success": "",
-        "criticalSuccess": ""
-      },
-      "esotericKnowledgeLabel": "",
-      "dialog": {
-        "targetTypeLabelDefault": "",
-        "targetTypeLabelDL": "",
-        "rawDC": "",
-        "request": "",
-        "dcRefLabel": "",
-        "rollSettings": "",
-        "featRefLabel": ""
-      },
-      "name": ""
-    },
-    "manageImplements": {
-      "implementHeader": "",
-      "manageImplementsButton": "",
-      "clearImplementsButton": ""
-    },
-    "targetManagement": {
-      "evActive": "",
-      "evMode": "",
-      "evPrimaryTargetButton": "",
-      "active": "",
-      "notOnScene": "",
-      "inactive": ""
-    },
-    "implements": {
-      "regalia": {
-        "frightenedReminder": ""
-      },
-      "weapon": {
-        "implementsInterruption": {
-          "title": {
-            "success": "",
-            "failure": ""
-          },
-          "text": {
-            "failure": "",
-            "success": ""
-          }
-        }
-      }
-    },
-    "rootToLife": {
-      "title": "",
-      "selectActionCount": "",
-      "outcome": "",
-      "twoActionOutcome": ""
-    },
-    "esotericLore": {
-      "name": ""
-    },
-    "dubiousKnowledge": {
-      "name": "",
-      "degreeOfSuccess": {
-        "failure": ""
-      }
     }
   }
 }
