@@ -45,6 +45,9 @@
           "invalidTargets": "Select one Thaumaturge token and target one or more creatures",
           "eVNotActivated": "Selected token has not activated Exploit Vulnerability"
         },
+        "glimpseVulnerability": {
+          "noGlimpseVulnerability": "This actor does not have the ability to Glimpse Vulnerability"
+        },
         "mortalWeakness": {
           "noWeakness": "There are no weaknesses on this creature to exploit a Mortal Weakness against."
         },
