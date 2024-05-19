@@ -11,27 +11,14 @@ class Implement {
     //to ids from uuids and a migration script is written.
     this.itemId = itemUuid?.split(".")[3] ?? undefined;
     this.#baseFeat = this.actor.itemTypes.feat.find((i) => i.slug === slug);
-    this.adept = this.actor.itemTypes.feat.find(
-      (i) =>
-        (i.slug === "implement-adept" || i.slug === "second-adept") &&
-        i.rules.some(
-          (r) => r.selection !== undefined && r.selection === this.baseFeat?._id
-        )
-    )
-      ? true
-      : false;
-    this.paragon = this.actor.itemTypes.feat
-      .find((i) => i.slug === "implement-paragon")
-      ?.rules.some(
-        (r) => r.selection !== undefined && r.selection === this.baseFeat?._id
-      )
-      ? true
-      : false;
+    this.adept = this.isRank("thaumaturge-implement-adept");
+    this.paragon = this.isRank("thaumaturge-implement-paragon");
     this.intensify = this.actor.itemTypes.feat.some(
       (i) => i.slug === "intensify-vulnerability"
-    )
-      ? true
-      : false;
+    );
+    this.intensified = this.actor.itemTypes.effect.some(
+      (e) => e.slug === `intensify-vulnerability-${this.slug}`
+    );
   }
 
   get item() {
@@ -48,6 +35,28 @@ class Implement {
 
   get rules() {
     return this.#rules;
+  }
+
+  // 1/2/3 = initiate, adept, paragon.  Maybe archetype = 0?
+  get rank() {
+    return this.paragon ? 3 : this.adept ? 2 : 1;
+  }
+
+  get rollOptions() {
+    const stringRank = this.paragon
+      ? "paragon"
+      : this.adept
+      ? "adept"
+      : "initiate";
+    return [
+      `self:implement:${this.slug}:rank:${this.rank}`,
+      `${this.slug}:${stringRank}`,
+    ];
+  }
+
+  // Sets this.adept and this.paragon. Returns false if there is no feat (such as at level 0)
+  isRank(slug) {
+    return this.#baseFeat?.system.traits.otherTags.includes(slug) ?? false;
   }
 
   intensifyImplement() {

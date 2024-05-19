@@ -15,7 +15,7 @@ const impDict = new Map([
 
 function constructChildImplement(implement, actor, item) {
   const childImp = impDict.get(implement.toLowerCase()) ?? Implement;
-  return new childImp(actor, item);
+  return new childImp(actor, item, [], implement.toLowerCase());
 }
 
 export { constructChildImplement };
