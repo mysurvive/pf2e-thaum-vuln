@@ -43,7 +43,15 @@ class Implement {
   }
 
   get rollOptions() {
-    return [`self:implement:${this.slug}:rank:${this.rank}`];
+    const stringRank = this.paragon
+      ? "paragon"
+      : this.adept
+      ? "adept"
+      : "initiate";
+    return [
+      `self:implement:${this.slug}:rank:${this.rank}`,
+      `${this.slug}:${stringRank}`,
+    ];
   }
 
   // Sets this.adept and this.paragon. Returns false if there is no feat (such as at level 0)
