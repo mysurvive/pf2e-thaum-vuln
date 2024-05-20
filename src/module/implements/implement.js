@@ -16,7 +16,6 @@ class Implement {
     //to ids from uuids and a migration script is written.
     this.itemId = itemUuid?.split(".")[3] ?? undefined;
     this.#baseFeat = this.actor.itemTypes.feat.find((i) => i.slug === slug);
-    this.name = this.#baseFeat?.name;
     this.adept = this.isRank("thaumaturge-implement-adept");
     this.paragon = this.isRank("thaumaturge-implement-paragon");
     this.intensify = this.actor.itemTypes.feat.some(
