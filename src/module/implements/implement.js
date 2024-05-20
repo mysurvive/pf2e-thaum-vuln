@@ -43,6 +43,10 @@ class Implement {
     return this.#rules;
   }
 
+  get name() {
+    return this.#baseFeat?.name ?? this.slug;
+  }
+
   // 1/2/3 = initiate, adept, paragon.  Maybe archetype = 0?
   get rank() {
     return this.paragon ? 3 : this.adept ? 2 : 1;

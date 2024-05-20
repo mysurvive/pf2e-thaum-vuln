@@ -4,7 +4,7 @@ import {
   PRIMARY_TARGET_EFFECT_UUID,
 } from "../../utils";
 import { getImplement } from "../helpers";
-import { createEffectData, messageTargetTokens } from "../../utils/helpers";
+import { messageTargetTokens } from "../../utils/helpers";
 import { Implement } from "../implement";
 
 class Amulet extends Implement {
