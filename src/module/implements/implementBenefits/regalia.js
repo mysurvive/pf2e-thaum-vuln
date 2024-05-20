@@ -6,9 +6,10 @@ import {
   REGALIA_AURA_INITIATE_EFFECT_UUID,
   REGALIA_AURA_PARAGON_EFFECT_UUID,
 } from "../../utils";
-import { createEffectData } from "../../utils/helpers";
 
 class Regalia extends Implement {
+  static intensifyEffectUuid = INTENSIFY_VULNERABILITY_REGALIA_EFFECT_UUID;
+
   constructor(actor, implementItem) {
     const regaliaRules = [
       {
@@ -146,14 +147,6 @@ class Regalia extends Implement {
     ];
 
     super(actor, implementItem, regaliaRules, "regalia");
-  }
-
-  async intensifyImplement() {
-    await this.actor.createEmbeddedDocuments("Item", [
-      await createEffectData(INTENSIFY_VULNERABILITY_REGALIA_EFFECT_UUID, {
-        actor: this.actor.uuid,
-      }),
-    ]);
   }
 }
 
