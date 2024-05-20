@@ -177,9 +177,14 @@ function hasFeat(actor, slug) {
   return actor.itemTypes.feat.some((feat) => feat.slug === slug);
 }
 
+function getEffectOnActor(actor, sourceId) {
+  return actor.itemTypes.effect.find((effect) => effect.sourceId === sourceId);
+}
+
 export {
   targetEVPrimaryTarget,
   getMWTargets,
+  getEffectOnActor,
   getGreatestIWR,
   getIWR,
   getActorEVEffect,
