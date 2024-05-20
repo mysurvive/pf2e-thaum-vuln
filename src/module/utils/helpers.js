@@ -3,7 +3,11 @@ import { TargetEffectSourceIDs } from ".";
 function getMWTargets(t) {
   let targs = new Array();
   for (let token of canvas.tokens.objects.children) {
-    if (token?.actor?.sourceId === t.actor.sourceId) {
+    if (
+      (t.actor.sourceId && token?.actor?.sourceId === t.actor.sourceId) ||
+      (t.actor.prototypeToken?.name &&
+        token?.actor?.prototypeToken?.name === t.actor.prototypeToken?.name)
+    ) {
       targs.push(token.actor.uuid);
     }
   }
