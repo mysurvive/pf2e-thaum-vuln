@@ -1,0 +1,83 @@
+{
+  "name": "Off-Guard (EV Critical Failure)",
+  "type": "effect",
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>Critical failure from a Thaumaturge's Exploit Vulnerability action.</p>"
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": "ac",
+        "slug": "off-guard",
+        "type": "circumstance",
+        "value": -2
+      }
+    ],
+    "slug": "off-guard-ev-critical-failure",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.817,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": [],
+      "rarity": "common"
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "target": null,
+    "unidentified": false
+  },
+  "img": "systems/pf2e/icons/conditions/off-guard.webp",
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "stoRK7j13Ug3rYKp": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.E5cNWuuvOLWVhAcB"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.13.6",
+    "coreVersion": "11.315",
+    "createdTime": 1675386402884,
+    "modifiedTime": 1710017665147,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "folder": null,
+  "sort": 600000,
+  "_id": "Xuwb7a6jCWkFS0lI",
+  "_key": "!items!Xuwb7a6jCWkFS0lI"
+}

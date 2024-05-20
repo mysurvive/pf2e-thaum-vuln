@@ -1,0 +1,71 @@
+{
+  "name": "Effect: Amulet's Abeyance",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>You forcefully present your amulet to turn away harm. You or a target ally within 15 feet gain resistance to all damage against the triggering damage. The resistance is equal to 2 + your level.</p>"
+    },
+    "rules": [],
+    "slug": "effect-amulets-abeyance",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.857,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "img": "systems/pf2e/icons/features/classes/amulet.webp",
+  "folder": "nRJn8lCp56aa4sVJ",
+  "ownership": {
+    "default": 0,
+    "UQu4pcNxGHCGDRdj": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.13.6",
+    "coreVersion": "11.315",
+    "createdTime": 1693263866974,
+    "modifiedTime": 1710017665147,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "_id": "FWdzwEJBJjq18Zep",
+  "sort": 100000,
+  "_key": "!items!FWdzwEJBJjq18Zep"
+}

@@ -1,0 +1,85 @@
+{
+  "name": "Personal Antithesis Target",
+  "type": "effect",
+  "system": {
+    "description": {
+      "gm": "",
+      "value": ""
+    },
+    "rules": [
+      {
+        "key": "Weakness",
+        "type": "physical",
+        "value": 7,
+        "predicate": [
+          "origin:effect:exploit-personal-antithesis"
+        ],
+        "slug": "personal-antithesis-weapons"
+      }
+    ],
+    "slug": "personal-antithesis-target",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.817,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": [],
+      "rarity": "common"
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "target": null,
+    "unidentified": false
+  },
+  "img": "systems/pf2e/icons/features/classes/exploit-vulnerability.webp",
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "stoRK7j13Ug3rYKp": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.5QgPHAdpsUHJmCkX"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.13.6",
+    "coreVersion": "11.315",
+    "createdTime": 1675062551886,
+    "modifiedTime": 1710017665147,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "folder": null,
+  "sort": 700000,
+  "_id": "dNpf1EDKJ6fgNL42",
+  "_key": "!items!dNpf1EDKJ6fgNL42"
+}

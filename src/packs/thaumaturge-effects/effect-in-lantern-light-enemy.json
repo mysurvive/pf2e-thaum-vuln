@@ -1,0 +1,81 @@
+{
+  "name": "Effect: In Lantern Light (Enemy)",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": ""
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": [
+          "deception-check",
+          "stealth-check"
+        ],
+        "value": -2,
+        "type": "status",
+        "predicate": [
+          "origin:effect:intensify-vulnerability-lantern"
+        ]
+      }
+    ],
+    "slug": "in-lantern-light-enemy",
+    "_migration": {
+      "version": 0.926,
+      "lastMigration": null
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "img": "icons/sundries/lights/lantern-iron-yellow.webp",
+  "folder": "uZeUODrn3vPGUdvC",
+  "ownership": {
+    "default": 0,
+    "JCSogeTR741olRmm": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.NPPu2y73JHbTrSE3"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.1",
+    "coreVersion": "11.315",
+    "createdTime": 1715486634382,
+    "modifiedTime": 1715493213639,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "_id": "NPPu2y73JHbTrSE3",
+  "sort": 100000,
+  "_key": "!items!NPPu2y73JHbTrSE3"
+}

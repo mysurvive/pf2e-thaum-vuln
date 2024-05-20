@@ -1,0 +1,74 @@
+{
+  "name": "Breached Defenses Target",
+  "type": "effect",
+  "system": {
+    "description": {
+      "gm": "",
+      "value": ""
+    },
+    "rules": [],
+    "slug": "breached-defenses-target",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.82,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 4
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "target": null,
+    "unidentified": false
+  },
+  "img": "modules/pf2e-thaum-vuln/assets/breached-defenses.webp",
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "stoRK7j13Ug3rYKp": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.aasC0M4NDDjR84UI"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.13.6",
+    "coreVersion": "11.315",
+    "createdTime": 1675817794143,
+    "modifiedTime": 1710017665147,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "folder": null,
+  "sort": 200000,
+  "_id": "E38yjK1tdr579dJy",
+  "_key": "!items!E38yjK1tdr579dJy"
+}

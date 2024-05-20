@@ -1,0 +1,85 @@
+{
+  "name": "Mortal Weakness Target",
+  "type": "effect",
+  "system": {
+    "description": {
+      "gm": "",
+      "value": ""
+    },
+    "rules": [
+      {
+        "key": "Weakness",
+        "type": "physical",
+        "value": 7,
+        "predicate": [
+          "origin:effect:exploit-mortal-weakness"
+        ],
+        "slug": "mortal-weakness-weapons"
+      }
+    ],
+    "slug": "mortal-weakness-target",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.817,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": [],
+      "rarity": "common"
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "target": null,
+    "unidentified": false
+  },
+  "img": "modules/pf2e-thaum-vuln/assets/mortal-weakness.webp",
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "stoRK7j13Ug3rYKp": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.q2TMJ31MwLNJV1jA"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.1",
+    "coreVersion": "11.315",
+    "createdTime": 1675061979938,
+    "modifiedTime": 1714715499470,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "folder": null,
+  "sort": 900000,
+  "_id": "q2TMJ31MwLNJV1jA",
+  "_key": "!items!q2TMJ31MwLNJV1jA"
+}

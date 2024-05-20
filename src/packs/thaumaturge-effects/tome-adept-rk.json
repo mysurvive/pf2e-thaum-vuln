@@ -1,0 +1,71 @@
+{
+  "name": "Tome Adept RK",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>A Tome Adept Recall Knowledge check was done.  On a success, marks the token that was the check's target.</p>"
+    },
+    "rules": [
+      {
+        "key": "TokenMark",
+        "slug": "tome-adept-rk-success"
+      }
+    ],
+    "slug": "tome-adept-rk",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 0,
+      "unit": "rounds",
+      "expiry": "turn-end",
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": false
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "img": "modules/pf2e-thaum-vuln/assets/frontal-lobe.webp",
+  "folder": "jOCeu91o3wpQtjdd",
+  "ownership": {
+    "default": 2,
+    "JCSogeTR741olRmm": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.13.6",
+    "coreVersion": "11.315",
+    "createdTime": 1709968089785,
+    "modifiedTime": 1710017665147,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "_id": "kg1CwmxZfKx7xWF3",
+  "sort": 200000,
+  "_key": "!items!kg1CwmxZfKx7xWF3"
+}

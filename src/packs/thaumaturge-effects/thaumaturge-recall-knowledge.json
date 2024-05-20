@@ -1,0 +1,78 @@
+{
+  "name": "Thaumaturge Recall Knowledge",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>Adds a toggleable roll option for Exploit Vulnerability's recall knowledge actions.</p>"
+    },
+    "rules": [
+      {
+        "key": "RollOption",
+        "domain": "skill-check",
+        "option": "thaumaturge:recall-knowledge",
+        "toggleable": true
+      }
+    ],
+    "slug": "thaumaturge-recall-knowledge",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.857,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": false
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "img": "modules/pf2e-thaum-vuln/assets/chosen-implement.webp",
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "UQu4pcNxGHCGDRdj": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.13.6",
+    "coreVersion": "11.315",
+    "createdTime": 1693546206297,
+    "modifiedTime": 1710017665147,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "_id": "WL60y9JEjNqS4p3H",
+  "sort": 0,
+  "_key": "!items!WL60y9JEjNqS4p3H"
+}

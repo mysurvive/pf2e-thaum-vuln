@@ -1,0 +1,106 @@
+{
+  "name": "Breached Defenses",
+  "type": "effect",
+  "system": {
+    "description": {
+      "gm": "",
+      "value": ""
+    },
+    "rules": [
+      {
+        "definition": [
+          {
+            "or": [
+              "item:type:weapon",
+              "item:trait:unarmed"
+            ]
+          }
+        ],
+        "key": "AdjustStrike",
+        "mode": "add",
+        "property": "materials",
+        "value": "adamantine",
+        "slug": "breached-defenses-bypass",
+        "predicate": [
+          "target:mark:exploit-vulnerability"
+        ]
+      },
+      {
+        "key": "AdjustStrike",
+        "mode": "add",
+        "property": "weapon-traits",
+        "value": "magical",
+        "predicate": [
+          "target:mark:exploit-vulnerability"
+        ]
+      },
+      {
+        "key": "TokenMark",
+        "slug": "exploit-vulnerability"
+      }
+    ],
+    "slug": "breached-defenses",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.82,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 4
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "target": null,
+    "unidentified": false
+  },
+  "img": "modules/pf2e-thaum-vuln/assets/breached-defenses.webp",
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "stoRK7j13Ug3rYKp": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.9ZJclirw6zHSkk0n"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.1",
+    "coreVersion": "11.315",
+    "createdTime": 1675815751178,
+    "modifiedTime": 1714715755365,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "folder": null,
+  "sort": 400000,
+  "_id": "FMw5IpJdA6eOgtv1",
+  "_key": "!items!FMw5IpJdA6eOgtv1"
+}

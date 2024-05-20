@@ -1,0 +1,99 @@
+{
+  "name": "Effect: In Lantern Light (Ally)",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>The lantern's magical light attempts to reveal the unseen. You and your allies in the lantern's area of bright light gain a +1 status bonus to visual Perception checks to notice anything that is also within the bright light, and a +1 status bonus to checks to Recall Knowledge against creatures within the bright light, as the light exposes their true natures.</p>"
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": "perception",
+        "label": "In Lantern Light",
+        "type": "status",
+        "value": 1,
+        "predicate": [
+          "target:effect:in-lantern-light-enemy",
+          {
+            "not": "check:type:initiative"
+          }
+        ],
+        "slug": "lantern-perception"
+      },
+      {
+        "key": "FlatModifier",
+        "selector": "skill-check",
+        "label": "In Lantern Light",
+        "type": "status",
+        "value": 1,
+        "predicate": [
+          "action:recall-knowledge",
+          "target:effect:in-lantern-light-enemy",
+          {
+            "not": "check:statistic:perception"
+          }
+        ],
+        "slug": "lantern-rk",
+        "hideIfDisabled": true
+      }
+    ],
+    "slug": "in-lantern-light-ally",
+    "_migration": {
+      "version": 0.926,
+      "lastMigration": null
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "img": "icons/sundries/lights/lantern-iron-yellow.webp",
+  "folder": "uZeUODrn3vPGUdvC",
+  "ownership": {
+    "default": 0,
+    "JCSogeTR741olRmm": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.pUHhRMzKWkHeHUo4"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.1",
+    "coreVersion": "11.315",
+    "createdTime": 1715485019258,
+    "modifiedTime": 1715493119991,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "_id": "pUHhRMzKWkHeHUo4",
+  "sort": 300000,
+  "_key": "!items!pUHhRMzKWkHeHUo4"
+}

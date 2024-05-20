@@ -1,0 +1,7 @@
+#config for @foundryvtt/foundryvtt-cli
+#remove .example from the file name before using
+#then run fvtt configure set "path" "./config.yml"
+installPath: C:\Users\Ricky\AppData\Local\FoundryVTT
+dataPath: C:\Users\Ricky\AppData\Local\FoundryVTT\Data
+currentPackageId: pf2e-thaum-vuln
+currentPackageType: Module

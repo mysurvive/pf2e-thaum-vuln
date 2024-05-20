@@ -1,0 +1,121 @@
+{
+  "name": "Effect: Regalia Aura - Paragon",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>+1 status bonus to saving throws against mental and +2 status bonus to damage rolls. +3 status bonus to damage rolls at 11th level, +4 at 17th level.</p>\n<p>Allies in your inspiring aura aren't flat-footed from being flanked unless you too are flanked. If one of your allies in the aura is clumsy, enfeebled, frightened, sickened, or stupefied, the status penalty your ally takes from the condition is 1 lower than the condition's value as long as the ally remains in the aura, unless you too are affected by the same condition.</p>"
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": "saving-throw",
+        "value": 1,
+        "type": "status",
+        "predicate": [
+          "mental"
+        ]
+      },
+      {
+        "key": "FlatModifier",
+        "selector": "damage",
+        "value": {
+          "brackets": [
+            {
+              "start": 1,
+              "end": 10,
+              "value": 2
+            },
+            {
+              "start": 11,
+              "end": 16,
+              "value": 3
+            },
+            {
+              "start": 17,
+              "value": 4
+            }
+          ],
+          "field": "item|level"
+        },
+        "type": "status"
+      },
+      {
+        "key": "RollOption",
+        "domain": "all",
+        "option": "regalia-not-offGuardable",
+        "toggleable": true,
+        "label": "Thaumaturge not flanked"
+      },
+      {
+        "key": "ActiveEffectLike",
+        "mode": "override",
+        "path": "system.attributes.flanking.offGuardable",
+        "value": false,
+        "predicate": [
+          "regalia-not-offGuardable"
+        ]
+      }
+    ],
+    "slug": "effect-regalia-aura-paragon",
+    "_migration": {
+      "version": 0.926,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.925,
+        "foundry": "11.315",
+        "system": "5.15.0"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "img": "systems/pf2e/icons/features/classes/regalia.webp",
+  "folder": "vXZGmsTW5NLQ9OQW",
+  "ownership": {
+    "default": 0,
+    "o29bm85va79jJPjh": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.0",
+    "coreVersion": "11.315",
+    "createdTime": 1706455561720,
+    "modifiedTime": 1713713822253,
+    "lastModifiedBy": "o29bm85va79jJPjh"
+  },
+  "_id": "rrxQvikt1U3qe4Jx",
+  "sort": 100000,
+  "_key": "!items!rrxQvikt1U3qe4Jx"
+}

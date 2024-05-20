@@ -1,0 +1,69 @@
+{
+  "folder": "jOCeu91o3wpQtjdd",
+  "name": "Effect: Tome Implement",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>Tome implements embody lost knowledge and otherworldly insights. While a weathered book is most common, tome implements can have as many different form factors as there are ways to store knowledge, from carved clay tablets to bundles of knotted cords. Tome implements are associated with the harrow suit of books and the astrological signs of the stargazer and the underworld dragon.</p>\n<h3><strong>Initiate Benefit</strong></h3>\n<p>While you hold your tome, lines of text appear on the open pages, revealing useful information. While you hold your tome, you gain a +1 circumstance bonus to all skill checks to Recall Knowledge.</p>\n<p>During your daily preparations, you can gain the trained proficiency rank in two skills of your choice until you prepare again. You retain the benefit as long as the tome is on your person, even if you aren't holding it. At 3rd level, you're an expert in one of the skills and trained in the other, and at 5th level, you're an expert in both skills. Since these proficiencies are temporary, you can't use them as a prerequisite for a skill increase or a permanent character option like a feat.</p>\n<h3><strong>Adept Benefit</strong></h3>\n<p>In addition to the initiate benefits, your tome inscribes insights into creatures that you can use to strike them down. While holding your tome, at the start of your turn each round, attempt a check to Recall Knowledge about a creature of your choice that you're observing. If this check succeeds, you gain a +1 circumstance bonus to your next attack roll against that creature before the start of your next turn.</p>\n<p>When you gain temporary skill proficiencies during your daily preparations, one is at expert proficiency and the other at master proficiency. At 9th level, you have master proficiency in both.</p>\n<h3><strong>Paragon Benefit</strong></h3>\n<p>In addition to the other benefits, your tome's information alerts you to ambushes and attacks from your foes. While holding your tome, you can always roll a skill check for initiative against creatures or haunts using Esoteric Lore. If you do, you gain a +3 circumstance bonus to your initiative roll.</p>\n<p>The initiate benefit's circumstance bonus to Recall Knowledge from holding your tome increases from +1 to +2. When you succeed at the Recall Knowledge check granted by the tome's adept benefit, the bonus applies to all attack rolls you make before the start of your next turn, not just your next one. Lastly, when you gain temporary skill proficiencies, both are legendary.</p>"
+    },
+    "rules": [],
+    "slug": "effect-tome-implement",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.857,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": false
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "_id": "lDKArhqx0hBtwVRQ",
+  "img": "systems/pf2e/icons/features/classes/tome.webp",
+  "sort": 300000,
+  "ownership": {
+    "default": 0,
+    "UQu4pcNxGHCGDRdj": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.13.6",
+    "coreVersion": "11.315",
+    "createdTime": 1693367496799,
+    "modifiedTime": 1710017665147,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "_key": "!items!lDKArhqx0hBtwVRQ"
+}

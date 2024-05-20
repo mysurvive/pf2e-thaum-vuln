@@ -1,0 +1,25 @@
+{
+  "name": "Root to Life",
+  "type": "script",
+  "_id": "z4OSMt56EvarOV3a",
+  "author": "SfdMUCysDxSnaHSF",
+  "img": "icons/sundries/misc/plant-potted.webp",
+  "scope": "global",
+  "command": "game.pf2eThaumVuln.rootToLife()",
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "SfdMUCysDxSnaHSF": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.6.2",
+    "coreVersion": "11.311",
+    "createdTime": 1697484921571,
+    "modifiedTime": 1697485027142,
+    "lastModifiedBy": "SfdMUCysDxSnaHSF"
+  },
+  "_key": "!macros!z4OSMt56EvarOV3a"
+}
