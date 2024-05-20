@@ -1,7 +1,7 @@
 import { extractPack } from "@foundryvtt/foundryvtt-cli";
 import yargs from "yargs";
 import fs from "fs";
-
+//eslint-disable-next-line
 const argv = yargs(process.argv.slice(2));
 const args = argv
   .option("logWarnings", {
@@ -32,8 +32,8 @@ const options = {
       e.name
         .toLowerCase()
         .replace(/\(|\)|'|(?: -)/gm, "")
-        .replace(/(?:: )|:|\ /gm, " ")
-        .replace(/\ /gm, "-") + ".json";
+        .replace(/(?:: )|:| /gm, " ")
+        .replace(/ /gm, "-") + ".json";
     return name;
   },
 };
