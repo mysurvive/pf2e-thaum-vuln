@@ -28,7 +28,7 @@
     "format": "prettier --write \"./**/*.(js|cjs|mjs|json|yml|css)\"",
     "postinstall": "husky install",
     "extractPacks": "node ./build/extractPacks.js",
-    "buildPacks": "node ./build/buildPacks.js"
+    "buildPacks": "node -e \"import('./build/buildPacks.js').then((e) => e.buildModulePacks())\""
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^14.0.0",
