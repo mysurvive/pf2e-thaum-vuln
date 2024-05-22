@@ -1,0 +1,29 @@
+{
+  "name": "Twin Weakness",
+  "type": "script",
+  "scope": "global",
+  "author": "yndSwxb2e9oSc8iR",
+  "img": "icons/svg/dice-target.svg",
+  "command": "game.pf2eThaumVuln.twinWeakness();",
+  "ownership": {
+    "default": 0,
+    "yndSwxb2e9oSc8iR": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Macro.enhRQBIu4g7DpUaV"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "4.10.3",
+    "coreVersion": "10.291",
+    "createdTime": 1680591195268,
+    "modifiedTime": 1680591211685,
+    "lastModifiedBy": "yndSwxb2e9oSc8iR"
+  },
+  "folder": null,
+  "sort": 0,
+  "_id": "u5K6HYOTUVFoUCMY",
+  "_key": "!macros!u5K6HYOTUVFoUCMY"
+}

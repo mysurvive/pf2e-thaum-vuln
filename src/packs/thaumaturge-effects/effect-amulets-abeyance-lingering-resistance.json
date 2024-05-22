@@ -1,0 +1,71 @@
+{
+  "name": "Effect: Amulet's Abeyance Lingering Resistance",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>Your amulet offers continued protection. When you use Amulet's Abeyance, you or your ally chooses one type of damage dealt by the triggering attack and gains resistance 5 against that damage type until the start of your next turn. At 15th level, this lingering resistance increases from 5 to 10.</p>"
+    },
+    "rules": [],
+    "slug": "effect-amulets-abeyance-lingering-resistance",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.857,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "img": "systems/pf2e/icons/features/classes/amulet.webp",
+  "folder": "nRJn8lCp56aa4sVJ",
+  "ownership": {
+    "default": 0,
+    "UQu4pcNxGHCGDRdj": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.0",
+    "coreVersion": "11.315",
+    "createdTime": 1693263866974,
+    "modifiedTime": 1712242431010,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "_id": "zo2vRmRcEWLNwPIN",
+  "sort": 0,
+  "_key": "!items!zo2vRmRcEWLNwPIN"
+}

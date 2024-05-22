@@ -1,0 +1,29 @@
+{
+  "name": "Cursed Effigy",
+  "type": "script",
+  "scope": "global",
+  "author": "yndSwxb2e9oSc8iR",
+  "img": "modules/pf2e-thaum-vuln/assets/cursed-effigy.webp",
+  "command": "game.pf2eThaumVuln.cursedEffigy();",
+  "ownership": {
+    "default": 0,
+    "yndSwxb2e9oSc8iR": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Macro.QnIp0RIvqKiWgWBC"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "4.10.3",
+    "coreVersion": "10.291",
+    "createdTime": 1680591137980,
+    "modifiedTime": 1680591314710,
+    "lastModifiedBy": "yndSwxb2e9oSc8iR"
+  },
+  "folder": null,
+  "sort": 0,
+  "_id": "e7wMFPmQcOq5mGze",
+  "_key": "!macros!e7wMFPmQcOq5mGze"
+}

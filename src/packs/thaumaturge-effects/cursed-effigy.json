@@ -1,0 +1,84 @@
+{
+  "name": "Cursed Effigy",
+  "type": "effect",
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p><strong>Requirements</strong> Your last action was a successful Strike against the target of your Exploit Vulnerability, and the Strike dealt physical damage.</p>\n<hr />\n<p>After your attack, you grab a bit of blood, cut hair, or other piece of the creature's body. You incorporate the material into a premade doll, paper figure, or other effigy to create a sympathetic link that makes it harder to resist your abilities. As long as you are Exploiting Vulnerability against that creature, it takes a -2 status penalty to its saving throws against thaumaturge abilities or items that use your thaumaturge class DC.</p>"
+    },
+    "rules": [
+      {
+        "key": "FlatModifier",
+        "selector": "saving-throw",
+        "value": "-2",
+        "type": "status",
+        "predicate": [
+          "thaumaturge"
+        ]
+      }
+    ],
+    "slug": "cursed-effigy",
+    "_migration": {
+      "version": 0.917,
+      "lastMigration": null,
+      "previous": {
+        "schema": 0.832,
+        "foundry": "11.315",
+        "system": "5.13.6"
+      }
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 8
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "target": null,
+    "unidentified": false
+  },
+  "img": "modules/pf2e-thaum-vuln/assets/cursed-effigy.webp",
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "stoRK7j13Ug3rYKp": 3
+  },
+  "flags": {
+    "core": {
+      "sourceId": "Item.XDXJA884X2AYJ0RO"
+    }
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.13.6",
+    "coreVersion": "11.315",
+    "createdTime": 1678227898148,
+    "modifiedTime": 1710017665147,
+    "lastModifiedBy": "JCSogeTR741olRmm"
+  },
+  "folder": null,
+  "sort": 1000000,
+  "_id": "s0NI9gKZygLUunOg",
+  "_key": "!items!s0NI9gKZygLUunOg"
+}
