@@ -1,6 +1,6 @@
-2024/03/31-16:55:33.530 99bc Recovering log #56
-2024/03/31-16:55:33.530 99bc Level-0 table #58: started
-2024/03/31-16:55:33.539 99bc Level-0 table #58: 599 bytes OK
-2024/03/31-16:55:33.547 99bc Delete type=0 #56
-2024/03/31-16:55:33.547 99bc Delete type=3 #54
-2024/03/31-16:55:33.552 9de4 Moved #47 to level-1 638 bytes OK: files[ 3 2 0 0 0 0 0 ]
+2024/05/20-03:33:20.615 7cc0 Recovering log #59
+2024/05/20-03:33:20.615 7cc0 Recovering log #66
+2024/05/20-03:33:20.624 7cc0 Delete type=0 #59
+2024/05/20-03:33:20.624 7cc0 Delete type=2 #64
+2024/05/20-03:33:20.624 7cc0 Delete type=0 #66
+2024/05/20-03:33:20.624 7cc0 Delete type=3 #57

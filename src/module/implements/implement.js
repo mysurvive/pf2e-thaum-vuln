@@ -1,7 +1,12 @@
+import { createEffectData } from "../utils/helpers";
+
 class Implement {
   #actor;
   #baseFeat;
   #rules;
+
+  // An effect to be added when intensify is used
+  static intensifyEffectUuid;
 
   constructor(actor, itemUuid, rules, slug) {
     this.slug = slug;
@@ -37,6 +42,10 @@ class Implement {
     return this.#rules;
   }
 
+  get name() {
+    return this.#baseFeat?.name ?? this.slug;
+  }
+
   // 1/2/3 = initiate, adept, paragon.  Maybe archetype = 0?
   get rank() {
     return this.paragon ? 3 : this.adept ? 2 : 1;
@@ -59,12 +68,31 @@ class Implement {
     return this.#baseFeat?.system.traits.otherTags.includes(slug) ?? false;
   }
 
-  intensifyImplement() {
-    return ui.notifications.warn(
-      game.i18n.localize(
-        "pf2e-thaum-vuln.notifications.warn.intensifyImplement.invalid"
-      )
-    );
+  // If effect is supplied, treat it as effect data to apply, if not, then check
+  // if the derived class defined intensifyEffectUuid and apply that effect.
+  // Otherwise the implement isn't handled.
+  async intensifyImplement(effect = undefined) {
+    if (effect === undefined) {
+      const effectUuid = this.constructor.intensifyEffectUuid;
+      if (effectUuid === undefined)
+        return ui.notifications.warn(
+          game.i18n.localize(
+            "pf2e-thaum-vuln.notifications.warn.intensifyImplement.invalid"
+          )
+        );
+      effect = await createEffectData(effectUuid);
+    }
+
+    if (!this.intensify) return;
+
+    if (!this.item?.isHeld)
+      return ui.notifications.warn(
+        game.i18n.localize(
+          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.notHeld"
+        )
+      );
+
+    await this.actor.createEmbeddedDocuments("Item", [effect]);
   }
 
   async createEffectsOnItem(item) {

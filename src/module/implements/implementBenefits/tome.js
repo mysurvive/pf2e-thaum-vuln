@@ -8,6 +8,8 @@ import { getImplement } from "../helpers";
 import { Implement } from "../implement";
 
 class Tome extends Implement {
+  static intensifyEffectUuid = INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID;
+
   constructor(actor, implementItem) {
     const tomeRules = [
       {
@@ -330,17 +332,17 @@ class Tome extends Implement {
   }
 
   async intensifyImplement() {
-    const a = game.user?.character ?? canvas.tokens.controlled[0].actor;
-    if (
-      !a.itemTypes.feat.some((i) => i.slug === "intensify-vulnerability") ||
-      !getImplement(a, "tome")
-    )
-      return;
-
     const tomeIntensifyEffect = await createEffectData(
-      INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID,
-      { actor: this.actor.uuid }
+      Tome.intensifyEffectUuid
     );
+
+    // Base class does this, but it would _after_ we do the roll.
+    if (!this.item?.isHeld)
+      return ui.notifications.warn(
+        game.i18n.localize(
+          "pf2e-thaum-vuln.notifications.warn.intensifyImplement.notHeld"
+        )
+      );
 
     const flatRoll = await new Roll("1d20").roll({ async: true });
     flatRoll.toMessage({
@@ -352,8 +354,7 @@ class Tome extends Implement {
       flatRoll.result;
 
     tomeIntensifyEffect.name += ` [${flatRoll.result}]`;
-
-    await a.createEmbeddedDocuments("Item", [tomeIntensifyEffect]);
+    await super.intensifyImplement(tomeIntensifyEffect);
   }
 }
 
