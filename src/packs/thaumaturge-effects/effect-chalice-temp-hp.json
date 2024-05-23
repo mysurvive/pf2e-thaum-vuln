@@ -1,0 +1,71 @@
+{
+  "name": "Effect: Chalice Temp HP",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": ""
+    },
+    "rules": [
+      {
+        "key": "TempHP",
+        "value": "{item|origin.system.attributes.implements.chalice.chaliceValues.sip}"
+      }
+    ],
+    "slug": "chalice-temp-hp",
+    "_migration": {
+      "version": 0.926,
+      "lastMigration": null
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "round-end",
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "img": "systems/pf2e/icons/features/classes/chalice.webp",
+  "folder": "49RonrSVUq7rxVLo",
+  "ownership": {
+    "default": 0,
+    "o29bm85va79jJPjh": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.4",
+    "coreVersion": "11.315",
+    "createdTime": 1716181679619,
+    "modifiedTime": 1716442250688,
+    "lastModifiedBy": "o29bm85va79jJPjh"
+  },
+  "_id": "ZLBlD9tMHjrNLhIn",
+  "sort": 0,
+  "_key": "!items!ZLBlD9tMHjrNLhIn"
+}

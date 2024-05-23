@@ -53,6 +53,12 @@ const IN_LANTERN_LIGHT_ALLY_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.pUHhRMzKWkHeHUo4";
 const IN_LANTERN_LIGHT_ENEMY_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.NPPu2y73JHbTrSE3";
+const INTENSIFY_VULNERABILITY_CHALICE_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.AGSDsV0CL1Bx681Z";
+const CHALICE_SIP_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.ZLBlD9tMHjrNLhIn";
+const CHALICE_DRAINED_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.n8n4HXjbVblq9WBj";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -99,4 +105,7 @@ export {
   INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID,
   IN_LANTERN_LIGHT_ALLY_EFFECT_UUID,
   IN_LANTERN_LIGHT_ENEMY_EFFECT_UUID,
+  INTENSIFY_VULNERABILITY_CHALICE_EFFECT_UUID,
+  CHALICE_SIP_EFFECT_UUID,
+  CHALICE_DRAINED_EFFECT_UUID,
 };
