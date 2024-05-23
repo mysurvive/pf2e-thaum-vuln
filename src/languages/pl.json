@@ -34,7 +34,7 @@
           "noEsotericLoreSkill": "Ten aktor nie posiada umiejętności Wiedza Ezoteryczna (Esoteric Lore)",
           "noMatchingDC": "Brak pasującego ST dla celu",
           "noImplements": "Nie masz wybranych implementów. Przejdź do zakładki ekwipunku na karcie postaci, kliknij zarządzaj implementami i przypisz przedmioty do implementów.",
-          "noHeldImplement": "Nie posiadasz jednego ze swoich implementów, aby wykorzystać Exploit Vulnerability."
+          "noHeldImplement": "Aby Wykorzystać Podatność, musisz posiadać jedno ze swoich narzędzi."
         },
         "cursedEffigy": {
           "noAbility": "Nie masz możliwości stworzenia cursed effigy",
