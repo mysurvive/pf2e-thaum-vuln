@@ -1,0 +1,64 @@
+{
+  "folder": "49RonrSVUq7rxVLo",
+  "name": "Effect: Chalice Adept Effect",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": ""
+    },
+    "rules": [],
+    "slug": null,
+    "_migration": {
+      "version": 0.926,
+      "lastMigration": null
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "_id": "Zl40i1PmitlIxZIK",
+  "img": "systems/pf2e/icons/features/classes/chalice.webp",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "o29bm85va79jJPjh": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.4",
+    "coreVersion": "11.315",
+    "createdTime": 1716533295630,
+    "modifiedTime": 1716533310525,
+    "lastModifiedBy": "o29bm85va79jJPjh"
+  },
+  "_key": "!items!Zl40i1PmitlIxZIK"
+}

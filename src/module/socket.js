@@ -108,6 +108,7 @@ async function _socketCreateEffectsOnActors(
     evMode: undefined,
     iwrData: undefined,
     max: undefined,
+    applyOnNoTargets: "error",
   },
   context = undefined
 ) {
@@ -118,7 +119,8 @@ async function _socketCreateEffectsOnActors(
   const actor = game.actors.get(actorId);
   const targets = [];
   tokenIds.forEach((t) => targets.push(game.canvas.tokens.get(t.id).actor));
-  if (options.includeSelf) targets.push(actor);
+  if (options.includeSelf || options.applyOnNoTargets === "self")
+    targets.push(actor);
 
   if (targets.length === 0) {
     return ui.notifications.warn("No targets to apply effects to");
