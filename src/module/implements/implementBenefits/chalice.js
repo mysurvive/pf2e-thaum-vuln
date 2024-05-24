@@ -1,11 +1,12 @@
 import { createEffectsOnActors } from "../../socket";
 import {
-  CHALICE_ADEPT_EFFECT_UUID,
+  CHALICE_ADEPT_ENABLED_UUID,
   CHALICE_DRAINED_EFFECT_UUID,
+  CHALICE_INTENSIFY_ENABLED_UUID,
   CHALICE_SIP_EFFECT_UUID,
   INTENSIFY_VULNERABILITY_CHALICE_EFFECT_UUID,
 } from "../../utils";
-import { getEffectOnActor } from "../../utils/helpers";
+import { createEffectData, getEffectOnActor } from "../../utils/helpers";
 import { Implement } from "../implement";
 
 class Chalice extends Implement {
@@ -26,10 +27,10 @@ class Chalice extends Implement {
         ? 5 * this.actor.level
         : 3 * this.actor.level;
 
-    const intensifySip = this.intensified
+    const intensifySip = this.intensifyEnabled
       ? Math.floor(this.actor.level / 2)
       : 0;
-    const intensifyDrain = this.intensified ? this.actor.level : 0;
+    const intensifyDrain = this.intensifyEnabled ? this.actor.level : 0;
 
     return {
       sip: baseSip + intensifySip,
@@ -37,9 +38,15 @@ class Chalice extends Implement {
     };
   }
 
+  get intensifyEnabled() {
+    return this.actor.itemTypes.effect.some(
+      (e) => e.sourceId === CHALICE_INTENSIFY_ENABLED_UUID
+    );
+  }
+
   get targetValidAdeptBonus() {
     return Array.from(game.user.targets)[0].actor.itemTypes.effect.some(
-      (i) => i.sourceId === CHALICE_ADEPT_EFFECT_UUID
+      (i) => i.sourceId === CHALICE_ADEPT_ENABLED_UUID
     );
   }
 
@@ -88,10 +95,12 @@ class Chalice extends Implement {
       this.actor,
       CHALICE_DRAINED_EFFECT_UUID
     );
+
     if (drainedEffect) {
+      const initiative = game.combat?.combatant?.initiative;
       await drainedEffect.update({
         _id: drainedEffect._id,
-        "remainingDuration.remaining": 600,
+        "system.start": { value: game.time.worldTime, initiative: initiative },
       });
     }
 
@@ -152,7 +161,7 @@ Hooks.once("init", () => {
         createEffectsOnActors(
           thaum.actor.id,
           [targetTokens[thaum.id].token],
-          [CHALICE_ADEPT_EFFECT_UUID],
+          [CHALICE_ADEPT_ENABLED_UUID],
           { max: 1 }
         );
       }
@@ -160,8 +169,42 @@ Hooks.once("init", () => {
   });
 
   //Check chat for intensify vulnerability increased healing
-  Hooks.on("pf2e.damageRoll", (damageRoll) => {
-    if (!game.ready) return;
+  Hooks.on("preCreateChatMessage", async (message) => {
+    if (
+      !game.ready ||
+      !game.user.isGM ||
+      !game.combats.active ||
+      !message.actor?.attributes?.implements?.chalice?.intensified
+    )
+      return;
+
+    const targetTokens = message.flags["pf2e-thaum-vuln"].targets.map((t) => {
+      return t.actorUuid;
+    });
+
+    console.log(
+      targetTokens.includes(
+        message.actor.getFlag("pf2e-thaum-vuln", "primaryEVTarget")
+      ),
+      message.flags.pf2e?.context?.action,
+      ["success", "criticalSuccess"].includes(
+        message.flags.pf2e?.context?.outcome
+      )
+    );
+
+    if (
+      targetTokens.includes(
+        message.actor.getFlag("pf2e-thaum-vuln", "primaryEVTarget")
+      ) &&
+      message.flags.pf2e?.context?.action === "strike" &&
+      ["success", "criticalSuccess"].includes(
+        message.flags.pf2e?.context?.outcome
+      )
+    ) {
+      message.actor.createEmbeddedDocuments("Item", [
+        await createEffectData(CHALICE_INTENSIFY_ENABLED_UUID),
+      ]);
+    }
   });
 });
 

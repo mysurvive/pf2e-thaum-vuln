@@ -59,8 +59,10 @@ const CHALICE_SIP_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.ZLBlD9tMHjrNLhIn";
 const CHALICE_DRAINED_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.n8n4HXjbVblq9WBj";
-const CHALICE_ADEPT_EFFECT_UUID =
+const CHALICE_ADEPT_ENABLED_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.Zl40i1PmitlIxZIK";
+const CHALICE_INTENSIFY_ENABLED_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.MKztdugJAUnHLfE2";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -110,5 +112,6 @@ export {
   INTENSIFY_VULNERABILITY_CHALICE_EFFECT_UUID,
   CHALICE_SIP_EFFECT_UUID,
   CHALICE_DRAINED_EFFECT_UUID,
-  CHALICE_ADEPT_EFFECT_UUID,
+  CHALICE_ADEPT_ENABLED_UUID,
+  CHALICE_INTENSIFY_ENABLED_UUID,
 };
