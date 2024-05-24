@@ -1,0 +1,25 @@
+{
+  "name": "Drink from the Chalice",
+  "type": "script",
+  "_id": "OjbmMO3RrNE0t78D",
+  "author": "o29bm85va79jJPjh",
+  "img": "systems/pf2e/icons/features/classes/chalice.webp",
+  "scope": "global",
+  "command": "if(actor.attributes.implements.chalice) actor.attributes.implements.chalice.drink()",
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "o29bm85va79jJPjh": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.4",
+    "coreVersion": "11.315",
+    "createdTime": 1716581770915,
+    "modifiedTime": 1716581861960,
+    "lastModifiedBy": "o29bm85va79jJPjh"
+  },
+  "_key": "!macros!OjbmMO3RrNE0t78D"
+}

@@ -5,7 +5,7 @@ import {
   CHALICE_SIP_EFFECT_UUID,
   INTENSIFY_VULNERABILITY_CHALICE_EFFECT_UUID,
 } from "../../utils";
-import { createEffectData, getEffectOnActor } from "../../utils/helpers";
+import { getEffectOnActor } from "../../utils/helpers";
 import { Implement } from "../implement";
 
 class Chalice extends Implement {
@@ -16,19 +16,13 @@ class Chalice extends Implement {
     super(actor, implementItem, chaliceRules, "chalice");
   }
 
-  get adeptActive() {
-    return this.actor.itemTypes.effect.some(
-      (i) => i.sourceId === CHALICE_ADEPT_EFFECT_UUID
-    );
-  }
-
   get chaliceValues() {
     const baseSip =
-      this.adept && this.adeptActive
+      this.adept && this.targetValidAdeptBonus
         ? 2 + this.actor.system.abilities.cha.mod + this.actor.level
         : 2 + Math.floor(this.actor.level / 2);
     const baseDrain =
-      this.adept && this.adeptActive
+      this.adept && this.targetValidAdeptBonus
         ? 5 * this.actor.level
         : 3 * this.actor.level;
 
@@ -41,6 +35,12 @@ class Chalice extends Implement {
       sip: baseSip + intensifySip,
       drain: baseDrain + intensifyDrain,
     };
+  }
+
+  get targetValidAdeptBonus() {
+    return Array.from(game.user.targets)[0].actor.itemTypes.effect.some(
+      (i) => i.sourceId === CHALICE_ADEPT_EFFECT_UUID
+    );
   }
 
   drink() {
@@ -70,7 +70,7 @@ class Chalice extends Implement {
     } else {
       dgContent =
         dgContent +
-        "<br>" +
+        "<br><br>" +
         "Chalice refill cooldown: " +
         drainedEffect.system.remaining;
     }
@@ -120,7 +120,7 @@ Hooks.once("init", () => {
     if (
       ((!damageTypes.includes("slashing") ||
         !damageTypes.includes("piercing")) &&
-        message.flags.pf2e.context.outcome !== "criticalSuccess") ||
+        message.flags.pf2e.context?.outcome !== "criticalSuccess") ||
       (!message.rolls[0]?.evaluatePersistent &&
         message.rolls[0]?.instances?.some((i) => i.type === "bleed"))
     )
@@ -149,9 +149,12 @@ Hooks.once("init", () => {
         targetTokens[thaum.id].token &&
         targetTokens[thaum.id].distance <= 30
       ) {
-        thaum.actor.createEmbeddedDocuments("Item", [
-          await createEffectData(CHALICE_ADEPT_EFFECT_UUID),
-        ]);
+        createEffectsOnActors(
+          thaum.actor.id,
+          [targetTokens[thaum.id].token],
+          [CHALICE_ADEPT_EFFECT_UUID],
+          { max: 1 }
+        );
       }
     }
   });

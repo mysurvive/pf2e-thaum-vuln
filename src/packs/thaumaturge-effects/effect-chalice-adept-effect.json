@@ -6,7 +6,7 @@
   "system": {
     "description": {
       "gm": "",
-      "value": ""
+      "value": "<p>The life essence shed from blood empowers your chalice. If you or an ally within 30 feet takes piercing or slashing damage from a foe's critical hit or takes persistent bleed damage, Drinking from the Chalice before the end of your next turn grants that injured creature greater restoration to make up for its lost vitality. On a sip, the temporary Hit Points granted to the creature increase to 2 + your Charisma modifier + your level. When drained, the chalice heals the creature 5 Hit Points for each level you have.</p>"
     },
     "rules": [],
     "slug": null,
@@ -28,9 +28,9 @@
       "value": 1
     },
     "duration": {
-      "value": -1,
-      "unit": "unlimited",
-      "expiry": null,
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-end",
       "sustained": false
     },
     "start": {
@@ -57,7 +57,7 @@
     "systemVersion": "5.15.4",
     "coreVersion": "11.315",
     "createdTime": 1716533295630,
-    "modifiedTime": 1716533310525,
+    "modifiedTime": 1716581854574,
     "lastModifiedBy": "o29bm85va79jJPjh"
   },
   "_key": "!items!Zl40i1PmitlIxZIK"
