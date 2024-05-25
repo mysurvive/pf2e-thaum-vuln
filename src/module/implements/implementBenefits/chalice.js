@@ -45,7 +45,8 @@ class Chalice extends Implement {
   }
 
   get targetValidAdeptBonus() {
-    return Array.from(game.user.targets)[0].actor.itemTypes.effect.some(
+    const target = Array.from(game.user.targets)[0]?.actor ?? this.actor;
+    return target.itemTypes.effect.some(
       (i) => i.sourceId === CHALICE_ADEPT_ENABLED_UUID
     );
   }
@@ -112,7 +113,23 @@ class Chalice extends Implement {
     );
   }
 
-  async drain() {}
+  async drain() {
+    const DamageRoll = CONFIG.Dice.rolls.find((r) => r.name === "DamageRoll");
+    const targetArray = Array.from(game.user.targets);
+    const primaryTarget =
+      targetArray.length > 0 ? targetArray[0].actor : this.actor;
+    const healingType = Array.from(primaryTarget.traits).some(
+      (t) => t === "undead"
+    )
+      ? "void"
+      : "vitality";
+    new DamageRoll(
+      `{(${this.chaliceValues.drain})[healing,${healingType}]}`
+    ).toMessage();
+    this.actor.createEmbeddedDocuments("Item", [
+      await createEffectData(CHALICE_DRAINED_EFFECT_UUID),
+    ]);
+  }
 }
 
 Hooks.once("init", () => {
