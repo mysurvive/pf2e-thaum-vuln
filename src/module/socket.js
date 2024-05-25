@@ -23,6 +23,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("applyAbeyanceEffects", _socketApplyAbeyanceEffects);
   socket.register("applyRootToLife", _socketApplyRootToLife);
   socket.register("createEffectsOnActors", _socketCreateEffectsOnActors);
+  socket.register("chaliceParagonDecrement", _socketChaliceParagonDecrement);
 });
 
 export function applyRootToLife(actor, target, actionCount) {
@@ -55,6 +56,10 @@ export function createEffectOnTarget(a, effect, evTargets, iwrData) {
     evTargets,
     iwrData
   );
+}
+
+export function chaliceParagonDecrement(target) {
+  return socket.executeAsGM(_socketChaliceParagonDecrement, target);
 }
 
 export function ubiquitousWeakness(eff, selectedAlly, a) {
@@ -521,5 +526,18 @@ async function revertDamageSources(target) {
     } catch (error) {
       continue;
     }
+  }
+}
+
+async function _socketChaliceParagonDecrement(target) {
+  //Reduce the drinker's clumsy, enfeebled, frightened, stupefied, and stunned values by 1
+  const slugs = ["clumsy", "enfeebled", "frightened", "stupefied"];
+  const targetConditions = target.itemTypes.condition?.filter((c) => {
+    return slugs.includes(c.slug);
+  });
+
+  for (const condition of targetConditions) {
+    console.log(condition.slug);
+    await target.decreaseCondition(condition.slug);
   }
 }

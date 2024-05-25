@@ -1,4 +1,4 @@
-import { createEffectsOnActors } from "../../socket";
+import { chaliceParagonDecrement, createEffectsOnActors } from "../../socket";
 import {
   CHALICE_ADEPT_ENABLED_UUID,
   CHALICE_DRAINED_EFFECT_UUID,
@@ -64,9 +64,9 @@ class Chalice extends Implement {
       },
     };
 
-    let dgContent =
-      "Choose to Sip from the Chalice or Drain the Chalice. Target an adjacent ally to administer the liquid to them, or target no tokens to drink the liquid yourself.";
-
+    let dgContent = game.i18n.localize(
+      "pf2e-thaum-vuln.implements.chalice.drink.dialog.choose"
+    );
     if (!drainedEffect || drainedEffect?.remainingDuration.expired === true) {
       dgButtons = {
         ...dgButtons,
@@ -79,12 +79,16 @@ class Chalice extends Implement {
       dgContent =
         dgContent +
         "<br><br>" +
-        "Chalice refill cooldown: " +
-        drainedEffect.system.remaining;
+        game.i18n.localize(
+          "pf2e-thaum-vuln.implements.chalice.drink.dialog.cooldown"
+        );
+      +drainedEffect.system.remaining;
     }
 
     new Dialog({
-      title: "Drink from the Chalice",
+      title: game.i18n.localize(
+        "pf2e-thaum-vuln.implements.chalice.drink.dialog.title"
+      ),
       content: dgContent,
       buttons: dgButtons,
     }).render(true);
@@ -129,6 +133,31 @@ class Chalice extends Implement {
     this.actor.createEmbeddedDocuments("Item", [
       await createEffectData(CHALICE_DRAINED_EFFECT_UUID),
     ]);
+
+    if (this.paragon) {
+      chaliceParagonDecrement(primaryTarget);
+    }
+    if (primaryTarget.itemTypes.condition?.find((c) => c.slug === "stunned")) {
+      ChatMessage.create({
+        user: game.user,
+        flavor: game.i18n.localize(
+          "pf2e-thaum-vuln.implements.chalice.drink.chat.reduceStunned"
+        ),
+      });
+
+      ChatMessage.create({
+        user: game.user,
+        flavor:
+          game.i18n.localize(
+            "pf2e-thaum-vuln.implements.chalice.drink.chat.counteract"
+          ) +
+          `<br><br> [[/r 1d20+${
+            this.actor.attributes.classDC.value - 10
+          } #Counteract]] ${game.i18n.localize(
+            "pf2e-thaum-vuln.implements.chalice.drink.chat.counteractLevel"
+          )} ${Math.ceil(this.actor.level / 2)}`,
+      });
+    }
   }
 }
 
@@ -198,16 +227,6 @@ Hooks.once("init", () => {
     const targetTokens = message.flags["pf2e-thaum-vuln"].targets.map((t) => {
       return t.actorUuid;
     });
-
-    console.log(
-      targetTokens.includes(
-        message.actor.getFlag("pf2e-thaum-vuln", "primaryEVTarget")
-      ),
-      message.flags.pf2e?.context?.action,
-      ["success", "criticalSuccess"].includes(
-        message.flags.pf2e?.context?.outcome
-      )
-    );
 
     if (
       targetTokens.includes(

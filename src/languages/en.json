@@ -214,6 +214,18 @@
     },
 
     "implements": {
+      "chalice": {
+        "drink": {
+          "dialog": {
+            "choose": "Choose to Sip from the Chalice or Drain the Chalice. Target an adjacent ally to administer the liquid to them, or target no tokens to drink the liquid yourself.",
+            "cooldown": "Chalice refill cooldown: ",
+            "title": "Drink from the Chalice"
+          },
+          "chat": {
+            "reduceStunned": "Additionally, reduce the value of the stunned condition if it has a condition value, but not a duration."
+          }
+        }
+      },
       "regalia": {
         "frightenedReminder": "Reduce frightened condition by 1 due to Thaumaturge Regalia aura."
       },
