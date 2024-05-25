@@ -222,7 +222,9 @@
             "title": "Drink from the Chalice"
           },
           "chat": {
-            "reduceStunned": "Additionally, reduce the value of the stunned condition if it has a condition value, but not a duration."
+            "reduceStunned": "Additionally, reduce the value of the stunned condition if it has a condition value, but not a duration.",
+            "counteract": "Roll a counteract check against each poison, disease, and curse affecting the drinker.",
+            "counteractLevel": "Chalice counteract Level:"
           }
         }
       },
