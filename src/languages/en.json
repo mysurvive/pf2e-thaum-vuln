@@ -214,6 +214,20 @@
     },
 
     "implements": {
+      "chalice": {
+        "drink": {
+          "dialog": {
+            "choose": "Choose to Sip from the Chalice or Drain the Chalice. Target an adjacent ally to administer the liquid to them, or target no tokens to drink the liquid yourself.",
+            "cooldown": "Chalice refill cooldown: ",
+            "title": "Drink from the Chalice"
+          },
+          "chat": {
+            "reduceStunned": "Reduce the value of the stunned condition if it has a condition value, but not a duration. You can also decrease the drained condition by 1 once per day when you drink from the chalice.",
+            "counteract": "Roll a counteract check against each poison, disease, and curse affecting the drinker.",
+            "counteractLevel": "Chalice counteract Level:"
+          }
+        }
+      },
       "regalia": {
         "frightenedReminder": "Reduce frightened condition by 1 due to Thaumaturge Regalia aura."
       },

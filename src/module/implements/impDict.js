@@ -4,6 +4,7 @@ import { Lantern } from "./implementBenefits/lantern";
 import { Implement } from "./implement";
 import { Regalia } from "./implementBenefits/regalia";
 import { Weapon } from "./implementBenefits/weapon";
+import { Chalice } from "./implementBenefits/chalice";
 
 const impDict = new Map([
   ["tome", Tome],
@@ -11,6 +12,7 @@ const impDict = new Map([
   ["lantern", Lantern],
   ["regalia", Regalia],
   ["weapon", Weapon],
+  ["chalice", Chalice],
 ]);
 
 function constructChildImplement(implement, actor, item) {

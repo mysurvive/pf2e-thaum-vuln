@@ -1,0 +1,64 @@
+{
+  "folder": "49RonrSVUq7rxVLo",
+  "name": "Effect: Chalice Intensify Enabled",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>Your reinforced chalice can collect a creature's life force to become empowered. If you succeed at a Strike against the target of your Exploit Vulnerability, you increase the effect if someone Drinks from the Chalice before the end of that turn. Add an additional half your level to the temporary HP if the drinker sips, or add your level to the HP regained if the drinker drains the chalice. This effect isn't cumulative if you hit with more than one Strike.</p>"
+    },
+    "rules": [],
+    "slug": null,
+    "_migration": {
+      "version": 0.926,
+      "lastMigration": null
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 0,
+      "unit": "rounds",
+      "expiry": "turn-end",
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "_id": "MKztdugJAUnHLfE2",
+  "img": "systems/pf2e/icons/features/classes/chalice.webp",
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "o29bm85va79jJPjh": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "pf2e",
+    "systemVersion": "5.15.4",
+    "coreVersion": "11.315",
+    "createdTime": 1716586601660,
+    "modifiedTime": 1716586678740,
+    "lastModifiedBy": "o29bm85va79jJPjh"
+  },
+  "_key": "!items!MKztdugJAUnHLfE2"
+}

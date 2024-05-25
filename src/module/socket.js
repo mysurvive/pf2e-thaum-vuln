@@ -22,10 +22,29 @@ Hooks.once("socketlib.ready", () => {
   socket.register("RKCallback", _RKCallback);
   socket.register("applyAbeyanceEffects", _socketApplyAbeyanceEffects);
   socket.register("applyRootToLife", _socketApplyRootToLife);
+  socket.register("createEffectsOnActors", _socketCreateEffectsOnActors);
+  socket.register("chaliceParagonDecrement", _socketChaliceParagonDecrement);
 });
 
 export function applyRootToLife(actor, target, actionCount) {
   return socket.executeAsGM(_socketApplyRootToLife, actor, target, actionCount);
+}
+
+export function createEffectsOnActors(
+  actorId,
+  tokenIds,
+  effectUuids,
+  options,
+  context
+) {
+  return socket.executeAsGM(
+    _socketCreateEffectsOnActors,
+    actorId,
+    tokenIds,
+    effectUuids,
+    options,
+    context
+  );
 }
 
 export function createEffectOnTarget(a, effect, evTargets, iwrData) {
@@ -37,6 +56,10 @@ export function createEffectOnTarget(a, effect, evTargets, iwrData) {
     evTargets,
     iwrData
   );
+}
+
+export function chaliceParagonDecrement(target) {
+  return socket.executeAsGM(_socketChaliceParagonDecrement, target);
 }
 
 export function ubiquitousWeakness(eff, selectedAlly, a) {
@@ -71,6 +94,65 @@ export function createRKDialog(sa, targ) {
 
 export function applyAbeyanceEffects(a, abeyanceData) {
   return socket.executeAsGM(_socketApplyAbeyanceEffects, a, abeyanceData);
+}
+
+/**
+ * Applies one or more effects to an actor
+ * @param {string} actorId The ID for the actor creating the effect (i.e. the origin of the effect)
+ * @param {[string]} tokenIds An array of target token IDs to apply effects to
+ * @param {[string]} effectUuids An array of effect UUIDs to be applied
+ * @param {*} options Additional options for the application of the effects
+ * @param {*} context Additional context to modify the effects before being applied
+ */
+async function _socketCreateEffectsOnActors(
+  actorId,
+  tokenIds,
+  effectUuids,
+  options = {
+    includeSelf: false,
+    evMode: undefined,
+    iwrData: undefined,
+    max: undefined,
+    applyOnNoTargets: "error",
+  },
+  context = undefined
+) {
+  if (options.max != undefined && tokenIds.length > options.max) {
+    return ui.notifications.warn("Number of targets exceeds maximum allowed");
+  }
+
+  const actor = game.actors.get(actorId);
+  const targets = [];
+  tokenIds.forEach((t) => targets.push(game.canvas.tokens.get(t).actor));
+  if (
+    options.includeSelf ||
+    (tokenIds.length === 0 && options.applyOnNoTargets === "self")
+  )
+    targets.push(actor);
+
+  if (targets.length === 0) {
+    return ui.notifications.warn("No targets to apply effects to");
+  }
+
+  const effects = [];
+  for (const id of effectUuids) {
+    const effect = await createEffectData(id, { actor: actor.uuid });
+    if (context) {
+      await effect.update(
+        Object.assign(
+          {
+            _id: effect._id,
+          },
+          context
+        )
+      );
+    }
+    effects.push(effect);
+  }
+
+  for (const target of targets) {
+    await target.createEmbeddedDocuments("Item", effects);
+  }
 }
 
 async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
@@ -444,5 +526,22 @@ async function revertDamageSources(target) {
     } catch (error) {
       continue;
     }
+  }
+}
+
+async function _socketChaliceParagonDecrement(target) {
+  //Reduce the drinker's clumsy, enfeebled, frightened, stupefied, and stunned values by 1
+  //stunned is not handled here because the rules state that it must not have a duration, which cannot be determined
+  const slugs = ["clumsy", "enfeebled", "frightened", "stupefied"];
+  target = game.actors.get(target);
+  console.log(target);
+  const targetConditions = target.itemTypes.condition?.filter((c) => {
+    if (slugs.includes(c.slug)) return c;
+  });
+  console.log(targetConditions);
+
+  for (const condition of targetConditions) {
+    console.log(condition.slug);
+    await target.decreaseCondition(condition.slug);
   }
 }
