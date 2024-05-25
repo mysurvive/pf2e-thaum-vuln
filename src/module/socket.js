@@ -123,7 +123,7 @@ async function _socketCreateEffectsOnActors(
 
   const actor = game.actors.get(actorId);
   const targets = [];
-  tokenIds.forEach((t) => targets.push(game.canvas.tokens.get(t.id).actor));
+  tokenIds.forEach((t) => targets.push(game.canvas.tokens.get(t).actor));
   if (
     options.includeSelf ||
     (tokenIds.length === 0 && options.applyOnNoTargets === "self")
@@ -531,10 +531,14 @@ async function revertDamageSources(target) {
 
 async function _socketChaliceParagonDecrement(target) {
   //Reduce the drinker's clumsy, enfeebled, frightened, stupefied, and stunned values by 1
+  //stunned is not handled here because the rules state that it must not have a duration, which cannot be determined
   const slugs = ["clumsy", "enfeebled", "frightened", "stupefied"];
+  target = game.actors.get(target);
+  console.log(target);
   const targetConditions = target.itemTypes.condition?.filter((c) => {
-    return slugs.includes(c.slug);
+    if (slugs.includes(c.slug)) return c;
   });
+  console.log(targetConditions);
 
   for (const condition of targetConditions) {
     console.log(condition.slug);

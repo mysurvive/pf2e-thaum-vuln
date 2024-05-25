@@ -109,9 +109,13 @@ class Chalice extends Implement {
       });
     }
 
+    const targetArray = Array.from(game.user.targets).map((t) => {
+      return t.id;
+    });
+
     createEffectsOnActors(
       this.actor.id,
-      Array.from(game.user.targets),
+      targetArray,
       [CHALICE_SIP_EFFECT_UUID],
       { max: 1, applyOnNoTargets: "self" }
     );
@@ -135,7 +139,7 @@ class Chalice extends Implement {
     ]);
 
     if (this.paragon) {
-      chaliceParagonDecrement(primaryTarget);
+      chaliceParagonDecrement(primaryTarget.id);
     }
     if (primaryTarget.itemTypes.condition?.find((c) => c.slug === "stunned")) {
       ChatMessage.create({
@@ -173,14 +177,14 @@ Hooks.once("init", () => {
       );
     });
     if (
-      ((!damageTypes.includes("slashing") ||
-        !damageTypes.includes("piercing")) &&
-        message.flags.pf2e.context?.outcome !== "criticalSuccess") ||
-      (!message.rolls[0]?.evaluatePersistent &&
-        message.rolls[0]?.instances?.some((i) => i.type === "bleed"))
+      !damageTypes.includes("slashing") &&
+      !damageTypes.includes("piercing") &&
+      message.flags.pf2e.context?.outcome !== "criticalSuccess" &&
+      !message.rolls[0]?.options.evaluatePersistent &&
+      !message.rolls[0]?.instances?.some((i) => i.type === "bleed")
     )
       return;
-
+    console.log("made it");
     const thaumTokens = game.canvas.tokens.placeables.filter(
       (t) => t.actor.attributes?.implements?.chalice?.adept
     );
@@ -204,9 +208,9 @@ Hooks.once("init", () => {
         targetTokens[thaum.id].token &&
         targetTokens[thaum.id].distance <= 30
       ) {
-        createEffectsOnActors(
+        await createEffectsOnActors(
           thaum.actor.id,
-          [targetTokens[thaum.id].token],
+          [targetTokens[thaum.id].token.id],
           [CHALICE_ADEPT_ENABLED_UUID],
           { max: 1 }
         );
