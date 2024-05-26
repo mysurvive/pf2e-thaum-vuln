@@ -3,62 +3,62 @@
     "settings": {
       "EVAutomation": {
         "name": "Użyj Automatyzacji Exploit Vulnerability",
-        "hint": "Jeśli zaznaczony, moduł automatycznie zaznaczy wszystkie ważne cele dla Mortal Weakness, Sympathetic Vulnerabilities itp. na bieżącej scenie. Nie zaznaczaj, jeśli chcesz ręcznie aktualizować cele za pomocą makra forceEV. Możesz chcieć wyłączyć tę opcję, jeśli stosujesz efekty Exploit Vulnerability inaczej niż opisano w RAW."
+        "hint": "Jeśli zaznaczono, moduł automatycznie zaznaczy wszystkie ważne cele dla Śmiertelna Słabość, Subiektywne Podatności itp. na bieżącej scenie. Nie zaznaczaj, jeśli chcesz ręcznie aktualizować cele za pomocą makra forceEV. Możesz chcieć wyłączyć tę opcję, jeśli stosujesz efekty Wykorzystania Podatności inaczej niż opisano w RAW."
       },
       "mystifyNumbers": {
-        "name": "Mistyfikacja wartości IWR",
-        "hint": "Jeśli zanaczony, wyniki w oknie dialogowym podczas exploiting a vulnerability nie będą wyświetlane - pokazywany będzie tylko rodzaj uszkodzenia."
+        "name": "Mistyfikacja wartości Niepodatności, Odporności i Podatności",
+        "hint": "Jeśli zaznaczony, wyniki w oknie dialogowym podczas wykorzystywania podatności nie będą wyświetlane - pokazywany będzie tylko rodzaj obrażeń."
       },
       "esotericLoreModifier": {
         "name": "Modyfikator ST Wiedzy Ezoterycznej",
         "hint": "Ustaw globalny modyfikator dla ST Wiedzy Ezoterycznej. Jeśli zostanie on zmieniony, zazwyczaj wynosi -2, aby Wiedza Ezoteryczna była zgodna z odpowiednią umiejętnością wiedzy dla celów Przywołania Wiedzy."
       },
       "enforceHeldImplement": {
-        "name": "Egzekwowanie i wdrożenie",
-        "hint": "Egzekwuje zasadę, że implementacja musi być utrzymywana w celu wykorzystania Exploit Vulnerability."
+        "name": "Wymuś trzymanie Narzędzia",
+        "hint": "Wymusza zasadę, że narzędzie musi być trzymane w celu wykorzystania Exploit Vulnerability."
       },
       "reactionCheckerHandlesAmulet": {
-        "hint": "Zezwól PF2e Reaction Checker na obsługę Amulet's Abeyance.",
+        "hint": "Zezwól PF2e Reaction Checker na obsługę Powstrzymanie Amuletem.",
         "name": "PF2e Reaction Checker obejmuje Amulet"
       },
       "dailiesHandlesTome": {
-        "hint": "Umożliwienie PF2e Dailies obsługi codziennych wyborów umiejętności implementacji Tome.",
-        "name": "PF2e Dailies obejmuje Tome"
+        "hint": "Zezwolenie, aby PF2e Dailies obsługiwały codzienne wybory umiejętności do implementacji Księgi.",
+        "name": "PF2e Dailies obejmuje Tom"
       }
     },
     "notifications": {
       "warn": {
         "exploitVulnerability": {
-          "targetCount": "Wybierz jeden token Thaumaturge'a i wyceluj w istotę.",
-          "noExploitVulnerability": "Ten aktor nie ma możliwości użycia Exploit Vulnerability",
+          "targetCount": "Wybierz jeden token Taumaturga i wyceluj w istotę.",
+          "noExploitVulnerability": "Ten aktor nie ma możliwości użycia Wykorzystania Podatności",
           "noEsotericLoreSkill": "Ten aktor nie posiada umiejętności Wiedza Ezoteryczna (Esoteric Lore)",
           "noMatchingDC": "Brak pasującego ST dla celu",
-          "noImplements": "Nie masz wybranych implementów. Przejdź do zakładki ekwipunku na karcie postaci, kliknij zarządzaj implementami i przypisz przedmioty do implementów.",
+          "noImplements": "Nie masz wybranych narzędzi. Przejdź do zakładki ekwipunku na karcie postaci, kliknij zarządzaj narzędziami i przypisz przedmioty do narzędzi.",
           "noHeldImplement": "Aby Wykorzystać Podatność, musisz posiadać jedno ze swoich narzędzi."
         },
         "cursedEffigy": {
-          "noAbility": "Nie masz możliwości stworzenia cursed effigy",
-          "invalidTarget": "Wyceluj tylko w cel swojej zdolności exploit vulnerability, aby stworzyć cursed effigy"
+          "noAbility": "Nie masz możliwości stworzenia Przeklętej Kukły",
+          "invalidTarget": "Wyceluj tylko w cel swojej zdolności Wykorzystanie Podatności, aby stworzyć Przeklętą Kukłę"
         },
         "forceEV": {
-          "invalidTargets": "Wybierz jeden token Thaumaturge'a i wyceluj jedną lub więcej istot",
-          "eVNotActivated": "Wybrany token nie aktywował Exploit Vulnerability"
+          "invalidTargets": "Wybierz jeden token Taumaturga i wyceluj jedną lub więcej istot",
+          "eVNotActivated": "Wybrany token nie aktywował Wykorzystania Podatności"
         },
         "shareWeakness": {
           "noAbility": "Aktor nie ma możliwości do dzielenia się słabościami",
-          "invalidActorCount": "Wybierz tylko Thaumaturge'a używając Share Weakness i spróbuj ponownie.",
-          "noActiveMW": "Aktor nie ma aktywnego efektu Mortal Weakness"
+          "invalidActorCount": "Wybierz tylko Taumaturga używając Współdzielenie Podatności i spróbuj ponownie.",
+          "noActiveMW": "Aktor nie ma aktywnego efektu Śmiertelnej Słabości"
         },
         "twinWeakness": {
-          "invalidTargetCount": "Wybierz tylko jeden cel, przeciwko któremu użyjesz Twin Weakness",
-          "invalidTarget": "Cel Twin Weakness musi być również celem Personal Antithesis lub Mortal Weakness",
-          "noValidEV": "Twój cel musi być pod wpływem Personal Antithesis lub Mortal Weakness, abyś mógł użyć Twin Weakness"
+          "invalidTargetCount": "Wybierz tylko jeden cel, przeciwko któremu użyjesz Bliźniaczej Podatności",
+          "invalidTarget": "Cel Bliźniaczej Podatności musi być również celem Osobistej Antytezy lub Śmiertelnej Słabości",
+          "noValidEV": "Twój cel musi być pod wpływem Osobistej Antytezy lub Śmiertelnej Słabości, abyś mógł użyć Bliźniaczej Podatności"
         },
         "strike": {
-          "invalidDamageType": "Typ obrażeń broni jest ustawiony na Nieokreślone, co jest nieprawidłowym typem obrażeń dla celów Exploit Vulnerability. Słabość nie zostanie zastosowana."
+          "invalidDamageType": "Typ obrażeń broni jest ustawiony na Nieokreślone, co jest nieprawidłowym typem obrażeń dla celów Wykorzystania Podatności. Podatność nie zostanie zastosowana."
         },
         "mortalWeakness": {
-          "noWeakness": "Ta istota nie ma żadnych słabości, przeciwko którym można by wykorzystać Mortal Weakness."
+          "noWeakness": "Ta istota nie ma żadnych słabości, przeciwko którym można by wykorzystać Śmiertelną Słabość."
         },
         "rootToLife": {
           "noAbility": "Wybrany aktor nie ma Korzeni Życia",
@@ -67,9 +67,9 @@
         },
         "noToken": "Nie wybrano żadnego tokena.",
         "intensifyImplement": {
-          "invalid": "Umiejętność Intensyfikacji Implementacji wybranego narzędzia nie jest obecnie obsługiwana w PF2e Exploit Vulnerability.",
+          "invalid": "Umiejętność Intensyfikacji wybranego Narzędzia nie jest obecnie obsługiwana w PF2e Exploit Vulnerability.",
           "noIntensify": "Nie posiadasz zdolności Zwiększenie Podatności. Sprawdź swoją kartę, aby upewnić się, że posiadasz Zwiększenie Podatności jako atut.",
-          "notHeld": "Aby korzystać z funkcji Zwiększenie Podatności, musisz posiadać narzędzie"
+          "notHeld": "Aby korzystać ze zdolności Zwiększenie Podatności, musisz posiadać Narzędzie"
         }
       },
       "info": {
@@ -79,75 +79,75 @@
       }
     },
     "exploitVulnerability": {
-      "name": "Exploit Vulnerability",
+      "name": "Wykorzystanie Podatności",
       "frequency": {
         "label": "Częstotliwość",
         "text": "raz na rundę"
       },
-      "flavor": "Przeszukujesz swoje doświadczenia i wiedzę, aby znaleźć coś, co może odstraszyć wroga. Wyciągasz ze swojej ezoteryki przedmiot o odpowiednich nadprzyrodzonych właściwościach, a następnie używasz swojego narzędzia, by rozniecić resztki jego mocy. Wybierz istotę, którą widzisz i spróbuj wykonać test Wiedzy Ezoterycznej ze standardowym ST dla jej poziomu, podczas gdy wyciągasz odpowiedni przedmiot z ezoteryki i używasz swojego narzędzia, aby go wzmocnić. Zyskujesz następujące efekty do momentu ponownego wykorzystania Exploit Vulnerabilities.",
+      "flavor": "Przeszukujesz swoje doświadczenia i wiedzę, aby znaleźć coś, co może odstraszyć wroga. Wyciągasz ze swojej ezoteryki przedmiot o odpowiednich nadprzyrodzonych właściwościach, a następnie używasz swojego narzędzia, by rozniecić resztki jego mocy. Wybierz istotę, którą widzisz i spróbuj wykonać test Wiedzy Ezoterycznej ze standardowym ST dla jej poziomu, podczas gdy wyciągasz odpowiedni ezoteryczny przedmiot i używasz swojego narzędzia, aby go wzmocnić. Zyskujesz następujące efekty do momentu ponownego Wykorzystania Podatności.",
       "requirements": {
         "label": "Wymagania",
-        "text": "Trzymasz przyrząd w ręku"
+        "text": "Trzymasz w ręku narzędzie"
       },
       "dialog": {
         "prompt": "Wybierz podatność, którą chcesz wykorzystać.",
-        "paBonusLabel": "Premia do obrażeń od Personal Antithesis: ",
-        "weaknessLabel": "Słabości: ",
+        "paBonusLabel": "Premia do obrażeń od Osobistej Antytezy: ",
+        "weaknessLabel": "Podatności: ",
         "resistanceLabel": "Odporności: ",
         "immunityLabel": "Niewrażliwości: ",
         "except": "Z wyjątkiem: ",
-        "doublevs": "Podwójne vs.: ",
-        "highestWeaknessLabel": "Największa Słabość"
+        "doublevs": "Podwójne przeciw: ",
+        "highestWeaknessLabel": "Największa Podatność"
       },
       "degreeOfSuccess": {
-        "criticalSuccess": "Zapamiętujesz słabe punkty stworzenia, a gdy wzmacniasz swoje umiejętności ezoteryczne, masz przebłysk wglądu, który daje ci jeszcze więcej wiedzy o stworzeniu. Poznajesz wszystkie odporności, słabości i niewrażliwości danej istoty, w tym ich wartości oraz wszelkie nietypowe słabości i podatności, np. jakie zaklęcia przejdą przez antymagię golema. Możesz wykorzystać śmiertelną słabość lub osobistą antytezę stworzenia (patrz poniżej). Ataki bez broni i z bronią przeciwko stworzeniu również stają się magiczne, jeśli wcześniej nie były.",
-        "success": "Przypominasz sobie ważny fakt o stworzeniu, ucząc się jego największej słabości (lub jednej z największych słabości, jeśli ma kilka o tej samej wartości), ale nie innych słabości, odporności lub niewrażliwości. Możesz wykorzystać śmiertelną słabość lub osobistą antytezę danej istoty. Ataki bez broni i z bronią przeciwko tej istocie również stają się magiczne, jeśli wcześniej nie były.",
-        "failure": "Jeśli nie uda ci się przypomnieć sobie istotnej słabości tej istoty, zamiast tego spróbujesz wykorzystać bardziej osobisty słaby punkt. Możesz wykorzystać tylko osobistą antytezę danej istoty. Twoje ataki bez broni i z bronią przeciwko tej istocie również stają się magiczne, o ile wcześniej takie nie były.",
-        "criticalFailure": "Nie pamiętasz, jakiego przedmiotu użyć i rozpraszasz się, grzebiąc w swojej ezoteryce. Stajesz się odsłonięty aż do początku swojej następnej tury."
+        "criticalSuccess": "Zapamiętujesz słabe punkty stworzenia, a gdy wzmacniasz swoje umiejętności ezoteryczne, masz przebłysk wglądu, który daje ci jeszcze więcej wiedzy o stworzeniu. Poznajesz wszystkie odporności, podatności i niewrażliwości danej istoty, w tym ich wartości oraz wszelkie nietypowe słabości i podatności, np. jakie zaklęcia przejdą przez antymagię golema. Możesz wykorzystać śmiertelną słabość lub osobistą antytezę stworzenia (patrz poniżej). Ataki bez broni i z bronią przeciwko stworzeniu również stają się magiczne, jeśli wcześniej nie były.",
+        "success": "Przypominasz sobie ważny fakt o stworzeniu, ucząc się jego największej podatności (lub jednej z największych podatności, jeśli ma kilka o tej samej wartości), ale nie innych podatności, odporności lub niewrażliwości. Możesz wykorzystać śmiertelną słabość lub osobistą antytezę danej istoty. Ataki bez broni i z bronią przeciwko tej istocie również stają się magiczne, jeśli wcześniej nie były.",
+        "failure": "Jeśli nie uda ci się przypomnieć sobie istotnej podatności tej istoty, zamiast tego spróbujesz wykorzystać bardziej osobisty słaby punkt. Możesz wykorzystać tylko osobistą antytezę danej istoty. Twoje ataki bez broni i z bronią przeciwko tej istocie również stają się magiczne, o ile wcześniej takie nie były.",
+        "criticalFailure": "Nie pamiętasz, jakiego przedmiotu użyć i rozpraszasz się, grzebiąc w swojej ezoteryce. Stajesz się Odsłonięty aż do początku swojej następnej tury."
       }
     },
     "personalAntithesis": {
-      "name": "Osobista antyteza (Personal Antithesis)"
+      "name": "Osobista Antyteza (Personal Antithesis)"
     },
     "mortalWeakness": {
-      "name": "Śmiertelna słabość (Mortal Weakness)"
+      "name": "Śmiertelna Słabość (Mortal Weakness)"
     },
     "breachedDefenses": {
-      "name": "Naruszona obrona (Breached Defenses)",
+      "name": "Złamana Obrona (Breached Defenses)",
       "bypassableLabel": "Najwyższa możliwa do ominięcia odporność: ",
       "bypassLine": "{type}, ominięty przez {exception}"
     },
     "esotericWarden": {
-      "name": "Strażnik Ezoteryki (Esoteric Warden)",
-      "flavor": "Kiedy pomyślnie zastosujesz przeciwstawny materiał przeciwko stworzeniu, zabezpieczasz się również przed jego kolejnymi atakami. Gdy powiedzie ci się test na Exploit a Vulnerability, zyskujesz premię +1 do swojego KP przeciwko następnemu atakowi istoty oraz premię +1 do następnego rzutu obronnego przeciwko tej istocie; jeśli powiedzie ci się krytycznie, premie te wynoszą +2. Możesz uzyskać te premie tylko raz dziennie przeciwko konkretnej istocie, a korzyść kończy się, jeśli ponownie wykorzystasz Exploit Vulnerability.",
+      "name": "Ezoteryczny Strażnik (Esoteric Warden)",
+      "flavor": "Kiedy pomyślnie zastosujesz antytetyczny materiał przeciwko stworzeniu, zabezpieczasz się również przed jego kolejnymi atakami. Gdy powiedzie ci się test na Wykorzystanie Podatności, zyskujesz premię +1 do swojego KP przeciwko następnemu atakowi istoty i premię +1 do następnego rzutu obronnego przeciwko tej istocie; jeśli powiedzie ci się krytycznie, premie te wynoszą +2. Możesz uzyskać te bonusy tylko raz dziennie przeciwko konkretnej istocie, a korzyść kończy się, jeśli ponownie Wykorzystasz Podatność.",
       "effect": {
         "name": "Efekt Ezoterycznego Strażnika"
       }
     },
     "diverseLore": {
-      "name": "Różnorodna wiedza (Diverse Lore)",
-      "flavor": "Gdy uda ci się wykonać test Exploit a Vulnerability, porównaj wynik swojego testu Wiedzy Ezoterycznej ze ST do Przywołania Wiedzy dla tej istoty; jeśli liczba ta byłaby sukcesem lub sukcesem krytycznym, zdobywasz informacje tak, jakby udało ci się wykonać test Przywołania Wiedzy. ",
+      "name": "Rozległa Wiedza (Diverse Lore)",
+      "flavor": "Gdy uda ci się wykonać test Wykorzystania Podatności, porównaj wynik swojego testu Wiedzy Ezoterycznej ze ST do Przywołania Wiedzy dla tej istoty; jeśli liczba ta byłaby sukcesem lub sukcesem krytycznym, zdobywasz informacje tak, jakby udało ci się wykonać test Przywołania Wiedzy. ",
       "recallKnowledgeNote": "Wędrowne studia bohatera oznaczają, że słyszał on plotki lub teorie na niemal każdy temat... choć trzeba przyznać, że ich źródła nie zawsze są najbardziej wiarygodne. Postać może przyjąć karę -2 do testu Przywoływania Wiedzy z Wiedzą Ezoteryczną, aby przywołać wiedzę na dowolny temat, nie tylko na tematy dostępne dla Wiedzy Ezoterycznej.",
       "penalty": "Kara Rozległej Wiedzy"
     },
     "sharedWarding": {
-      "name": "Wspólna ochrona (Shared Warding)",
-      "flavor": "Chronisz swoich sojuszników przed atakami wrogów za każdym razem, gdy sam stosujesz te zabezpieczenia. Kiedy zyskujesz premię statusową do KP i rzutów obronnych dzięki Esoteric Warden, możesz przyznać tę samą premię wszystkim sojusznikom w promieniu 30 stóp.",
-      "prompt": "Czy chcesz zastosować efekt Esoteric Warden na wszystkich sojusznikach w promieniu 30 stóp?"
+      "name": "Współdzielona Ochrona (Shared Warding)",
+      "flavor": "Chronisz swoich sojuszników przed atakami wrogów za każdym razem, gdy sam stosujesz te zabezpieczenia. Kiedy zyskujesz premię do KP i rzutów obronnych dzięki Ezoterycznemu Strażnikowi, możesz przyznać tę samą premię wszystkim sojusznikom w promieniu 30 stóp.",
+      "prompt": "Czy chcesz zastosować efekt Ezoteryczny Strażnik na wszystkich sojusznikach w promieniu 30 stóp?"
     },
     "shareWeakness": {
-      "name": "Współdzielenie słabości (Share Weakness)",
-      "prompt": "Wybierz sojusznika, z którym podzielisz się efektem Mortal Weakness.",
-      "flavor": "Wybierasz przedmiot ze swojej ezoteryki, który ma dla ciebie dużą wartość osobistą, taki jak medalion lub cenny pierścień, i przekaż go sojusznikowi, tworząc osobistą więź, która pozwala sojusznikowi wpływać na wroga tak, jakby był tobą. Uderzenia sojusznika nakładają osłabienie wynikające z twojej mortal weakness w taki sam sposób, jak twoje uderzenia. Ta korzyść kończy się wraz z wygaśnięciem twojej zdolności Exploit Vulnerability lub gdy ponownie podzielisz się słabością."
+      "name": "Współdzielenie Podatności (Share Weakness)",
+      "prompt": "Wybierz sojusznika, z którym podzielisz się efektem Śmiertelna Słabość.",
+      "flavor": "Wybierasz przedmiot ze swojej ezoteryki, który ma dla ciebie dużą wartość osobistą, taki jak medalion lub cenny pierścień, i przekazujesz go sojusznikowi, tworząc osobistą więź, która pozwala sojusznikowi wpływać na wroga tak, jakby był tobą. Ataki sojusznika wykorzystują osłabienie wynikające z twojej Śmiertelnej Słabości w taki sam sposób, jak twoje ataki. Ta korzyść kończy się wraz z wygaśnięciem twojej zdolności Wykorzystaj Podatność lub gdy ponownie użyjesz Współdzielenia Podatności."
     },
     "ubiquitousWeakness": {
-      "name": "Wszechobecna słabość (Ubiquitous Weakness)",
-      "flavor": "Pielęgnujesz więzi ze swoimi towarzyszami, dzięki czemu możesz dzielić się korzyściami płynącymi z ezoteryki. Kiedy używasz opcji Exploit Vulnerability i wybierasz mortal weakness, możesz wybrać dowolną liczbę sojuszników w promieniu 30 stóp od ciebie. Ich Uderzenia nakładają osłabienie wynikające ze śmiertelnego osłabienia w taki sam sposób, jak twoje Uderzenia. Ta korzyść kończy się, gdy przestajesz korzystać z efektu Exploit Vulnerability. Ponieważ efekt ten zależy od magicznego wzmocnienia twojej więzi z sojusznikami, tylko sojusznicy, z którymi nawiązałeś relację w ciągu jednego lub więcej dni, otrzymują tę korzyść.",
-      "prompt": "Czy chcesz zastosować efekt Mortal Weakness na wszystkich sojusznikach w promieniu 30 stóp?"
+      "name": "Wszechobecna Podatność (Ubiquitous Weakness)",
+      "flavor": "Pielęgnujesz więzi ze swoimi towarzyszami, dzięki czemu możesz dzielić się korzyściami płynącymi z ezoteryki. Kiedy używasz opcji Wykorzystaj Podatność i wybierasz śmiertelną słabość, możesz wybrać dowolną liczbę sojuszników w promieniu 30 stóp od ciebie. Ich Ataki nakładają osłabienie wynikające ze śmiertelnej słabości w taki sam sposób, jak twoje Ataki. Ta korzyść kończy się, gdy przestajesz korzystać z efektu Wykorzystaj Podatność. Ponieważ efekt ten zależy od magicznego wzmocnienia twojej więzi z sojusznikami, tylko sojusznicy, z którymi nawiązałeś relację w ciągu jednego lub więcej dni, otrzymują tę korzyść.",
+      "prompt": "Czy chcesz zastosować efekt Śmiertelnej Słabości na wszystkich sojusznikach w promieniu 30 stóp?"
     },
     "twinWeakness": {
-      "chatCardHeader": "Obrażenia: Twin Weakness",
-      "name": "Bliźniacza słabość (Twin Weakness)"
+      "chatCardHeader": "Obrażenia: Bliźniacza Podatność",
+      "name": "Bliźniacza Podatność (Twin Weakness)"
     },
     "dialog": {
       "yes": "Tak",
@@ -157,23 +157,23 @@
       "none": "brak",
       "amuletsAbeyance": {
         "description": "Siłą prezentujesz swój amulet, aby odwrócić od siebie obrażenia. Ty lub sojusznik znajdujący się w promieniu 15 stóp zyskujecie odporność na wszystkie obrażenia przeciwko obrażeniom wyzwalającym. Odporność jest równa 2 + twój poziom.",
-        "name": "Zawieszenie Amuletu",
-        "resistanceValueLabel": "Wartość odporności zawieszenia:",
+        "name": "Powstrzymanie Amuletem",
+        "resistanceValueLabel": "Wartość odporności Powstrzymania:",
         "allTriggeringDamage": "do wszystkich wyzwalających obrażeń",
         "adeptBenefitLabel": "Korzyść Adepta",
         "lingeringResistanceValue": "Utrzymująca się wartość odporności:",
-        "paragonBenefitLabel": "Korzyść Paragonu",
-        "selectAllies": "Kliknij ikonę, aby wybrać, kto powinien skorzystać z Zawieszenia Amuletu",
-        "selectDamageType": "Wybierz typ obrażeń, aby zastosować długotrwałą odporność:",
-        "noResistances": "Brak odporności na obrażenia, aby zastosować długotrwałą odporność."
+        "paragonBenefitLabel": "Korzyść Mistrza",
+        "selectAllies": "Kliknij ikonę, aby wybrać, kto powinien skorzystać z Powstrzymania Amuletem",
+        "selectDamageType": "Wybierz typ obrażeń, aby zastosować utrzymującą się odporność:",
+        "noResistances": "Brak odporności na obrażenia, aby zastosować utrzymującą się odporność."
       },
       "oneAction": "Jedna akcja",
       "twoAction": "Dwie akcje",
       "character": "Postać:",
       "target": "Cel:",
       "manageImplements": {
-        "dragItem": "Przeciągnij element tutaj, aby oznaczyć go jako implement.",
-        "implement": "Implement"
+        "dragItem": "Przeciągnij element tutaj, aby oznaczyć go jako narzędzie.",
+        "implement": "Narzędzie"
       },
       "intensifyImplement": {
         "title": "Wzmocnienie Narzędzia",
@@ -217,9 +217,9 @@
       "esotericKnowledgeLabel": "Przywołanie Wiedzy Ezoterycznej:"
     },
     "manageImplements": {
-      "implementHeader": "Implementacje Thaumaturge'a",
-      "manageImplementsButton": "Zarządzaj Implementami",
-      "clearImplementsButton": "Wyczyść wszystkie implementy"
+      "implementHeader": "Narzędzia Taumaturga",
+      "manageImplementsButton": "Zarządzaj Narzędziami",
+      "clearImplementsButton": "Wyczyść wszystkie narzędzia"
     },
     "targetManagement": {
       "evActive": "EV Aktywne:",
@@ -231,7 +231,7 @@
     },
     "implements": {
       "regalia": {
-        "frightenedReminder": "Zmniejsza stan przerażenia o 1 dzięki aurze Thaumaturge Regalia."
+        "frightenedReminder": "Zmniejsza stan przerażenia o 1 dzięki aurze Insygni Taumaturga."
       },
       "weapon": {
         "implementsInterruption": {
@@ -242,6 +242,20 @@
           "text": {
             "success": "Zakłócasz działanie wyzwalające.",
             "failure": "Zadajesz obrażenia celowi: "
+          }
+        }
+      },
+      "chalice": {
+        "drink": {
+          "dialog": {
+            "choose": "Wybierz Łyk z Kielicha lub Opróżnij Kielich. Wybierz sąsiadującego sojusznika, aby podać mu płyn, lub nie wybieraj żadnych tokenów, aby samemu napić się płynu.",
+            "cooldown": "Czas odnowienia uzupełnienia kielicha: ",
+            "title": "Wypij z Kielicha"
+          },
+          "chat": {
+            "reduceStunned": "Zmniejsza wartość stanu ogłuszenia, jeśli ma on wartość, ale nie czas trwania. Możesz także zmniejszyć stan wysączenia o 1 raz dziennie, gdy pijesz z kielicha.",
+            "counteract": "Rzuć testem przeciwdziałania przeciwko każdej truciźnie, chorobie i klątwie wpływającej na pijącego.",
+            "counteractLevel": "Poziom przeciwdziałania Kielichowi:"
           }
         }
       }
