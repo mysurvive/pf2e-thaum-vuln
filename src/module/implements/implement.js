@@ -59,7 +59,7 @@ class Implement {
       : "initiate";
     return [
       `self:implement:${this.slug}:rank:${this.rank}`,
-      `${this.slug}:${stringRank}`,
+      `${stringRank}:${this.slug}`,
     ];
   }
 
