@@ -163,7 +163,7 @@ Hooks.on("ready", async () => {
     game.user.isGM
   ) {
     ui.notifications.info("Migrating PF2e Exploit Vulnerability 0.15.0 data.");
-    await async function () {
+    await (async function () {
       //Remove rule elements from feats
       const feats = game.actors
         .map((a) => {
@@ -194,6 +194,11 @@ Hooks.on("ready", async () => {
             r.label != "Implement Rank Paragon"
         );
 
+        console.debug(
+          "PF2e Exploit Vulnerability 0.15.0 Migration | Updating feat",
+          feat
+        );
+
         await feat.update({
           _id: feat._id,
           "system.rules": newRules,
@@ -208,12 +213,21 @@ Hooks.on("ready", async () => {
         return l.system.attributes.implements.lantern;
       });
 
+      const ruleLabels = new Set(oldLanternRules.map((r) => r.label));
       for (const lantern of lanterns) {
-        const ruleLabels = new Set(oldLanternRules.map((r) => r.label));
         const newRules = lantern.item.system.rules.filter(
           (r) => !ruleLabels.has(r.label)
         );
-        await lantern.update({ _id: lantern._id, "system.rules": newRules });
+
+        console.debug(
+          "PF2e Exploit Vulnerability 0.15.0 Migration | Updating lantern ",
+          lantern
+        );
+
+        await lantern.item.update({
+          _id: lantern._id,
+          "system.rules": newRules,
+        });
         await lantern.createEffectsOnItem(lantern.item.uuid);
       }
 
@@ -221,6 +235,6 @@ Hooks.on("ready", async () => {
         "Finished migrating PF2e Exploit Vulnerability 0.15.0 data."
       );
       game.settings.set("pf2e-thaum-vuln", "0150migration", true);
-    };
+    })();
   }
 });
