@@ -184,7 +184,6 @@ Hooks.once("init", () => {
       !message.rolls[0]?.instances?.some((i) => i.type === "bleed")
     )
       return;
-    console.log("made it");
     const thaumTokens = game.canvas.tokens.placeables.filter(
       (t) => t.actor.attributes?.implements?.chalice?.adept
     );
