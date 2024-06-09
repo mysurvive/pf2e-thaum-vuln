@@ -12,16 +12,31 @@ class Regalia extends Implement {
 
   constructor(actor, implementItem) {
     const regaliaRules = [
+      // Bonus to Deception, Diplomancy, Intimidation
       {
         key: "FlatModifier",
         selector: ["deception", "diplomacy", "intimidation"],
         value: 1,
         type: "circumstance",
-        label: "Regalia Implement Initiate",
-        predicate: [],
+        label: "Regalia Implement",
+        predicate: ["regalia:initiate"],
         hideIfDisabled: true,
         slug: "regalia-implement-initiate",
       },
+      {
+        key: "FlatModifier",
+        selector: ["deception", "diplomacy", "intimidation"],
+        value: 2,
+        type: "circumstance",
+        label: "Regalia Implement",
+        predicate: [
+          { gte: ["self:implement:regalia:rank", 2] },
+          "proficiency:master",
+        ],
+        hideIfDisabled: true,
+        slug: "regalia-implement-adept",
+      },
+      // Aura for bonus to saves, damage bonus, etc.
       {
         key: "Aura",
         radius: 15,
@@ -36,7 +51,7 @@ class Regalia extends Implement {
         traits: ["emotion", "mental", "visual"],
         label: "Regalia Aura - Initiate",
         slug: "regalia-aura-initiate",
-        predicate: [{ nor: ["adept:regalia", "paragon:regalia"] }],
+        predicate: ["regalia:initiate"],
       },
       {
         key: "Aura",
@@ -52,7 +67,7 @@ class Regalia extends Implement {
         traits: ["emotion", "mental", "visual"],
         label: "Regalia Aura - Adept",
         slug: "regalia-aura-adept",
-        predicate: ["adept:regalia", { not: "paragon:regalia" }],
+        predicate: ["regalia:adept"],
       },
       {
         key: "Aura",
@@ -68,18 +83,9 @@ class Regalia extends Implement {
         traits: ["emotion", "mental", "visual"],
         label: "Regalia Aura - Paragon",
         slug: "regalia-aura-paragon",
-        predicate: ["paragon:regalia"],
+        predicate: ["regalia:paragon"],
       },
-      {
-        key: "FlatModifier",
-        selector: ["deception", "intimidation", "diplomacy"],
-        value: 2,
-        type: "circumstance",
-        label: "Regalia Implement Adept",
-        predicate: ["adept:regalia", "proficiency:master"],
-        hideIfDisabled: true,
-        slug: "regalia-implement-adept",
-      },
+      // DoS improvement at Paragon level
       {
         key: "AdjustDegreeOfSuccess",
         selector: "skill-check",
@@ -87,7 +93,7 @@ class Regalia extends Implement {
           criticalFailure: "one-degree-better",
         },
         predicate: [
-          "paragon:regalia",
+          "regalia:paragon",
           {
             or: [
               "action:coerce",
@@ -97,6 +103,7 @@ class Regalia extends Implement {
           },
         ],
       },
+      // Follow the Expert enhancements
       {
         key: "ActiveEffectLike",
         mode: "override",
@@ -104,45 +111,31 @@ class Regalia extends Implement {
         phase: "afterDerived",
         value: 1,
       },
+      // FtE bonus when Trained: Initiate +1, Adept +2, Paragon +3
       {
         key: "ActiveEffectLike",
         mode: "upgrade",
         path: "flags.pf2e.followTheExpert.bonus.trained",
-        value: 2,
+        value: "@actor.attributes.implements.regalia.rank",
         phase: "afterDerived",
-        predicate: ["adept:regalia"],
       },
-      {
-        key: "ActiveEffectLike",
-        mode: "upgrade",
-        path: "flags.pf2e.followTheExpert.bonus.trained",
-        value: 3,
-        phase: "afterDerived",
-        predicate: ["paragon:regalia"],
-      },
+      // FtE bonus when Expert: Initate +2 (normal), Adept +3, Paragon +4
       {
         key: "ActiveEffectLike",
         mode: "upgrade",
         path: "flags.pf2e.followTheExpert.bonus.expert",
-        value: 3,
+        value: "@actor.attributes.implements.regalia.rank + 1",
         phase: "afterDerived",
-        predicate: ["adept:regalia"],
+        predicate: [{ gte: ["self:implement:regalia:rank", 2] }],
       },
-      {
-        key: "ActiveEffectLike",
-        mode: "upgrade",
-        path: "flags.pf2e.followTheExpert.bonus.expert",
-        value: 4,
-        phase: "afterDerived",
-        predicate: ["paragon:regalia"],
-      },
+      // FtE bonus when Master: Initate +3 (normal), Adept +4, Paragon +4
       {
         key: "ActiveEffectLike",
         mode: "upgrade",
         path: "flags.pf2e.followTheExpert.bonus.master",
         value: 4,
         phase: "afterDerived",
-        predicate: [{ or: ["paragon:regalia", "adept:regalia"] }],
+        predicate: [{ gte: ["self:implement:regalia:rank", 2] }],
       },
     ];
 
