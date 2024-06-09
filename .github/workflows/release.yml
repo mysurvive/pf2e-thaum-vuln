@@ -110,6 +110,7 @@ jobs:
         run: zip -r ../${{ env.package_type }}.zip .
 
       - name: Create release
+        if: published
         id: create_version_release
         uses: ncipollo/release-action@v1
         with:
