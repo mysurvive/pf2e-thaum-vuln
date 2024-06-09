@@ -89,7 +89,6 @@ jobs:
           path: dist
 
   publish:
-    if: "!github.event.release.prerelease"
     needs:
       - lint
       - build
@@ -111,6 +110,7 @@ jobs:
         run: zip -r ../${{ env.package_type }}.zip .
 
       - name: Create release
+        if: "!github.event.release.prerelease"
         id: create_version_release
         uses: ncipollo/release-action@v1
         with:
