@@ -6,7 +6,7 @@ name: Release
 
 on:
   release:
-    types: [published, prereleased]
+    types: [published]
 
 env:
   package_type: module
