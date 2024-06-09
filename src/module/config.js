@@ -94,8 +94,8 @@ Hooks.on("init", async () => {
   });
 
   //game settings
-  game.settings.register("pf2e-thaum-vuln", "0124migration", {
-    name: "0.12.4 migration",
+  game.settings.register("pf2e-thaum-vuln", "0150migration", {
+    name: "0.15.0 migration",
     scope: "world",
     config: false,
     type: Boolean,
