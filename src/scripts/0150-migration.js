@@ -216,10 +216,11 @@ Hooks.on("ready", async () => {
         await lantern.update({ _id: lantern._id, "system.rules": newRules });
         await lantern.createEffectsOnItem(lantern.item.uuid);
       }
+
+      ui.notifications.info(
+        "Finished migrating PF2e Exploit Vulnerability 0.15.0 data."
+      );
+      game.settings.set("pf2e-thaum-vuln", "0150migration", true);
     };
-    ui.notifications.info(
-      "Finished migrating PF2e Exploit Vulnerability 0.15.0 data."
-    );
-    game.settings.set("pf2e-thaum-vuln", "0150migration", true);
   }
 });
