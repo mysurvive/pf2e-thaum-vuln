@@ -181,30 +181,36 @@ Hooks.on("pf2e.endTurn", (combatant) => {
   const combatActor = game.actors.get(combatant.actorId);
   // Exits early if the combatant doesn't have the implements.regalia attribute on their actor
   if (!combatActor.attributes.implements?.["regalia"]) return;
-  const frightenedUserActors = game.users
-    .map((u) => {
+  const frightenedActors = game.canvas.tokens.placeables
+    .map((t) => {
       if (
-        u.character?.itemTypes.condition.some(
+        t.actor?.itemTypes.condition.some(
           (c) =>
             c.sourceId ===
             "Compendium.pf2e.conditionitems.Item.TBSHQspnbcqxsmjL"
         ) &&
-        u.character?.itemTypes.effect.some(
+        t.actor?.itemTypes.effect.some(
           (e) =>
             e.slug === "effect-regalia-aura-initiate" ||
             e.slug === "effect-regalia-aura-adept" ||
             e.slug === "effect-regalia-aura-paragon"
         )
-      )
-        return u.id;
+      ) {
+        return t.actor.id;
+      }
     })
     .filter((u) => u != undefined);
+
+  const whisperList = game.users.map((u) => {
+    if (frightenedActors.includes(u.character?.id)) return u.id;
+    return game.users.activeGM;
+  });
+
   // Don't attempt to send whispers if there are no targets for the whispers
-  if (frightenedUserActors.length > 0) {
+  if (whisperList.length > 0) {
     ChatMessage.create({
       user: game.user.id,
-      type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
-      whisper: frightenedUserActors,
+      whisper: whisperList,
       content: game.i18n.localize(
         "pf2e-thaum-vuln.implements.regalia.frightenedReminder"
       ),
