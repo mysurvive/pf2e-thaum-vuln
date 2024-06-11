@@ -329,6 +329,12 @@ async function _createRKDialog(userId, saUuid, targUuid) {
           notes: "",
         });
 
+        // Add TokenMark roll option to roll options
+        const tokenMark = targ.uuid
+          ? sa.synthetics.tokenMarks.get(targ.uuid)
+          : null;
+        tokenMark ? rollOptions.push(`target:mark:${tokenMark}`) : null;
+
         const outcomes = {
           criticalSuccess: game.i18n.localize(
             "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.criticalSuccess"
