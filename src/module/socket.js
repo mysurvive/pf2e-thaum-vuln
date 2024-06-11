@@ -7,7 +7,7 @@ import {
   PRIMARY_TARGET_EFFECT_UUID,
 } from "./utils/index.js";
 import { parseHTML } from "./utils/utils.js";
-import { createEffectData } from "./utils/helpers.js";
+import { createEffectData, getTargetRollOptions } from "./utils/helpers.js";
 
 let socket;
 
@@ -379,7 +379,11 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         let rollData = {
           actor: sa,
           type: "skill-check",
-          options: [...rollOptions, "action:recall-knowledge"],
+          options: [
+            ...rollOptions,
+            "action:recall-knowledge",
+            getTargetRollOptions(targ.actor),
+          ].flat(),
           domains: ["all", "check", "skill-check"],
           notes,
           dc: { value: parseInt(rollDC) + parseInt(rollELModifier) },
