@@ -81,8 +81,8 @@ class Chalice extends Implement {
         "<br><br>" +
         game.i18n.localize(
           "pf2e-thaum-vuln.implements.chalice.drink.dialog.cooldown"
-        );
-      +drainedEffect.system.remaining;
+        ) +
+        drainedEffect.system.remaining;
     }
 
     new Dialog({
