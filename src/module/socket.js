@@ -382,7 +382,7 @@ async function _createRKDialog(userId, saUuid, targUuid) {
           options: [
             ...rollOptions,
             "action:recall-knowledge",
-            getTargetRollOptions(targ.actor),
+            getTargetRollOptions(targ?.actor),
           ].flat(),
           domains: ["all", "check", "skill-check"],
           notes,

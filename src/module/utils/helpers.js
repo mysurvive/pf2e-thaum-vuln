@@ -182,6 +182,7 @@ function getEffectOnActor(actor, sourceId) {
 }
 
 function getTargetRollOptions(actor) {
+  if (!actor) return [];
   const selfRollOptions = actor.getSelfRollOptions();
   return selfRollOptions.map((t) => t.replace(/^self/, "target"));
 }
