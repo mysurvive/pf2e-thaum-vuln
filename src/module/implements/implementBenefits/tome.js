@@ -36,7 +36,10 @@ class Tome extends Implement {
         value: 1,
         type: "circumstance",
         label: "Tome Implement Adept RK Success",
-        predicate: ["adept:tome", "target:mark:tome-adept-rk-success"],
+        predicate: [
+          { or: ["adept:tome", "paragon:tome"] },
+          "target:mark:tome-adept-rk-success",
+        ],
         hideIfDisabled: true,
       },
       {
@@ -171,6 +174,7 @@ class Tome extends Implement {
         path: "{item|flags.pf2e.rulesSelections.effectTomeFirstSkill}",
         value: 3,
         priority: 50,
+        phase: "afterDerived",
       },
       {
         key: "ActiveEffectLike",
@@ -192,6 +196,7 @@ class Tome extends Implement {
           ],
         },
         priority: 50,
+        phase: "afterDerived",
       },
       {
         key: "ActiveEffectLike",
@@ -199,6 +204,7 @@ class Tome extends Implement {
         predicate: ["paragon:tome"],
         path: "{item|flags.pf2e.rulesSelections.effectTomeFirstSkill}",
         value: 4,
+        phase: "afterDerived",
       },
       {
         key: "ActiveEffectLike",
@@ -206,6 +212,7 @@ class Tome extends Implement {
         predicate: ["paragon:tome"],
         path: "{item|flags.pf2e.rulesSelections.effectTomeSecondSkill}",
         value: 4,
+        phase: "afterDerived",
       }
     );
 
@@ -327,6 +334,10 @@ class Tome extends Implement {
       effect.name += " (failure)";
     } else {
       effect.name += " (success)";
+    }
+    if (this.paragon) {
+      effect.system.duration.expiry = "turn-start";
+      effect.system.duration.value = 1;
     }
     await sa.createEmbeddedDocuments("Item", [effect]);
   }
