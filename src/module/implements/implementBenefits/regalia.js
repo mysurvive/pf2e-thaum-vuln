@@ -210,7 +210,6 @@ Hooks.on("pf2e.endTurn", (combatant) => {
   if (whisperList.length > 0) {
     ChatMessage.create({
       user: game.user.id,
-      type: CONST.CHAT_MESSAGE_TYPES.WHISPER,
       whisper: whisperList,
       content: game.i18n.localize(
         "pf2e-thaum-vuln.implements.regalia.frightenedReminder"
