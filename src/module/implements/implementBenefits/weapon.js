@@ -45,7 +45,10 @@ class Weapon extends Implement {
         title: game.i18n.localize(
           "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.failure"
         ),
-        predicate: ["adept:weapon", "implements-interruption-attack"],
+        predicate: [
+          { or: ["adept:weapon", "paragon:weapon"] },
+          "implements-interruption-attack",
+        ],
         slug: "implements-interruption-adept",
       },
       {

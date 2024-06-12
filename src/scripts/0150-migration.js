@@ -209,9 +209,12 @@ Hooks.on("ready", async () => {
       const lanternCharacters = game.actors.filter(
         (a) => a.system.attributes.implements?.lantern
       );
-      const lanterns = lanternCharacters.map((l) => {
-        return l.system.attributes.implements.lantern;
-      });
+      const lanterns = lanternCharacters
+        .map((l) => {
+          if (l.system.attributes.implements.lantern.item)
+            return l.system.attributes.implements.lantern;
+        })
+        .filter((l) => l != undefined);
 
       const ruleLabels = new Set(oldLanternRules.map((r) => r.label));
       for (const lantern of lanterns) {

@@ -181,6 +181,12 @@ function getEffectOnActor(actor, sourceId) {
   return actor.itemTypes.effect.find((effect) => effect.sourceId === sourceId);
 }
 
+function getTargetRollOptions(actor) {
+  if (!actor) return [];
+  const selfRollOptions = actor.getSelfRollOptions();
+  return selfRollOptions.map((t) => t.replace(/^self/, "target"));
+}
+
 export {
   targetEVPrimaryTarget,
   getMWTargets,
@@ -188,6 +194,7 @@ export {
   getGreatestIWR,
   getIWR,
   getActorEVEffect,
+  getTargetRollOptions,
   BDGreatestBypassableResistance,
   createEffectData,
   hasFeat,

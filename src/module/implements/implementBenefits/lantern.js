@@ -77,6 +77,7 @@ class Lantern extends Implement {
         key: "FlatModifier",
         selector: "skill-check",
         label: "In Lantern Light",
+        type: "status",
         value: 1,
         predicate: [
           "lantern-implement-lit",

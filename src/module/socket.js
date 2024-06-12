@@ -7,7 +7,7 @@ import {
   PRIMARY_TARGET_EFFECT_UUID,
 } from "./utils/index.js";
 import { parseHTML } from "./utils/utils.js";
-import { createEffectData } from "./utils/helpers.js";
+import { createEffectData, getTargetRollOptions } from "./utils/helpers.js";
 
 let socket;
 
@@ -329,6 +329,12 @@ async function _createRKDialog(userId, saUuid, targUuid) {
           notes: "",
         });
 
+        // Add TokenMark roll option to roll options
+        const tokenMark = targ.uuid
+          ? sa.synthetics.tokenMarks.get(targ.uuid)
+          : null;
+        tokenMark ? rollOptions.push(`target:mark:${tokenMark}`) : null;
+
         const outcomes = {
           criticalSuccess: game.i18n.localize(
             "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.criticalSuccess"
@@ -379,7 +385,11 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         let rollData = {
           actor: sa,
           type: "skill-check",
-          options: [...rollOptions, "action:recall-knowledge"],
+          options: [
+            ...rollOptions,
+            "action:recall-knowledge",
+            getTargetRollOptions(targ?.actor),
+          ].flat(),
           domains: ["all", "check", "skill-check"],
           notes,
           dc: { value: parseInt(rollDC) + parseInt(rollELModifier) },
