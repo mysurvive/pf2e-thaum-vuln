@@ -330,23 +330,25 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         });
 
         // Add TokenMark roll option to roll options
-        const tokenMark = targ.uuid
-          ? sa.synthetics.tokenMarks.get(targ.uuid)
-          : null;
-        tokenMark ? rollOptions.push(`target:mark:${tokenMark}`) : null;
+        if (targ) {
+          const tokenMark = targ.uuid
+            ? sa.synthetics.tokenMarks.get(targ.uuid)
+            : null;
+          tokenMark ? rollOptions.push(`target:mark:${tokenMark}`) : null;
 
-        const outcomes = {
-          criticalSuccess: game.i18n.localize(
-            "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.criticalSuccess"
-          ),
-          success: game.i18n.localize(
-            "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.success"
-          ),
-          failure: "",
-          criticalFailure: game.i18n.localize(
-            "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.criticalFailure"
-          ),
-        };
+          const outcomes = {
+            criticalSuccess: game.i18n.localize(
+              "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.criticalSuccess"
+            ),
+            success: game.i18n.localize(
+              "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.success"
+            ),
+            failure: "",
+            criticalFailure: game.i18n.localize(
+              "pf2e-thaum-vuln.recallKnowledge.degreeOfSuccess.criticalFailure"
+            ),
+          };
+        }
 
         const notes = Object.entries(outcomes).map(([outcome, text]) => ({
           title: game.i18n.localize(
