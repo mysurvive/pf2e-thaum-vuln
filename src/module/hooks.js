@@ -41,10 +41,10 @@ async function updateWeaknessType(message, speaker) {
     return;
 
   const strikeTarget = await fromUuid(
-    message.getFlag("pf2e-thaum-vuln", "targets")[0].actorUuid
+    message.getFlag("pf2e-thaum-vuln", "targets")[0]?.actorUuid
   );
 
-  if (strikeTarget.primaryUpdater !== game.user) return;
+  if (!strikeTarget || strikeTarget.primaryUpdater !== game.user) return;
 
   const evEffect = strikeTarget.items.find(
     (i) =>
