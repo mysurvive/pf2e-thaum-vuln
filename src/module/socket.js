@@ -301,7 +301,7 @@ async function _createRKDialog(userId, saUuid, targUuid) {
     esotericLoreModifier: esotericLoreModifier,
     targ: {
       name: targ?.name,
-      dc: targ?.actor?.identificationDCs?.standard?.dc,
+      dc: targ?.actor?.identificationDCs?.standard?.dc ?? 0,
     },
   };
   if (hasDiverseLore) {
@@ -314,7 +314,7 @@ async function _createRKDialog(userId, saUuid, targUuid) {
       callback: async (html) => {
         const rollELModifier = $(html).find(`[id="el-modifier"]`)[0].value ?? 0;
         const rollTarget = $(html).find(`[id="target"]`)[0].value ?? 0;
-        const rollDC = $(html).find(`[id="dc"]`)[0].value ?? 0;
+        const rollDC = $(html).find(`[id="dc"]`)[0].value ?? null;
         const hasDiverseLore = sa.items.some((i) => i.slug === "diverse-lore");
         let traits = ["concentrate", "secret"];
         const rollOptions = sa.getRollOptions(["skill-check", skill.slug]);
@@ -330,10 +330,12 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         });
 
         // Add TokenMark roll option to roll options
-        const tokenMark = targ.uuid
-          ? sa.synthetics.tokenMarks.get(targ.uuid)
-          : null;
-        tokenMark ? rollOptions.push(`target:mark:${tokenMark}`) : null;
+        if (targ) {
+          const tokenMark = targ.uuid
+            ? sa.synthetics.tokenMarks.get(targ.uuid)
+            : null;
+          tokenMark ? rollOptions.push(`target:mark:${tokenMark}`) : null;
+        }
 
         const outcomes = {
           criticalSuccess: game.i18n.localize(
