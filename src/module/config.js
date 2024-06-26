@@ -43,8 +43,7 @@ Hooks.on("init", async () => {
         );
         if (
           selectedImplements &&
-          Object.keys(selectedImplements)?.length !== 0 &&
-          game.ready
+          Object.keys(selectedImplements)?.length !== 0
         ) {
           const implementClasses = Object.fromEntries(
             Object.entries(selectedImplements).map(([k, imp]) => [
