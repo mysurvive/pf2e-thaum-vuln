@@ -14,15 +14,15 @@
         "hint": "Ustaw globalny modyfikator dla ST Wiedzy Ezoterycznej. Jeśli zostanie on zmieniony, zazwyczaj wynosi -2, aby Wiedza Ezoteryczna była zgodna z odpowiednią umiejętnością wiedzy dla celów Przywołania Wiedzy."
       },
       "enforceHeldImplement": {
-        "name": "Wymuś trzymanie Narzędzia",
-        "hint": "Wymusza zasadę, że narzędzie musi być trzymane w celu wykorzystania Exploit Vulnerability."
+        "name": "Wymuś trzymanie Utensylium",
+        "hint": "Wymusza zasadę, że utensylium musi być trzymane w celu wykorzystania Exploit Vulnerability."
       },
       "reactionCheckerHandlesAmulet": {
         "hint": "Zezwól PF2e Reaction Checker na obsługę Powstrzymanie Amuletem.",
         "name": "PF2e Reaction Checker obejmuje Amulet"
       },
       "dailiesHandlesTome": {
-        "hint": "Zezwolenie, aby PF2e Dailies obsługiwały codzienne wybory umiejętności do implementacji Księgi.",
+        "hint": "Zezwolenie, aby PF2e Dailies obsługiwały codzienne wybory umiejętności do utensylium Księgi.",
         "name": "PF2e Dailies obejmuje Tom"
       }
     },
@@ -33,8 +33,8 @@
           "noExploitVulnerability": "Ten aktor nie ma możliwości użycia Wykorzystania Podatności",
           "noEsotericLoreSkill": "Ten aktor nie posiada umiejętności Wiedza Ezoteryczna (Esoteric Lore)",
           "noMatchingDC": "Brak pasującego ST dla celu",
-          "noImplements": "Nie masz wybranych narzędzi. Przejdź do zakładki ekwipunku na karcie postaci, kliknij zarządzaj narzędziami i przypisz przedmioty do narzędzi.",
-          "noHeldImplement": "Aby Wykorzystać Podatność, musisz posiadać jedno ze swoich narzędzi."
+          "noImplements": "Nie masz wybranych utensylium. Przejdź do zakładki ekwipunku na karcie postaci, kliknij zarządzaj utensylium i przypisz przedmioty do utensylium.",
+          "noHeldImplement": "Aby Wykorzystać Podatność, musisz posiadać jedno ze swoich utensylium."
         },
         "cursedEffigy": {
           "noAbility": "Nie masz możliwości stworzenia Przeklętej Kukły",
@@ -67,9 +67,9 @@
         },
         "noToken": "Nie wybrano żadnego tokena.",
         "intensifyImplement": {
-          "invalid": "Umiejętność Intensyfikacji wybranego Narzędzia nie jest obecnie obsługiwana w PF2e Exploit Vulnerability.",
+          "invalid": "Umiejętność Intensyfikacji wybranego utensylium nie jest obecnie obsługiwana w PF2e Exploit Vulnerability.",
           "noIntensify": "Nie posiadasz zdolności Zwiększenie Podatności. Sprawdź swoją kartę, aby upewnić się, że posiadasz Zwiększenie Podatności jako atut.",
-          "notHeld": "Aby korzystać ze zdolności Zwiększenie Podatności, musisz posiadać Narzędzie"
+          "notHeld": "Aby korzystać ze zdolności Zwiększenie Podatności, musisz posiadać utensylium"
         }
       },
       "info": {
@@ -84,10 +84,10 @@
         "label": "Częstotliwość",
         "text": "raz na rundę"
       },
-      "flavor": "Przeszukujesz swoje doświadczenia i wiedzę, aby znaleźć coś, co może odstraszyć wroga. Wyciągasz ze swojej ezoteryki przedmiot o odpowiednich nadprzyrodzonych właściwościach, a następnie używasz swojego narzędzia, by rozniecić resztki jego mocy. Wybierz istotę, którą widzisz i spróbuj wykonać test Wiedzy Ezoterycznej ze standardowym ST dla jej poziomu, podczas gdy wyciągasz odpowiedni ezoteryczny przedmiot i używasz swojego narzędzia, aby go wzmocnić. Zyskujesz następujące efekty do momentu ponownego Wykorzystania Podatności.",
+      "flavor": "Przeszukujesz swoje doświadczenia i wiedzę, aby znaleźć coś, co może odstraszyć wroga. Wyciągasz ze swojej ezoteryki przedmiot o odpowiednich nadprzyrodzonych właściwościach, a następnie używasz swojego narzędzia, by rozniecić resztki jego mocy. Wybierz istotę, którą widzisz i spróbuj wykonać test Wiedzy Ezoterycznej ze standardowym ST dla jej poziomu, podczas gdy wyciągasz odpowiedni ezoteryczny przedmiot i używasz swojego utensylium, aby go wzmocnić. Zyskujesz następujące efekty do momentu ponownego Wykorzystania Podatności.",
       "requirements": {
         "label": "Wymagania",
-        "text": "Trzymasz w ręku narzędzie"
+        "text": "Trzymasz w ręku utensylium"
       },
       "dialog": {
         "prompt": "Wybierz podatność, którą chcesz wykorzystać.",
@@ -172,12 +172,12 @@
       "character": "Postać:",
       "target": "Cel:",
       "manageImplements": {
-        "dragItem": "Przeciągnij element tutaj, aby oznaczyć go jako narzędzie.",
-        "implement": "Narzędzie"
+        "dragItem": "Przeciągnij element tutaj, aby oznaczyć go jako utensylium.",
+        "implement": "Utensylium"
       },
       "intensifyImplement": {
-        "title": "Wzmocnienie Narzędzia",
-        "content": "Wybierz narzędzia, które chcesz wzmocnić."
+        "title": "Wzmocnienie Utensylium",
+        "content": "Wybierz utensylium, które chcesz wzmocnić."
       }
     },
     "chatCard": {
@@ -217,9 +217,9 @@
       "esotericKnowledgeLabel": "Przywołanie Wiedzy Ezoterycznej:"
     },
     "manageImplements": {
-      "implementHeader": "Narzędzia Taumaturga",
-      "manageImplementsButton": "Zarządzaj Narzędziami",
-      "clearImplementsButton": "Wyczyść wszystkie narzędzia"
+      "implementHeader": "Utensylia Taumaturga",
+      "manageImplementsButton": "Zarządzaj Utensyliami",
+      "clearImplementsButton": "Wyczyść wszystkie utensylia"
     },
     "targetManagement": {
       "evActive": "EV Aktywne:",
@@ -236,8 +236,8 @@
       "weapon": {
         "implementsInterruption": {
           "title": {
-            "success": "Broń: Przerwanie narzędzia",
-            "failure": "Porażka w przerwaniu narzędzia"
+            "success": "Broń: Przerwanie utensylium",
+            "failure": "Porażka w przerwaniu utensylium"
           },
           "text": {
             "success": "Zakłócasz działanie wyzwalające.",
