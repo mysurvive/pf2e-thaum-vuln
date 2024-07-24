@@ -17,10 +17,12 @@
   "_stats": {
     "systemId": "pf2e",
     "systemVersion": "4.10.3",
-    "coreVersion": "10.291",
+    "coreVersion": "12.327",
     "createdTime": 1680591195268,
     "modifiedTime": 1680591211685,
-    "lastModifiedBy": "yndSwxb2e9oSc8iR"
+    "lastModifiedBy": "yndSwxb2e9oSc8iR",
+    "compendiumSource": "Macro.enhRQBIu4g7DpUaV",
+    "duplicateSource": null
   },
   "folder": null,
   "sort": 0,

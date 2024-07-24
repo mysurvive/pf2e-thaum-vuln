@@ -31,9 +31,9 @@
       "rarity": "common"
     },
     "publication": {
-      "title": "",
+      "title": "Pathfinder Player Core",
       "authors": "",
-      "license": "OGL",
+      "license": "ORC",
       "remaster": false
     },
     "level": {
@@ -70,11 +70,13 @@
   },
   "_stats": {
     "systemId": "pf2e",
-    "systemVersion": "5.13.6",
-    "coreVersion": "11.315",
+    "systemVersion": "6.1.1",
+    "coreVersion": "12.329",
     "createdTime": 1675386402884,
-    "modifiedTime": 1710017665147,
-    "lastModifiedBy": "JCSogeTR741olRmm"
+    "modifiedTime": 1721825729055,
+    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
+    "compendiumSource": "Item.E5cNWuuvOLWVhAcB",
+    "duplicateSource": null
   },
   "folder": null,
   "sort": 600000,
