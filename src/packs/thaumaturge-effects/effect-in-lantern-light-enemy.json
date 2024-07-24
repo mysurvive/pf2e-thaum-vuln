@@ -31,7 +31,7 @@
       "value": []
     },
     "publication": {
-      "title": "",
+      "title": "Pathfinder Dark Archive",
       "authors": "",
       "license": "OGL",
       "remaster": false
@@ -69,11 +69,13 @@
   },
   "_stats": {
     "systemId": "pf2e",
-    "systemVersion": "5.15.1",
-    "coreVersion": "11.315",
+    "systemVersion": "6.1.1",
+    "coreVersion": "12.329",
     "createdTime": 1715486634382,
-    "modifiedTime": 1715493213639,
-    "lastModifiedBy": "JCSogeTR741olRmm"
+    "modifiedTime": 1721825840881,
+    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.NPPu2y73JHbTrSE3",
+    "duplicateSource": null
   },
   "_id": "NPPu2y73JHbTrSE3",
   "sort": 100000,

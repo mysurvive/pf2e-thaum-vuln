@@ -23,7 +23,7 @@
       "value": []
     },
     "publication": {
-      "title": "",
+      "title": "Pathfinder Dark Archive",
       "authors": "",
       "license": "OGL",
       "remaster": false
@@ -59,11 +59,13 @@
   },
   "_stats": {
     "systemId": "pf2e",
-    "systemVersion": "5.15.4",
-    "coreVersion": "11.315",
+    "systemVersion": "6.1.1",
+    "coreVersion": "12.329",
     "createdTime": 1716181679619,
-    "modifiedTime": 1716442250688,
-    "lastModifiedBy": "o29bm85va79jJPjh"
+    "modifiedTime": 1721825823295,
+    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "ZLBlD9tMHjrNLhIn",
   "sort": 0,
