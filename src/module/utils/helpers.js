@@ -72,7 +72,7 @@ function getActorEVEffect(a, targetID) {
   } else if (targetID === "*") {
     let effects = new Array();
     for (let item of a.items) {
-      if (TargetEffectSourceIDs.includes(item.getFlag("core", "sourceId"))) {
+      if (TargetEffectSourceIDs.includes(item._stats.compendiumSource)) {
         effects.push(item);
       }
     }
