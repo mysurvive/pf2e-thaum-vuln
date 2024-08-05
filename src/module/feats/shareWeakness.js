@@ -1,4 +1,4 @@
-import { MORTAL_WEAKNESS_EFFECT_UUID } from "../utils/index.js";
+import { MORTAL_WEAKNESS_COMPENDIUM_SOURCE } from "../utils/index.js";
 import { getActorEVEffect } from "../utils/helpers.js";
 import { applySWEffect } from "../socket.js";
 //Share Weakness macro
@@ -13,8 +13,8 @@ function shareWeakness() {
   }
   const sa = a[0].actor;
   const hasShareWeakness = sa.items.some((i) => i.slug === "share-weakness");
-  const hasMortalWeaknessActive = sa.items.some(
-    (i) => i._stats.compendiumSource === MORTAL_WEAKNESS_EFFECT_UUID
+  const hasMortalWeaknessActive = sa.itemTypes.effect.some(
+    (i) => i._stats.compendiumSource === MORTAL_WEAKNESS_COMPENDIUM_SOURCE
   );
   const EVEffect = getActorEVEffect(sa).find(
     (i) => i.slug === "exploit-mortal-weakness"
