@@ -3,43 +3,42 @@
     "settings": {
       "EVAutomation": {
         "name": "Usar a Automação de Explorar Vulnerabilidade",
-        "hint": "Se verdadeiro, o módulo irá automaticamente marcar todos alvos validos para Fraqueza Mortal, Vulnerabilidades Simpáticas, etc. na cena ativa. Defina como falso se desejar atualizar manualmente os alvos usando a macro forceEV. Você pode querer desativar isso se desejar aplicar os efeitos da vulnerabilidade de exploração de maneira diferente do descrito em RAW."
+        "hint": "Se verdadeiro, o módulo irá automaticamente marcar todos alvos validos para Fraqueza Mortal, Vulnerabilidades Compreensivas, etc. na cena ativa. Defina como falso se desejar atualizar manualmente os alvos usando a macro forceEV. Você pode querer desativar isso se desejar aplicar os efeitos da vulnerabilidade de exploração de maneira diferente do descrito em RAW."
       },
       "mystifyNumbers": {
         "name": "Mistificar Valores IWR",
-        "hint": "Se verdadeiro, os resultados na caixa de dialógo quando explorando vulnerabilidade não irão aparecer - apenas monstrando o tipo de dano"
+        "hint": "Se verdadeiro, os resultados na caixa de dialogo ao explorar uma vulnerabilidade não irão aparecer e apenas mostrarão o tipo de dano."
       },
       "esotericLoreModifier": {
-        "name": "Modificador DC de Conhecimento Esotérico ",
-        "hint": "Defina um modificador global para o CD de Conhecimento Esotérico. Se alterado, normalmente é definido como -2 para fazer com que o Conhecimento Esotérico se alinhe com uma habilidade de conhecimento aplicável para fins de Recordar Conhecimento."
+        "name": "Modificador CD de Conhecimento Esotérico",
+        "hint": "Defina um modificador global para o CD de Conhecimento Esotérico. Se alterado, normalmente é definido como -2 para que o Conhecimento Esotérico se alinhe com uma habilidade de conhecimento aplicável para Relembrar Conhecimento."
       },
       "enforceHeldImplement": {
-        "name": "Forçar empunhar Implemento",
+        "name": "Forçar Implemento Empunhado",
         "hint": "Força a regra que um implemento deve ser empunhado para usar Explorar Vulnerabilidade."
       },
       "dailiesHandlesTome": {
-        "name": "PF2e Dailies Handles Tome",
-        "hint": "Permitir PF2e Dailies em lidar com as escolhas de habilidades diárias do Implemento Tomo."
+        "name": "PF2e Dailies Handles Tomo",
+        "hint": "Permitir PF2e Dailies em lidar com as escolhas de habilidades diárias do Implemento do Tomo."
       },
       "reactionCheckerHandlesAmulet": {
         "name": "PF2e Reaction checa manusear amuleto",
-        "hint": "Permitir que PF2e Reaction Checker controle Amulet's Abeyance."
+        "hint": "Permitir que PF2e Reaction Checker controle Suspensão do Amuleto."
       }
     },
-
     "notifications": {
       "warn": {
         "exploitVulnerability": {
-          "targetCount": "Selecione um token Taumaturgo e mire uma criatura.",
-          "noExploitVulnerability": "Este ator não detém a habilidade de Explorar Vulnerabilidade",
-          "noEsotericLoreSkill": "Este ator não detém a perícia em Conhecimento Esotérico",
-          "noMatchingDC": "Nenhum DC correspondente para o alvo",
+          "targetCount": "Selecione um token de Taumaturgo e mire em uma criatura.",
+          "noExploitVulnerability": "Este ator não possui a habilidade Explorar Vulnerabilidade",
+          "noEsotericLoreSkill": "Este ator não possui a perícia de Conhecimento Esotérico",
+          "noMatchingDC": "Nenhum CD correspondente para o alvo",
           "noImplements": "Você não tem implementos selecionados. Vá para a guia de inventário em sua ficha de personagem, clique em gerenciar implementos e atribua itens aos seus implementos.",
-          "noHeldImplement": "Você deve ter um de seus implementos empunhado para Explorar Vulnerabilidade."
+          "noHeldImplement": "Você precisa empunhar um de seus implementos para Explorar Vulnerabilidade."
         },
         "cursedEffigy": {
-          "invalidTarget": "Mire apenas no alvo que você Explorou Vulnerabilidade para criar uma Efígie Amaldiçoada",
-          "noAbility": "Você não tem a habilidade para criar uma Efígie Amaldiçoada"
+          "invalidTarget": "Mire apenas no alvo que você Explorou Vulnerabilidade para criar uma efígie amaldiçoada",
+          "noAbility": "Você não tem a habilidade para criar uma efígie amaldiçoada"
         },
         "forceEV": {
           "invalidTargets": "Selecione um token Taumaturgo e mire uma ou mais criaturas",
@@ -49,50 +48,49 @@
           "noWeakness": "Não há fraquezas nesta criatura para explorar uma Fraqueza Mortal contra ela."
         },
         "shareWeakness": {
-          "noAbility": "O ator não tem a habilidade para compartilhar fraquezas",
+          "noAbility": "O ator não tem a habilidade de compartilhar fraquezas",
           "noActiveMW": "O ator não tem o efeito Fraqueza Mortal ativo",
           "invalidActorCount": "Selecione apenas o Taumaturgo utilizando Compartilhar Fraquezas e tente novamente."
         },
         "twinWeakness": {
-          "noValidEV": "Seu alvo deve estar afetado por Antítese Pessoal ou Fraqueza Mortal in order to use Fraqueza Gêmea",
-          "invalidTargetCount": "Selecione apenas um alvo para ser alvo de Fraqueza Gêmea",
-          "invalidTarget": "O alvo de Fraqueza Gêmea deve ser alvo também de Antítese Pessoal ou Fraqueza Mortal "
+          "noValidEV": "Seu alvo deve estar afetado por Antítese Pessoal ou Fraqueza Mortal para usar Fraqueza Gêmea",
+          "invalidTargetCount": "Selecione apenas um alvo para usar Fraqueza Gêmea contra",
+          "invalidTarget": "O alvo de Fraqueza Gêmea também deve ser alvo de Antítese Pessoal ou Fraqueza Mortal"
         },
         "strike": {
           "invalidDamageType": "O tipo de dano da arma está definido como sem tipo, que é um tipo de dano inválido para fins de Explorar Vulnerabilidade. Vulnerabilidade não será aplicada."
         },
         "rootToLife": {
-          "noAbility": "Ator selecionado não tem Raiz para a Vida",
-          "selectOne": "Select only one target for Raiz para a Vida ",
+          "noAbility": "Ator selecionado não tem Raiz à Vida",
+          "selectOne": "Selecione apenas um alvo para Raiz à Vida",
           "notDying": "Alvo não está morrendo"
         },
         "noToken": "Sem token selecionado.",
         "intensifyImplement": {
-          "invalid": "A habilidade Intensificar Investidura para o implemento selecionado não tem suporte no PF2e Exploit Vulnerability.",
-          "noIntensify": "Você não tem habilidade para Intensificar Vulnerabilidade. Verifique sua ficha para ter certeza de que você tem Intensificar Vulnerabilidade como um talento.",
+          "invalid": "Intensificar habilidade para o implemento selecionado ainda não tem suporte no PF2e Explorar Vulnerabilidade.",
+          "noIntensify": "Você não tem a habilidade de Intensificar Vulnerabilidade. Verifique sua ficha para ter certeza de que você tem Intensificar Vulnerabilidade como um talento.",
           "notHeld": "Você precisa estar segurando um implemento para Intensificar Vulnerabilidade"
         }
       },
       "info": {
         "recallKnowledge": {
-          "requestSent": "Pedido de Recordar Conhecimento solicitado para o GM"
+          "requestSent": "Pedido de Relembrar Conhecimento solicitado para o GM"
         }
       }
     },
-
     "exploitVulnerability": {
       "name": "Explorar Vulnerabilidade",
-      "flavor": "Você vasculha suas experiências e aprende a identificar algo que pode repelir seu inimigo. Você recupera um objeto de seu esotérico com as qualidades sobrenaturais apropriadas, então usa seu implemento para atiçar os restos de seu poder em chamas. Selecione uma criatura que você possa ver e tente um teste de Conhecimento Esotérico contra uma CD padrão para seu nível, enquanto você recupera o objeto certo de seu esotérico e usa seu implemento para fortalecê-lo. Você ganha os seguintes efeitos até explorar vulnerabilidades novamente.",
+      "flavor": "Você vasculha suas experiências e aprende a identificar algo que pode repelir seu inimigo. Você recupera um objeto de seu esotérico com as qualidades sobrenaturais apropriadas, então usa seu implemento para intensificar o resto de seu poder. Selecione uma criatura que você possa ver e faça um teste de Conhecimento Esotérico contra uma CD padrão para seu nível, enquanto você recupera o objeto certo de seu esotérico e usa seu implemento para fortalecê-lo. Você ganha os seguintes efeitos até Explorar Vulnerabilidades novamente.",
       "frequency": {
         "label": "Frequência",
-        "text": "Uma vez por rodada"
+        "text": "uma vez por rodada"
       },
       "requirements": {
-        "label": "Requerimentos",
-        "text": "Você está segurando seu implemento "
+        "label": "Requisitos",
+        "text": "Você está segurando seu implemento"
       },
       "dialog": {
-        "prompt": "Escolhar a vulnerabilidade a ser explorada.",
+        "prompt": "Escolha a vulnerabilidade a ser explorada.",
         "paBonusLabel": "Bônus de dano de Antítese Pessoal: ",
         "weaknessLabel": "Fraquezas: ",
         "resistanceLabel": "Resistências: ",
@@ -102,140 +100,124 @@
         "highestWeaknessLabel": "Maior Fraqueza"
       },
       "degreeOfSuccess": {
-        "criticalSuccess": "se lembra das fraquezas da criatura e, à medida que fortalece seu esoterismo, você tem um lampejo de percepção que concede ainda mais conhecimento sobre a criatura. Você aprende todas as resistências, fraquezas e imunidades da criatura, incluindo as quantidades das resistências e fraquezas e quaisquer fraquezas ou vulnerabilidades incomuns, como quais feitiços passarão pela antimagia de um golem. Você pode explorar a fraqueza mortal da criatura ou a antítese pessoal (veja abaixo). Seus Golpes desarmados e com arma contra a criatura também se tornam mágicos se já não o fossem.",
-        "success": "Você se lembra de um fato importante sobre a criatura, aprendendo sua maior fraqueza (ou uma de suas maiores fraquezas, se ela tiver vários com o mesmo valor), mas não suas outras fraquezas, resistências ou imunidades. Você pode explorar a fraqueza mortal da criatura ou a antítese pessoal. Seus Golpes desarmados e com arma contra a criatura também se tornam mágicos se já não o fossem.",
-        "failure": "Ao não lembrar de uma fraqueza importante sobre a criatura, você tenta explorar uma vulnerabilidade mais pessoal. Você pode explorar apenas a antítese pessoal da criatura. Seus Golpes desarmados e com arma contra a criatura também se tornam mágicos se já não o fossem.",
-        "criticalFailure": "Você não conseguia se lembrar do objeto certo para usar e se distrai enquanto vasculha seu esotérico. Você fica desprevenido até o próximo turno"
+        "criticalSuccess": "Você se lembra das fraquezas da criatura e, enquanto fortalece seu esotérico, tem uma epifania que concede ainda mais conhecimento sobre a criatura. Você aprende todas as resistências, fraquezas e imunidades da criatura, incluindo as quantidades das resistências e fraquezas e quaisquer fraquezas ou vulnerabilidades incomuns, como quais feitiços passarão pela antimagia de um golem. Você pode explorar a fraqueza mortal da criatura ou a antítese pessoal (veja abaixo). Seus Golpes desarmados e com arma contra a criatura também se tornam mágicos se já não eram.",
+        "success": "Você relembra de um fato importante sobre a criatura, descobrindo sua maior fraqueza (ou uma de suas maiores fraquezas, se ela tiver várias com o mesmo valor), mas não suas outras fraquezas, resistências ou imunidades. Você pode explorar a fraqueza mortal da criatura ou a antítese pessoal. Seus Golpes desarmados e com arma contra a criatura também se tornam mágicos se já não eram.",
+        "failure": "Ao não lembrar de uma fraqueza específica da criatura, você tenta explorar uma vulnerabilidade mais particular. Você pode explorar apenas a antítese pessoal da criatura. Seus Golpes desarmados e com arma contra a criatura também se tornam mágicos se já não eram.",
+        "criticalFailure": "Você não conseguiu se lembrar do objeto certo para usar e se distrai enquanto vasculha seu esotérico. Você fica desprevenido até o próximo turno."
       }
     },
-
     "personalAntithesis": {
       "name": "Antítese Pessoal"
     },
-
     "mortalWeakness": {
       "name": "Fraqueza Mortal"
     },
-
     "breachedDefenses": {
       "name": "Defesas Violadas",
       "bypassableLabel": "Maior resistência contornável: ",
       "bypassLine": "{type}, contornável por {exception}"
     },
-
     "esotericWarden": {
-      "name": "Guarda Esotérica",
+      "name": "Proteção Esotérica",
       "effect": {
-        "name": "Efeito Guarda Esotérica "
+        "name": "Efeito Proteção Esotérica"
       },
-      "flavor": "Quando você aplica material antitético contra uma criatura com sucesso você também se protege contra seus próximos ataques. Quando você for bem-sucedido em seu teste de Explorar Vulnerabilidade, você ganha um bônus de status de +1 em sua CA contra o próximo ataque da criatura e um bônus de status de +1 em seu próximo teste de resistência contra a criatura; se você obtiver sucesso crítico, esses bônus são +2. Você pode ganhar esses bônus apenas uma vez por dia contra uma criatura em particular, e o benefício termina se você explorar a vulnerabilidade novamente."
+      "flavor": "Quando você aplica o material antitético contra uma criatura com sucesso você também se protege contra os próximos ataques. Quando for bem-sucedido num teste de Explorar Vulnerabilidade, ganha um bônus de status de +1 em sua CA contra o próximo ataque da criatura e um bônus de status de +1 no próximo teste de resistência contra a criatura; se obtiver sucesso crítico, esses bônus são +2. Você pode ganhar esses bônus apenas uma vez por dia contra uma criatura em particular e o benefício termina se você explorar a vulnerabilidade novamente."
     },
-
     "diverseLore": {
       "name": "Conhecimento Diverso",
-      "flavor": "Além disso, quando você tiver sucesso em seu teste de Explorar uma Vulnerabilidade, compare o resultado de seu teste de Conhecimento Esotérico com a CD para Recuperar Conhecimento para aquela criatura; se esse número for um sucesso ou um sucesso crítico, você ganha informações como se tivesse sido bem-sucedido no teste de Recordar Conhecimento.",
+      "flavor": "Além disso, quando obter sucesso em seu teste para Explorar uma Vulnerabilidade, compare o resultado de seu teste de Conhecimento Esotérico com a CD para Relembrar Conhecimento para aquela criatura; se esse número for um sucesso ou um sucesso crítico, ganhará informações como se tivesse sido bem-sucedido no teste de Relembrar Conhecimento. ",
       "penalty": "Penalidade de Conhecimento Diverso",
-      "recallKnowledgeNote": "Seus estudos itinerantes significam que você ouviu rumores ou teorias sobre quase todos os tópicos... embora, reconhecidamente, suas fontes nem sempre sejam as mais confiáveis. Você pode sofrer uma penalidade de –2 em seu teste para Recordar Conhecimento com Conhecimento Esotérico para Recuperar Conhecimento sobre qualquer tópico, não apenas os tópicos usuais disponíveis para Conhecimento Esotérico."
+      "recallKnowledgeNote": "Por conta de seus estudos itinerantes, você já ouviu rumores ou teorias sobre quase todos os assuntos... embora nem sempre suas fontes sejam as mais confiáveis. Você pode sofrer uma penalidade de –2 em seu teste para Relembrar Conhecimento com Conhecimento Esotérico para Relembrar Conhecimento sobre qualquer assunto, não apenas os assuntos disponíveis para Conhecimento Esotérico."
     },
-
     "sharedWarding": {
-      "name": "Proteção Compartilhada ",
-      "flavor": "Você protege seus aliados dos ataques de seus inimigos sempre que aplica essas proteções a si mesmo. Quando você ganha um bônus de status na CA e salva de Esoteric Warden, você pode optar por conceder o mesmo benefício a todos os aliados em um raio de 9 metros (30 feet).",
-      "prompt": "Você deseja aplicar o efeito de Proteção Compartilhada para todos alidos até 9 m. (30 ft.)?"
+      "name": "Proteção Compartilhada",
+      "flavor": "Você protege seus aliados dos ataques de seus inimigos sempre que aplica essas proteções a si mesmo. Quando você ganha um bônus de status na CA e salvaguardas através de Proteção Esotérica, você pode optar por conceder o mesmo benefício a todos os aliados em um raio de 9 metros (30 feet).",
+      "prompt": "Você deseja aplicar o efeito de Proteção Esotérica para todos aliados a até 9 m. (30 ft.)?"
     },
-
     "shareWeakness": {
       "name": "Compartilhar Fraquezas",
-      "flavor": "Você seleciona um objeto de seu esotérico que tem grande valor pessoal para você, como um medalhão ou anel precioso, e você o concede a um aliado, estabelecendo um vínculo pessoal que permite que seu aliado afete um inimigo como se fosse você. Os golpes do aliado aplicam a fraqueza de sua Fraqueza Mortal da mesma forma que seus golpes. Este benefício termina quando sua vulnerabilidade de exploração termina ou você compartilha fraqueza novamente.",
+      "flavor": "Você seleciona um objeto de seu esotérico que tem grande valor pessoal para você, como um medalhão ou anel precioso, e então o entrega a um aliado, estabelecendo um vínculo pessoal que permite que seu aliado afete um inimigo como se fosse você. Os golpes do aliado aplicam a fraqueza de sua Fraqueza Mortal da mesma forma que seus golpes. Este benefício termina quando Explorar Vulnerabilidade termina ou ao Compartilhar Fraqueza novamente.",
       "prompt": "Escolha um aliado para compartilhar o efeito de Fraqueza Mortal com ele."
     },
-
     "ubiquitousWeakness": {
       "name": "Fraqueza Onipresente",
-      "flavor": "Você alimentou seus laços com seus companheiros, permitindo que você compartilhe os benefícios de seu esoterismo. Quando você usar Explorar Vulnerabilidade e escolher fraqueza mortal, selecione qualquer número de aliados a até 9 metros (30 ft.) de você. Seus Golpes aplicam a fraqueza da fraqueza mortal da mesma forma que seus Golpes. Esse benefício termina quando você termina de se beneficiar da vulnerabilidade de exploração. Como esse efeito depende de fortalecer magicamente seu vínculo com seus aliados, apenas os aliados com quem você desenvolveu um relacionamento ao longo de um ou mais dias ganham o benefício",
+      "flavor": "Você nutriu laços com seus companheiros, permitindo que compartilhe os benefícios de seu esoterismo. Quando você usar Explorar Vulnerabilidade e escolher fraqueza mortal, selecione qualquer número de aliados a até 9 metros (30 ft.) de você. Seus Golpes aplicam a fraqueza da fraqueza mortal da mesma forma que seus Golpes. Esse benefício termina quando os benefícios de Explorar Vulnerabilidade terminam. Como esse efeito depende de fortalecer magicamente seu vínculo com seus aliados, apenas os aliados com quem você desenvolveu um relacionamento ao longo de um ou mais dias ganham o benefício.",
       "prompt": "Você deseja aplicar o efeito de Fraqueza Mortal para todos aliados até 9 m. (30 ft.)?"
     },
-
     "twinWeakness": {
       "name": "Fraqueza Gêmea",
       "chatCardHeader": "Dano: Fraqueza Gêmea"
     },
-
     "rootToLife": {
-      "title": "Raiz para a Vida ",
-      "selectActionCount": "Selecione utilizar a variação de uma ou duas ações",
+      "title": "Raiz à Vida",
+      "selectActionCount": "Selecione se vai utilizar a variação de uma ou duas ações.",
       "outcome": "A criatura não está mais morrendo e está agora inconsciente com 0 Pontos de Vida:",
-      "twoActionOutcome": "Você pode tentar testes simples para remover cada fonte de dano que afeta o alvo."
+      "twoActionOutcome": " Você pode realizar testes simples para remover cada fonte de dano que afeta o alvo."
     },
-
     "esotericLore": {
       "name": "Conhecimento Esotérico"
     },
-
     "dubiousKnowledge": {
       "name": "Conhecimento Duvidoso",
       "degreeOfSuccess": {
-        "failure": "Quando você falha (mas não falha criticamente) em um teste de Recordar Conhecimento usando qualquer perícia, você aprende a resposta correta e uma resposta errada, mas não tem como diferenciar qual é qual. Isso pode ocorrer porque não se sabe que algo é significativo, mas não se é bom ou ruim."
+        "failure": "Quando você falha (mas não falha criticamente) em um teste de Relembrar Conhecimento usando qualquer perícia, você descobre um conhecimento correto e outro errôneo, mas é incapaz de saber qual é qual."
       }
     },
-
     "recallKnowledge": {
-      "name": "Recordar Conhecimento",
+      "name": "Relembrar Conhecimento",
       "dialog": {
-        "request": "Alguém está solicitando u mteste de Recordar Conhecimento utilizando a perícia Conhecimento Esotéric",
+        "request": "Alguém está solicitando um teste de Relembrar Conhecimento utilizando a perícia Conhecimento Esotérico.",
         "featRefLabel": "Referências de ação/talento:",
-        "dcRefLabel": "DC Referência:",
+        "dcRefLabel": "Referência de CD:",
         "rollSettings": "Configurações de rolagem",
-        "targetTypeLabelDefault": "Assombração, Maldição ou Criatura ",
+        "targetTypeLabelDefault": "Assombração, Maldição ou Criatura",
         "targetTypeLabelDL": "Qualquer coisa",
-        "rawDC": "DC bruto (excluindo quaisquer modificadores acima):"
+        "rawDC": "CD bruto (excluindo quaisquer modificadores acima):"
       },
       "degreeOfSuccess": {
         "criticalSuccess": "O personagem relembra o conhecimento com precisão e ganha informações ou contexto adicionais.",
         "success": "O personagem relembra o conhecimento com precisão ou ganha uma pista útil sobre sua situação atual.",
-        "criticalFailure": "O personagem recorda informações incorretas ou obtém uma pista errada ou enganosa."
+        "criticalFailure": "O personagem relembra informações incorretas ou obtém uma pista errada ou enganosa."
       },
-      "esotericKnowledgeLabel": "Recordar Conhecimento Esotérico:"
+      "esotericKnowledgeLabel": "Relembrar Conhecimento Esotérico:"
     },
-
     "manageImplements": {
-      "implementHeader": "Implementos de Taumaturgo ",
-      "manageImplementsButton": "Gerir Implementos",
-      "clearImplementsButton": "Limpar todos Implementos"
+      "implementHeader": "Implementos de Taumaturgo",
+      "manageImplementsButton": "Gerenciar Implementos",
+      "clearImplementsButton": "Limpar todos os implementos"
     },
-
     "targetManagement": {
       "evActive": "EV Ativa:",
-      "evMode": "Modo EV:",
+      "evMode": "Modo de EV:",
       "evPrimaryTargetButton": "Marcar alvo primário de EV",
       "active": "Ativo",
       "inactive": "Inativo",
-      "notOnScene": "Alvo primário de EV Primary não está na cena ativa"
+      "notOnScene": "Alvo primário de EV não está na cena ativa"
     },
-
     "implements": {
       "chalice": {
         "drink": {
           "dialog": {
-            "choose": "Escolha beber do Cálice ou drenar o cálice. Escolha um aliado adjacente para administrar o líquido a ele ou não escolha ninguém para beber o líquido você mesmo.",
-            "cooldown": "Tempo de recarga de recarga do Cálice: ",
+            "choose": "Escolha beber do cálice ou drenar o cálice. Escolha um aliado adjacente para administrar o líquido a ele ou não escolha ninguém para você mesmo beber o líquido.",
+            "cooldown": "Tempo de recarga do Cálice: ",
             "title": "Beber do Cálice"
           },
           "chat": {
-            "reduceStunned": "Reduza o valor da condição de atordoado se ele tiver um valor de condição, mas não uma duração. Você também pode diminuir a condição de drenagem em 1 vez por dia ao beber do cálice.",
-            "counteract": "Faça um teste de neutralização contra cada veneno, doença e maldição que afeta o bebedor.",
+            "reduceStunned": "Reduza o valor da condição de atordoado se houver um valor, mas não uma duração. Você também pode diminuir a condição de drenagem em 1 uma vez por dia ao beber do cálice.",
+            "counteract": "Faça um teste de neutralização contra cada veneno, doença e maldição que afeta quem está bebendo.",
             "counteractLevel": "Nível de neutralização do cálice:"
           }
         }
       },
       "regalia": {
-        "frightenedReminder": "Reduza a condição de medo em 1 devido à aura das Regalias do Taumaturgo."
+        "frightenedReminder": "Reduza a condição de medo em 1 devido à aura dos Ornamentos do Taumaturgo."
       },
       "weapon": {
         "implementsInterruption": {
           "title": {
-            "success": "Arma: Interrupção do Implemento ",
-            "failure": "Falha na interrupção do implemento "
+            "success": "Arma: Interrupção do Implemento",
+            "failure": "Falha na interrupção do implemento"
           },
           "text": {
             "success": "Você interrompe a ação desencadeadora.",
@@ -244,30 +226,29 @@
         }
       }
     },
-
     "dialog": {
       "yes": "Sim",
       "no": "Não",
       "confirm": "Confirmar",
       "cancel": "Cancelar",
       "none": "nenhum",
-      "oneAction": "Uma Ação",
-      "twoAction": "Duas Ações",
+      "oneAction": "Uma ação",
+      "twoAction": "Duas ações",
       "character": "Personagem:",
       "target": "Alvo:",
       "manageImplements": {
-        "dragItem": "Arraste um item aqui para designá-lo como um implemento.",
+        "dragItem": "Arraste um item aqui para designar como implemento.",
         "implement": "Implemento"
       },
       "amuletsAbeyance": {
-        "name": "Amulet's Abeyance",
-        "resistanceValueLabel": "Valor de Resistência de Abeyance:",
-        "allTriggeringDamage": "a todos os danos desencadeantes ",
-        "description": "Você apresenta com força seu amuleto para afastar o mal. Você ou um aliado alvo a até 4,5 metros (15 ft.) ganha resistência a todos os danos contra o dano desencadeante. A resistência é igual a 2 + seu nível.",
-        "adeptBenefitLabel": "Benefício do Adepto ",
+        "name": "Suspensão do Amuleto",
+        "resistanceValueLabel": "Valor de Resistência de Suspensão:",
+        "allTriggeringDamage": "a todos os danos desencadeantes",
+        "description": "Você vigorosamente brande seu amuleto para afastar o mal. Você ou um aliado alvo a até 4,5 metros (15 ft.) ganha resistência a todos os danos contra o dano desencadeante. A resistência é igual a 2 + seu nível.",
+        "adeptBenefitLabel": "Benefício do Adepto",
         "lingeringResistanceValue": "Valor de resistência persistente:",
-        "paragonBenefitLabel": "Paragon Benefit",
-        "selectAllies": "Clique em um ícone para selecionar quem deve receber o benefício de Amulet's Abeyance",
+        "paragonBenefitLabel": "Benefício do Paradigma",
+        "selectAllies": "Clique em um ícone para selecionar quem deve receber o benefício da Suspensão do Amuleto",
         "selectDamageType": "Selecione um tipo de dano para aplicar uma resistência persistente:",
         "noResistances": "Sem resistências a danos para aplicar resistência persistente."
       },
@@ -276,7 +257,6 @@
         "title": "Intensificar Implemento"
       }
     },
-
     "chatCard": {
       "use": "Usar {action}"
     }
