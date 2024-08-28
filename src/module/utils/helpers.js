@@ -181,6 +181,14 @@ function getEffectOnActor(actor, sourceId) {
   return actor.itemTypes.effect.find((effect) => effect.sourceId === sourceId);
 }
 
+// Is the actor a thaumaturge, either class or archetype?
+function isThaumaturge(actor) {
+  return (
+    actor.class?.slug === "thaumaturge" ||
+    actor.rollOptions.all["class:thaumaturge"]
+  );
+}
+
 function getTargetRollOptions(actor) {
   if (!actor) return [];
   const selfRollOptions = actor.getSelfRollOptions();
@@ -198,5 +206,6 @@ export {
   BDGreatestBypassableResistance,
   createEffectData,
   hasFeat,
+  isThaumaturge,
   messageTargetTokens,
 };
