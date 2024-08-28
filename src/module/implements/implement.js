@@ -46,6 +46,16 @@ class Implement {
     return this.#baseFeat?.name ?? this.slug;
   }
 
+  // 1,2,3 for 1st through 3rd implement, -1 if unknown how they have the implement
+  get counter() {
+    const counter = [
+      "first-implement-and-esoterica",
+      "second-implement",
+      "third-implement",
+    ].indexOf(this.#baseFeat?.grantedBy?.slug);
+    return counter < 0 ? counter : counter + 1;
+  }
+
   // 1/2/3 = initiate, adept, paragon.  Maybe archetype = 0?
   get rank() {
     return this.paragon ? 3 : this.adept ? 2 : 1;
