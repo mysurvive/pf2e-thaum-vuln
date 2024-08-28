@@ -126,17 +126,12 @@ export async function manageImplements(event) {
         },
       },
       default: "complete",
-      render: () => {
+      render: (html) => {
         const dd = new DragDrop({
-          dragSelector: ".item",
-          dropSelector: ".dropbox, .item-content-wrapper",
+          dropSelector: ".dropbox",
           callbacks: { drop: handleDrop },
         });
-        dd.bind(document.getElementById(`First`));
-        if (document.getElementById(`Second`))
-          dd.bind(document.getElementById(`Second`));
-        if (document.getElementById(`Third`))
-          dd.bind(document.getElementById(`Third`));
+        dd.bind(html[0]);
       },
       close: () => {},
     },
