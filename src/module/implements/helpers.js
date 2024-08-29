@@ -1,15 +1,31 @@
-async function checkImplements(a) {
-  const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
-  let newImplements = selectedImplements;
-  let updateFlag = false;
-  for (const imp in selectedImplements) {
-    if (!a.items.some((i) => i?.uuid === selectedImplements[imp]?.uuid)) {
-      newImplements[imp].uuid = null;
-      updateFlag = true;
-    }
+// Insure pf2e-thaum-vuln.selectedImplements is valid by removing non-existent
+// items and insuring each implement has a object in the flag, with null uuid if
+// an item isn't selected yet.  This is where the implements are determined by
+// looking at the class features on the actor.
+async function checkImplements(actor, { clear = false } = {}) {
+  const impsFlag = actor.getFlag("pf2e-thaum-vuln", "selectedImplements");
+
+  // List all implements (item uuids are null here)
+  const imps = Object.fromEntries(
+    actor.itemTypes.feat
+      .filter((f) =>
+        f.system.traits.otherTags.includes("thaumaturge-implement")
+      )
+      .map((imp) => [imp.slug, { uuid: null }])
+  );
+  // Delete old choices not used, inject existing uuids, clear dangling UUIDs
+  for (const [slug, { uuid }] of Object.entries(impsFlag)) {
+    if (slug in imps) {
+      if (!clear && uuid !== undefined)
+        imps[slug].uuid = fromUuidSync(uuid) ? uuid : null;
+    } else imps[`-=${slug}`] = true;
   }
-  if (updateFlag) {
-    a.setFlag("pf2e-thaum-vuln", "selectedImplements", newImplements);
+
+  if (!foundry.utils.objectsEqual(imps, impsFlag)) {
+    if (clear) {
+      await actor.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
+    }
+    await actor.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
   }
 }
 

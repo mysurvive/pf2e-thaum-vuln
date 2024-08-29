@@ -41,7 +41,9 @@ export async function manageImplements(event) {
       "There was an error managing implements. Press f12 to check the console for details."
     );
   }
-  checkImplements(a);
+  // Ensure actor flag is up-to-date w.r.t. implement class features and inventory
+  // If it changes, actor.attributes.implements should refresh
+  await checkImplements(a);
   const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
   let passSelectedImplements = {};
 
@@ -238,7 +240,6 @@ async function createManagedImplements(a) {
 export async function clearImplements(event) {
   const a = event.data.actor;
   await Hooks.callAll("deleteImplementEffects", a);
-  const imps = await createManagedImplements(a);
-  a.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
-  a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
+  // Refresh flags, but clear all item choices
+  await checkImplements(a, { clear: true });
 }
