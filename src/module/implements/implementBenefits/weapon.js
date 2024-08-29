@@ -3,6 +3,7 @@ import { getImplement } from "../helpers";
 import { INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID } from "../../utils";
 
 class Weapon extends Implement {
+  static slug = "weapon";
   static intensifyEffectUuid = INTENSIFY_VULNERABILITY_WEAPON_EFFECT_UUID;
 
   constructor(actor, implementItem) {
@@ -70,20 +71,10 @@ class Weapon extends Implement {
   }
 }
 
-Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  if (
-    game.user.id === userID &&
-    imps["weapon"]?.uuid &&
-    impDelta.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Weapon")
-    )?.changed
-  ) {
-    const weapon = getImplement(a, "weapon");
-    weapon.createEffectsOnItem(imps["weapon"].uuid);
-  }
-});
+Hooks.on(
+  "createImplementEffects",
+  Weapon.createImplementEffectsHook.bind(Weapon)
+);
 
 Hooks.on("deleteImplementEffects", (a) => {
   const weapon = getImplement(a, "weapon");

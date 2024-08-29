@@ -94,28 +94,18 @@ export async function manageImplements(event) {
               imps[key].uuid = implementUuids[key];
             }
 
-            const impDelta = [];
-            for (const key of Object.keys(implementUuids)) {
-              const changed =
-                origin[key]?.uuid != implementUuids[key] ? true : false;
-              const name = origin[key]?.name ?? imps[key]?.name;
-
-              console.log(`${name} changed: ${changed}`);
-
-              impDelta.push({ name, changed });
+            const impDelta = {};
+            for (const slug of Object.keys(imps)) {
+              const changed = imps[slug]?.uuid !== origin[slug]?.uuid;
+              console.log(`${slug} changed: ${changed}`);
+              impDelta[slug] = changed;
             }
 
             await a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
 
             //refreshes the sheet so the implement items appear
             a.sheet._render(true);
-            Hooks.call(
-              "createImplementEffects",
-              game.user.id,
-              a,
-              impDelta,
-              imps
-            );
+            Hooks.call("createImplementEffects", a, impDelta, imps);
           },
         },
         cancel: {
