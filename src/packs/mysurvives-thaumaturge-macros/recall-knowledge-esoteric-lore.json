@@ -7,8 +7,7 @@
   "command": "game.pf2eThaumVuln.recallEsotericKnowledge();",
   "folder": null,
   "ownership": {
-    "default": 0,
-    "21SSsb3mHHUoxQru": 3
+    "default": 0
   },
   "flags": {
     "core": {}
@@ -19,8 +18,7 @@
     "coreVersion": "12.327",
     "createdTime": 1687770227013,
     "modifiedTime": 1687771284497,
-    "lastModifiedBy": "21SSsb3mHHUoxQru",
-    "compendiumSource": null,
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.EC0oy6caGQ4zECU6",
     "duplicateSource": null
   },
   "_id": "EC0oy6caGQ4zECU6",

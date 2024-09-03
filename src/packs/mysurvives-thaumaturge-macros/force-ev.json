@@ -6,13 +6,10 @@
   "img": "modules/pf2e-thaum-vuln/assets/mortal-weakness.webp",
   "command": "game.pf2eThaumVuln.forceEVTarget();",
   "ownership": {
-    "default": 0,
-    "stoRK7j13Ug3rYKp": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Macro.tNbHsrluG6x9tHe4"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -20,8 +17,7 @@
     "coreVersion": "12.327",
     "createdTime": 1674521780250,
     "modifiedTime": 1675096450539,
-    "lastModifiedBy": "stoRK7j13Ug3rYKp",
-    "compendiumSource": "Macro.tNbHsrluG6x9tHe4",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.TILYwPmRAg2HJ3JO",
     "duplicateSource": null
   },
   "folder": null,

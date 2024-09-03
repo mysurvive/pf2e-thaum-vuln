@@ -6,13 +6,10 @@
   "img": "modules/pf2e-thaum-vuln/assets/cursed-effigy.webp",
   "command": "game.pf2eThaumVuln.cursedEffigy();",
   "ownership": {
-    "default": 0,
-    "yndSwxb2e9oSc8iR": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Macro.QnIp0RIvqKiWgWBC"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -20,8 +17,7 @@
     "coreVersion": "12.327",
     "createdTime": 1680591137980,
     "modifiedTime": 1680591314710,
-    "lastModifiedBy": "yndSwxb2e9oSc8iR",
-    "compendiumSource": "Macro.QnIp0RIvqKiWgWBC",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.e7wMFPmQcOq5mGze",
     "duplicateSource": null
   },
   "folder": null,

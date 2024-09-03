@@ -51,8 +51,7 @@
   "img": "modules/pf2e-thaum-vuln/assets/personal-antithesis-primary.webp",
   "folder": null,
   "ownership": {
-    "default": 0,
-    "UQu4pcNxGHCGDRdj": 3
+    "default": 0
   },
   "flags": {
     "core": {}
@@ -63,8 +62,7 @@
     "coreVersion": "12.329",
     "createdTime": 1693317776285,
     "modifiedTime": 1721825780294,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": null,
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.E0X9AYLqXSaiO9A3",
     "duplicateSource": null
   },
   "_id": "E0X9AYLqXSaiO9A3",

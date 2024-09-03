@@ -62,13 +62,10 @@
   "img": "systems/pf2e/icons/features/classes/exploit-vulnerability.webp",
   "effects": [],
   "ownership": {
-    "default": 0,
-    "stoRK7j13Ug3rYKp": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Item.5QgPHAdpsUHJmCkX"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -76,8 +73,7 @@
     "coreVersion": "12.329",
     "createdTime": 1675062551886,
     "modifiedTime": 1721825633150,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": "Item.5QgPHAdpsUHJmCkX",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.dNpf1EDKJ6fgNL42",
     "duplicateSource": null
   },
   "folder": null,

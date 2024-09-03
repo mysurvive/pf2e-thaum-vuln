@@ -77,13 +77,10 @@
   "img": "icons/sundries/lights/lantern-iron-yellow.webp",
   "folder": "uZeUODrn3vPGUdvC",
   "ownership": {
-    "default": 0,
-    "JCSogeTR741olRmm": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.pUHhRMzKWkHeHUo4"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -91,7 +88,6 @@
     "coreVersion": "12.329",
     "createdTime": 1715485019258,
     "modifiedTime": 1721825837064,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
     "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.pUHhRMzKWkHeHUo4",
     "duplicateSource": null
   },

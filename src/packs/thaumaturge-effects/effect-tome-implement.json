@@ -53,8 +53,7 @@
   "img": "systems/pf2e/icons/features/classes/tome.webp",
   "sort": 300000,
   "ownership": {
-    "default": 0,
-    "UQu4pcNxGHCGDRdj": 3
+    "default": 0
   },
   "flags": {},
   "_stats": {
@@ -63,8 +62,7 @@
     "coreVersion": "12.329",
     "createdTime": 1693367496799,
     "modifiedTime": 1721825881799,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": null,
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lDKArhqx0hBtwVRQ",
     "duplicateSource": null
   },
   "_key": "!items!lDKArhqx0hBtwVRQ"
