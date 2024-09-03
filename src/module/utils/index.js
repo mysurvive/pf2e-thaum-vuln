@@ -2,7 +2,8 @@ const EXPLOIT_VULNERABILITY_ACTION_ID =
   "Compendium.pf2e.actionspf2e.Item.fodJ3zuwQsYnBbtk";
 const MORTAL_WEAKNESS_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.N0jy0FFGS7ViTvs9";
-const MORTAL_WEAKNESS_COMPENDIUM_SOURCE = "Item.plf15q5mFglgWG8w";
+const MORTAL_WEAKNESS_COMPENDIUM_SOURCE =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.N0jy0FFGS7ViTvs9";
 const PERSONAL_ANTITHESIS_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.EGY7Rxcxwv1aEyHL";
 const OFF_GUARD_EFFECT_UUID =
