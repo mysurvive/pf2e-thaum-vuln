@@ -34,7 +34,7 @@
     "duration": {
       "value": 1,
       "unit": "rounds",
-      "expiry": "round-end",
+      "expiry": "turn-end",
       "sustained": false
     },
     "start": {
@@ -58,10 +58,10 @@
   },
   "_stats": {
     "systemId": "pf2e",
-    "systemVersion": "6.1.1",
-    "coreVersion": "12.329",
+    "systemVersion": "6.2.1",
+    "coreVersion": "12.330",
     "createdTime": 1716181679619,
-    "modifiedTime": 1721825823295,
+    "modifiedTime": 1725363079529,
     "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.ZLBlD9tMHjrNLhIn",
     "duplicateSource": null
   },
