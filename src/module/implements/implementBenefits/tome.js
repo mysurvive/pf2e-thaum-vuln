@@ -8,6 +8,7 @@ import { getImplement } from "../helpers";
 import { Implement } from "../implement";
 
 class Tome extends Implement {
+  static slug = "tome";
   static intensifyEffectUuid = INTENSIFY_VULNERABILITY_TOME_EFFECT_UUID;
 
   constructor(actor, implementItem) {
@@ -58,6 +59,13 @@ class Tome extends Implement {
     ];
 
     super(actor, implementItem, tomeRules, "tome");
+  }
+
+  async createEffectsOnItem(item) {
+    await super.createEffectsOnItem(item);
+    if (!game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")) {
+      this.dailyPreparation();
+    }
   }
 
   async createDailyPreparationDialog() {
@@ -410,24 +418,7 @@ Hooks.on("deleteItem", (item, _b, userID) => {
   }
 });
 
-Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  if (
-    game.user.id === userID &&
-    imps["tome"]?.uuid &&
-    impDelta.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Tome")
-    )?.changed
-  ) {
-    const tome = getImplement(a, "tome");
-    tome.createEffectsOnItem(imps["tome"].uuid);
-
-    if (!game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")) {
-      tome.dailyPreparation();
-    }
-  }
-});
+Hooks.on("createImplementEffects", Tome.createImplementEffectsHook.bind(Tome));
 
 Hooks.on("deleteImplementEffects", (a) => {
   const tome = getImplement(a, "tome");

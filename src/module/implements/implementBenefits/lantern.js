@@ -7,6 +7,7 @@ import { Implement } from "../implement";
 import { getImplement } from "../helpers";
 
 class Lantern extends Implement {
+  static slug = "lantern";
   static intensifyEffectUuid = INTENSIFY_VULNERABILITY_LANTERN_EFFECT_UUID;
 
   constructor(actor, implementItem) {
@@ -93,20 +94,10 @@ class Lantern extends Implement {
   }
 }
 
-Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  if (
-    game.user.id === userID &&
-    imps["lantern"]?.uuid &&
-    impDelta.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Lantern")
-    )?.changed
-  ) {
-    const lantern = getImplement(a, "lantern");
-    lantern.createEffectsOnItem(imps["lantern"].uuid);
-  }
-});
+Hooks.on(
+  "createImplementEffects",
+  Lantern.createImplementEffectsHook.bind(Lantern)
+);
 
 Hooks.on("deleteImplementEffects", (a) => {
   const lantern = getImplement(a, "lantern");

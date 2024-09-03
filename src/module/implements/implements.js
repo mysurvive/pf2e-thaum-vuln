@@ -1,39 +1,6 @@
 import { checkImplements, checkFeatValidity } from "./helpers";
 import { parseHTML } from "../utils/utils.js";
 
-class ManagedImplement {
-  constructor(featSlug, a, imp) {
-    this.counter =
-      featSlug === "first-implement-and-esoterica"
-        ? "First"
-        : featSlug === "second-implement"
-        ? "Second"
-        : featSlug === "third-implement"
-        ? "Third"
-        : undefined;
-    this.name = imp.name;
-
-    const baseFeatSelectionID = a.itemTypes.feat.find(
-      (f) => f.slug === featSlug
-    ).grants[0].id;
-    this.adept = a.itemTypes.feat.some((f) => {
-      f.getFlag("pf2e", "rulesSelections.implementAdept") ===
-        baseFeatSelectionID ||
-        f.getFlag("pf2e", "rulesSelections.secondAdept") ===
-          baseFeatSelectionID;
-    });
-    this.paragon = a.itemTypes.feat.some((f) => {
-      f.getFlag("pf2e", "rulesSelections.implementParagon") ===
-        baseFeatSelectionID;
-    });
-    this.intensify = false;
-    this.uuid =
-      a.getFlag("pf2e-thaum-vuln", "selectedImplements")[imp.slug]?.uuid ??
-      undefined;
-    this.slug = imp.slug;
-  }
-}
-
 export async function manageImplements(event) {
   const a = event?.data.actor ?? event;
   if (checkFeatValidity(a) === false) {
@@ -41,36 +8,23 @@ export async function manageImplements(event) {
       "There was an error managing implements. Press f12 to check the console for details."
     );
   }
-  checkImplements(a);
-  const selectedImplements = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
-  let passSelectedImplements = {};
 
-  for (const key of Object.keys(selectedImplements)) {
-    const impUuid = selectedImplements[key]?.uuid ?? undefined;
-    let imp;
-    if (impUuid) imp = await fromUuid(impUuid);
-    const impImgPath = imp?.img ?? undefined;
-    const impTrueName = imp?.name ?? undefined;
-    passSelectedImplements = {
-      ...passSelectedImplements,
-      [selectedImplements[key].name]: {
-        image: impImgPath,
-        trueName: impTrueName,
-      },
+  // Ensure actor flag is up-to-date w.r.t. implement class features and inventory
+  // If it changes, actor.attributes.implements should refresh
+  await checkImplements(a);
+
+  const passImps = {};
+  for (const imp of Object.values(a.attributes.implements)) {
+    passImps[imp.slug] = {
+      counter: ["First", "Second", "Third"][imp.counter - 1] ?? "Unknown",
+      name: imp.name,
+      slug: imp.slug,
+      uuid: imp.item?.uuid,
+      image: imp.item?.img,
+      trueName: imp.item?.name,
+      flavor: new Handlebars.SafeString(imp.baseFeat?.description), // This doesn't work for dedication
     };
   }
-
-  const imps = await createManagedImplements(a);
-
-  const impFlavor = getImplementFlavor(imps, a);
-
-  let implementUuids;
-
-  const passImps = {
-    implements: imps,
-    impFlavor: impFlavor,
-    selectedImplements: passSelectedImplements,
-  };
 
   const dg = new Dialog(
     {
@@ -78,44 +32,33 @@ export async function manageImplements(event) {
       content: parseHTML(
         await renderTemplate(
           "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
-          passImps
+          { implements: passImps }
         )
       ),
       buttons: {
         complete: {
           label: "Confirm Changes",
           callback: async (dgEndContent) => {
-            const origin =
+            const imps =
               a.getFlag("pf2e-thaum-vuln", "selectedImplements") ?? {};
 
-            implementUuids = confirmImplements(dgEndContent);
-
-            for (const key of Object.keys(imps)) {
-              imps[key].uuid = implementUuids[key];
-            }
-
-            const impDelta = [];
-            for (const key of Object.keys(implementUuids)) {
-              const changed =
-                origin[key]?.uuid != implementUuids[key] ? true : false;
-              const name = origin[key]?.name ?? imps[key]?.name;
-
-              console.log(`${name} changed: ${changed}`);
-
-              impDelta.push({ name, changed });
+            const impDelta = {};
+            for (const [slug, uuid] of Object.entries(
+              confirmImplements(dgEndContent)
+            )) {
+              const changed = imps[slug]?.uuid !== uuid;
+              if (changed) {
+                (imps[slug] ??= {}).uuid = uuid;
+              }
+              console.log(`${slug} changed: ${changed}`);
+              impDelta[slug] = changed;
             }
 
             await a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
 
             //refreshes the sheet so the implement items appear
             a.sheet._render(true);
-            Hooks.call(
-              "createImplementEffects",
-              game.user.id,
-              a,
-              impDelta,
-              imps
-            );
+            Hooks.call("createImplementEffects", a, impDelta, imps);
           },
         },
         cancel: {
@@ -126,17 +69,12 @@ export async function manageImplements(event) {
         },
       },
       default: "complete",
-      render: () => {
+      render: (html) => {
         const dd = new DragDrop({
-          dragSelector: ".item",
-          dropSelector: ".dropbox, .item-content-wrapper",
+          dropSelector: ".dropbox",
           callbacks: { drop: handleDrop },
         });
-        dd.bind(document.getElementById(`First`));
-        if (document.getElementById(`Second`))
-          dd.bind(document.getElementById(`Second`));
-        if (document.getElementById(`Third`))
-          dd.bind(document.getElementById(`Third`));
+        dd.bind(html[0]);
       },
       close: () => {},
     },
@@ -148,7 +86,6 @@ export async function manageImplements(event) {
 async function handleDrop(event) {
   //borrowed from the PF2e actor sheet
   var _a;
-  const dropFieldText = $(event.currentTarget);
   const dataString =
       null === (_a = event.dataTransfer) || void 0 === _a
         ? void 0
@@ -164,96 +101,30 @@ async function handleDrop(event) {
   //creates an object from the uuid of the item dropped
   const chosenItem = await fromUuid(dropData.uuid);
 
-  //gets the area where we will create the information
-  const newDropFieldContent = $(
-    document.getElementById(`${$(dropFieldText).attr("id")}-drop-item-content`)
-  );
+  // Should check if it's an inventory item on the correct actor
 
-  $(newDropFieldContent).attr("item-uuid", dropData.uuid);
+  // gets the span for the item, which is inside the drop area div somewhere
+  const itemSpan = event.currentTarget.querySelector("[data-item-uuid]");
 
-  //adds the image of the item to the area
-  $(dropFieldText).find("img").attr("src", chosenItem.img);
-
-  //creates another span that will hold the name of the item
-  $(dropFieldText).find("#implementLabel").text(chosenItem.name);
-
-  return chosenItem;
+  itemSpan.dataset.itemUuid = dropData.uuid;
+  itemSpan.querySelector("img").src = chosenItem.img;
+  itemSpan.querySelector("#implementLabel").textContent = chosenItem.name;
 }
 
 function confirmImplements(dgEndContent) {
   let uuidCollection = {};
   const itemUuids = $(dgEndContent).find(".item-content-wrapper");
-  $(itemUuids).each(function () {
-    if ($(this).attr("item-uuid") !== undefined) {
-      uuidCollection[$(this).attr("item-slug")] = $(this).attr("item-uuid");
+  itemUuids.each(function () {
+    if (this.dataset.itemUuid !== undefined && this.dataset.itemUuid !== "") {
+      uuidCollection[this.dataset.implementSlug] = this.dataset.itemUuid;
     }
   });
   return uuidCollection;
 }
 
-function getImplementFlavor(imps, a) {
-  let impFlavor = {};
-  for (const imp of Object.keys(imps)) {
-    const implementFeat = a.itemTypes.feat.find(
-      (i) => i.name === imps[imp].name
-    );
-    impFlavor = {
-      ...impFlavor,
-      [imps[imp].name]: {
-        flavor: implementFeat.description,
-      },
-    };
-    if (imps[imp].adept === true) {
-      impFlavor[imps[imp].name] = {
-        ...impFlavor[imps[imp].name],
-      };
-    }
-    if (imps[imp].paragon === true) {
-      impFlavor[imps[imp].name] = {
-        ...impFlavor[imps[imp].name],
-      };
-    }
-    if (imps[imp].intensify === true) {
-      impFlavor[imps[imp].name] = {
-        ...impFlavor[imps[imp].name],
-      };
-    }
-  }
-
-  return impFlavor;
-}
-
-async function createManagedImplements(a) {
-  const featSlugs = [
-    "first-implement-and-esoterica",
-    "second-implement",
-    "third-implement",
-  ];
-
-  let imps = {};
-  for (const feat of featSlugs) {
-    const impFeat = a.itemTypes.feat.find((i) => i.slug === feat);
-    if (impFeat) {
-      const grantedImplement = a.itemTypes.feat.find(
-        (f) => f.slug === impFeat.grants[0].slug
-      );
-      imps = {
-        ...imps,
-        [grantedImplement.slug]: new ManagedImplement(
-          feat,
-          a,
-          grantedImplement
-        ),
-      };
-    }
-  }
-  return imps;
-}
-
 export async function clearImplements(event) {
   const a = event.data.actor;
   await Hooks.callAll("deleteImplementEffects", a);
-  const imps = await createManagedImplements(a);
-  a.unsetFlag("pf2e-thaum-vuln", "selectedImplements");
-  a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
+  // Refresh flags, but clear all item choices
+  await checkImplements(a, { clear: true });
 }

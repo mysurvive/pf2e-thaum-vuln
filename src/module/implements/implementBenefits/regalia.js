@@ -8,6 +8,7 @@ import {
 } from "../../utils";
 
 class Regalia extends Implement {
+  static slug = "regalia";
   static intensifyEffectUuid = INTENSIFY_VULNERABILITY_REGALIA_EFFECT_UUID;
 
   constructor(actor, implementItem) {
@@ -153,20 +154,10 @@ class Regalia extends Implement {
   }
 }
 
-Hooks.on("createImplementEffects", (userID, a, impDelta, imps) => {
-  if (
-    game.user.id === userID &&
-    imps["regalia"]?.uuid &&
-    impDelta.find(
-      (i) =>
-        i.name ===
-        game.i18n.localize("PF2E.SpecificRule.Thaumaturge.Implement.Regalia")
-    )?.changed
-  ) {
-    const _regalia = a.attributes.implements["regalia"];
-    _regalia.createEffectsOnItem(imps["regalia"].uuid);
-  }
-});
+Hooks.on(
+  "createImplementEffects",
+  Regalia.createImplementEffectsHook.bind(Regalia)
+);
 
 Hooks.on("deleteImplementEffects", (a) => {
   const regalia = getImplement(a, "regalia");

@@ -3,7 +3,11 @@ import {
   PERSONAL_ANTITHESIS_EFFECT_UUID,
   BREACHED_DEFENSES_EFFECT_UUID,
 } from "./utils/index.js";
-import { targetEVPrimaryTarget } from "./utils/helpers.js";
+import {
+  hasFeat,
+  isThaumaturge,
+  targetEVPrimaryTarget,
+} from "./utils/helpers.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
 import { createChatCardButton } from "./utils/chatCard.js";
 import { manageImplements, clearImplements } from "./implements/implements.js";
@@ -168,19 +172,13 @@ Hooks.on("deleteItem", async (item) => {
   }
 });
 
-Hooks.on("renderCharacterSheetPF2e", async (_sheet, html, character) => {
+Hooks.on("renderCharacterSheetPF2e", (_sheet, html, character) => {
   const a = _sheet.actor;
-  // Add compatibility with xdy/symon's dual class macro
-  const classNameArray = a.class?.name.split(" ") ?? [];
-  if (
-    (classNameArray.includes(game.i18n.localize("PF2E.TraitThaumaturge")) ||
-      classNameArray.includes("Thaumaturge")) &&
-    character.owner
-  ) {
+  if (character.owner && isThaumaturge(a)) {
     //implement management buttons
     if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
       a.setFlag("pf2e-thaum-vuln", "selectedImplements", {});
-    if (a.items.some((i) => i.slug === "first-implement-and-esoterica")) {
+    if (hasFeat(a, "first-implement-and-esoterica")) {
       const inventoryList = html.find(
         ".sheet-body .inventory-list.directory-list.inventory-pane"
       );

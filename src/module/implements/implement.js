@@ -1,3 +1,4 @@
+import { getImplement } from "./helpers";
 import { createEffectData } from "../utils/helpers";
 
 class Implement {
@@ -44,6 +45,16 @@ class Implement {
 
   get name() {
     return this.#baseFeat?.name ?? this.slug;
+  }
+
+  // 1,2,3 for 1st through 3rd implement, -1 if unknown how they have the implement
+  get counter() {
+    const counter = [
+      "first-implement-and-esoterica",
+      "second-implement",
+      "third-implement",
+    ].indexOf(this.#baseFeat?.grantedBy?.slug);
+    return counter < 0 ? counter : counter + 1;
   }
 
   // 1/2/3 = initiate, adept, paragon.  Maybe archetype = 0?
@@ -116,6 +127,14 @@ class Implement {
         (r) => !ruleLabels.has(r.label)
       );
       await this.item.update({ _id: this.item._id, "system.rules": newRules });
+    }
+  }
+
+  // Can be used as a callback for createImplementEffects
+  static createImplementEffectsHook(actor, impsDelta, imps) {
+    const slug = this.slug;
+    if (imps[slug]?.uuid && impsDelta[slug]) {
+      getImplement(actor, slug).createEffectsOnItem(imps[slug].uuid);
     }
   }
 }

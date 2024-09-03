@@ -1,5 +1,16 @@
-
-{{> "modules/pf2e-thaum-vuln/templates/implementSelectedPartial.hbs"}}
-<span style="overflow:scroll; padding:10px;">
-  <p>{{element impFlavor name "flavor"}}</p>
+<img
+  src={{#if implement.image}}"{{implement.image}}"{{else}}"modules/pf2e-thaum-vuln/assets/chosen-implement.webp"{{/if}}
+  style="flex-basis: 100px; flex-shrink: 0;"
+/>
+<span style="flex-basis: 200px; flex-shrink: 0; padding: 0px 10px 0px 10px; text-align: center;">
+  <p id="implementLabel">
+    {{#if implement.trueName}}
+      {{implement.trueName}}
+    {{else}}
+      {{localize "pf2e-thaum-vuln.dialog.manageImplements.dragItem"}}
+    {{/if}}
+  </p>
+</span>
+<span style="overflow:scroll; padding: 0px 10px 0px 10px;">
+  {{implement.flavor}}
 </span>

@@ -22,7 +22,6 @@ Hooks.on("init", async () => {
 
   loadTemplates([
     "modules/pf2e-thaum-vuln/templates/implementPartial.hbs",
-    "modules/pf2e-thaum-vuln/templates/implementSelectedPartial.hbs",
     "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
   ]);
 
@@ -65,11 +64,6 @@ Hooks.on("init", async () => {
     }
   );
 
-  Handlebars.registerHelper("element", (object, element, selection) => {
-    if (object[element] === undefined) return undefined;
-    if (object[element][selection] === undefined) return undefined;
-    return new Handlebars.SafeString(object[element][selection]);
-  });
   Handlebars.registerHelper("ifCond", function (v1, v2, options) {
     if (v1 === v2) {
       return options.fn(this);
