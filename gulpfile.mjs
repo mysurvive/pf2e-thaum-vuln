@@ -130,7 +130,7 @@ export async function clean() {
 /********************/
 
 async function buildPacks() {
-  await buildModulePacks();
+  await buildModulePacks(packageId);
 }
 
 /********************/
