@@ -61,13 +61,10 @@
   "img": "modules/pf2e-thaum-vuln/assets/cursed-effigy.webp",
   "effects": [],
   "ownership": {
-    "default": 0,
-    "stoRK7j13Ug3rYKp": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Item.XDXJA884X2AYJ0RO"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -75,8 +72,7 @@
     "coreVersion": "12.329",
     "createdTime": 1678227898148,
     "modifiedTime": 1721825743606,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": "Item.XDXJA884X2AYJ0RO",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.s0NI9gKZygLUunOg",
     "duplicateSource": null
   },
   "folder": null,

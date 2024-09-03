@@ -71,13 +71,10 @@
   "img": "modules/pf2e-thaum-vuln/assets/esoteric-warden.webp",
   "effects": [],
   "ownership": {
-    "default": 0,
-    "stoRK7j13Ug3rYKp": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Item.uKh4kjbl4arTnzC4"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -85,8 +82,7 @@
     "coreVersion": "12.329",
     "createdTime": 1676928897209,
     "modifiedTime": 1721825741289,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": "Item.uKh4kjbl4arTnzC4",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.fufcXy1CEMvxmgWt",
     "duplicateSource": null
   },
   "folder": null,

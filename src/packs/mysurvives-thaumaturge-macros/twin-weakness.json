@@ -6,13 +6,10 @@
   "img": "icons/svg/dice-target.svg",
   "command": "game.pf2eThaumVuln.twinWeakness();",
   "ownership": {
-    "default": 0,
-    "yndSwxb2e9oSc8iR": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Macro.enhRQBIu4g7DpUaV"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -20,8 +17,7 @@
     "coreVersion": "12.327",
     "createdTime": 1680591195268,
     "modifiedTime": 1680591211685,
-    "lastModifiedBy": "yndSwxb2e9oSc8iR",
-    "compendiumSource": "Macro.enhRQBIu4g7DpUaV",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.u5K6HYOTUVFoUCMY",
     "duplicateSource": null
   },
   "folder": null,

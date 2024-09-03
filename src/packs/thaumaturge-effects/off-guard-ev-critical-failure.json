@@ -60,13 +60,10 @@
   "img": "systems/pf2e/icons/conditions/off-guard.webp",
   "effects": [],
   "ownership": {
-    "default": 0,
-    "stoRK7j13Ug3rYKp": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Item.E5cNWuuvOLWVhAcB"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -74,8 +71,7 @@
     "coreVersion": "12.329",
     "createdTime": 1675386402884,
     "modifiedTime": 1721825729055,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": "Item.E5cNWuuvOLWVhAcB",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.Xuwb7a6jCWkFS0lI",
     "duplicateSource": null
   },
   "folder": null,

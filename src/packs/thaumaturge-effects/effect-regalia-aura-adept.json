@@ -85,8 +85,7 @@
   "img": "systems/pf2e/icons/features/classes/regalia.webp",
   "folder": "vXZGmsTW5NLQ9OQW",
   "ownership": {
-    "default": 0,
-    "o29bm85va79jJPjh": 3
+    "default": 0
   },
   "flags": {
     "core": {}
@@ -97,8 +96,7 @@
     "coreVersion": "12.329",
     "createdTime": 1706455561720,
     "modifiedTime": 1721825858648,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": null,
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lr1UVbxaToPGdSvw",
     "duplicateSource": null
   },
   "_id": "lr1UVbxaToPGdSvw",

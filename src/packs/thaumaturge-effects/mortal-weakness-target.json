@@ -62,13 +62,10 @@
   "img": "modules/pf2e-thaum-vuln/assets/mortal-weakness.webp",
   "effects": [],
   "ownership": {
-    "default": 0,
-    "stoRK7j13Ug3rYKp": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.q2TMJ31MwLNJV1jA"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -76,7 +73,6 @@
     "coreVersion": "12.329",
     "createdTime": 1675061979938,
     "modifiedTime": 1721825768641,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
     "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.q2TMJ31MwLNJV1jA",
     "duplicateSource": null
   },

@@ -51,8 +51,7 @@
   "img": "modules/pf2e-thaum-vuln/assets/frontal-lobe.webp",
   "folder": "jOCeu91o3wpQtjdd",
   "ownership": {
-    "default": 2,
-    "JCSogeTR741olRmm": 3
+    "default": 2
   },
   "flags": {
     "core": {}
@@ -63,8 +62,7 @@
     "coreVersion": "12.329",
     "createdTime": 1709968089785,
     "modifiedTime": 1721825879705,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": null,
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.kg1CwmxZfKx7xWF3",
     "duplicateSource": null
   },
   "_id": "kg1CwmxZfKx7xWF3",

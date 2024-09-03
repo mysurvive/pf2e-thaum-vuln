@@ -83,13 +83,10 @@
   "img": "modules/pf2e-thaum-vuln/assets/breached-defenses.webp",
   "effects": [],
   "ownership": {
-    "default": 0,
-    "stoRK7j13Ug3rYKp": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Item.9ZJclirw6zHSkk0n"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -97,8 +94,7 @@
     "coreVersion": "12.329",
     "createdTime": 1675815751178,
     "modifiedTime": 1721825748891,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": "Item.9ZJclirw6zHSkk0n",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.FMw5IpJdA6eOgtv1",
     "duplicateSource": null
   },
   "folder": null,

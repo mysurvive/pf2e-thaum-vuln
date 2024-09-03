@@ -9,8 +9,7 @@
   "folder": null,
   "sort": 0,
   "ownership": {
-    "default": 0,
-    "SfdMUCysDxSnaHSF": 3
+    "default": 0
   },
   "flags": {},
   "_stats": {
@@ -19,8 +18,7 @@
     "coreVersion": "12.327",
     "createdTime": 1697484921571,
     "modifiedTime": 1697485027142,
-    "lastModifiedBy": "SfdMUCysDxSnaHSF",
-    "compendiumSource": null,
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.z4OSMt56EvarOV3a",
     "duplicateSource": null
   },
   "_key": "!macros!z4OSMt56EvarOV3a"

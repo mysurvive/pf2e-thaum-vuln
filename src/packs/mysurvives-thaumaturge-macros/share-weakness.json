@@ -6,13 +6,10 @@
   "img": "icons/svg/dice-target.svg",
   "command": "game.pf2eThaumVuln.shareWeakness();",
   "ownership": {
-    "default": 0,
-    "yndSwxb2e9oSc8iR": 3
+    "default": 0
   },
   "flags": {
-    "core": {
-      "sourceId": "Macro.E7sOHdjlP31VMxvG"
-    }
+    "core": {}
   },
   "_stats": {
     "systemId": "pf2e",
@@ -20,8 +17,7 @@
     "coreVersion": "12.327",
     "createdTime": 1680591087861,
     "modifiedTime": 1680591130493,
-    "lastModifiedBy": "yndSwxb2e9oSc8iR",
-    "compendiumSource": "Macro.E7sOHdjlP31VMxvG",
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.mfsf7DkcE14KDUjE",
     "duplicateSource": null
   },
   "folder": null,

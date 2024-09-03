@@ -51,8 +51,7 @@
   "img": "systems/pf2e/icons/features/classes/amulet.webp",
   "folder": "nRJn8lCp56aa4sVJ",
   "ownership": {
-    "default": 0,
-    "UQu4pcNxGHCGDRdj": 3
+    "default": 0
   },
   "flags": {
     "core": {}
@@ -63,8 +62,7 @@
     "coreVersion": "12.329",
     "createdTime": 1693263866974,
     "modifiedTime": 1721825804361,
-    "lastModifiedBy": "tdy2eK4qal8oP4OZ",
-    "compendiumSource": null,
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.zo2vRmRcEWLNwPIN",
     "duplicateSource": null
   },
   "_id": "zo2vRmRcEWLNwPIN",
