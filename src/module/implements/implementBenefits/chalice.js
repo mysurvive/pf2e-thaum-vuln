@@ -209,7 +209,7 @@ Hooks.once("init", () => {
 
       const hasChaliceEnabled =
         targetTokens[thaum.id].token.actor.itemTypes.effect.find(
-          (e) => e.flags.core.sourceId === CHALICE_ADEPT_ENABLED_UUID
+          (e) => e.sourceId === CHALICE_ADEPT_ENABLED_UUID
         )?.system.expired === false;
 
       if (
