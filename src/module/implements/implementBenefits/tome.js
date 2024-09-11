@@ -182,7 +182,7 @@ class Tome extends Implement {
         path: "{item|flags.pf2e.rulesSelections.effectTomeFirstSkill}",
         value: 3,
         priority: 50,
-        phase: "afterDerived",
+        phase: "beforeDerived",
       },
       {
         key: "ActiveEffectLike",
@@ -204,7 +204,7 @@ class Tome extends Implement {
           ],
         },
         priority: 50,
-        phase: "afterDerived",
+        phase: "beforeDerived",
       },
       {
         key: "ActiveEffectLike",
@@ -212,7 +212,7 @@ class Tome extends Implement {
         predicate: ["paragon:tome"],
         path: "{item|flags.pf2e.rulesSelections.effectTomeFirstSkill}",
         value: 4,
-        phase: "afterDerived",
+        phase: "beforeDerived",
       },
       {
         key: "ActiveEffectLike",
@@ -220,7 +220,7 @@ class Tome extends Implement {
         predicate: ["paragon:tome"],
         path: "{item|flags.pf2e.rulesSelections.effectTomeSecondSkill}",
         value: 4,
-        phase: "afterDerived",
+        phase: "beforeDerived",
       }
     );
 
