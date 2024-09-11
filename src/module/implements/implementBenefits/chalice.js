@@ -176,14 +176,18 @@ Hooks.once("init", () => {
         damageTypes.push(d.damageType)
       );
     });
+    const isValidChaliceStrike =
+      (damageTypes.includes("slashing") || damageTypes.includes("piercing")) &&
+      message.flags.pf2e.context?.outcome === "criticalSuccess"
+        ? true
+        : false;
     if (
-      !damageTypes.includes("slashing") &&
-      !damageTypes.includes("piercing") &&
-      message.flags.pf2e.context?.outcome !== "criticalSuccess" &&
+      !isValidChaliceStrike &&
       !message.rolls[0]?.options.evaluatePersistent &&
       !message.rolls[0]?.instances?.some((i) => i.type === "bleed")
-    )
+    ) {
       return;
+    }
     const thaumTokens = game.canvas.tokens.placeables.filter(
       (t) => t.actor.attributes?.implements?.chalice?.adept
     );
@@ -203,7 +207,13 @@ Hooks.once("init", () => {
         })
       );
 
+      const hasChaliceEnabled =
+        targetTokens[thaum.id].token.actor.itemTypes.effect.find(
+          (e) => e.flags.core.sourceId === CHALICE_ADEPT_ENABLED_UUID
+        )?.system.expired === false;
+
       if (
+        !hasChaliceEnabled &&
         targetTokens[thaum.id].token &&
         targetTokens[thaum.id].distance <= 30
       ) {
