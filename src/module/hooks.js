@@ -268,7 +268,8 @@ Hooks.on("renderCharacterSheetPF2e", (_sheet, html, character) => {
       if (
         canvas.scene.tokens.filter(
           (token) =>
-            token.actor.uuid === a.getFlag("pf2e-thaum-vuln", "primaryEVTarget")
+            token.actor?.uuid ===
+            a.getFlag("pf2e-thaum-vuln", "primaryEVTarget")
         ).length != 0
       ) {
         EVTargetSection.append(EVTargetBtn);
