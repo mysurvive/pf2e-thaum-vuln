@@ -302,14 +302,14 @@ function showImplementsOnSheet(inventoryList, a) {
   const imps = a.getFlag("pf2e-thaum-vuln", "selectedImplements");
   if (imps) {
     for (const key of Object.keys(imps)) {
-      const id = `[data-item-id="${imps[key]?.uuid?.split(".")[3]}`;
+      const id = `[data-item-id="${imps[key]?.uuid?.split(".")[3]}"]`;
       const inventoryItem = $(inventoryList).find($("li")).filter($(id));
 
       $(inventoryItem)
         .find("div.item-name")
         .append(
           $(
-            `<img class="item-image item-icon" title="${imps[key]?.counter} implement" style="border-width: 0px; margin-left: 10px;" src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />`
+            `<img class="item-image item-icon" title="${key} implement" style="border-width: 0px; margin-left: 10px;" src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" />`
           )
         );
     }
