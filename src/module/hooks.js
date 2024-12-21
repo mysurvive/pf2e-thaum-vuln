@@ -2,11 +2,14 @@ import {
   MORTAL_WEAKNESS_EFFECT_UUID,
   PERSONAL_ANTITHESIS_EFFECT_UUID,
   BREACHED_DEFENSES_EFFECT_UUID,
+  ESOTERIC_WARDEN_EFFECT_UUID,
+  PRIMARY_TARGET_EFFECT_UUID,
 } from "./utils/index.js";
 import {
   hasFeat,
   isThaumaturge,
   targetEVPrimaryTarget,
+  getEffectOnActor,
 } from "./utils/helpers.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
 import { createChatCardButton } from "./utils/chatCard.js";
@@ -18,46 +21,37 @@ import { manageImplements, clearImplements } from "./implements/implements.js";
 Hooks.on(
   "renderChatMessage",
   async (message, html) => {
-    if (canvas.initialized) {
-      const speaker = message.actor;
-      if (
-        (message.flags?.pf2e?.context?.type === "attack-roll" ||
-          message.flags?.pf2e?.context?.type === "spell-attack-roll" ||
-          message.flags?.pf2e?.context?.type === "saving-throw") &&
-        speaker.isOwner
-      ) {
-        updateWeaknessType(message, speaker);
-        handleEsotericWarden(message);
-      }
-    }
-
     createChatCardButton(message, html);
   },
   { once: false }
 );
 
-async function updateWeaknessType(message, speaker) {
+Hooks.once("ready", () => {
+  Hooks.on("createChatMessage", (message) => {
+    updateWeaknessType(message); // Run by thaum's targets
+    handleEsotericWardenAttack(message); // Run by thaum when it's a target
+  });
+  Hooks.on("preCreateChatMessage", handleEsotericWardenSave); // Run by thaum when rolling a save
+});
+
+// We want the owner of the *target* of this message, if it's an attack, to run this and
+// update the target's EV effect for the damage type.
+async function updateWeaknessType(message) {
   if (
-    speaker.class?.name != game.i18n.localize("PF2E.TraitThaumaturge") ||
-    message.flags?.pf2e?.context?.action != "strike" ||
-    message.flags?.pf2e?.origin?.type != "weapon"
+    message.flags.pf2e?.context?.action !== "strike" ||
+    message.flags.pf2e?.origin?.type !== "weapon" ||
+    !isThaumaturge(message.actor)
   )
     return;
 
-  const strikeTarget = await fromUuid(
-    message.getFlag("pf2e-thaum-vuln", "targets")[0]?.actorUuid
-  );
-
+  const strikeTarget = message.target?.actor;
   if (!strikeTarget || strikeTarget.primaryUpdater !== game.user) return;
 
-  const evEffect = strikeTarget.items.find(
+  const actorSlug = game.pf2e.system.sluggify(message.actor.name);
+  const evEffect = strikeTarget.itemTypes.effect.find(
     (i) =>
-      i.slug ===
-        `personal-antithesis-target-${game.pf2e.system.sluggify(
-          speaker.name
-        )}` ||
-      i.slug ===
-        `mortal-weakness-target-${game.pf2e.system.sluggify(speaker.name)}`
+      i.slug === `personal-antithesis-target-${actorSlug}` ||
+      i.slug === `mortal-weakness-target-${actorSlug}`
   );
   if (!evEffect) return;
   const strike = message._strike?.item.system;
@@ -85,40 +79,51 @@ async function updateWeaknessType(message, speaker) {
   });
 }
 
-async function handleEsotericWarden(message) {
-  const speakerToken = await fromUuid(
-    `Scene.${message.speaker.scene}.Token.${message.speaker.token}`
-  );
+// The owner of the thaumaturge should, if the message is an attack on the thaum, end
+// the AC part of an EW effect.
+function handleEsotericWardenAttack(message) {
+  // Check if message is attack and attacker is a primary EV target of at least one thaum
+  if (
+    !["attack-roll", "spell-attack-roll"].includes(
+      message.flags?.pf2e?.context?.type
+    ) ||
+    !message.actor ||
+    !getEffectOnActor(message.actor, PRIMARY_TARGET_EFFECT_UUID)
+  )
+    return;
 
-  for (let target of message.getFlag("pf2e-thaum-vuln", "targets")) {
-    target = await fromUuid(target.actorUuid);
-    let EWEffect = target?.items?.find(
-      (item) => item.slug === "esoteric-warden-effect"
-    );
-
+  // We look for primary EV target effects on the attacker first, rather than the
+  // targets of the attack, because there are far fewer of the former.
+  const targetUuids = message
+    .getFlag("pf2e-thaum-vuln", "targets")
+    ?.map((t) => t.actorUuid);
+  for (const thaum of message.actor.itemTypes.effect
+    .filter((e) => e.sourceId === PRIMARY_TARGET_EFFECT_UUID)
+    .map((e) => e.origin)) {
     if (
-      EWEffect &&
-      target
-        .getFlag("pf2e-thaum-vuln", "EVTargetID")
-        .includes(speakerToken.uuid) &&
-      (message.flags?.pf2e?.context?.type === "attack-roll" ||
-        message.flags?.pf2e?.context?.type === "spell-attack-roll")
+      thaum.primaryUpdater === game.user &&
+      targetUuids.includes(thaum.uuid)
     ) {
-      removeEWOption(EWEffect, target, "ac");
+      const EWEffect = getEffectOnActor(thaum, ESOTERIC_WARDEN_EFFECT_UUID);
+      if (EWEffect) removeEWOption(EWEffect, thaum, "ac");
     }
   }
-  if (
-    message.flags?.pf2e?.context?.type === "saving-throw" &&
-    message
-      .getFlag("pf2e", "modifiers")
-      .some((i) => i.slug === "esoteric-warden-save")
-  ) {
-    let EWEffect = speakerToken?.actor?.items?.find(
-      (item) => item.slug === "esoteric-warden-effect"
+}
+
+// Only called by the creater of the message, i.e. the roller of the save.
+// If it's a save by a thaum, check if their save EW effect should be used up.
+function handleEsotericWardenSave(message) {
+  if (message.flags?.pf2e?.context?.type !== "saving-throw") return;
+
+  const modifier = message
+    .getFlag("pf2e", "modifiers")
+    ?.find((m) => m.slug === "esoteric-warden-save");
+  if (modifier?.enabled) {
+    const EWEffect = getEffectOnActor(
+      message.actor,
+      ESOTERIC_WARDEN_EFFECT_UUID
     );
-    if (EWEffect) {
-      removeEWOption(EWEffect, speakerToken.actor, "save");
-    }
+    if (EWEffect) removeEWOption(EWEffect, message.actor, "save");
   }
 }
 
