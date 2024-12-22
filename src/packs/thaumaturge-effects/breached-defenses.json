@@ -8,31 +8,14 @@
     },
     "rules": [
       {
-        "definition": [
-          {
-            "or": [
-              "item:type:weapon",
-              "item:trait:unarmed"
-            ]
-          }
-        ],
-        "key": "AdjustStrike",
-        "mode": "add",
-        "property": "materials",
-        "value": "adamantine",
-        "slug": "breached-defenses-bypass",
-        "predicate": [
-          "target:mark:exploit-vulnerability"
-        ]
-      },
-      {
         "key": "AdjustStrike",
         "mode": "add",
         "property": "weapon-traits",
         "value": "magical",
         "predicate": [
           "target:mark:exploit-vulnerability"
-        ]
+        ],
+        "slug": "breached-defenses-magical"
       },
       {
         "key": "TokenMark",
@@ -90,12 +73,13 @@
   },
   "_stats": {
     "systemId": "pf2e",
-    "systemVersion": "6.1.1",
-    "coreVersion": "12.329",
+    "systemVersion": "6.8.0",
+    "coreVersion": "12.331",
     "createdTime": 1675815751178,
-    "modifiedTime": 1721825748891,
+    "modifiedTime": 1734850236992,
     "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.FMw5IpJdA6eOgtv1",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "lastModifiedBy": "o29bm85va79jJPjh"
   },
   "folder": null,
   "sort": 400000,
