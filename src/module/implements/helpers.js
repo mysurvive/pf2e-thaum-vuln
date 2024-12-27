@@ -40,7 +40,11 @@ function checkFeatValidity(a) {
     return false;
   }
   if (firstImplementFeat?.rules != undefined) {
-    if (!firstImplementFeat.rules[1]?.grantedId) {
+    if (
+      !firstImplementFeat.rules.find(
+        (r) => r.key === "GrantItem" && r.grantedId != undefined
+      )
+    ) {
       console.error(
         "[PF2E Exploit Vulnerability] No grantedId found for implement feat. Downlevel to 0 and back up to your expected level, allowing the system to handle the feat automation."
       );
