@@ -17,8 +17,8 @@ class Implement {
     //to ids from uuids and a migration script is written.
     this.itemId = itemUuid?.split(".")[3] ?? undefined;
     this.#baseFeat = this.actor.itemTypes.feat.find((i) => i.slug === slug);
-    this.adept = this.isRank("thaumaturge-implement-adept");
-    this.paragon = this.isRank("thaumaturge-implement-paragon");
+    this.adept = this.isRank(`adept-benefit-${this.slug}`);
+    this.paragon = this.isRank(`paragon-benefit-${this.slug}`);
     this.intensify = this.actor.itemTypes.feat.some(
       (i) => i.slug === "intensify-vulnerability"
     );
@@ -75,8 +75,9 @@ class Implement {
   }
 
   // Sets this.adept and this.paragon. Returns false if there is no feat (such as at level 0)
+  // Implements no longer have otherTags which makes their rank easy to parse, so we have to check the feats to see if the benefit exists for an implement
   isRank(slug) {
-    return this.#baseFeat?.system.traits.otherTags.includes(slug) ?? false;
+    return this.#actor.itemTypes.feat.some((f) => f.slug === slug);
   }
 
   // If effect is supplied, treat it as effect data to apply, if not, then check
