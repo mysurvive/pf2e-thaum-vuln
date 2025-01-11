@@ -26,9 +26,10 @@ async function createBreachedDefenses(sa, eff, bypassable) {
   //Fixes silly exceptions like the Adamantine Golem's "vorpal-adamantine" - However,
   //Adamantine Golem still doesn't work properly because Vorpal is a rune, and the
   //exception isn't fully implemented it appears.
-  const splitExceptions = bypassable.exceptions.map((x) =>
-    typeof x === "string" ? x.split("-").flat() : x
-  );
+  const splitExceptions = bypassable.exceptions.map((x) => {
+    return x;
+    //typeof x === "string" ? x.split("-").flat() : x;
+  });
 
   //Complex exceptions (such as Magical Silver) are set up very differently from simple exceptions.
   //The exception needs to be coerced a little to be in a usable state.
