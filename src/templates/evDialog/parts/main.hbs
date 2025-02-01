@@ -1,0 +1,112 @@
+<section>
+  {{#with evContext as |ev|}}
+    <p>{{localize "pf2e-thaum-vuln.exploitVulnerability.dialog.prompt"}}</p>
+    <fieldset class="iwr-area" id="weakness-information">
+      <legend>
+        {{localize "pf2e-thaum-vuln.exploitVulnerability.dialog.weaknessLabel"}}
+      </legend>
+      {{#if ev.weaknesses}}
+        <ul>
+          {{#each ev.weaknesses}}
+            <li>{{type}}{{#unless ev.hideValues}} - {{value}}{{/unless}}</li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <span>{{localize "pf2e-thaum-vuln.dialog.none"}}</span>
+      {{/if}}
+    </fieldset>
+    <fieldset class="iwr-area" id="resistance-information">
+      <legend>
+        {{localize
+          "pf2e-thaum-vuln.exploitVulnerability.dialog.resistanceLabel"
+        }}
+      </legend>
+      {{#if ev.resistances}}
+        <ul>
+          {{#each ev.resistances}}
+            <li>{{type}}
+              {{#unless ev.hideValues}} - {{value}}{{/unless}}
+              {{#when exceptions.length "gt" 0}}
+                <br />
+                {{localize
+                  "pf2e-thaum-vuln.exploitVulnerability.dialog.except"
+                }}
+                <ul>
+                  {{#each exceptions}}
+                    <li>
+                      {{#if label}}
+                        {{localize label}}
+                      {{else}}
+                        {{localize this}}
+                      {{/if}}
+                    </li>
+                  {{/each}}
+                </ul>
+              {{/when}}
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <span>{{localize "pf2e-thaum-vuln.dialog.none"}}</span>
+      {{/if}}
+    </fieldset>
+    <fieldset class="iwr-area" id="immunity-information">
+      <legend>
+        {{localize "pf2e-thaum-vuln.exploitVulnerability.dialog.immunityLabel"}}
+      </legend>
+      {{#if ev.immunities}}
+        <ul>
+          {{#each ev.immunities}}
+            <li>{{type}}
+              {{#when exceptions.length "gt" 0}}
+                -
+                {{localize
+                  "pf2e-thaum-vuln.exploitVulnerability.dialog.except"
+                }}
+                <ul>
+                  {{#each exceptions}}
+                    <li>
+                      {{#if label}}
+                        {{localize label}}
+                      {{else}}
+                        {{localize this}}
+                      {{/if}}
+                    </li>
+                  {{/each}}
+                </ul>
+              {{/when}}
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <span>{{localize "pf2e-thaum-vuln.dialog.none"}}</span>
+      {{/if}}
+    </fieldset>
+    <div>
+      {{localize "pf2e-thaum-vuln.exploitVulnerability.dialog.paBonusLabel"}}
+      {{ev.pa.bonus}}
+    </div>
+    {{#if ev.breachedDefenses.hasBreachedDefenses}}
+      <div>
+        {{localize "pf2e-thaum-vuln.breachedDefenses.bypassableLabel"}}
+        {{#if ev.breachedDefenses.greatestBypassable}}
+          {{ev.breachedDefenses.greatestBypassable.type}},
+          {{localize "pf2e-thaum-vuln.breachedDefenses.bypassedBy"}}:
+          <ul>
+            {{#each ev.breachedDefenses.greatestBypassable.exceptions}}
+              <li>
+                {{#if label}}
+                  {{localize label}}
+                {{else}}
+                  {{localize this}}
+                {{/if}}
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          {{localize "pf2e-thaum-vuln.dialog.none"}}
+        {{/if}}
+      </div>
+    {{/if}}
+  {{/with}}
+</section>

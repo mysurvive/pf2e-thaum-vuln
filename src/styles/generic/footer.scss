@@ -1,0 +1,14 @@
+.form-footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.1rem;
+  margin-top: 1rem;
+
+  > button {
+    flex: 1;
+    height: calc(1.25 * var(--input-height));
+    min-width: 120px;
+  }
+}
