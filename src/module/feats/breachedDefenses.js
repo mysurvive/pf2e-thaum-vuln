@@ -16,6 +16,10 @@ async function createBreachedDefenses(sa, eff, bypassable) {
       propLabel: "property-runes",
       data: { "ghost-touch": "ghostTouch", vorpal: "vorpal" },
     },
+    damageTypes: {
+      propLabel: "damageTypes",
+      data: CONFIG.PF2E.damageTypes,
+    },
   };
 
   //force ghost touch property rune on things that are immune to it
@@ -80,21 +84,41 @@ async function createBreachedDefenses(sa, eff, bypassable) {
   for (const type in exception.property) {
     for (const exc of exception.property[type]) {
       const bypassRule = eff.system.rules.find(
-        (rule) => rule.slug === `breached-defenses-${type}-${exc}`
+        (rule) =>
+          rule.slug === `breached-defenses-${type}-${exc}` ||
+          rule.relabel === "Breached Defenses Damage"
       );
       if (!bypassRule) {
-        eff.system.rules = [
-          ...eff.system.rules,
-          {
-            definition: [{ or: ["item:type:weapon", "item:trait:unarmed"] }],
-            key: "AdjustStrike",
-            mode: "add",
-            property: type,
-            value: exc,
-            slug: `breached-defenses-${type}-${exc}`,
-            predicate: ["target:mark:exploit-vulnerability"],
-          },
-        ];
+        if (type === "damageTypes") {
+          eff.system.rules = [
+            ...eff.system.rules,
+            {
+              selectors: ["strike-damage"],
+              key: "DamageAlteration",
+              mode: "override",
+              property: "damage-type",
+              relabel: "Breached Defenses Damage",
+              value: exc,
+              predicate: [
+                "target:mark:exploit-vulnerability",
+                { or: ["item:type:weapon", "item:trait:unarmed"] },
+              ],
+            },
+          ];
+        } else {
+          eff.system.rules = [
+            ...eff.system.rules,
+            {
+              definition: [{ or: ["item:type:weapon", "item:trait:unarmed"] }],
+              key: "AdjustStrike",
+              mode: "add",
+              property: type,
+              value: exc,
+              slug: `breached-defenses-${type}-${exc}`,
+              predicate: ["target:mark:exploit-vulnerability"],
+            },
+          ];
+        }
       } else {
         bypassRule.value = exc;
         bypassRule.property = type;
