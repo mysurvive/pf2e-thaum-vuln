@@ -71,7 +71,11 @@ async function updateWeaknessType(message) {
       ].damageType;
   }
 
-  if (damageType === evEffect.system.rules[0].type) return;
+  if (
+    evEffect.system.rules.length === 0 ||
+    damageType === evEffect.system.rules[0].type
+  )
+    return;
 
   evEffect.update({
     _id: evEffect._id,

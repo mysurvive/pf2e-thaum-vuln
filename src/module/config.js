@@ -9,6 +9,29 @@ import { intensifyImplement } from "./implements/intensifyImplement.js";
 import { constructChildImplement } from "./implements/impDict.js";
 
 Hooks.on("init", async () => {
+  const ADJUSTMENT_TYPES = {
+    materials: {
+      propLabel: "materials",
+      data: CONFIG.PF2E.preciousMaterials,
+    },
+    traits: {
+      propLabel: "traits",
+      data: CONFIG.PF2E.damageTraits,
+    },
+    "weapon-traits": {
+      propLabel: "weapon-traits",
+      data: CONFIG.PF2E.weaponTraits,
+    },
+    "property-runes": {
+      propLabel: "property-runes",
+      data: { "ghost-touch": "ghostTouch", vorpal: "vorpal" },
+    },
+    damageTypes: {
+      propLabel: "damageTypes",
+      data: CONFIG.PF2E.damageTypes,
+    },
+  };
+
   game.pf2eThaumVuln = {
     exploitVuln,
     shareWeakness,
@@ -18,6 +41,7 @@ Hooks.on("init", async () => {
     recallEsotericKnowledge,
     rootToLife,
     intensifyImplement,
+    ADJUSTMENTS: { ADJUSTMENT_TYPES },
   };
 
   loadTemplates([

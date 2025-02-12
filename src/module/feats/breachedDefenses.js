@@ -1,26 +1,5 @@
 async function createBreachedDefenses(sa, eff, bypassable) {
-  const ADJUSTMENT_TYPES = {
-    materials: {
-      propLabel: "materials",
-      data: CONFIG.PF2E.preciousMaterials,
-    },
-    traits: {
-      propLabel: "traits",
-      data: CONFIG.PF2E.damageTraits,
-    },
-    "weapon-traits": {
-      propLabel: "weapon-traits",
-      data: CONFIG.PF2E.weaponTraits,
-    },
-    "property-runes": {
-      propLabel: "property-runes",
-      data: { "ghost-touch": "ghostTouch", vorpal: "vorpal" },
-    },
-    damageTypes: {
-      propLabel: "damageTypes",
-      data: CONFIG.PF2E.damageTypes,
-    },
-  };
+  const ADJUSTMENT_TYPES = game.pf2eThaumVuln.ADJUSTMENTS.ADJUSTMENT_TYPES;
 
   //force ghost touch property rune on things that are immune to it
   if (bypassable.exceptions.includes("ghost-touch")) {
@@ -32,7 +11,6 @@ async function createBreachedDefenses(sa, eff, bypassable) {
   //exception isn't fully implemented it appears.
   const splitExceptions = bypassable.exceptions.map((x) => {
     return x;
-    //typeof x === "string" ? x.split("-").flat() : x;
   });
 
   //Complex exceptions (such as Magical Silver) are set up very differently from simple exceptions.
