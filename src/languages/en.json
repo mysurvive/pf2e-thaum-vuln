@@ -35,7 +35,7 @@
         "tome": "Module handles Tome",
         "wand": "Module handles Wand",
         "weapon": "Module handles Weapon",
-        "hint": "If true, the Exploit Vulnerability module will handle this implement's effects and it is recommended to delete system-generated implements. If false, the Exploit Vulnerability module will not create effects on this implement when managed."
+        "hint": "If true, the Exploit Vulnerability module will handle this implement's effects and it is recommended to delete system-generated implements. If false, the Exploit Vulnerability module will not create effects on this implement when managed and it is recommended to use system-generated implements when managing implements."
       }
     },
     "notifications": {
