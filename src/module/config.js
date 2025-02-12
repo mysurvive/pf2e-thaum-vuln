@@ -7,6 +7,10 @@ import { recallEsotericKnowledge } from "./actions/recallKnowledge.js";
 import { rootToLife } from "./feats/rootToLife.js";
 import { intensifyImplement } from "./implements/intensifyImplement.js";
 import { constructChildImplement } from "./implements/impDict.js";
+import {
+  EXPLOIT_VULNERABILITY_DC_UUID,
+  EXPLOIT_VULNERABILITY_DC_PWOL_UUID,
+} from "./utils/index.js";
 
 Hooks.on("init", async () => {
   const ADJUSTMENT_TYPES = {
@@ -82,6 +86,24 @@ Hooks.on("init", async () => {
             );
           }
         }
+      }
+
+      const EV = this.itemTypes.feat.find(
+        (f) => f.slug === "exploit-vulnerability"
+      );
+      if (EV) {
+        this.rules.push(
+          new game.pf2e.RuleElements.builtin.EphemeralEffect(
+            {
+              key: "EphemeralEffect",
+              selectors: ["esoteric-lore", "esoteric", "lore-esoteric"],
+              uuid: game.pf2e.settings.variants.pwol.enabled
+                ? EXPLOIT_VULNERABILITY_DC_PWOL_UUID
+                : EXPLOIT_VULNERABILITY_DC_UUID,
+            },
+            { parent: EV }
+          )
+        );
       }
 
       wrapped(...args);
