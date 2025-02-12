@@ -157,13 +157,22 @@ async function _socketCreateEffectsOnActors(
 
 async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
   const a = await fromUuid(aID);
-
-  if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID) {
-    effect.system.rules[0].value = iwrData;
-    a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
-  } else if (effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_UUID) {
-    effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
-    a.setFlag("pf2e-thaum-vuln", "EVValue", `${effect.system.rules[0].value}`);
+  if (effect.system.rules.length != 0) {
+    if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID) {
+      effect.system.rules[0].value = iwrData;
+      a.setFlag(
+        "pf2e-thaum-vuln",
+        "EVValue",
+        `${effect.system.rules[0].value}`
+      );
+    } else if (effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_UUID) {
+      effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
+      a.setFlag(
+        "pf2e-thaum-vuln",
+        "EVValue",
+        `${effect.system.rules[0].value}`
+      );
+    }
   }
 
   effect.name = effect.name + ` (${a.name})`;

@@ -9,6 +9,29 @@ import { intensifyImplement } from "./implements/intensifyImplement.js";
 import { constructChildImplement } from "./implements/impDict.js";
 
 Hooks.on("init", async () => {
+  const ADJUSTMENT_TYPES = {
+    materials: {
+      propLabel: "materials",
+      data: CONFIG.PF2E.preciousMaterials,
+    },
+    traits: {
+      propLabel: "traits",
+      data: CONFIG.PF2E.damageTraits,
+    },
+    "weapon-traits": {
+      propLabel: "weapon-traits",
+      data: CONFIG.PF2E.weaponTraits,
+    },
+    "property-runes": {
+      propLabel: "property-runes",
+      data: { "ghost-touch": "ghostTouch", vorpal: "vorpal" },
+    },
+    damageTypes: {
+      propLabel: "damageTypes",
+      data: CONFIG.PF2E.damageTypes,
+    },
+  };
+
   game.pf2eThaumVuln = {
     exploitVuln,
     shareWeakness,
@@ -18,6 +41,7 @@ Hooks.on("init", async () => {
     recallEsotericKnowledge,
     rootToLife,
     intensifyImplement,
+    ADJUSTMENTS: { ADJUSTMENT_TYPES },
   };
 
   loadTemplates([
@@ -84,6 +108,32 @@ Hooks.on("init", async () => {
     }
     if (v1.length > 0) return options.fn(this);
     else return options.inverse(this);
+  });
+  Handlebars.registerHelper("when", function (op1, operator, op2, opts) {
+    const operators = {
+        eq: function (l, r) {
+          return l == r;
+        },
+        noteq: function (l, r) {
+          return l != r;
+        },
+        gt: function (l, r) {
+          return Number(l) > Number(r);
+        },
+        or: function (l, r) {
+          return l || r;
+        },
+        and: function (l, r) {
+          return l && r;
+        },
+        "%": function (l, r) {
+          return l % r === 0;
+        },
+      },
+      result = operators[operator](op1, op2);
+
+    if (result) return opts.fn(this);
+    else return opts.inverse(this);
   });
 
   //game settings

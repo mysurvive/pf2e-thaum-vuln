@@ -97,7 +97,7 @@
         "weaknessLabel": "Weaknesses: ",
         "resistanceLabel": "Resistances: ",
         "immunityLabel": "Immunities: ",
-        "except": "Except: ",
+        "except": "except: ",
         "doublevs": "Double vs.: ",
         "highestWeaknessLabel": "Highest Weakness"
       },
@@ -120,7 +120,7 @@
     "breachedDefenses": {
       "name": "Breached Defenses",
       "bypassableLabel": "Highest Bypassable Resistance: ",
-      "bypassLine": "{type}, bypassed by {exception}"
+      "bypassedBy": "bypassed by"
     },
 
     "esotericWarden": {

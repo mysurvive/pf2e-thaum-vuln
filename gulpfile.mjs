@@ -16,6 +16,8 @@ import rollupStream from "@rollup/stream";
 
 import rollupConfig from "./rollup.config.mjs";
 import { buildModulePacks } from "./build/buildPacks.js";
+import gulpSass from "gulp-sass";
+import dartSass from "sass";
 
 /********************/
 /*  CONFIGURATION   */
@@ -25,15 +27,10 @@ const packageId = "pf2e-thaum-vuln";
 const sourceDirectory = "./src";
 const distDirectory = "./dist";
 const stylesDirectory = `${sourceDirectory}/styles`;
-const stylesExtension = "css";
+const stylesExtension = "scss";
 const sourceFileExtension = "js";
-const staticFiles = [
-  "assets",
-  "languages",
-  "styles",
-  "module.json",
-  "templates",
-];
+const sass = gulpSass(dartSass);
+const staticFiles = ["assets", "languages", "module.json", "templates"];
 
 /********************/
 /*      BUILD       */
@@ -62,6 +59,7 @@ function buildCode() {
 function buildStyles() {
   return gulp
     .src(`${stylesDirectory}/${packageId}.${stylesExtension}`)
+    .pipe(sass().on("error", sass.logError))
     .pipe(gulp.dest(`${distDirectory}/styles`));
 }
 
@@ -100,7 +98,7 @@ export function watch() {
 export const build = gulp.series(
   clean,
   buildPacks,
-  gulp.parallel(buildCode, copyFiles)
+  gulp.parallel(buildCode, copyFiles, buildStyles)
 );
 
 /********************/

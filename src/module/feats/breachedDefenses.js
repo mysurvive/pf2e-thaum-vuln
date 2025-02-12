@@ -1,22 +1,5 @@
 async function createBreachedDefenses(sa, eff, bypassable) {
-  const ADJUSTMENT_TYPES = {
-    materials: {
-      propLabel: "materials",
-      data: CONFIG.PF2E.preciousMaterials,
-    },
-    traits: {
-      propLabel: "traits",
-      data: CONFIG.PF2E.damageTraits,
-    },
-    "weapon-traits": {
-      propLabel: "weapon-traits",
-      data: CONFIG.PF2E.weaponTraits,
-    },
-    "property-runes": {
-      propLabel: "property-runes",
-      data: { "ghost-touch": "ghostTouch", vorpal: "vorpal" },
-    },
-  };
+  const ADJUSTMENT_TYPES = game.pf2eThaumVuln.ADJUSTMENTS.ADJUSTMENT_TYPES;
 
   //force ghost touch property rune on things that are immune to it
   if (bypassable.exceptions.includes("ghost-touch")) {
@@ -28,7 +11,6 @@ async function createBreachedDefenses(sa, eff, bypassable) {
   //exception isn't fully implemented it appears.
   const splitExceptions = bypassable.exceptions.map((x) => {
     return x;
-    //typeof x === "string" ? x.split("-").flat() : x;
   });
 
   //Complex exceptions (such as Magical Silver) are set up very differently from simple exceptions.
@@ -80,21 +62,41 @@ async function createBreachedDefenses(sa, eff, bypassable) {
   for (const type in exception.property) {
     for (const exc of exception.property[type]) {
       const bypassRule = eff.system.rules.find(
-        (rule) => rule.slug === `breached-defenses-${type}-${exc}`
+        (rule) =>
+          rule.slug === `breached-defenses-${type}-${exc}` ||
+          rule.relabel === "Breached Defenses Damage"
       );
       if (!bypassRule) {
-        eff.system.rules = [
-          ...eff.system.rules,
-          {
-            definition: [{ or: ["item:type:weapon", "item:trait:unarmed"] }],
-            key: "AdjustStrike",
-            mode: "add",
-            property: type,
-            value: exc,
-            slug: `breached-defenses-${type}-${exc}`,
-            predicate: ["target:mark:exploit-vulnerability"],
-          },
-        ];
+        if (type === "damageTypes") {
+          eff.system.rules = [
+            ...eff.system.rules,
+            {
+              selectors: ["strike-damage"],
+              key: "DamageAlteration",
+              mode: "override",
+              property: "damage-type",
+              relabel: "Breached Defenses Damage",
+              value: exc,
+              predicate: [
+                "target:mark:exploit-vulnerability",
+                { or: ["item:type:weapon", "item:trait:unarmed"] },
+              ],
+            },
+          ];
+        } else {
+          eff.system.rules = [
+            ...eff.system.rules,
+            {
+              definition: [{ or: ["item:type:weapon", "item:trait:unarmed"] }],
+              key: "AdjustStrike",
+              mode: "add",
+              property: type,
+              value: exc,
+              slug: `breached-defenses-${type}-${exc}`,
+              predicate: ["target:mark:exploit-vulnerability"],
+            },
+          ];
+        }
       } else {
         bypassRule.value = exc;
         bypassRule.property = type;
