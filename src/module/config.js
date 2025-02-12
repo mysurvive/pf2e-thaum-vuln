@@ -229,4 +229,76 @@ Hooks.on("init", async () => {
       !value;
     },
   });
+
+  game.settings.register("pf2e-thaum-vuln", "moduleHandles-amulet", {
+    name: game.i18n.format("pf2e-thaum-vuln.settings.moduleHandles.amulet"),
+    hint: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.hint"),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "moduleHandles-chalice", {
+    name: game.i18n.format("pf2e-thaum-vuln.settings.moduleHandles.chalice"),
+    hint: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.hint"),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "moduleHandles-lantern", {
+    name: game.i18n.format("pf2e-thaum-vuln.settings.moduleHandles.lantern"),
+    hint: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.hint"),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "moduleHandles-regalia", {
+    name: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.regalia"),
+    hint: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.hint"),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "moduleHandles-tome", {
+    name: game.i18n.format("pf2e-thaum-vuln.settings.moduleHandles.tome"),
+    hint: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.hint"),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "moduleHandles-weapon", {
+    name: game.i18n.format("pf2e-thaum-vuln.settings.moduleHandles.weapon"),
+    hint: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.hint"),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
 });

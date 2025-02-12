@@ -112,9 +112,33 @@ class Implement {
 
     if (implement) this.deleteEffectsOnItem();
 
+    if (
+      game.settings.get(
+        "pf2e-thaum-vuln",
+        `moduleHandles-${this.name.toLowerCase()}`
+      ) === false
+    )
+      return;
+
     const implementRules = implement.system?.rules ?? [];
     for (const rule of this.rules) {
       implementRules.push(rule);
+    }
+
+    if (!implementRules.find((r) => r.option === "implement-held")) {
+      implementRules.push({
+        key: "RollOption",
+        option: "implement-held",
+        slug: null,
+        priority: 50,
+        ignored: false,
+        predicate: [],
+        domain: "all",
+        phase: "applyAEs",
+        suboptions: [],
+        mergeable: false,
+        value: true,
+      });
     }
 
     implement.update({ _id: implement._id, "system.rules": implementRules });

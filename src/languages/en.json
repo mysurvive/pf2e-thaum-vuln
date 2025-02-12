@@ -24,9 +24,20 @@
       "reactionCheckerHandlesAmulet": {
         "name": "PF2e Reaction Checker Handles Amulet",
         "hint": "Allow PF2e Reaction Checker to handle Amulet's Abeyance."
+      },
+      "moduleHandles": {
+        "amulet": "Module handles Amulet",
+        "bell": "Module handles Bell",
+        "chalice": "Module handles Chalice",
+        "lantern": "Module handles Lantern",
+        "mirror": "Module handles Mirror",
+        "regalia": "Module handles Regalia",
+        "tome": "Module handles Tome",
+        "wand": "Module handles Wand",
+        "weapon": "Module handles Weapon",
+        "hint": "If true, the Exploit Vulnerability module will handle this implement's effects and it is recommended to delete system-generated implements. If false, the Exploit Vulnerability module will not create effects on this implement when managed."
       }
     },
-
     "notifications": {
       "warn": {
         "exploitVulnerability": {
@@ -79,7 +90,6 @@
         }
       }
     },
-
     "exploitVulnerability": {
       "name": "Exploit Vulnerability",
       "flavor": "You scour your experiences and learning to identify something that might repel your foe. You retrieve an object from your esoterica with the appropriate supernatural qualities, then use your implement to stoke the remnants of its power into a blaze. Select a creature you can see and attempt an Esoteric Lore check against a standard DC for its level, as you retrieve the right object from your esoterica and use your implement to empower it. You gain the following effects until you Exploit Vulnerabilities again.",
@@ -108,21 +118,17 @@
         "criticalFailure": "You couldn't remember the right object to use and become distracted while you rummage through your esoterica. You become off-guard until the beginning of your next turn."
       }
     },
-
     "personalAntithesis": {
       "name": "Personal Antithesis"
     },
-
     "mortalWeakness": {
       "name": "Mortal Weakness"
     },
-
     "breachedDefenses": {
       "name": "Breached Defenses",
       "bypassableLabel": "Highest Bypassable Resistance: ",
       "bypassedBy": "bypassed by"
     },
-
     "esotericWarden": {
       "name": "Esoteric Warden",
       "effect": {
@@ -130,55 +136,46 @@
       },
       "flavor": "When you apply antithetical material against a creature successfully, you also ward yourself against its next attacks. When you succeed at your check to Exploit a Vulnerability, you gain a +1 status bonus to your AC against the creature's next attack and a +1 status bonus to your next saving throw against the creature; if you critically succeed, these bonuses are +2 instead. You can gain these bonuses only once per day against a particular creature, and the benefit ends if you Exploit Vulnerability again."
     },
-
     "diverseLore": {
       "name": "Diverse Lore",
       "flavor": "When you succeed at your check to Exploit a Vulnerability, compare the result of your Esoteric Lore check to the DC to Recall Knowledge for that creature; if that number would be a success or a critical success, you gain information as if you had succeeded at the Recall Knowledge check. ",
       "penalty": "Diverse Lore Penalty",
       "recallKnowledgeNote": "The character's wandering studies mean they've heard rumors or theories about almost every topic... though admittedly, their sources aren't always the most reliable. They can take a –2 penalty to your check to Recall Knowledge with Esoteric Lore to Recall Knowledge about any topic, not just the usual topics available for Esoteric Lore."
     },
-
     "sharedWarding": {
       "name": "Shared Warding",
       "flavor": "You ward your allies from the attacks of your foes whenever you apply those protections to yourself. When you gain a status bonus to AC and saves from Esoteric Warden, you can choose to grant the same benefit to all allies within 30 feet.",
       "prompt": "Would you like to apply your Esoteric Warden effect to all allies within 30 ft.?"
     },
-
     "shareWeakness": {
       "name": "Share Weakness",
       "flavor": "You select an object from your esoterica that has great personal value to you, such as a locket or treasured ring, and you grant it to an ally, establishing a personal link that allows your ally to affect an enemy as if they were you. The ally's Strikes apply the weakness from your mortal weakness the same way your Strikes do. This benefit ends when your Exploit Vulnerability ends or you Share Weakness again.",
       "prompt": "Choose an ally to share your Mortal Weakness effect with."
     },
-
     "ubiquitousWeakness": {
       "name": "Ubiquitous Weakness",
       "flavor": "You've nurtured your bonds with your comrades, allowing you to share the benefits of your esoterica. When you use Exploit Vulnerability and choose mortal weakness, select any number of allies within 30 feet of you. Their Strikes apply the weakness from mortal weakness the same way your Strikes do. This benefit ends when you stop benefiting from Exploit Vulnerability. Since this effect depends on magically strengthening your bond to your allies, only allies with whom you've developed a rapport over the course of one or more days gain the benefit.",
       "prompt": "Would you like to apply your Mortal Weakness effect to all allies within 30 ft.?"
     },
-
     "twinWeakness": {
       "name": "Twin Weakness",
       "chatCardHeader": "Damage: Twin Weakness"
     },
-
     "rootToLife": {
       "title": "Root To Life",
       "selectActionCount": "Select whether to use one or two action variant.",
       "outcome": "The creature is no longer dying and is instead unconscious at 0 Hit Points:",
       "twoActionOutcome": " You may attempt flat checks to remove each source of damage affecting the target."
     },
-
     "esotericLore": {
       "name": "Esoteric Lore"
     },
-
     "dubiousKnowledge": {
       "name": "Dubious Knowledge",
       "degreeOfSuccess": {
         "failure": "When the character fails (but doesn't critically fail) a Recall Knowledge check using any skill, they learn a bit of true knowledge and a bit of erroneous knowledge, but they don't have any way to differentiate which is which."
       }
     },
-
     "recallKnowledge": {
       "name": "Recall Knowledge",
       "dialog": {
@@ -197,13 +194,11 @@
       },
       "esotericKnowledgeLabel": "Recall Esoteric Knowledge:"
     },
-
     "manageImplements": {
       "implementHeader": "Thaumaturge Implements",
       "manageImplementsButton": "Manage Implements",
       "clearImplementsButton": "Clear All Implements"
     },
-
     "targetManagement": {
       "evActive": "EV Active:",
       "evMode": "EV Mode:",
@@ -212,7 +207,6 @@
       "inactive": "Inactive",
       "notOnScene": "EV Primary Target Not On Current Scene"
     },
-
     "implements": {
       "chalice": {
         "drink": {
@@ -244,7 +238,6 @@
         }
       }
     },
-
     "dialog": {
       "yes": "Yes",
       "no": "No",
@@ -276,7 +269,6 @@
         "title": "Intensify Implement"
       }
     },
-
     "chatCard": {
       "use": "Use {action}"
     }
