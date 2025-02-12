@@ -555,14 +555,11 @@ async function _socketChaliceParagonDecrement(target) {
   //stunned is not handled here because the rules state that it must not have a duration, which cannot be determined
   const slugs = ["clumsy", "enfeebled", "frightened", "stupefied"];
   target = game.actors.get(target);
-  console.log(target);
   const targetConditions = target.itemTypes.condition?.filter((c) => {
     if (slugs.includes(c.slug)) return c;
   });
-  console.log(targetConditions);
 
   for (const condition of targetConditions) {
-    console.log(condition.slug);
     await target.decreaseCondition(condition.slug);
   }
 }
