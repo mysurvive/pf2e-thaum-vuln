@@ -117,6 +117,22 @@ class Implement {
       implementRules.push(rule);
     }
 
+    if (!implementRules.find((r) => r.option === "implement-held")) {
+      implementRules.push({
+        key: "RollOption",
+        option: "implement-held",
+        slug: null,
+        priority: 50,
+        ignored: false,
+        predicate: [],
+        domain: "all",
+        phase: "applyAEs",
+        suboptions: [],
+        mergeable: false,
+        value: true,
+      });
+    }
+
     implement.update({ _id: implement._id, "system.rules": implementRules });
     this.itemId = implement.id;
   }
