@@ -15,73 +15,79 @@
         <span>{{localize "pf2e-thaum-vuln.dialog.none"}}</span>
       {{/if}}
     </fieldset>
-    <fieldset class="iwr-area" id="resistance-information">
-      <legend>
-        {{localize
-          "pf2e-thaum-vuln.exploitVulnerability.dialog.resistanceLabel"
-        }}
-      </legend>
-      {{#if ev.resistances}}
-        <ul>
-          {{#each ev.resistances}}
-            <li>{{type}}
-              {{#unless ev.hideValues}} - {{value}}{{/unless}}
-              {{#when exceptions.length "gt" 0}}
-                <br />
-                {{localize
-                  "pf2e-thaum-vuln.exploitVulnerability.dialog.except"
-                }}
-                <ul>
-                  {{#each exceptions}}
-                    <li>
-                      {{#if label}}
-                        {{localize label}}
-                      {{else}}
-                        {{localize this}}
-                      {{/if}}
-                    </li>
-                  {{/each}}
-                </ul>
-              {{/when}}
-            </li>
-          {{/each}}
-        </ul>
-      {{else}}
-        <span>{{localize "pf2e-thaum-vuln.dialog.none"}}</span>
-      {{/if}}
-    </fieldset>
-    <fieldset class="iwr-area" id="immunity-information">
-      <legend>
-        {{localize "pf2e-thaum-vuln.exploitVulnerability.dialog.immunityLabel"}}
-      </legend>
-      {{#if ev.immunities}}
-        <ul>
-          {{#each ev.immunities}}
-            <li>{{type}}
-              {{#when exceptions.length "gt" 0}}
-                -
-                {{localize
-                  "pf2e-thaum-vuln.exploitVulnerability.dialog.except"
-                }}
-                <ul>
-                  {{#each exceptions}}
-                    <li>
-                      {{#if label}}
-                        {{localize label}}
-                      {{else}}
-                        {{localize this}}
-                      {{/if}}
-                    </li>
-                  {{/each}}
-                </ul>
-              {{/when}}
-            </li>
-          {{/each}}
-        </ul>
-      {{else}}
-        <span>{{localize "pf2e-thaum-vuln.dialog.none"}}</span>
-      {{/if}}
-    </fieldset>
+    {{#if ev.showResistances}}
+      <fieldset class="iwr-area" id="resistance-information">
+        <legend>
+          {{localize
+            "pf2e-thaum-vuln.exploitVulnerability.dialog.resistanceLabel"
+          }}
+        </legend>
+        {{#if ev.resistances}}
+          <ul>
+            {{#each ev.resistances}}
+              <li>{{type}}
+                {{#unless ev.hideValues}} - {{value}}{{/unless}}
+                {{#when exceptions.length "gt" 0}}
+                  <br />
+                  {{localize
+                    "pf2e-thaum-vuln.exploitVulnerability.dialog.except"
+                  }}
+                  <ul>
+                    {{#each exceptions}}
+                      <li>
+                        {{#if label}}
+                          {{localize label}}
+                        {{else}}
+                          {{localize this}}
+                        {{/if}}
+                      </li>
+                    {{/each}}
+                  </ul>
+                {{/when}}
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <span>{{localize "pf2e-thaum-vuln.dialog.none"}}</span>
+        {{/if}}
+      </fieldset>
+    {{/if}}
+    {{#when ev.rollDOS "eq" 3}}
+      <fieldset class="iwr-area" id="immunity-information">
+        <legend>
+          {{localize
+            "pf2e-thaum-vuln.exploitVulnerability.dialog.immunityLabel"
+          }}
+        </legend>
+        {{#if ev.immunities}}
+          <ul>
+            {{#each ev.immunities}}
+              <li>{{type}}
+                {{#when exceptions.length "gt" 0}}
+                  -
+                  {{localize
+                    "pf2e-thaum-vuln.exploitVulnerability.dialog.except"
+                  }}
+                  <ul>
+                    {{#each exceptions}}
+                      <li>
+                        {{#if label}}
+                          {{localize label}}
+                        {{else}}
+                          {{localize this}}
+                        {{/if}}
+                      </li>
+                    {{/each}}
+                  </ul>
+                {{/when}}
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <span>{{localize "pf2e-thaum-vuln.dialog.none"}}</span>
+        {{/if}}
+      </fieldset>
+    {{/when}}
     <div>
       {{localize "pf2e-thaum-vuln.exploitVulnerability.dialog.paBonusLabel"}}
       {{ev.pa.bonus}}
