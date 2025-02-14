@@ -1,4 +1,9 @@
-import { TargetEffectSourceIDs } from ".";
+import {
+  BREACHED_DEFENSES_EFFECT_UUID,
+  MORTAL_WEAKNESS_EFFECT_UUID,
+  PERSONAL_ANTITHESIS_EFFECT_UUID,
+  TargetEffectSourceIDs,
+} from ".";
 
 function getMWTargets(t) {
   let targs = new Array();
@@ -190,6 +195,29 @@ function isThaumaturge(actor) {
   );
 }
 
+// Does the actor has an effect that grants the ability to exploit vulnerability on them?
+function hasExploitVulnerabilityEffect(actor) {
+  if (!actor) return false;
+  const effects = actor.itemTypes.effect;
+  //const evEffect = ;
+  return effects.some(
+    (e) =>
+      e.sourceId === PERSONAL_ANTITHESIS_EFFECT_UUID ||
+      e.sourceId === MORTAL_WEAKNESS_EFFECT_UUID ||
+      e.sourceId === BREACHED_DEFENSES_EFFECT_UUID
+  );
+}
+
+// Returns the exploit vulnerability effect for a thaumaturge or someone with share weakness
+function getExploitVulnerabilityEffect(actor) {
+  return actor.itemTypes.effect.find(
+    (e) =>
+      e.sourceId === PERSONAL_ANTITHESIS_EFFECT_UUID ||
+      e.sourceId === MORTAL_WEAKNESS_EFFECT_UUID ||
+      e.sourceId === BREACHED_DEFENSES_EFFECT_UUID
+  );
+}
+
 function getTargetRollOptions(actor) {
   if (!actor) return [];
   const selfRollOptions = actor.getSelfRollOptions();
@@ -209,4 +237,6 @@ export {
   hasFeat,
   isThaumaturge,
   messageTargetTokens,
+  hasExploitVulnerabilityEffect,
+  getExploitVulnerabilityEffect,
 };

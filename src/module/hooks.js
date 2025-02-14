@@ -10,6 +10,8 @@ import {
   isThaumaturge,
   targetEVPrimaryTarget,
   getEffectOnActor,
+  hasExploitVulnerabilityEffect,
+  getExploitVulnerabilityEffect,
 } from "./utils/helpers.js";
 import { removeEWOption } from "./feats/esotericWarden.js";
 import { createChatCardButton } from "./utils/chatCard.js";
@@ -40,24 +42,34 @@ async function updateWeaknessType(message) {
   if (
     message.flags.pf2e?.context?.action !== "strike" ||
     message.flags.pf2e?.origin?.type !== "weapon" ||
-    !isThaumaturge(message.actor)
+    !hasExploitVulnerabilityEffect(message.actor)
   )
     return;
 
   const strikeTarget = message.target?.actor;
   if (!strikeTarget || strikeTarget.primaryUpdater !== game.user) return;
 
-  const actorSlug = game.pf2e.system.sluggify(message.actor.name);
+  const evOrigin = game.actors.get(
+    getExploitVulnerabilityEffect(message.actor).flags[
+      "pf2e-thaum-vuln"
+    ].EffectOrigin.split(".")[1]
+  );
+  const actorSlug = game.pf2e.system.sluggify(evOrigin.name);
   const evEffect = strikeTarget.itemTypes.effect.find(
-    (i) =>
-      i.slug === `personal-antithesis-target-${actorSlug}` ||
-      i.slug === `mortal-weakness-target-${actorSlug}`
+    (e) =>
+      e.slug === `personal-antithesis-target-${actorSlug}` ||
+      e.slug === `mortal-weakness-target-${actorSlug}`
   );
   if (!evEffect) return;
   const strike = message._strike?.item.system;
   let damageType = "physical";
   if (strike.damage) {
-    if (strike.traits.toggles.versatile.selected) {
+    // Special handling for versatile vials because their base damage is always acid
+    if (strike.slug === "versatile-vial") {
+      damageType = strike.traits.value.find((t) =>
+        ["acid", "cold", "fire", "electricity"].includes(t)
+      );
+    } else if (strike.traits.toggles.versatile.selected) {
       damageType = strike.traits.toggles.versatile.selected;
     } else if (strike.traits.toggles.modular.selected) {
       damageType = strike.traits.toggles.modular.selected;
