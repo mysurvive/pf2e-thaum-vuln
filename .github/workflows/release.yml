@@ -10,7 +10,7 @@ on:
 
 env:
   package_type: module
-  node_version: 18.16.1
+  node_version: 20.15.0
 
 jobs:
   lint:
@@ -79,6 +79,16 @@ jobs:
           manifest: https://github.com/${{ github.repository }}/releases/latest/download/${{ env.package_type }}.json
           download: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/${{ env.package_type }}.zip
 
+      - name: Publish Module to FoundryVTT Website
+        id: publish-to-foundry-website
+        uses: cs96and/FoundryVTT-release-package@v1
+        if: ${{ !github.event.release.prerelease && env.PACKAGE_TOKEN }}
+        env:
+          PACKAGE_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
+        with:
+          package-token: ${{ env.PACKAGE_TOKEN }}
+          manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.json
+
       - name: Build
         run: npm run build
 
@@ -110,7 +120,7 @@ jobs:
         run: zip -r ../${{ env.package_type }}.zip .
 
       - name: Create release
-        if: "!github.event.release.prerelease"
+        if: ${{ !github.event.release.prerelease }}
         id: create_version_release
         uses: ncipollo/release-action@v1
         with:
@@ -121,7 +131,7 @@ jobs:
           body: ${{ github.event.release.body }}
 
       - name: Create pre-release
-        if: "github.event.release.prerelease"
+        if: ${{ github.event.release.prerelease }}
         id: create_version_prerelease
         uses: ncipollo/release-action@v1
         with:
