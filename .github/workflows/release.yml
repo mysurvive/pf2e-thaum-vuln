@@ -10,7 +10,7 @@ on:
 
 env:
   package_type: module
-  node_version: 20.15.0
+  node_version: latest
 
 jobs:
   lint:
@@ -53,9 +53,18 @@ jobs:
         id: get_version
         run: echo "version-without-v=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
+      - name: Get Module JSON
+        id: set_var
+        run: |
+          echo "PACKAGE_JSON=$(jq -c . < module.json)" >> $GITHUB_OUTPUT
+
+      - name: Get Module Title
+        id: title
+        run: echo "title=${{ fromJson(steps.set_var.outputs.PACKAGE_JSON).title }}" >> "$GITHUB_OUTPUT"
+
       - name: Substitute Manifest and Download Links For Versioned Ones
         id: sub_manifest_link_version
-        uses: microsoft/variable-substitution@v1
+        uses: devops-actions/variable-substitution@v1.2
         with:
           files: "src/${{ env.package_type }}.json"
         env:
@@ -84,9 +93,6 @@ jobs:
         with:
           name: dist
           path: dist
-
-      - name: Create Zip
-        run: zip -r9 ./module.zip module.json assets/ lang/ packs/ dist/ README.md LICENSE CHANGELOG.md
 
       - name: Get Changelog Body
         id: changelog
