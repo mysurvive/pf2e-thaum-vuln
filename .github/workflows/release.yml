@@ -85,13 +85,6 @@ jobs:
           name: dist
           path: dist
 
-      - name: Get Changelog Body
-        id: changelog
-        uses: release-flow/keep-a-changelog-action@v3
-        with:
-          command: query
-          version: ${{ steps.get_version.outputs.version-without-v }}
-
   publish:
     needs:
       - lint
