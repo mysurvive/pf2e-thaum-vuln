@@ -64,16 +64,6 @@ jobs:
           manifest: https://github.com/${{ github.repository }}/releases/latest/download/${{ env.package_type }}.json
           download: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/${{ env.package_type }}.zip
 
-      - name: Publish Module to FoundryVTT Website
-        id: publish-to-foundry-website
-        uses: cs96and/FoundryVTT-release-package@v1.0.2
-        if: ${{ !github.event.release.prerelease }}
-        env:
-          PACKAGE_TOKEN: ${{ secrets.PACKAGE_TOKEN}}
-        with:
-          package-token: ${{ env.PACKAGE_TOKEN }}
-          manifest-url: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json
-
       - name: Build
         run: |
           npm ci
@@ -102,9 +92,20 @@ jobs:
           name: dist
           path: dist
 
+      - name: Extract tag version number
+        id: get_version
+        run: echo "version-without-v=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
       - name: Create zip file
         working-directory: ./dist
         run: zip -r ../${{ env.package_type }}.zip .
+
+      - name: Get Changelog Body
+        id: changelog
+        uses: release-flow/keep-a-changelog-action@v3
+        with:
+          command: query
+          version: ${{ steps.get_version.outputs.version-without-v }}
 
       - name: Create release
         if: ${{ !github.event.release.prerelease }}
@@ -131,3 +132,13 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: "./dist/${{ env.package_type }}.json, ./${{ env.package_type }}.zip"
           body: ${{ github.event.release.body }}
+
+      - name: Publish Module to FoundryVTT Website
+        id: publish-to-foundry-website
+        uses: cs96and/FoundryVTT-release-package@v1.0.2
+        if: ${{ !github.event.release.prerelease }}
+        env:
+          PACKAGE_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
+        with:
+          package-token: ${{ env.PACKAGE_TOKEN }}
+          manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.json
