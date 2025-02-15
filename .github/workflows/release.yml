@@ -10,24 +10,24 @@ on:
 
 env:
   package_type: module
-  node_version: 18.16.1
+  node_version: 20.15.0
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           lfs: true
 
       - name: Install node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.node_version }}
 
       - name: Cache Node.js modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .npm
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -44,29 +44,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           lfs: true
 
       - name: Install node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.node_version }}
 
       - name: Cache Node.js modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: .npm
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
+
       - name: Install dependencies
         run: npm ci --cache .npm --prefer-offline
 
       - name: Extract tag version number
         id: get_version
-        uses: battila7/get-version-action@v2
+        run: echo "version-without-v=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
       - name: Substitute Manifest and Download Links For Versioned Ones
         id: sub_manifest_link_version
@@ -78,6 +79,16 @@ jobs:
           url: https://github.com/${{ github.repository }}
           manifest: https://github.com/${{ github.repository }}/releases/latest/download/${{ env.package_type }}.json
           download: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/${{ env.package_type }}.zip
+
+      - name: Publish Module to FoundryVTT Website
+        id: publish-to-foundry-website
+        uses: cs96and/FoundryVTT-release-package@v1.0.2
+        if: ${{ !github.event.release.prerelease }}
+        env:
+          PACKAGE_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
+        with:
+          package-token: ${{ env.PACKAGE_TOKEN }}
+          manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.json
 
       - name: Build
         run: npm run build
@@ -95,7 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           lfs: true
 
@@ -110,7 +121,7 @@ jobs:
         run: zip -r ../${{ env.package_type }}.zip .
 
       - name: Create release
-        if: "!github.event.release.prerelease"
+        if: ${{ !github.event.release.prerelease }}
         id: create_version_release
         uses: ncipollo/release-action@v1
         with:
@@ -121,9 +132,9 @@ jobs:
           body: ${{ github.event.release.body }}
 
       - name: Create pre-release
-        if: "github.event.release.prerelease"
+        if: ${{ github.event.release.prerelease }}
         id: create_version_prerelease
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.15.0
         with:
           allowUpdates: true
           makeLatest: false
