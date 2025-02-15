@@ -68,10 +68,8 @@ jobs:
         id: publish-to-foundry-website
         uses: cs96and/FoundryVTT-release-package@v1.0.2
         if: ${{ !github.event.release.prerelease }}
-        env:
-          PACKAGE_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
         with:
-          package-token: ${{ env.PACKAGE_TOKEN }}
+          package-token: ${{ secrets.PACKAGE_TOKEN }}
           manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.json
 
       - name: Build
