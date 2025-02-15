@@ -24,6 +24,18 @@
       "dailiesHandlesTome": {
         "hint": "Zezwolenie, aby PF2e Dailies obsługiwały codzienne wybory umiejętności do utensylium Księgi.",
         "name": "PF2e Dailies obejmuje Tom"
+      },
+      "moduleHandles": {
+        "amulet": "Moduł obsługuje Amulet",
+        "bell": "Moduł obsługuje Dzwon",
+        "chalice": "Moduł obsługuje Kielich",
+        "lantern": "Moduł obsługuje Latarnię",
+        "mirror": "Moduł obsługuje Lustro",
+        "regalia": "Moduł obsługuje Utensylia",
+        "tome": "Moduł obsługuje Tom",
+        "wand": "Moduł obsługuje Różdżkę",
+        "weapon": "Moduł obsługuje Broń",
+        "hint": "Jeśli prawda, moduł Exploit Vulnerability będzie obsługiwał efekty tego utensylium i zaleca się usuwanie utensylium wygenerowanych przez system. Jeśli fałsz, moduł Exploit Vulnerability nie będzie tworzył efektów dla tego utensylium podczas zarządzania i zaleca się używanie utensylium wygenerowanych przez system podczas zarządzania utensylium."
       }
     },
     "notifications": {
@@ -95,7 +107,7 @@
         "weaknessLabel": "Podatności: ",
         "resistanceLabel": "Odporności: ",
         "immunityLabel": "Niewrażliwości: ",
-        "except": "Z wyjątkiem: ",
+        "except": "z wyjątkiem: ",
         "doublevs": "Podwójne przeciw: ",
         "highestWeaknessLabel": "Największa Podatność"
       },
@@ -115,7 +127,8 @@
     "breachedDefenses": {
       "name": "Złamana Obrona (Breached Defenses)",
       "bypassableLabel": "Najwyższa możliwa do ominięcia odporność: ",
-      "bypassLine": "{type}, ominięty przez {exception}"
+      "bypassLine": "{type}, ominięty przez {exception}",
+      "bypassedBy": "ominięty przez"
     },
     "esotericWarden": {
       "name": "Ezoteryczny Strażnik (Esoteric Warden)",
