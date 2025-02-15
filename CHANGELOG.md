@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-## [0.18.2-test.1] - 2015-02-15
+## [0.18.2] - 2015-02-15
 
 ### Fixed
 
@@ -12,6 +12,8 @@
 ### Added
 
 - Handling versatile vials for alchemists who benefit from Share Weakness
+- Automated Foundry VTT package deployment
+- Automated changelog management
 
 ### Security
 
