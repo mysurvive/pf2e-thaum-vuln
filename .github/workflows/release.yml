@@ -85,6 +85,9 @@ jobs:
           name: dist
           path: dist
 
+      - name: Create Zip
+        run: zip -r9 ./module.zip module.json assets/ lang/ packs/ dist/ README.md LICENSE CHANGELOG.md
+
       - name: Get Changelog Body
         id: changelog
         uses: release-flow/keep-a-changelog-action@v3
