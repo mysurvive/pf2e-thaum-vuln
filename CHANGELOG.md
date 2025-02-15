@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Updated the checks.yml github workflow
+
 ## [0.18.2] - 2015-02-15
 
 ### Fixed
