@@ -1,7 +1,11 @@
 # Changelog
 
-## 0.18.2a
+## [0.18.2a]
 
-### Bugfixes
+### Added
+
+- Ipsum Lorem
+
+### Fixed
 
 - Ipsum Lorem
