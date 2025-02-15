@@ -43,27 +43,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-
-      - name: Install node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.node_version }}
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
-        with:
-          path: .npm
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
-
-      - name: Install dependencies
-        run: npm ci --cache .npm --prefer-offline
+          cache: npm
 
       - name: Extract tag version number
         id: get_version
@@ -91,13 +75,22 @@ jobs:
           manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.json
 
       - name: Build
-        run: npm run build
+        run: |
+          npm ci
+          npm run build
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
+
+      - name: Get Changelog Body
+        id: changelog
+        uses: release-flow/keep-a-changelog-action@v3
+        with:
+          command: query
+          version: ${{ steps.get_version.outputs.version-without-v }}
 
   publish:
     needs:
@@ -126,6 +119,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
+          omitDraftDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
           name: ${{ github.event.release.name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: "./dist/${{ env.package_type }}.json, ./${{ env.package_type }}.zip"
@@ -134,7 +129,7 @@ jobs:
       - name: Create pre-release
         if: ${{ github.event.release.prerelease }}
         id: create_version_prerelease
-        uses: ncipollo/release-action@v1.15.0
+        uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           makeLatest: false
