@@ -1,5 +1,6 @@
 import {
   BREACHED_DEFENSES_EFFECT_UUID,
+  GLIMPSE_WEAKNESS_EFFECT_UUID,
   MORTAL_WEAKNESS_EFFECT_UUID,
   PERSONAL_ANTITHESIS_EFFECT_UUID,
   TargetEffectSourceIDs,
@@ -204,7 +205,8 @@ function hasExploitVulnerabilityEffect(actor) {
     (e) =>
       e.sourceId === PERSONAL_ANTITHESIS_EFFECT_UUID ||
       e.sourceId === MORTAL_WEAKNESS_EFFECT_UUID ||
-      e.sourceId === BREACHED_DEFENSES_EFFECT_UUID
+      e.sourceId === BREACHED_DEFENSES_EFFECT_UUID ||
+      e.sourceId === GLIMPSE_WEAKNESS_EFFECT_UUID
   );
 }
 
@@ -214,7 +216,8 @@ function getExploitVulnerabilityEffect(actor) {
     (e) =>
       e.sourceId === PERSONAL_ANTITHESIS_EFFECT_UUID ||
       e.sourceId === MORTAL_WEAKNESS_EFFECT_UUID ||
-      e.sourceId === BREACHED_DEFENSES_EFFECT_UUID
+      e.sourceId === BREACHED_DEFENSES_EFFECT_UUID ||
+      e.sourceId === GLIMPSE_WEAKNESS_EFFECT_UUID
   );
 }
 

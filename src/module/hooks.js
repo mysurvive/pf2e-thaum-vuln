@@ -4,6 +4,7 @@ import {
   BREACHED_DEFENSES_EFFECT_UUID,
   ESOTERIC_WARDEN_EFFECT_UUID,
   PRIMARY_TARGET_EFFECT_UUID,
+  GLIMPSE_WEAKNESS_EFFECT_UUID,
 } from "./utils/index.js";
 import {
   hasFeat,
@@ -181,7 +182,8 @@ Hooks.on("deleteItem", async (item) => {
   if (
     (item.sourceId === MORTAL_WEAKNESS_EFFECT_UUID ||
       item.sourceId === PERSONAL_ANTITHESIS_EFFECT_UUID ||
-      item.sourceId === BREACHED_DEFENSES_EFFECT_UUID) &&
+      item.sourceId === BREACHED_DEFENSES_EFFECT_UUID ||
+      item.sourceId === GLIMPSE_WEAKNESS_EFFECT_UUID) &&
     game.user === sa.primaryUpdater
   ) {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);
@@ -193,13 +195,21 @@ Hooks.on("deleteItem", async (item) => {
   }
 });
 
+async function unsetFlags(item) {}
+
 Hooks.on("renderCharacterSheetPF2e", (_sheet, html, character) => {
   const a = _sheet.actor;
-  if (character.owner && isThaumaturge(a)) {
+  if (
+    character.owner &&
+    (isThaumaturge(a) || hasFeat(a, "thaumaturge-dedication"))
+  ) {
     //implement management buttons
     if (!a.getFlag("pf2e-thaum-vuln", "selectedImplements"))
       a.setFlag("pf2e-thaum-vuln", "selectedImplements", {});
-    if (hasFeat(a, "first-implement-and-esoterica")) {
+    if (
+      hasFeat(a, "first-implement-and-esoterica") ||
+      hasFeat(a, "thaumaturge-dedication")
+    ) {
       const inventoryList = html.find(
         ".sheet-body .inventory-list.directory-list.inventory-pane"
       );

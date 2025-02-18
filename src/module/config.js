@@ -10,7 +10,9 @@ import { constructChildImplement } from "./implements/impDict.js";
 import {
   EXPLOIT_VULNERABILITY_DC_UUID,
   EXPLOIT_VULNERABILITY_DC_PWOL_UUID,
+  THAUMATURGE_DEDICATION_FEAT_UUID,
 } from "./utils/index.js";
+import { glimpseWeakness } from "./feats/glimpseWeakness.js";
 
 Hooks.on("init", async () => {
   const ADJUSTMENT_TYPES = {
@@ -45,6 +47,7 @@ Hooks.on("init", async () => {
     recallEsotericKnowledge,
     rootToLife,
     intensifyImplement,
+    glimpseWeakness,
     ADJUSTMENTS: { ADJUSTMENT_TYPES },
   };
 
@@ -60,9 +63,12 @@ Hooks.on("init", async () => {
     function (wrapped, ...args) {
       if (
         this.class?.name &&
-        this.class?.name
+        (this.class?.name
           .split(" ")
-          .includes(game.i18n.localize("PF2E.TraitThaumaturge"))
+          .includes(game.i18n.localize("PF2E.TraitThaumaturge")) ||
+          this.itemTypes.feat.some(
+            (f) => f.sourceId === THAUMATURGE_DEDICATION_FEAT_UUID
+          ))
       ) {
         const selectedImplements = this.getFlag(
           "pf2e-thaum-vuln",

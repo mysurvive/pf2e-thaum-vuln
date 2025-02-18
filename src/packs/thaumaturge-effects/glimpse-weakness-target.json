@@ -1,0 +1,76 @@
+{
+  "name": "Glimpse Weakness Target",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": ""
+    },
+    "rules": [
+      {
+        "key": "Weakness",
+        "type": "physical",
+        "value": 2,
+        "predicate": [
+          "origin:effect:glimpse-weakness"
+        ],
+        "slug": "glimpse-weakness-weakness"
+      }
+    ],
+    "slug": "glimpse-weakness-target",
+    "_migration": {
+      "version": 0.935,
+      "lastMigration": null
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": -1,
+      "unit": "unlimited",
+      "expiry": null,
+      "sustained": false
+    },
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "badge": null,
+    "context": null,
+    "unidentified": false
+  },
+  "_id": "wygfR5F8KfPmicoA",
+  "img": "systems/pf2e/icons/spells/glimpse-weakness.webp",
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "o29bm85va79jJPjh": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "pf2e",
+    "systemVersion": "6.9.0",
+    "createdTime": 1739677399737,
+    "modifiedTime": 1739677466364,
+    "lastModifiedBy": "o29bm85va79jJPjh"
+  },
+  "_key": "!items!wygfR5F8KfPmicoA"
+}

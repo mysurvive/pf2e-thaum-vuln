@@ -1,0 +1,25 @@
+{
+  "name": "Glimpse Weakness",
+  "type": "script",
+  "_id": "ufNeohzp8xmFiX4i",
+  "author": "o29bm85va79jJPjh",
+  "img": "systems/pf2e/icons/spells/glimpse-weakness.webp",
+  "scope": "global",
+  "command": "game.pf2eThaumVuln.glimpseWeakness();",
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.ufNeohzp8xmFiX4i",
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "pf2e",
+    "systemVersion": "6.9.0",
+    "createdTime": 1739675980346,
+    "modifiedTime": 1739676625114
+  },
+  "_key": "!macros!ufNeohzp8xmFiX4i"
+}

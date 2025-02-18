@@ -31,7 +31,9 @@ async function checkImplements(actor, { clear = false } = {}) {
 
 function checkFeatValidity(a) {
   const firstImplementFeat = a.items.find(
-    (i) => i.slug === "first-implement-and-esoterica"
+    (i) =>
+      i.slug === "first-implement-and-esoterica" ||
+      i.slug === "thaumaturge-dedication"
   );
   if (!firstImplementFeat) {
     console.error(
