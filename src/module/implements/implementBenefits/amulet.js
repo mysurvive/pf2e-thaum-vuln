@@ -1,6 +1,6 @@
 import { applyAbeyanceEffects } from "../../socket";
 import {
-  GLIMPSE_WEAKNESS_TARGET_UUID,
+  GLIMPSE_VULNERABILITY_TARGET_UUID,
   INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
   PRIMARY_TARGET_EFFECT_UUID,
 } from "../../utils";
@@ -37,7 +37,7 @@ class Amulet extends Implement {
       .filter(
         (e) =>
           e.flags.core?.sourceId === PRIMARY_TARGET_EFFECT_UUID ||
-          e.flags.core?.sourceId === GLIMPSE_WEAKNESS_TARGET_UUID
+          e.flags.core?.sourceId === GLIMPSE_VULNERABILITY_TARGET_UUID
       )
       .map((e) => e.origin);
     if (thaums.length == 0) return;

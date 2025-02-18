@@ -71,9 +71,9 @@ const EXPLOIT_VULNERABILITY_DC_PWOL_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.YPeliP0yNMlH0RPp";
 const THAUMATURGE_DEDICATION_FEAT_UUID =
   "Compendium.pf2e.feats-srd.Item.gQAQRHxpFKEkNQFs";
-const GLIMPSE_WEAKNESS_EFFECT_UUID =
+const GLIMPSE_VULNERABILITY_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.yEiGotvU2nQwYzYU";
-const GLIMPSE_WEAKNESS_TARGET_UUID =
+const GLIMPSE_VULNERABILITY_TARGET_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.wygfR5F8KfPmicoA";
 
 const SupportedActions = [
@@ -130,6 +130,6 @@ export {
   EXPLOIT_VULNERABILITY_DC_UUID,
   EXPLOIT_VULNERABILITY_DC_PWOL_UUID,
   THAUMATURGE_DEDICATION_FEAT_UUID,
-  GLIMPSE_WEAKNESS_EFFECT_UUID,
-  GLIMPSE_WEAKNESS_TARGET_UUID,
+  GLIMPSE_VULNERABILITY_EFFECT_UUID,
+  GLIMPSE_VULNERABILITY_TARGET_UUID,
 };
