@@ -68,6 +68,7 @@ class Lantern extends Implement {
         type: "status",
         value: 1,
         predicate: [
+          { or: ["class:thaumaturge", "feat:implement-initiate"] },
           "lantern-implement-lit",
           "target:effect:in-lantern-light-enemy",
           { not: "check:type:initiative" },
@@ -81,6 +82,7 @@ class Lantern extends Implement {
         type: "status",
         value: 1,
         predicate: [
+          { or: ["class:thaumaturge", "feat:implement-initiate"] },
           "lantern-implement-lit",
           "target:effect:in-lantern-light-enemy",
           "action:recall-knowledge",

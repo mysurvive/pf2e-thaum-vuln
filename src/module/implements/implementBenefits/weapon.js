@@ -18,6 +18,7 @@ class Weapon extends Implement {
         toggleable: true,
         option: "implements-interruption-attack",
         label: "Implement's Interruption Attack",
+        predicate: [{ or: ["class:thaumaturge", "feat:implement-initiate"] }],
       },
       {
         key: "Note",

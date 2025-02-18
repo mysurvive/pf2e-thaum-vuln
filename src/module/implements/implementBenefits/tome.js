@@ -3,7 +3,7 @@ import {
   TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
   TOME_ADEPT_RK_EFFECT_UUID,
 } from "../../utils";
-import { createEffectData } from "../../utils/helpers";
+import { createEffectData, hasFeat, isThaumaturge } from "../../utils/helpers";
 import { getImplement } from "../helpers";
 import { Implement } from "../implement";
 
@@ -19,7 +19,10 @@ class Tome extends Implement {
         value: 1,
         type: "circumstance",
         label: "Tome Implement Recall Knowledge",
-        predicate: ["action:recall-knowledge"],
+        predicate: [
+          { or: ["class:thaumaturge", "feat:implement-initiate"] },
+          "action:recall-knowledge",
+        ],
         hideIfDisabled: true,
       },
       {
@@ -48,6 +51,7 @@ class Tome extends Implement {
         selector: "initiative",
         value: 3,
         predicate: [
+          "paragon:tome",
           {
             or: ["lore-esoteric", "esoteric-lore", "esoteric"],
           },
@@ -63,12 +67,20 @@ class Tome extends Implement {
 
   async createEffectsOnItem(item) {
     await super.createEffectsOnItem(item);
-    if (!game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome")) {
+    if (
+      !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome") &&
+      (isThaumaturge(this.actor) || hasFeat(this.actor, "implement-initiate"))
+    ) {
       this.dailyPreparation();
     }
   }
 
   async createDailyPreparationDialog() {
+    if (
+      !isThaumaturge(this.actor) &&
+      !hasFeat(this.actor, "implement-initiate")
+    )
+      return;
     const tome = this.item;
     if (tome) {
       new Dialog(
@@ -122,7 +134,10 @@ class Tome extends Implement {
         choices: skills,
         flag: "effectTomeFirstSkill",
         key: "ChoiceSet",
-        predicate: [{ and: ["class:thaumaturge", "feature:tome"] }],
+        predicate: [
+          { or: ["class:thaumaturge", "feat:implement-initiate"] },
+          "feature:tome",
+        ],
         prompt: "First Skill Proficiency",
         rollOption: "self:implement:tome:firstSkill",
       },
@@ -131,7 +146,10 @@ class Tome extends Implement {
         choices: skills,
         flag: "effectTomeSecondSkill",
         key: "ChoiceSet",
-        predicate: [{ and: ["class:thaumaturge", "feature:tome"] }],
+        predicate: [
+          { or: ["class:thaumaturge", "feat:implement-initiate"] },
+          "feature:tome",
+        ],
         prompt: "Second Skill Proficiency",
         rollOption: "self:implement:tome:secondSkill",
       },
