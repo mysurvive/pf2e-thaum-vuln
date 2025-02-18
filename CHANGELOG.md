@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.19.1] 2025-02-18
+
+### Fixed
+
+- A number of issues with Thaumaturge Dedication getting implement benefits without Implement Initiate feat
+
 ## [0.19.0] - 2025-02-18
 
 ### Added
