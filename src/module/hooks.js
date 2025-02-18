@@ -195,8 +195,6 @@ Hooks.on("deleteItem", async (item) => {
   }
 });
 
-async function unsetFlags(item) {}
-
 Hooks.on("renderCharacterSheetPF2e", (_sheet, html, character) => {
   const a = _sheet.actor;
   if (
