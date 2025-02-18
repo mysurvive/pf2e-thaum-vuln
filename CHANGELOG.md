@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.19.2] - 2025-02-18
+
+### Changed
+
+- Replaced every instance of the mention of "Glimpse Weakness" with "Glimpse Vulnerability"
+
 ## [0.19.1] - 2025-02-18
 
 ### Fixed

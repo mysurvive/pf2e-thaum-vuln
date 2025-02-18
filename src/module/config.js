@@ -12,7 +12,7 @@ import {
   EXPLOIT_VULNERABILITY_DC_PWOL_UUID,
   THAUMATURGE_DEDICATION_FEAT_UUID,
 } from "./utils/index.js";
-import { glimpseWeakness } from "./feats/glimpseWeakness.js";
+import { glimpseVulnerability } from "./feats/glimpseVulnerability.js";
 
 Hooks.on("init", async () => {
   const ADJUSTMENT_TYPES = {
@@ -47,7 +47,7 @@ Hooks.on("init", async () => {
     recallEsotericKnowledge,
     rootToLife,
     intensifyImplement,
-    glimpseWeakness,
+    glimpseVulnerability,
     ADJUSTMENTS: { ADJUSTMENT_TYPES },
   };
 

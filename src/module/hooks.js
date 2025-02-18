@@ -4,7 +4,7 @@ import {
   BREACHED_DEFENSES_EFFECT_UUID,
   ESOTERIC_WARDEN_EFFECT_UUID,
   PRIMARY_TARGET_EFFECT_UUID,
-  GLIMPSE_WEAKNESS_EFFECT_UUID,
+  GLIMPSE_VULNERABILITY_EFFECT_UUID,
 } from "./utils/index.js";
 import {
   hasFeat,
@@ -183,7 +183,7 @@ Hooks.on("deleteItem", async (item) => {
     (item.sourceId === MORTAL_WEAKNESS_EFFECT_UUID ||
       item.sourceId === PERSONAL_ANTITHESIS_EFFECT_UUID ||
       item.sourceId === BREACHED_DEFENSES_EFFECT_UUID ||
-      item.sourceId === GLIMPSE_WEAKNESS_EFFECT_UUID) &&
+      item.sourceId === GLIMPSE_VULNERABILITY_EFFECT_UUID) &&
     game.user === sa.primaryUpdater
   ) {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);
