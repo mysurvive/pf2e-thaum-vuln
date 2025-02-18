@@ -6,7 +6,12 @@ import {
   CHALICE_SIP_EFFECT_UUID,
   INTENSIFY_VULNERABILITY_CHALICE_EFFECT_UUID,
 } from "../../utils";
-import { createEffectData, getEffectOnActor } from "../../utils/helpers";
+import {
+  createEffectData,
+  getEffectOnActor,
+  hasFeat,
+  isThaumaturge,
+} from "../../utils/helpers";
 import { Implement } from "../implement";
 
 class Chalice extends Implement {
@@ -52,6 +57,11 @@ class Chalice extends Implement {
   }
 
   drink() {
+    if (
+      !isThaumaturge(this.actor) &&
+      !hasFeat(this.actor, "implement-initiate")
+    )
+      return;
     const drainedEffect = getEffectOnActor(
       this.actor,
       CHALICE_DRAINED_EFFECT_UUID

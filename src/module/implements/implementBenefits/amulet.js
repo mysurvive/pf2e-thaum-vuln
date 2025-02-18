@@ -1,10 +1,15 @@
 import { applyAbeyanceEffects } from "../../socket";
 import {
+  GLIMPSE_WEAKNESS_TARGET_UUID,
   INTENSIFY_VULNERABILITY_AMULET_EFFECT_UUID,
   PRIMARY_TARGET_EFFECT_UUID,
 } from "../../utils";
 import { getImplement } from "../helpers";
-import { messageTargetTokens } from "../../utils/helpers";
+import {
+  hasFeat,
+  isThaumaturge,
+  messageTargetTokens,
+} from "../../utils/helpers";
 import { Implement } from "../implement";
 
 class Amulet extends Implement {
@@ -29,7 +34,11 @@ class Amulet extends Implement {
 
     // First, check if attacker is an EV target, since most attackers won't be
     const thaums = message.actor.itemTypes.effect
-      .filter((e) => e.flags.core?.sourceId === PRIMARY_TARGET_EFFECT_UUID)
+      .filter(
+        (e) =>
+          e.flags.core?.sourceId === PRIMARY_TARGET_EFFECT_UUID ||
+          e.flags.core?.sourceId === GLIMPSE_WEAKNESS_TARGET_UUID
+      )
       .map((e) => e.origin);
     if (thaums.length == 0) return;
 
@@ -71,7 +80,10 @@ class Amulet extends Implement {
     // Actors, that we own, that can abey
     const actors = abeyers
       .map((abeyer) => fromUuidSync(abeyer.actorUuid))
-      .filter((a) => a.isOwner);
+      .filter(
+        (a) =>
+          a.isOwner && (isThaumaturge(a) || hasFeat(a, "implement-initiate"))
+      );
     if (!actors.length) return;
 
     const diceTotalArea = html.find(".dice-roll.damage-roll");

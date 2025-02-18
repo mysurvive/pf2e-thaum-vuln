@@ -19,7 +19,7 @@ class Regalia extends Implement {
         value: 1,
         type: "circumstance",
         label: "Regalia Implement Initiate",
-        predicate: [],
+        predicate: [{ or: ["class:thaumaturge", "feat:implement-initiate"] }],
         hideIfDisabled: true,
         slug: "regalia-implement-initiate",
       },
@@ -37,7 +37,10 @@ class Regalia extends Implement {
         traits: ["emotion", "mental", "visual"],
         label: "Regalia Aura - Initiate",
         slug: "regalia-aura-initiate",
-        predicate: [{ nor: ["adept:regalia", "paragon:regalia"] }],
+        predicate: [
+          { or: ["class:thaumaturge", "feat:implement-initiate"] },
+          { nor: ["adept:regalia", "paragon:regalia"] },
+        ],
       },
       {
         key: "Aura",
@@ -107,6 +110,7 @@ class Regalia extends Implement {
         path: "flags.pf2e.followTheExpert.minimum",
         phase: "afterDerived",
         value: 1,
+        predicate: [{ or: ["class:thaumaturge", "feat:implement-initiate"] }],
       },
       {
         key: "ActiveEffectLike",
