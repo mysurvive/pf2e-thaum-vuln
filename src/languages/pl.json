@@ -82,6 +82,9 @@
           "invalid": "Umiejętność Intensyfikacji wybranego utensylium nie jest obecnie obsługiwana w PF2e Exploit Vulnerability.",
           "noIntensify": "Nie posiadasz zdolności Zwiększenie Podatności. Sprawdź swoją kartę, aby upewnić się, że posiadasz Zwiększenie Podatności jako atut.",
           "notHeld": "Aby korzystać ze zdolności Zwiększenie Podatności, musisz posiadać utensylium"
+        },
+        "glimpseVulnerability": {
+          "noGlimpseVulnerability": "Ten aktor nie ma zdolności Dostrzeżenie Słabości"
         }
       },
       "info": {
