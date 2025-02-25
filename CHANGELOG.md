@@ -7,6 +7,7 @@
 ### Fixed
 
 - Changed when flags are set for the different EV modes so that the EV Target effect is set properly.
+- Fixed an issue where exact same MW targets wouldn't get MW effect
 
 ## [0.19.2] - 2025-02-18
 
