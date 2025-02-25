@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.19.3] - 2025-02-25
+
+### Fixed
+
+- Changed when flags are set for the different EV modes so that the EV Target effect is set properly.
+
 ## [0.19.2] - 2025-02-18
 
 ### Changed
