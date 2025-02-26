@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.19.4] - 2025-02-26
+
+### Fixed
+
+- Missed changing when flags were set for Personal Antithesis in 0.19.4, fixed this.
+
 ## [0.19.3] - 2025-02-25
 
 ### Fixed
