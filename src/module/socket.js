@@ -268,7 +268,6 @@ async function _socketSharedWarding(eff, a) {
         "EVTargetID",
         a.actor.getFlag("pf2e-thaum-vuln", "EVTargetID")
       );
-      token.actor.setFlag("pf2e-thaum-vuln", "EWSourceActor", a.actor.uuid);
     }
   }
 }
