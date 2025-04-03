@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.20.0] - 2025-04-03
+
+### Added
+
+- Allow "Reroll using Hero Point" on Exploit Vulnerability macro
+
 ## [0.19.4] - 2025-02-26
 
 ### Fixed
