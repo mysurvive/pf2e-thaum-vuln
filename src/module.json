@@ -21,7 +21,7 @@
         "type": "system",
         "compatibility": {
           "minimum": "6.8.1",
-          "verified": "6.9.0"
+          "verified": "6.11.1"
         }
       }
     ],
@@ -32,7 +32,7 @@
         "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/v1.1.0/module.json",
         "compatibility": {
           "minimum": "1.1.0",
-          "verified": "1.1.0"
+          "verified": "1.1.2"
         }
       },
       {
@@ -41,7 +41,7 @@
         "manifest": "https://raw.githubusercontent.com/ruipin/fvtt-lib-wrapper/master/module.json",
         "compatibility": {
           "minimum": "1.12.13.0",
-          "verified": "1.12.13.0"
+          "verified": "1.13.2.0"
         }
       }
     ]
