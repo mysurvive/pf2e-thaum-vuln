@@ -38,6 +38,20 @@ Hooks.on("init", async () => {
     },
   };
 
+  const libwrapperObj = game.modules.find((m) => m.id === "lib-wrapper");
+  const socketlibObj = game.modules.find((m) => m.id === "socketlib");
+
+  if (!libwrapperObj || !libwrapperObj.active) {
+    ui.notifications.error(
+      "Libwrapper is a required dependency, but it is currently not active. Please turn on Libwrapper to use PF2e Exploit Vulnerability."
+    );
+  }
+  if (!socketlibObj || !socketlibObj.active) {
+    ui.notifications.error(
+      "socketlib is a required dependency, but it is currently not active. Please turn on socketlib to use PF2e Exploit Vulnerability."
+    );
+  }
+
   game.pf2eThaumVuln = {
     exploitVuln,
     shareWeakness,
