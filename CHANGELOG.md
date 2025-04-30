@@ -8,6 +8,7 @@
 
 - Added additional error checking for implements that weren't managed (they would silently throw errors).
 - Added error checking for potential corrupted tokens/actors on a scene.
+- Added error checking for the strange scenario where socketlib or libwrapper get turned off, but PF2e Exploit Vulnerability does not.
 
 ## [0.20.0] - 2025-04-03
 
