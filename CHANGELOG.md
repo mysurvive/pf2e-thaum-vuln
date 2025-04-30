@@ -6,7 +6,8 @@
 
 ### Fixed
 
-- Added additional error checking for implements that would silently throw errors.
+- Added additional error checking for implements that weren't managed (they would silently throw errors).
+- Added error checking for potential corrupted tokens/actors on a scene.
 
 ## [0.20.0] - 2025-04-03
 
