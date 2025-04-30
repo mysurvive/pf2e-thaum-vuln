@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.20.1] - 2025-04-30
+
+### Fixed
+
+- Added additional error checking for implements that would silently throw errors.
+
 ## [0.20.0] - 2025-04-03
 
 ### Added
