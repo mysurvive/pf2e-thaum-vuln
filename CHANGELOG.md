@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.20.2] - 2025-5-1
+
+### Changed
+
+- Removed error logging that was a little too verbose for unlinked tokens. This is sometimes intentional and the level of logging made the console a little too chatty. The module now silently continues without warning you of issues with your scene.
+
 ## [0.20.1] - 2025-04-30
 
 ### Fixed
