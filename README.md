@@ -1,7 +1,7 @@
 # PF2e Exploit Vulnerability
 
 <p align="center"><img src="https://img.shields.io/badge/Foundry-v12-informational">
-<img src="https://img.shields.io/badge/PF2e_System_Verified-6.11.1-red"><br>
+<img src="https://img.shields.io/badge/PF2e_System_Verified-6.12.1-red"><br>
 <img src="https://img.shields.io/github/downloads/MySurvive/pf2e-thaum-vuln/latest/module.zip">
 <img src="https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpf2e-thaum-vuln&colorB=4aa94a"><br>
   <a href="https://weblate.foundryvtt-hub.com/engage/pf2e-thaum-vuln/">
