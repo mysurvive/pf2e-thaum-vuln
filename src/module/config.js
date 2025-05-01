@@ -120,6 +120,7 @@ Hooks.on("init", async () => {
               uuid: game.pf2e.settings.variants.pwol.enabled
                 ? EXPLOIT_VULNERABILITY_DC_PWOL_UUID
                 : EXPLOIT_VULNERABILITY_DC_UUID,
+              alterations: [],
             },
             { parent: EV }
           )
