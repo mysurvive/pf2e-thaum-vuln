@@ -91,11 +91,6 @@ function getActorEVEffect(a, targetID) {
           effects.push(item);
         }
       }
-    } else {
-      console.warn(
-        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object.`,
-        a
-      );
     }
     return effects;
   }
