@@ -2,7 +2,17 @@
 
 ## [Unreleased]
 
-## [0.20.2] - 2025-5-1
+## [1.0.0-alpha1] - 2025-05-04
+
+### Changed
+
+- Foundry VTT v13/PF2e v7.0.0+ only support
+
+### Fixed
+
+- Error in Ephemeral Effects caused Exploit Vulnerability's special resource to not be used, this was fixed by adding alterations: []
+
+## [0.20.2] - 2025-05-01
 
 ### Changed
 
