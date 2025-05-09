@@ -82,7 +82,9 @@ class Regalia extends Implement {
         label: "Regalia Implement Adept",
         predicate: [
           { or: ["adept:regalia", "paragon:regalia"] },
-          "proficiency:master",
+          {
+            or: ["proficiency:master", "proficiency:legendary"],
+          },
         ],
         hideIfDisabled: true,
         slug: "regalia-implement-adept",

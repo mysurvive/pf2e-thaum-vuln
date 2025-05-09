@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.20.3] - 2025-05-09
+
+### Fixed
+
+- Fixed an issue where the regalia implement wouldn't grant the correct bonus at legendary proficiency.
+
 ## [0.20.2] - 2025-05-01
 
 ### Changed
