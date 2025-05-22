@@ -139,7 +139,6 @@ class Tome extends Implement {
           "feature:tome",
         ],
         prompt: "First Skill Proficiency",
-        rollOption: "self:implement:tome:firstSkill",
       },
       {
         adjustName: true,
@@ -151,7 +150,6 @@ class Tome extends Implement {
           "feature:tome",
         ],
         prompt: "Second Skill Proficiency",
-        rollOption: "self:implement:tome:secondSkill",
       },
       {
         key: "ActiveEffectLike",
