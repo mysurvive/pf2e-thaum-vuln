@@ -187,7 +187,6 @@ Hooks.on("deleteItem", async (item) => {
     game.user === sa.primaryUpdater
   ) {
     await sa.setFlag("pf2e-thaum-vuln", "activeEV", false);
-    await sa.unsetFlag("pf2e-thaum-vuln", "EVTargetID");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVMode");
     await sa.unsetFlag("pf2e-thaum-vuln", "EVValue");
     await sa.unsetFlag("pf2e-thaum-vuln", "primaryEVTarget");

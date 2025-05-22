@@ -5,7 +5,6 @@ async function twinWeakness() {
   //Sets the actor and token variables
   const a = canvas.tokens.controlled[0].actor;
   const evMode = a.getFlag("pf2e-thaum-vuln", "EVMode");
-  const t = Array.from(game.user.targets);
 
   //Makes sure the actor has a mortal weakness or personal antithesis target
   if (!(evMode === "mortal-weakness" || evMode === "personal-antithesis")) {
@@ -17,7 +16,7 @@ async function twinWeakness() {
   }
 
   //Makes sure there's a target
-  if (t.length != 1) {
+  if (game.user.targets.size != 1) {
     return ui.notifications.warn(
       game.i18n.localize(
         "pf2e-thaum-vuln.notifications.warn.twinWeakness.invalidTargetCount"
@@ -26,7 +25,10 @@ async function twinWeakness() {
   }
 
   //Makes sure the target is the target of Exploit Vulnerability
-  if (!a.getFlag("pf2e-thaum-vuln", "EVTargetID").includes(t[0].actor.uuid)) {
+  if (
+    a.getFlag("pf2e-thaum-vuln", "primaryEVTarget") !==
+    game.user.targets.first().actor.uuid
+  ) {
     return ui.notifications.warn(
       game.i18n.localize(
         "pf2e-thaum-vuln.notifications.warn.twinWeakness.invalidTarget"
@@ -78,32 +80,27 @@ async function twinWeakness() {
 
   const chosenWeapon = weapons.find((w) => w.item.id === cWeapon);
 
-  Hooks.on("preCreateChatMessage", PD);
-
-  await chosenWeapon.variants[map].roll();
-
-  async function PD(message) {
-    if (
-      message.user.id === game.userId &&
-      message.flags.pf2e.context.type === "attack-roll"
-    ) {
-      const dos = message.rolls[0].options.degreeOfSuccess;
-      let options = message.flags.pf2e.context.options;
-      Hooks.off("preCreateChatMessage", PD);
-      if (dos != 0) {
-        await new DamageRoll(`{(${extraDamage})[untyped]}`).toMessage({
-          flags: { pf2e: { context: { options } } },
+  await chosenWeapon.variants[map].roll({
+    callback: (roll, outcome, message) => {
+      if (roll.options.degreeOfSuccess > 0) {
+        new DamageRoll(`{(${extraDamage})[untyped]}`).toMessage({
+          speaker: ChatMessage.getSpeaker({
+            token: canvas.tokens.controlled[0],
+          }),
+          flags: {
+            pf2e: { context: { options: message.flags.pf2e.context.options } },
+          },
           flavor: `<strong>${game.i18n.localize(
             "pf2e-thaum-vuln.twinWeakness.chatCardHeader"
           )}</strong>
-          <div class="tags">
-          <span class="tag" data-trait="esoterica" data-description="PF2E.TraitDescriptionEsoterica">Esoterica</span>
-          <span class="tag" data-trait="PF2E.TraitThaumaturge" data-description="PF2E.TraitDescriptionThaumaturge">Thaumaturge</span>
-          </div>`,
+	<div class="tags">
+	<span class="tag" data-trait="esoterica" data-description="PF2E.TraitDescriptionEsoterica">Esoterica</span>
+	<span class="tag" data-trait="PF2E.TraitThaumaturge" data-description="PF2E.TraitDescriptionThaumaturge">Thaumaturge</span>
+	</div>`,
         });
       }
-    }
-  }
+    },
+  });
 }
 
 export { twinWeakness };
