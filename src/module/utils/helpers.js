@@ -3,7 +3,6 @@ import {
   GLIMPSE_VULNERABILITY_EFFECT_UUID,
   MORTAL_WEAKNESS_EFFECT_UUID,
   PERSONAL_ANTITHESIS_EFFECT_UUID,
-  TargetEffectSourceIDs,
 } from ".";
 
 function getMWTargets(t) {
@@ -73,14 +72,6 @@ function getActorEVEffect(a, targetID) {
         `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object.`,
         a
       );
-    }
-    return effects;
-  } else if (targetID === "*") {
-    let effects = new Array();
-    for (let item of a.items) {
-      if (TargetEffectSourceIDs.includes(item._stats.compendiumSource)) {
-        effects.push(item);
-      }
     }
     return effects;
   } else {
