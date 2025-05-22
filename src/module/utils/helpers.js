@@ -57,36 +57,6 @@ function getIWR(a) {
   return iwr;
 }
 
-//Gets the thaum effects from the character
-function getActorEVEffect(a, targetID) {
-  if (targetID === undefined) {
-    let effects = new Array();
-    if (a.items !== undefined) {
-      for (const item of a.items) {
-        if (item.flags["pf2e-thaum-vuln"]?.EffectOrigin === a.uuid) {
-          effects.push(item);
-        }
-      }
-    } else {
-      console.warn(
-        `[PF2E Exploit Vulnerability] - ${a.name} has no valid items object.`,
-        a
-      );
-    }
-    return effects;
-  } else {
-    let effects = new Array();
-    if (a.items !== undefined) {
-      for (const item of a.items) {
-        if (item.flags["pf2e-thaum-vuln"]?.EffectOrigin === targetID) {
-          effects.push(item);
-        }
-      }
-    }
-    return effects;
-  }
-}
-
 //gets and returns the greatest bypassable resistance
 function BDGreatestBypassableResistance(t) {
   const r = getIWR(t).resistances;
@@ -219,7 +189,6 @@ export {
   getEffectOnActor,
   getGreatestIWR,
   getIWR,
-  getActorEVEffect,
   getTargetRollOptions,
   BDGreatestBypassableResistance,
   createEffectData,
