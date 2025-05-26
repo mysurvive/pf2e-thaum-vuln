@@ -273,7 +273,7 @@ async function _socketSharedWarding(eff, a) {
 }
 
 // GM Does the RK roll, this tells the user who did the roll what happened.
-function RKCallback(userId, saUuid, targUuid, roll) {
+export function RKCallback(userId, saUuid, targUuid, roll) {
   return socket.executeAsUser(
     _RKCallback,
     userId,

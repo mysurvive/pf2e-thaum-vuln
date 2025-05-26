@@ -6,6 +6,7 @@ import {
 import { createEffectData, hasFeat, isThaumaturge } from "../../utils/helpers";
 import { getImplement } from "../helpers";
 import { Implement } from "../implement";
+import { RKCallback } from "../../socket";
 
 class Tome extends Implement {
   static slug = "tome";
@@ -456,6 +457,52 @@ Hooks.on("preCreateChatMessage", (message) => {
     message.actor.itemTypes.effect
       .find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID)
       ?.delete();
+  }
+});
+
+// If this is a RK result for a tome adept add a message flag so a
+// renderChatMessage hook will know to add buttons.
+Hooks.once("ready", () => {
+  // This is inside ready so it runs after the preCreateChatMessage hook that adds message flags
+  Hooks.on("preCreateChatMessage", (message) => {
+    if (
+      message.isRoll &&
+      message.actor &&
+      getImplement(message.actor, "tome")?.adept &&
+      game.combats.active?.started &&
+      (message.target?.token ||
+        message.getFlag("pf2e-thaum-vuln", "targets")?.length === 1) &&
+      message
+        .getFlag("pf2e", "context.options")
+        ?.includes("action:recall-knowledge")
+    ) {
+      message.updateSource({ "flags.pf2e-thaum-vuln.tomeAdeptRK": true });
+    }
+  });
+});
+
+const RKButtonText = `<hr><p>Apply Tome adept result:</p>
+<div class="message-buttons">
+  <button type="button" class="success tome-adept-rk" data-outcome="success">Success</button>
+  <button type="button" class="failure tome-adept-rk" data-outcome="failure">Failure</button>
+</div>`;
+
+Hooks.on("renderChatMessage", (message, html) => {
+  if (message.getFlag("pf2e-thaum-vuln", "tomeAdeptRK")) {
+    const target =
+      message.target?.token?.uuid ??
+      message.getFlag("pf2e-thaum-vuln", "targets")?.[0].tokenUuid;
+    if (target) {
+      html.find("div.message-content").append(RKButtonText);
+      html.find("button.tome-adept-rk")?.on("click", (event) => {
+        const degreeOfSuccess =
+          event.target.dataset.outcome == "success" ? 2 : 1;
+        RKCallback(message.author.id, message.actor.uuid, target, {
+          degreeOfSuccess,
+        });
+        return false;
+      });
+    }
   }
 });
 
