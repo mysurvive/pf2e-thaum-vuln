@@ -263,11 +263,6 @@ async function _socketSharedWarding(eff, a) {
   for (let token of affectedTokens) {
     if (token != a._object) {
       await token.actor.createEmbeddedDocuments("Item", [eff]);
-      token.actor.setFlag(
-        "pf2e-thaum-vuln",
-        "EVTargetID",
-        a.actor.getFlag("pf2e-thaum-vuln", "EVTargetID")
-      );
     }
   }
 }
