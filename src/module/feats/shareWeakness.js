@@ -1,5 +1,5 @@
-import { MORTAL_WEAKNESS_COMPENDIUM_SOURCE } from "../utils/index.js";
-import { getActorEVEffect } from "../utils/helpers.js";
+import { MORTAL_WEAKNESS_EFFECT_UUID } from "../utils/index.js";
+import { getEffectOnActor, hasFeat } from "../utils/helpers.js";
 import { applySWEffect } from "../socket.js";
 //Share Weakness macro
 function shareWeakness() {
@@ -12,29 +12,28 @@ function shareWeakness() {
     );
   }
   const sa = a[0].actor;
-  const hasShareWeakness = sa.items.some((i) => i.slug === "share-weakness");
-  const hasMortalWeaknessActive = sa.itemTypes.effect.some(
-    (i) => i._stats.compendiumSource === MORTAL_WEAKNESS_COMPENDIUM_SOURCE
-  );
-  const EVEffect = getActorEVEffect(sa).find(
-    (i) => i.slug === "exploit-mortal-weakness"
-  );
-  if (!hasShareWeakness) {
+
+  if (!hasFeat(sa, "share-weakness")) {
     return ui.notifications.warn(
       game.i18n.localize(
         "pf2e-thaum-vuln.notifications.warn.shareWeakness.noAbility"
       )
     );
   }
-  if (!hasMortalWeaknessActive) {
+  const mortalWeaknessEffect = getEffectOnActor(
+    sa,
+    MORTAL_WEAKNESS_EFFECT_UUID
+  );
+  if (!mortalWeaknessEffect) {
     return ui.notifications.warn(
       game.i18n.localize(
         "pf2e-thaum-vuln.notifications.warn.shareWeakness.noActiveMW"
       )
     );
   }
+
   const allies = canvas.scene.tokens.filter(
-    (token) => token.actor?.alliance === "party"
+    (token) => token.actor?.alliance === sa.alliance
   );
 
   const dgContent = $(
@@ -81,7 +80,7 @@ function shareWeakness() {
     confirm: {
       label: game.i18n.localize("pf2e-thaum-vuln.dialog.confirm"),
       callback: () => {
-        applySWEffect(sa.uuid, selectedAlly, EVEffect.uuid);
+        applySWEffect(sa.uuid, selectedAlly, mortalWeaknessEffect.uuid);
       },
     },
   };

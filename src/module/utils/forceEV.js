@@ -2,9 +2,8 @@ import {
   MORTAL_WEAKNESS_TARGET_UUID,
   PERSONAL_ANTITHESIS_TARGET_UUID,
 } from ".";
-import { getActorEVEffect } from "./helpers";
+import { EVEffectsSourceIDs } from "./index";
 import { deleteEVEffect } from "../socket";
-import { preDeleteEffect } from "../feats/exploit-vulnerability/exploitVulnerability";
 
 //macro that allows GMs to apply the same exploit vulnerability on a target
 async function forceEVTarget() {
@@ -38,9 +37,12 @@ async function forceEVTarget() {
   eff.system.rules[0].value = a.actor.getFlag("pf2e-thaum-vuln", "EVValue");
   eff.name += " (" + a.actor.name + ")";
   for (let targ of tar) {
-    if (getActorEVEffect(targ.actor, sa.uuid).length != 0) {
-      const deleteEffectTargs = preDeleteEffect([targ], sa);
-      await deleteEVEffect(deleteEffectTargs.flat());
+    const effects =
+      targ.actor?.itemTypes.effect.filter(
+        (e) => e.origin === sa && EVEffectsSourceIDs.has(e.sourceId)
+      ) ?? [];
+    if (effects.length != 0) {
+      deleteEVEffect(effects.map((e) => e.id));
     } else {
       await targ.actor.createEmbeddedDocuments("Item", [eff]);
     }
