@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-06-03
+
+### Changed
+
+- Foundry VTT v13/PF2e v7.1.0 only support
+- Add buttons to apply tome adept Recall Knowledge bonus to other Recall Knowledge rolls - @xyzzy42
+
+### Fixed
+
+- Cleanup and bug fixes around the process for deleting EV effects when EV ends - @xyzzy42
+- Remove roll options for tome skill selection - @xyzzy42
+- Only apply Twin Weakness to the EV target - @xyzzy42
+
 ## [1.0.0-alpha1] - 2025-05-04
 
 ### Changed
