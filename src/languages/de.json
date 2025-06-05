@@ -24,6 +24,18 @@
       "reactionCheckerHandlesAmulet": {
         "name": "PF2e Reaction Checker übernimmt das Amulettparaphernum",
         "hint": "Ermöglicht es PF2e Reaction Checker, die Schützendes Amulett Reaktion zu übernehmen."
+      },
+      "moduleHandles": {
+        "tome": "",
+        "hint": "",
+        "wand": "",
+        "regalia": "",
+        "chalice": "",
+        "weapon": "",
+        "mirror": "",
+        "amulet": "",
+        "lantern": "",
+        "bell": ""
       }
     },
     "notifications": {
@@ -70,6 +82,9 @@
           "invalid": "Die Fähigkeit des ausgewählten Paraphernums ist derzeit nicht in PF2e Exploit Vulnerability implementiert.",
           "noIntensify": "Du hast nicht die Fähigkeit Schwachstellen intensivieren. Bitte überprüfe deinen Charakterbogen und stelle sicher, dass du das Schwachstelle intensivieren Talent besitzt.",
           "notHeld": "Du musst dein Paraphernum in der Hand halten, um Schwachstellen intensivieren verwenden zu können."
+        },
+        "glimpseVulnerability": {
+          "noGlimpseVulnerability": ""
         }
       },
       "info": {
@@ -115,7 +130,8 @@
     "breachedDefenses": {
       "name": "Verteidigung durchbrechen",
       "bypassableLabel": "Höchste umgehbare Resistenz: ",
-      "bypassLine": "{type}, außer {exception}"
+      "bypassLine": "{type}, außer {exception}",
+      "bypassedBy": ""
     },
     "esotericWarden": {
       "name": "Esoterischer Schutz",
@@ -193,6 +209,20 @@
           "text": {
             "failure": "Du fügst dem Ziel Schaden zu: ",
             "success": "Du unterbrichst die auslösende Handlung."
+          }
+        }
+      },
+      "chalice": {
+        "drink": {
+          "chat": {
+            "counteract": "",
+            "reduceStunned": "",
+            "counteractLevel": ""
+          },
+          "dialog": {
+            "choose": "",
+            "cooldown": "",
+            "title": ""
           }
         }
       }
