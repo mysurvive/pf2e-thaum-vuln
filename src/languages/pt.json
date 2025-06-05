@@ -24,6 +24,18 @@
       "reactionCheckerHandlesAmulet": {
         "name": "PF2e Reaction checa manusear amuleto",
         "hint": "Permitir que PF2e Reaction Checker controle Suspensão do Amuleto."
+      },
+      "moduleHandles": {
+        "amulet": "",
+        "lantern": "",
+        "weapon": "",
+        "mirror": "",
+        "regalia": "",
+        "bell": "",
+        "wand": "",
+        "tome": "",
+        "chalice": "",
+        "hint": ""
       }
     },
     "notifications": {
@@ -70,6 +82,9 @@
           "invalid": "Intensificar habilidade para o implemento selecionado ainda não tem suporte no PF2e Explorar Vulnerabilidade.",
           "noIntensify": "Você não tem a habilidade de Intensificar Vulnerabilidade. Verifique sua ficha para ter certeza de que você tem Intensificar Vulnerabilidade como um talento.",
           "notHeld": "Você precisa estar segurando um implemento para Intensificar Vulnerabilidade"
+        },
+        "glimpseVulnerability": {
+          "noGlimpseVulnerability": ""
         }
       },
       "info": {
@@ -115,7 +130,8 @@
     "breachedDefenses": {
       "name": "Defesas Violadas",
       "bypassableLabel": "Maior resistência contornável: ",
-      "bypassLine": "{type}, contornável por {exception}"
+      "bypassLine": "{type}, contornável por {exception}",
+      "bypassedBy": ""
     },
     "esotericWarden": {
       "name": "Proteção Esotérica",

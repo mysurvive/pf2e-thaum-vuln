@@ -24,6 +24,18 @@
       "reactionCheckerHandlesAmulet": {
         "name": "",
         "hint": ""
+      },
+      "moduleHandles": {
+        "bell": "",
+        "tome": "",
+        "chalice": "",
+        "mirror": "",
+        "amulet": "",
+        "lantern": "",
+        "regalia": "",
+        "wand": "",
+        "hint": "",
+        "weapon": ""
       }
     },
     "notifications": {
@@ -70,7 +82,10 @@
           "selectOne": "",
           "notDying": ""
         },
-        "noToken": ""
+        "noToken": "",
+        "glimpseVulnerability": {
+          "noGlimpseVulnerability": ""
+        }
       },
       "info": {
         "recallKnowledge": {
@@ -115,7 +130,8 @@
     "breachedDefenses": {
       "name": "破穿防御",
       "bypassableLabel": "可避开的最高抗性： ",
-      "bypassLine": "{type}，使用{exception}避开"
+      "bypassLine": "{type}，使用{exception}避开",
+      "bypassedBy": ""
     },
     "esotericWarden": {
       "name": "秘传守护",
@@ -236,6 +252,20 @@
           "title": {
             "success": "",
             "failure": ""
+          }
+        }
+      },
+      "chalice": {
+        "drink": {
+          "dialog": {
+            "cooldown": "",
+            "title": "",
+            "choose": ""
+          },
+          "chat": {
+            "reduceStunned": "",
+            "counteract": "",
+            "counteractLevel": ""
           }
         }
       }
