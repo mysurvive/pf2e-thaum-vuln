@@ -1,0 +1,66 @@
+{
+  "folder": null,
+  "name": "Effect: Divine Disharmony (Critical Success)",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "description": {
+      "gm": "",
+      "value": "<p>From your collection of religious trinkets, you pull out opposing divine objects—such as the religious symbols of two deities that are hated enemies—and combine them in a display that causes discordant clashes of divine energy that are especially distracting to the faithful.</p><p><strong>Critical Success</strong> The creature is flat-footed against your attacks until the end of your current turn.</p><p><strong>Success</strong> The creature is flat-footed to your attacks until the end of your next turn.</p>"
+    },
+    "rules": [
+      {
+        "key": "GrantItem",
+        "onDeleteActions": {
+          "grantee": "restrict"
+        },
+        "uuid": "Compendium.pf2e.conditionitems.Item.AJh5ex99aV6VTggg"
+      }
+    ],
+    "slug": "effect-divine-disharmony",
+    "_migration": {
+      "version": 0.935,
+      "lastMigration": null
+    },
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "publication": {
+      "title": "Pathfinder Dark Archive",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-end",
+      "sustained": false
+    },
+    "tokenIcon": {
+      "show": true
+    },
+    "unidentified": false
+  },
+  "img": "systems/pf2e/icons/conditions/off-guard.webp",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.343",
+    "systemId": "pf2e",
+    "systemVersion": "6.12.4",
+    "createdTime": 1748896091251,
+    "modifiedTime": 1748896091348
+  },
+  "_id": "1Qg5deHGd0ou1EWY",
+  "sort": 200000,
+  "_key": "!items!1Qg5deHGd0ou1EWY"
+}

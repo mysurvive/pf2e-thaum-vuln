@@ -1,0 +1,22 @@
+{
+  "name": "Divine Disharmony",
+  "type": "script",
+  "command": "const action = game.pf2e.actions.get(\"divine-disharmony\");\nif (!action) {\n  return ui.notifications.error(\"Action not preset. Thaumaturge module not enabled?\");\n}\naction.use({actor, event});",
+  "img": "systems/pf2e/icons/equipment/treasure/art-objects/major-art-object/solidified-moment-of-time.webp",
+  "scope": "global",
+  "folder": null,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "12.343",
+    "systemId": "pf2e",
+    "systemVersion": "6.12.4",
+    "createdTime": 1748982135677,
+    "modifiedTime": 1748982135740
+  },
+  "_id": "FszKU1VxKe0JsEjy",
+  "sort": 200000,
+  "_key": "!macros!FszKU1VxKe0JsEjy"
+}
