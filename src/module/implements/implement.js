@@ -115,7 +115,7 @@ class Implement {
     if (
       game.settings.get(
         "pf2e-thaum-vuln",
-        `moduleHandles-${this.name.toLowerCase()}`
+        `moduleHandles-${this.slug}`
       ) === false
     )
       return;
