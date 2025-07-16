@@ -2,6 +2,20 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-07-16
+
+### Added
+
+- Added Divine Disharmony action (@xyzzy42)
+
+### Fixed
+
+- Allow implement assignment to work with localized implements
+
+### Changed
+
+- Various localization updates
+
 ## [1.0.0] - 2025-06-03
 
 ### Changed
