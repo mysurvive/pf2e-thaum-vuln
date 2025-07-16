@@ -4,3 +4,4 @@ import "./exploit-vulnerability/exploitVulnerability.js";
 import "./shareWeakness.js";
 import "./sympatheticVulnerabilities.js";
 import "./twinWeakness.js";
+import "./divineDisharmony.js";
