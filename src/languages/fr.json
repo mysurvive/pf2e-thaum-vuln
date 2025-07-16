@@ -24,6 +24,18 @@
       "dailiesHandlesTome": {
         "name": "",
         "hint": ""
+      },
+      "moduleHandles": {
+        "wand": "",
+        "weapon": "",
+        "amulet": "",
+        "chalice": "",
+        "hint": "",
+        "lantern": "",
+        "bell": "",
+        "regalia": "",
+        "mirror": "",
+        "tome": ""
       }
     },
     "notifications": {
@@ -70,7 +82,10 @@
           "selectOne": "",
           "notDying": ""
         },
-        "noToken": ""
+        "noToken": "",
+        "glimpseVulnerability": {
+          "noGlimpseVulnerability": ""
+        }
       },
       "info": {
         "recallKnowledge": {
@@ -115,7 +130,8 @@
     "breachedDefenses": {
       "name": "Brèche dans la défense",
       "bypassableLabel": "Résistance la plus élevée contournable : ",
-      "bypassLine": "{type}, contourné par {exception}"
+      "bypassLine": "{type}, contourné par {exception}",
+      "bypassedBy": ""
     },
     "esotericWarden": {
       "name": "Gardien ésotérique",
@@ -244,6 +260,20 @@
       },
       "regalia": {
         "frightenedReminder": ""
+      },
+      "chalice": {
+        "drink": {
+          "dialog": {
+            "title": "",
+            "cooldown": "",
+            "choose": ""
+          },
+          "chat": {
+            "reduceStunned": "",
+            "counteractLevel": "",
+            "counteract": ""
+          }
+        }
       }
     }
   }

@@ -14,16 +14,28 @@
         "hint": "为秘传学识DC设置全局调整值，一般设置为-2，即用秘传学识替代任意学识技能进行回忆知识时的减值。"
       },
       "enforceHeldImplement": {
-        "hint": "",
-        "name": ""
+        "hint": "强制规定必须持握一件奇具才能使用弱点发掘。",
+        "name": "强制持握奇具"
       },
       "dailiesHandlesTome": {
-        "name": "",
-        "hint": ""
+        "name": "PF2e Dailies处理典奇具",
+        "hint": "允许PF2e Dailies处理典奇具的每日技能选择。"
       },
       "reactionCheckerHandlesAmulet": {
-        "name": "",
-        "hint": ""
+        "name": "PF2e Reaction Checker处理符奇具",
+        "hint": "允许PF2e Reaction Checker处理“符止”反应动作。"
+      },
+      "moduleHandles": {
+        "bell": "模组处理铃奇具",
+        "tome": "模组处理典奇具",
+        "chalice": "模组处理杯奇具",
+        "mirror": "模组处理镜奇具",
+        "amulet": "模组处理符奇具",
+        "lantern": "模组处理灯奇具",
+        "regalia": "模组处理帜奇具",
+        "wand": "模组处理杖奇具",
+        "hint": "若勾选，Exploit Vulnerability 模组会处理该奇具的效果，并且建议删除系统生成的奇具。若关闭，则模组在管理该奇具时不会对其产生影响，并且建议在管理奇具时使用系统生成的奇具。",
+        "weapon": "模组处理兵奇具"
       }
     },
     "notifications": {
@@ -33,8 +45,8 @@
           "noExploitVulnerability": "该角色没有弱点发掘能力",
           "noEsotericLoreSkill": "该角色没有秘传学识（Esoteric Lore）技能",
           "noMatchingDC": "没有找到符合目标的DC",
-          "noImplements": "",
-          "noHeldImplement": ""
+          "noImplements": "你尚未选择奇具。请前往角色卡的物品栏，点击管理奇具，并为你的奇具分配物品。",
+          "noHeldImplement": "你必须持握一件奇具以进行弱点发掘。"
         },
         "cursedEffigy": {
           "noAbility": "你没有创建诅咒雕像的能力",
@@ -61,20 +73,23 @@
           "invalidDamageType": "武器伤害类型当前为“无类型”，该伤害类型对弱点发掘无效，弱点数值不会被添加。"
         },
         "intensifyImplement": {
-          "noIntensify": "",
-          "notHeld": "",
-          "invalid": ""
+          "noIntensify": "你没有弱点加剧能力。请检查你的角色卡以确认是否存在弱点加剧专长。",
+          "notHeld": "你必须持握奇具以使用弱点加剧",
+          "invalid": "PF2e Exploit Vulnerability目前尚不支持所选奇具的弱点加剧能力。"
         },
         "rootToLife": {
-          "noAbility": "",
-          "selectOne": "",
-          "notDying": ""
+          "noAbility": "所选角色没有根植生命专长",
+          "selectOne": "仅可以为根植生命选取一个目标",
+          "notDying": "目标未处于濒死状态"
         },
-        "noToken": ""
+        "noToken": "未选择指示物token。",
+        "glimpseVulnerability": {
+          "noGlimpseVulnerability": "该角色没有一瞥弱点专长"
+        }
       },
       "info": {
         "recallKnowledge": {
-          "requestSent": ""
+          "requestSent": "向GM发送回忆知识请求"
         }
       }
     },
@@ -92,18 +107,18 @@
         "prompt": "选择弱点发掘的方式。",
         "paBonusLabel": "个体克制额外伤害： ",
         "weaknessLabel": "弱点： ",
-        "resistanceLabel": "抗性： ",
+        "resistanceLabel": "抗力： ",
         "immunityLabel": "免疫： ",
         "except": "除外： ",
         "doublevs": "对抗以下攻击抗性加倍： ",
-        "highestWeaknessLabel": ""
+        "highestWeaknessLabel": "最高弱点"
       },
-      "flavor": "你遍历你的经验和学问，以识别某件可能能反制你的对手的物品。你从你的秘藏中找到一件具有合适的超自然特质的物品，然后使用你的奇具将其中残余的力量烧成熊熊烈火。选择一个你可以看见的生物，并尝试一次秘传学识（Esoteric Lore）检定，对抗该生物等级的标准DC，此时你从秘藏中找出了合适的物品，并使用你的奇具给予它力量。你获得如下效果，直到你再次使用弱点发掘。",
+      "flavor": "你遍历你的经验和学问，以识别某件可能能反制你的对手的物品。你从你的秘藏中找到一件具有合适的超自然特质的物品，然后使用你的奇具将其中残余的力量烧成熊熊烈火。选择一个你可以看见的生物，并尝试一次秘传学识检定，对抗该生物等级的标准DC，此时你从秘藏中找出了合适的物品，并使用你的奇具给予它力量。你获得如下效果，直到你再次使用弱点发掘。",
       "degreeOfSuccess": {
-        "criticalSuccess": "",
-        "failure": "",
-        "success": "",
-        "criticalFailure": ""
+        "criticalSuccess": "你记得该生物的弱点，且随着你为你的秘藏赋能，你灵光一现，甚至获得了关于该生物更多的知识。你了解到了该生物全部的抗力、弱点、以及免疫，包括抗力和弱点的总数，以及任何不常见的脆弱之处，例如用什么法术可以穿透一个魔像的反魔法能力。你可以发掘该生物的凡体弱点，或个体克制（见弱点发掘）。你使用无武装攻击和武器对该生物进行的打击如果还不是魔法的，则变成魔法的。",
+        "failure": "你无法回忆起该生物的显著弱点，你改而尝试发掘一个更个体化的弱点。你只能发掘该生物的个体克制。你使用无武装攻击和武器对该生物进行的打击如果还不是魔法的，则变成魔法的。",
+        "success": "你回忆起了关于该生物的重要事实，了解到了它最高的弱点（或其中一个最高的弱点，如果它有多个相同数值的最高弱点），但不知道它其他的弱点、抗力、或免疫。你可以开发该生物的凡体弱点或个体克制。你使用无武装攻击和武器对该生物进行的打击如果还不是魔法的，则变成魔法的。",
+        "criticalFailure": "你无法记起应该使用的正确物品，并在你慌忙翻找秘藏的时候变得心烦意乱。直到你下一回合开始，你陷入措手不及。"
       }
     },
     "personalAntithesis": {
@@ -114,21 +129,22 @@
     },
     "breachedDefenses": {
       "name": "破穿防御",
-      "bypassableLabel": "可避开的最高抗性： ",
-      "bypassLine": "{type}，使用{exception}避开"
+      "bypassableLabel": "可避开的最高抗力： ",
+      "bypassLine": "{type}，使用{exception}避开",
+      "bypassedBy": "避开"
     },
     "esotericWarden": {
       "name": "秘传守护",
       "flavor": "当你成功对一个生物应用了克制性的材料时，你也能保护自己对抗其下一次攻击。当你在弱点发掘的检定中成功，你在对抗该生物的下一次攻击的AC上获得+1状态加值，并在你对抗该生物的下一次豁免骰上获得+1状态加值；如果你大成功，这些加值改为+2。你每天针对一个特定生物只能获得这些加值一次，且如果你再次使用弱点发掘，该增益终止。",
       "effect": {
-        "name": ""
+        "name": "秘传守护效果"
       }
     },
     "diverseLore": {
       "name": "多样学识",
       "flavor": "当你在弱点发掘检定中成功，将你的秘传学识检定结果与对该生物进行回忆知识时所需的DC相比较；如果这个数字是一次成功或大成功，你如同在回忆知识检定中成功一般获得信息。 ",
-      "penalty": "",
-      "recallKnowledgeNote": ""
+      "penalty": "多样学识减值",
+      "recallKnowledgeNote": "你在四方流浪中的学习意味着你听过关于几乎所有主题的传言或理论……但老实说，你学习的来源并不总是最可靠的。你可以在使用秘传学识进行的回忆知识检定上承受-2减值，以在任何主题上进行回忆知识，而不仅仅是在秘传学识通常可用的主题上。"
     },
     "sharedWarding": {
       "name": "共享守护",
@@ -155,96 +171,110 @@
       "confirm": "确认",
       "cancel": "取消",
       "none": "无",
-      "twoAction": "",
-      "character": "",
+      "twoAction": "两动作",
+      "character": "角色：",
       "intensifyImplement": {
-        "content": "",
-        "title": ""
+        "content": "选择你想要获得弱点加剧增益的奇具。",
+        "title": "弱点加剧奇具"
       },
-      "oneAction": "",
-      "target": "",
+      "oneAction": "一动作",
+      "target": "目标：",
       "manageImplements": {
-        "dragItem": "",
-        "implement": ""
+        "dragItem": "将物品拖入此处以指定其为奇具。",
+        "implement": "奇具"
       },
       "amuletsAbeyance": {
-        "name": "",
-        "resistanceValueLabel": "",
-        "allTriggeringDamage": "",
-        "description": "",
-        "adeptBenefitLabel": "",
-        "lingeringResistanceValue": "",
-        "paragonBenefitLabel": "",
-        "selectAllies": "",
-        "selectDamageType": "",
-        "noResistances": ""
+        "name": "符止",
+        "resistanceValueLabel": "符止抗力值：",
+        "allTriggeringDamage": "对全部触发伤害",
+        "description": "你强有力地展示你的符以辟除伤害。你或一个15尺内的目标盟友获得针对触发伤害的全伤害抗力。抗力数值等于2+你的等级。",
+        "adeptBenefitLabel": "行家增益",
+        "lingeringResistanceValue": "延时抗力值：",
+        "paragonBenefitLabel": "模范增益",
+        "selectAllies": "点击图标以选择谁获得“符止”的好处",
+        "selectDamageType": "选择一项伤害类型作为延时抗力应用：",
+        "noResistances": "没有伤害抗力作为延时抗力应用。"
       }
     },
     "chatCard": {
       "use": "使用{action}"
     },
     "esotericLore": {
-      "name": ""
+      "name": "秘传学识"
     },
     "dubiousKnowledge": {
-      "name": "",
+      "name": "可疑知识",
       "degreeOfSuccess": {
-        "failure": ""
+        "failure": "当你使用任何技能进行的回忆知识检定失败（但没有大失败）时，你会得到一个正确的答案和一个错误的答案，但你不会知道哪个是正确的。"
       }
     },
     "recallKnowledge": {
-      "name": "",
+      "name": "回忆知识",
       "dialog": {
-        "request": "",
-        "dcRefLabel": "",
-        "targetTypeLabelDefault": "",
-        "targetTypeLabelDL": "",
-        "rawDC": "",
-        "featRefLabel": "",
-        "rollSettings": ""
+        "request": "有人请求使用秘传学识进行一次回忆知识检定。",
+        "dcRefLabel": "参考DC：",
+        "targetTypeLabelDefault": "作祟，诅咒或生物",
+        "targetTypeLabelDL": "任意事物",
+        "rawDC": "原DC（不包含上述任何调整值）：",
+        "featRefLabel": "动作/专长引用：",
+        "rollSettings": "掷骰设置"
       },
       "degreeOfSuccess": {
-        "success": "",
-        "criticalFailure": "",
-        "criticalSuccess": ""
+        "success": "该角色准确回忆起相关知识，或获得关于当前处境的有用线索。",
+        "criticalFailure": "该角色回忆起不正确的信息，或获得错误或误导的线索。",
+        "criticalSuccess": "该角色准确回忆起相关知识，并获得额外信息或背景。"
       },
-      "esotericKnowledgeLabel": ""
+      "esotericKnowledgeLabel": "回忆秘传知识："
     },
     "manageImplements": {
-      "implementHeader": "",
-      "clearImplementsButton": "",
-      "manageImplementsButton": ""
+      "implementHeader": "奇术师奇具",
+      "clearImplementsButton": "清除所有奇具",
+      "manageImplementsButton": "管理奇具"
     },
     "targetManagement": {
-      "evPrimaryTargetButton": "",
-      "active": "",
-      "notOnScene": "",
-      "evActive": "",
-      "inactive": "",
-      "evMode": ""
+      "evPrimaryTargetButton": "确认弱点发掘主目标",
+      "active": "激活",
+      "notOnScene": "弱点发掘主目标不存在于当前场景中",
+      "evActive": "弱点发掘激活：",
+      "inactive": "冻结",
+      "evMode": "弱点发掘模式："
     },
     "implements": {
       "regalia": {
-        "frightenedReminder": ""
+        "frightenedReminder": "因帜奇具灵光，惊惧状态值减少1。"
       },
       "weapon": {
         "implementsInterruption": {
           "text": {
-            "success": "",
-            "failure": ""
+            "success": "你打断了触发动作。",
+            "failure": "你对目标造成的伤害为： "
           },
           "title": {
-            "success": "",
-            "failure": ""
+            "success": "兵奇具：兵断",
+            "failure": "兵断失败"
+          }
+        }
+      },
+      "chalice": {
+        "drink": {
+          "dialog": {
+            "cooldown": "注满杯奇具冷却时间： ",
+            "title": "饮杯",
+            "choose": "选择小酌或豪饮。以一个相邻的盟友为目标喂给他们杯中液体，或不选择指示物为目标自己饮用液体。"
+          },
+          "chat": {
+            "reduceStunned": "若震慑状态具有状态值且没有持续时间，则减少其状态值。当你饮杯时，你每天有一次机会使流失状态值减少1。",
+            "counteract": "对影响饮杯者的每一种毒素、疾病和诅咒进行反制检定。",
+            "counteractLevel": "杯奇具反制等级："
           }
         }
       }
     },
     "rootToLife": {
-      "outcome": "",
-      "twoActionOutcome": "",
-      "selectActionCount": "",
-      "title": ""
+      "outcome": "该生物不再处于濒死，改为在0生命值的状况下失去意识：",
+      "twoActionOutcome": " 你可以尝试纯骰检定以移除影响目标的每种来源的持续伤害。",
+      "selectActionCount": "选择使用1动作或2动作变体。",
+      "title": "根植生命"
     }
   }
 }
