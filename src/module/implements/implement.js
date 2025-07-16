@@ -113,10 +113,8 @@ class Implement {
     if (implement) this.deleteEffectsOnItem();
 
     if (
-      game.settings.get(
-        "pf2e-thaum-vuln",
-        `moduleHandles-${this.name.toLowerCase()}`
-      ) === false
+      game.settings.get("pf2e-thaum-vuln", `moduleHandles-${this.slug}`) ===
+      false
     )
       return;
 
