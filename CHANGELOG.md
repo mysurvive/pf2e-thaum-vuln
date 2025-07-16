@@ -10,7 +10,7 @@
 
 ### Fixed
 
-- Allow implement assignment to work with localized implements
+- Allow implement assignment to work with localized implements (@Cuingamehtar)
 
 ### Changed
 
