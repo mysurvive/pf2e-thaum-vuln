@@ -21,7 +21,7 @@ class Lantern extends Implement {
       },
       {
         key: "TokenLight",
-        label: "Lantern Implement Light",
+        label: "pf2e-thaum-vuln.implements.lantern.lightRE",
         predicate: ["lantern-implement-lit"],
         value: {
           alpha: 0.45,
@@ -39,7 +39,7 @@ class Lantern extends Implement {
       },
       {
         key: "Aura",
-        label: "Bright Light Indicator",
+        label: "pf2e-thaum-vuln.implements.lantern.ruleElements.brightLight",
         radius: "@actor.flags.pf2e-thaum-vuln.lantern.radius",
         predicate: ["lantern-implement-lit"],
         effects: [
@@ -57,14 +57,14 @@ class Lantern extends Implement {
       {
         domain: "all",
         key: "RollOption",
-        label: "Lantern Implement Lit",
+        label: "pf2e-thaum-vuln.implements.lantern.ruleElements.isLit",
         option: "lantern-implement-lit",
         toggleable: true,
       },
       {
         key: "FlatModifier",
         selector: "perception",
-        label: "In Lantern Light",
+        label: "pf2e-thaum-vuln.implements.lantern.ruleElements.inLight",
         type: "status",
         value: 1,
         predicate: [
@@ -78,7 +78,7 @@ class Lantern extends Implement {
       {
         key: "FlatModifier",
         selector: "skill-check",
-        label: "In Lantern Light",
+        label: "pf2e-thaum-vuln.implements.lantern.ruleElements.inLight",
         type: "status",
         value: 1,
         predicate: [

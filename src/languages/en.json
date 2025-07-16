@@ -208,7 +208,12 @@
     "manageImplements": {
       "implementHeader": "Thaumaturge Implements",
       "manageImplementsButton": "Manage Implements",
-      "clearImplementsButton": "Clear All Implements"
+      "clearImplementsButton": "Clear All Implements",
+      "dialog": {
+        "header": "Manage Implements",
+        "confirmButton": "Confirm Changes",
+        "cancelButton": "Cancel Changes"
+      }
     },
     "targetManagement": {
       "evActive": "EV Active:",
@@ -219,6 +224,17 @@
       "notOnScene": "EV Primary Target Not On Current Scene"
     },
     "implements": {
+      "amulet": {
+        "abeyance": {
+          "button": {
+            "label": "Use Amulet's Abeyance",
+            "title": "Amulet's Abeyance Reaction"
+          },
+          "dialog": {
+            "title": "Amulet's Abeyance"
+          }
+        }
+      },
       "chalice": {
         "drink": {
           "dialog": {
@@ -233,11 +249,44 @@
           }
         }
       },
+      "lantern": {
+        "ruleElements": {
+          "light": "Lanthern Implement Light",
+          "brightLight": "Bright Light Indicator",
+          "isLit": "Lantern Implement Lit",
+          "inLight": "In Lantern Light"
+        }        
+      },
       "regalia": {
-        "frightenedReminder": "Reduce frightened condition by 1 due to Thaumaturge Regalia aura."
+        "frightenedReminder": "Reduce frightened condition by 1 due to Thaumaturge Regalia aura.",
+        "ruleElements": {
+          "initiate": "Regalia Implement Initiate",
+          "adept": "Regalia Implement Adept",
+          "auraInitiate": "Regalia Aura - Initiate",
+          "auraAdept": "Regalia Aura - Adept",
+          "auraParagon": "Regalia Aura - Paragon"
+        }
+      },
+      "tome": {
+        "ruleElements": {
+          "recallKnowledge": "Tome Implement Recall Knowledge",
+          "recallKnowledgeParagon": "Tome Implement Paragon Recall Knowledge",
+          "recallKnowledgeAdeptSuccess": "Tome Implement Adept RK Success",
+          "esotericLoreInitiative": "Tome Paragon Esoteric Lore Initiative",
+          "dailyPreparationFirstSkill": "First Skill Proficiency",
+          "dailyPreparationSecondSkill": "Second Skill Proficiency"
+        },
+        "dailyPreparationDialog": {
+          "title": "Tome Implement Daily Preparation",
+          "prompt": "Would you like to change your Tome Implement skills?",
+          "warningNoTome": "No Tome implement has been managed."
+        },
+        "intensifyFlavor": "<strong>Intensify Vulnerability: Tome.</strong><br>Your tome's power not only reads a creature's present but even records its future actions. When you use Intensify Vulnerability, roll a d20 and set the result aside. At any time until the start of your next turn, you can use the d20 result you set aside for an attack roll to Strike the target of your Exploit Vulnerability, instead of rolling a new d20; this is a fortune effect.",
+        "applyRecallKnowledgeResultButton": "Apply Tome adept result"
       },
       "weapon": {
         "implementsInterruption": {
+          "label": "Implement's Interruption Attack",
           "title": {
             "success": "Weapon: Implement's Interruption",
             "failure": "Implement's Interruption Failure"
