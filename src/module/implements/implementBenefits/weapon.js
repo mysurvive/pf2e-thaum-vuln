@@ -17,19 +17,16 @@ class Weapon extends Implement {
         domain: "attack-roll",
         toggleable: true,
         option: "implements-interruption-attack",
-        label: "Implement's Interruption Attack",
+        label: "pf2e-thaum-vuln.implements.weapon.implementsInterruption.label",
         predicate: [{ or: ["class:thaumaturge", "feat:implement-initiate"] }],
       },
       {
         key: "Note",
         selector: "attack-roll",
-        text: game.i18n.localize(
-          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.text.success"
-        ),
+        text: "pf2e-thaum-vuln.implements.weapon.implementsInterruption.text.success",
         outcome: ["criticalSuccess"],
-        title: game.i18n.localize(
-          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.success"
-        ),
+        title:
+          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.success",
         predicate: [
           { not: "paragon:weapon" },
           "implements-interruption-attack",
@@ -44,9 +41,8 @@ class Weapon extends Implement {
             "pf2e-thaum-vuln.implements.weapon.implementsInterruption.text.failure"
           ) + "@Damage[1[{item|system.damage.damageType}]]",
         outcome: ["failure"],
-        title: game.i18n.localize(
-          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.failure"
-        ),
+        title:
+          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.failure",
         predicate: [
           { or: ["adept:weapon", "paragon:weapon"] },
           "implements-interruption-attack",
@@ -56,13 +52,10 @@ class Weapon extends Implement {
       {
         key: "Note",
         selector: "attack-roll",
-        text: game.i18n.localize(
-          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.text.success"
-        ),
+        text: "pf2e-thaum-vuln.implements.weapon.implementsInterruption.text.success",
         outcome: ["success", "criticalSuccess"],
-        title: game.i18n.localize(
-          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.success"
-        ),
+        title:
+          "pf2e-thaum-vuln.implements.weapon.implementsInterruption.title.success",
         predicate: ["paragon:weapon", "implements-interruption-attack"],
         slug: "implements-interruption-paragon",
       },

@@ -18,7 +18,7 @@ async function checkImplements(actor, { clear = false } = {}) {
     if (slug in imps) {
       if (!clear && uuid !== undefined)
         imps[slug].uuid = fromUuidSync(uuid) ? uuid : null;
-    } else imps[`-=${slug}`] = true;
+    } else imps[`-=${slug}`] = null;
   }
 
   if (!foundry.utils.objectsEqual(imps, impsFlag)) {

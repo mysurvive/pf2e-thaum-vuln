@@ -183,6 +183,30 @@ function getTargetRollOptions(actor) {
   return selfRollOptions.map((t) => t.replace(/^self/, "target"));
 }
 
+function getEsotericLoreSlugs() {
+  const slugs = ["esoteric-lore", "esoteric", "lore-esoteric"];
+  const customName = game.settings.get(
+    "pf2e-thaum-vuln",
+    "esotericLoreCustomName"
+  );
+  if (customName !== "") {
+    // generates slug exactly as pf2e system does
+    // https://github.com/foundryvtt/pf2e/blob/3ad0618312166164ccc7c2f68349b70bbb311525/src/module/actor/character/document.ts#L889
+    const customNameSlug = game.pf2e.system.sluggify(customName);
+    slugs.unshift(
+      /\blore\b/.test(customNameSlug)
+        ? customNameSlug
+        : `${customNameSlug}-lore`
+    );
+  }
+  return slugs;
+}
+
+function getEsotericLore(actor) {
+  const slugs = getEsotericLoreSlugs();
+  return slugs.reduce((lore, slug) => lore ?? actor.skills[slug], undefined);
+}
+
 export {
   targetEVPrimaryTarget,
   getMWTargets,
@@ -197,4 +221,6 @@ export {
   messageTargetTokens,
   hasExploitVulnerabilityEffect,
   getExploitVulnerabilityEffect,
+  getEsotericLoreSlugs,
+  getEsotericLore,
 };

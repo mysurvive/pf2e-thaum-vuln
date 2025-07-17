@@ -28,7 +28,9 @@ export async function manageImplements(event) {
 
   const dg = new Dialog(
     {
-      title: "Manage Implemenets",
+      title: game.i18n.localize(
+        "pf2e-thaum-vuln.manageImplements.dialog.header"
+      ),
       content: parseHTML(
         await renderTemplate(
           "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
@@ -37,7 +39,9 @@ export async function manageImplements(event) {
       ),
       buttons: {
         complete: {
-          label: "Confirm Changes",
+          label: game.i18n.localize(
+            "pf2e-thaum-vuln.manageImplements.dialog.confirmButton"
+          ),
           callback: async (dgEndContent) => {
             const imps =
               a.getFlag("pf2e-thaum-vuln", "selectedImplements") ?? {};
@@ -62,7 +66,9 @@ export async function manageImplements(event) {
           },
         },
         cancel: {
-          label: "Cancel Changes",
+          label: game.i18n.localize(
+            "pf2e-thaum-vuln.manageImplements.dialog.cancelButton"
+          ),
           callback: () => {
             return;
           },

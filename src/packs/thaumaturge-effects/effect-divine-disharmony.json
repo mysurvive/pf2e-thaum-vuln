@@ -6,7 +6,7 @@
   "system": {
     "description": {
       "gm": "",
-      "value": "<p>From your collection of religious trinkets, you pull out opposing divine objects—such as the religious symbols of two deities that are hated enemies—and combine them in a display that causes discordant clashes of divine energy that are especially distracting to the faithful.</p><p><strong>Critical Success</strong> The creature is flat-footed against your attacks until the end of your current turn.</p><p><strong>Success</strong> The creature is flat-footed to your attacks until the end of your next turn.</p>"
+      "value": "<p>From your collection of religious trinkets, you pull out opposing divine objects—such as the religious symbols of two deities that are hated enemies—and combine them in a display that causes discordant clashes of divine energy that are especially distracting to the faithful.</p><p><strong>Critical Success</strong> The creature is flat-footed to your attacks until the end of your next turn.</p><p><strong>Success</strong> The creature is flat-footed to your attacks until the end of your current turn.</p>"
     },
     "rules": [
       {
