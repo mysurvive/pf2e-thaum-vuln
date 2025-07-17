@@ -3,7 +3,12 @@ import {
   TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
   TOME_ADEPT_RK_EFFECT_UUID,
 } from "../../utils";
-import { createEffectData, hasFeat, isThaumaturge } from "../../utils/helpers";
+import {
+  createEffectData,
+  getEsotericLoreSlugs,
+  hasFeat,
+  isThaumaturge,
+} from "../../utils/helpers";
 import { getImplement } from "../helpers";
 import { Implement } from "../implement";
 import { RKCallback } from "../../socket";
@@ -56,7 +61,7 @@ class Tome extends Implement {
         predicate: [
           "paragon:tome",
           {
-            or: ["lore-esoteric", "esoteric-lore", "esoteric"],
+            or: getEsotericLoreSlugs(),
           },
         ],
         type: "circumstance",

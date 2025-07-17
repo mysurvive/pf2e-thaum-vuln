@@ -13,6 +13,10 @@
         "name": "Esoteric Lore DC Modifier",
         "hint": "Set a global modifier for the Esoteric Lore DC. If changed, this is typically set to -2 to make Esoteric Lore align with an applicable lore skill for purposes of Recall Knowledge."
       },
+      "esotericLoreCustomName": {
+        "name": "Custom name for Esoteric Lore",
+        "hint": "The name that will be used for Esoteric Lore if the default variants are not recognized. Useful for localizations."
+      },
       "enforceHeldImplement": {
         "name": "Enforce Held Implement",
         "hint": "Enforces the rule that an implement must be held to use Exploit Vulnerability."
