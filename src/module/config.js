@@ -236,6 +236,7 @@ Hooks.on("init", async () => {
     scope: "world",
     config: true,
     type: String,
+    default: "",
   });
 
   game.settings.register("pf2e-thaum-vuln", "enforceHeldImplement", {

@@ -189,7 +189,7 @@ function getEsotericLoreSlugs() {
     "pf2e-thaum-vuln",
     "esotericLoreCustomName"
   );
-  if (customName !== "") {
+  if (customName !== null && customName !== "") {
     // generates slug exactly as pf2e system does
     // https://github.com/foundryvtt/pf2e/blob/3ad0618312166164ccc7c2f68349b70bbb311525/src/module/actor/character/document.ts#L889
     const customNameSlug = game.pf2e.system.sluggify(customName);
