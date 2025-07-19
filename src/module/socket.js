@@ -290,7 +290,7 @@ async function _RKCallback(saUuid, targUuid, degreeOfSuccess) {
 
 async function _createRKDialog(userId, saUuid, targUuid) {
   const sa = await fromUuid(saUuid);
-  const skill = getEsotericLore();
+  const skill = getEsotericLore(sa);
   const targ = await fromUuid(targUuid);
   const hasDiverseLore = sa.itemTypes.feat.some(
     (i) => i.slug === "diverse-lore"
