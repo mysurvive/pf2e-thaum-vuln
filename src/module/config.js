@@ -13,6 +13,7 @@ import {
   THAUMATURGE_DEDICATION_FEAT_UUID,
 } from "./utils/index.js";
 import { glimpseVulnerability } from "./feats/glimpseVulnerability.js";
+import { getEsotericLoreSlugs } from "./utils/helpers.js";
 
 Hooks.on("init", async () => {
   const ADJUSTMENT_TYPES = {
@@ -116,7 +117,7 @@ Hooks.on("init", async () => {
           new game.pf2e.RuleElements.builtin.EphemeralEffect(
             {
               key: "EphemeralEffect",
-              selectors: ["esoteric-lore", "esoteric", "lore-esoteric"],
+              selectors: getEsotericLoreSlugs(),
               uuid: game.pf2e.settings.variants.pwol.enabled
                 ? EXPLOIT_VULNERABILITY_DC_PWOL_UUID
                 : EXPLOIT_VULNERABILITY_DC_UUID,
@@ -223,6 +224,19 @@ Hooks.on("init", async () => {
     config: true,
     type: Number,
     default: 0,
+  });
+
+  game.settings.register("pf2e-thaum-vuln", "esotericLoreCustomName", {
+    name: game.i18n.format(
+      "pf2e-thaum-vuln.settings.esotericLoreCustomName.name"
+    ),
+    hint: game.i18n.localize(
+      "pf2e-thaum-vuln.settings.esotericLoreCustomName.hint"
+    ),
+    scope: "world",
+    config: true,
+    type: String,
+    default: "",
   });
 
   game.settings.register("pf2e-thaum-vuln", "enforceHeldImplement", {

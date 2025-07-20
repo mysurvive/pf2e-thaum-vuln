@@ -91,7 +91,13 @@ class Amulet extends Implement {
       const tokenUuid = abeyers.find(
         (abeyer) => abeyer.actorUuid === actor.uuid
       ).tokenUuid;
-      const evReactionBtn = `<span class="pf2e-ev-reaction-area">${actor.name}: <button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="Amulet's Abeyance Reaction"><span style="white-space:nowrap;">Use Amulet's Abeyance</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button></span>`;
+      const evReactionBtn = `<span class="pf2e-ev-reaction-area">${
+        actor.name
+      }: <button class="pf2e-ev-reaction-btn" style="display: flex; align-items: center; justify-content: space-between;" title="${game.i18n.localize(
+        "pf2e-thaum-vuln.implements.amulet.abeyance.button.title"
+      )}"><span style="white-space:nowrap;">${game.i18n.localize(
+        "pf2e-thaum-vuln.implements.amulet.abeyance.button.label"
+      )}</span><img src="modules/pf2e-thaum-vuln/assets/chosen-implement.webp" style="width: 1.5em;border:none;"/></button></span>`;
       $(diceTotalArea).after(
         $(evReactionBtn).on("click", () =>
           getImplement(actor, "amulet")?.amuletsAbeyance(message, tokenUuid)
@@ -116,7 +122,9 @@ class Amulet extends Implement {
     };
 
     new Dialog({
-      title: "Amulet's Abeyance",
+      title: game.i18n.localize(
+        "pf2e-thaum-vuln.implements.amulet.abeyance.dialog.title"
+      ),
       content: await renderTemplate(
         "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
         dgContent

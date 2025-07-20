@@ -3,7 +3,12 @@ import {
   TOME_IMPLEMENT_BENEFIT_EFFECT_UUID,
   TOME_ADEPT_RK_EFFECT_UUID,
 } from "../../utils";
-import { createEffectData, hasFeat, isThaumaturge } from "../../utils/helpers";
+import {
+  createEffectData,
+  getEsotericLoreSlugs,
+  hasFeat,
+  isThaumaturge,
+} from "../../utils/helpers";
 import { getImplement } from "../helpers";
 import { Implement } from "../implement";
 import { RKCallback } from "../../socket";
@@ -19,7 +24,7 @@ class Tome extends Implement {
         selector: "skill-check",
         value: 1,
         type: "circumstance",
-        label: "Tome Implement Recall Knowledge",
+        label: "pf2e-thaum-vuln.implements.tome.ruleElements.recallKnowledge",
         predicate: [
           { or: ["class:thaumaturge", "feat:implement-initiate"] },
           "action:recall-knowledge",
@@ -31,7 +36,8 @@ class Tome extends Implement {
         selector: "skill-check",
         value: 2,
         type: "circumstance",
-        label: "Tome Implement Paragon Recall Knowledge",
+        label:
+          "pf2e-thaum-vuln.implements.tome.ruleElements.recallKnowledgeParagon",
         predicate: ["action:recall-knowledge", "paragon:tome"],
         hideIfDisabled: true,
       },
@@ -40,7 +46,8 @@ class Tome extends Implement {
         selector: "attack-roll",
         value: 1,
         type: "circumstance",
-        label: "Tome Implement Adept RK Success",
+        label:
+          "pf2e-thaum-vuln.implements.tome.ruleElements.recallKnowledgeAdeptSuccess",
         predicate: [
           { or: ["adept:tome", "paragon:tome"] },
           "target:mark:tome-adept-rk-success",
@@ -54,11 +61,12 @@ class Tome extends Implement {
         predicate: [
           "paragon:tome",
           {
-            or: ["lore-esoteric", "esoteric-lore", "esoteric"],
+            or: getEsotericLoreSlugs(),
           },
         ],
         type: "circumstance",
-        label: "Tome Paragon Esoteric Lore Initiative",
+        label:
+          "pf2e-thaum-vuln.implements.tome.ruleElements.esotericLoreInitiative",
         hideIfDisabled: true,
       },
     ];
@@ -86,9 +94,13 @@ class Tome extends Implement {
     if (tome) {
       new Dialog(
         {
-          title: "Tome Implement Daily Preparation",
+          title: game.i18n.localize(
+            "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.title"
+          ),
           content: () =>
-            `<p>Would you like to change your Tome Implement skills?</p>`,
+            `<p>${game.i18n.localize(
+              "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.prompt"
+            )}</p>`,
           buttons: {
             yes: {
               label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
@@ -107,7 +119,11 @@ class Tome extends Implement {
         tome
       ).render(true);
     } else {
-      return ui.notifications.warn("No Tome implement has been managed.");
+      return ui.notifications.warn(
+        game.i18n.localize(
+          "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.warningNoTome"
+        )
+      );
     }
   }
 
@@ -139,7 +155,8 @@ class Tome extends Implement {
           { or: ["class:thaumaturge", "feat:implement-initiate"] },
           "feature:tome",
         ],
-        prompt: "First Skill Proficiency",
+        prompt:
+          "pf2e-thaum-vuln.implements.tome.ruleElements.dailyPreparationFirstSkill",
       },
       {
         adjustName: true,
@@ -150,7 +167,8 @@ class Tome extends Implement {
           { or: ["class:thaumaturge", "feat:implement-initiate"] },
           "feature:tome",
         ],
-        prompt: "Second Skill Proficiency",
+        prompt:
+          "pf2e-thaum-vuln.implements.tome.ruleElements.dailyPreparationSecondSkill",
       },
       {
         key: "ActiveEffectLike",
@@ -382,8 +400,9 @@ class Tome extends Implement {
 
     const flatRoll = await new Roll("1d20").roll({ async: true });
     flatRoll.toMessage({
-      flavor:
-        "<strong>Intensify Vulnerability: Tome.</strong><br>Your tome's power not only reads a creature's present but even records its future actions. When you use Intensify Vulnerability, roll a d20 and set the result aside. At any time until the start of your next turn, you can use the d20 result you set aside for an attack roll to Strike the target of your Exploit Vulnerability, instead of rolling a new d20; this is a fortune effect.",
+      flavor: game.i18n.localize(
+        "pf2e-thaum-vuln.implements.tome.intensifyFlavor"
+      ),
     });
 
     tomeIntensifyEffect.flags["pf2e-thaum-vuln"].tomeRollValue =
@@ -479,13 +498,19 @@ Hooks.once("ready", () => {
   });
 });
 
-const RKButtonText = `<hr><p>Apply Tome adept result:</p>
+Hooks.on("renderChatMessage", (message, html) => {
+  const RKButtonText = `<hr><p>${game.i18n.localize(
+    "pf2e-thaum-vuln.implements.tome.applyRecallKnowledgeResultButton"
+  )}:</p>
 <div class="message-buttons">
-  <button type="button" class="success tome-adept-rk" data-outcome="success">Success</button>
-  <button type="button" class="failure tome-adept-rk" data-outcome="failure">Failure</button>
+  <button type="button" class="success tome-adept-rk" data-outcome="success">${game.i18n.localize(
+    "PF2E.Check.Result.Degree.Check.success"
+  )}</button>
+  <button type="button" class="failure tome-adept-rk" data-outcome="failure">${game.i18n.localize(
+    "PF2E.Check.Result.Degree.Check.failure"
+  )}</button>
 </div>`;
 
-Hooks.on("renderChatMessage", (message, html) => {
   if (message.getFlag("pf2e-thaum-vuln", "tomeAdeptRK")) {
     const target =
       message.target?.token?.uuid ??

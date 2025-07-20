@@ -7,7 +7,11 @@ import {
   PRIMARY_TARGET_EFFECT_UUID,
 } from "./utils/index.js";
 import { parseHTML } from "./utils/utils.js";
-import { createEffectData, getTargetRollOptions } from "./utils/helpers.js";
+import {
+  createEffectData,
+  getEsotericLore,
+  getTargetRollOptions,
+} from "./utils/helpers.js";
 
 let socket;
 
@@ -286,10 +290,7 @@ async function _RKCallback(saUuid, targUuid, degreeOfSuccess) {
 
 async function _createRKDialog(userId, saUuid, targUuid) {
   const sa = await fromUuid(saUuid);
-  const skill =
-    sa.skills["esoteric-lore"] ??
-    sa.skills["esoteric"] ??
-    sa.skills["lore-esoteric"];
+  const skill = getEsotericLore(sa);
   const targ = await fromUuid(targUuid);
   const hasDiverseLore = sa.itemTypes.feat.some(
     (i) => i.slug === "diverse-lore"
