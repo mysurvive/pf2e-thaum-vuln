@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+
+- Add additional localization strings (@Cuingamehtar)
+- Add Esoteric Lore localization setting (@Cuingamehtar)
+
 ## [1.1.0] - 2025-07-16
 
 ### Added
