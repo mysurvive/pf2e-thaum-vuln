@@ -205,7 +205,7 @@ Hooks.on("pf2e.endTurn", (combatant) => {
   });
 
   // Don't attempt to send whispers if there are no targets for the whispers
-  if (whisperList.length > 0) {
+  if (whisperList.length > 0 && frightenedActors.length > 0) {
     ChatMessage.create({
       user: game.user.id,
       whisper: whisperList,
