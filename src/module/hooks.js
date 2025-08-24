@@ -50,11 +50,7 @@ async function updateWeaknessType(message) {
   const strikeTarget = message.target?.actor;
   if (!strikeTarget || strikeTarget.primaryUpdater !== game.user) return;
 
-  const evOrigin = game.actors.get(
-    getExploitVulnerabilityEffect(message.actor).flags[
-      "pf2e-thaum-vuln"
-    ].EffectOrigin.split(".")[1]
-  );
+  const evOrigin = getExploitVulnerabilityEffect(message.actor).origin;
   const actorSlug = game.pf2e.system.sluggify(evOrigin.name);
   const evEffect = strikeTarget.itemTypes.effect.find(
     (e) =>

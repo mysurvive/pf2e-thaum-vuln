@@ -199,7 +199,6 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
       primaryEVTargetEffect.system.slug +=
         "-" + game.pf2e.system.sluggify(a.name);
       primaryEVTargetEffect.name += ": " + a.name;
-      primaryEVTargetEffect.flags["pf2e-thaum-vuln"] = { EffectOrigin: aID };
 
       let primaryEffect = Object.assign({}, effect);
       if (primaryEffect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID) {
