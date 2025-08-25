@@ -161,15 +161,18 @@ async function _socketCreateEffectsOnActors(
 
 async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
   const a = await fromUuid(aID);
+  // We can't use effect.sourceId because this isn't an EffectPF2e object
+  // yet and doesn't have that getter.
+  const eID = effect._stats.compendiumSource;
   if (effect.system.rules.length != 0) {
-    if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID) {
+    if (eID === MORTAL_WEAKNESS_TARGET_UUID) {
       effect.system.rules[0].value = iwrData;
       a.setFlag(
         "pf2e-thaum-vuln",
         "EVValue",
         `${effect.system.rules[0].value}`
       );
-    } else if (effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_UUID) {
+    } else if (eID === PERSONAL_ANTITHESIS_TARGET_UUID) {
       effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
       a.setFlag(
         "pf2e-thaum-vuln",
@@ -187,9 +190,9 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
     }
 
     if (
-      (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID ||
-        effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_UUID ||
-        effect.flags.core.sourceId === BREACHED_DEFENSES_TARGET_UUID) &&
+      (eID === MORTAL_WEAKNESS_TARGET_UUID ||
+        eID === PERSONAL_ANTITHESIS_TARGET_UUID ||
+        eID === BREACHED_DEFENSES_TARGET_UUID) &&
       a.getFlag("pf2e-thaum-vuln", "primaryEVTarget") === targ
     ) {
       const primaryEVTargetEffect = await createEffectData(
@@ -201,12 +204,10 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
       primaryEVTargetEffect.name += ": " + a.name;
 
       let primaryEffect = Object.assign({}, effect);
-      if (primaryEffect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID) {
+      if (eID === MORTAL_WEAKNESS_TARGET_UUID) {
         primaryEffect.img =
           "modules/pf2e-thaum-vuln/assets/mortal-weakness-primary.webp";
-      } else if (
-        primaryEffect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_UUID
-      ) {
+      } else if (eID === PERSONAL_ANTITHESIS_TARGET_UUID) {
         primaryEffect.img =
           "modules/pf2e-thaum-vuln/assets/personal-antithesis-primary.webp";
       } else {
