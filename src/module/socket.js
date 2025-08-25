@@ -164,22 +164,14 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
   // We can't use effect.sourceId because this isn't an EffectPF2e object
   // yet and doesn't have that getter.
   const eID = effect._stats.compendiumSource;
+  effect.system.level.value = a.level;
   if (effect.system.rules.length != 0) {
     if (eID === MORTAL_WEAKNESS_TARGET_UUID) {
       effect.system.rules[0].value = iwrData;
-      a.setFlag(
-        "pf2e-thaum-vuln",
-        "EVValue",
-        `${effect.system.rules[0].value}`
-      );
     } else if (eID === PERSONAL_ANTITHESIS_TARGET_UUID) {
-      effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
-      a.setFlag(
-        "pf2e-thaum-vuln",
-        "EVValue",
-        `${effect.system.rules[0].value}`
-      );
+      iwrData = Math.floor(a.level / 2) + 2;
     }
+    a.setFlag("pf2e-thaum-vuln", "EVValue", iwrData);
   }
 
   effect.name = effect.name + ` (${a.name})`;

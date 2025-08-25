@@ -53,9 +53,7 @@ async function updateWeaknessType(message) {
   const evOrigin = getExploitVulnerabilityEffect(message.actor).origin;
   const actorSlug = game.pf2e.system.sluggify(evOrigin.name);
   const evEffect = strikeTarget.itemTypes.effect.find(
-    (e) =>
-      e.slug === `personal-antithesis-target-${actorSlug}` ||
-      e.slug === `mortal-weakness-target-${actorSlug}`
+    (e) => e.slug === `mortal-weakness-target-${actorSlug}`
   );
   if (!evEffect) return;
   const strike = message._strike?.item.system;

@@ -9,11 +9,14 @@
     "rules": [
       {
         "key": "Weakness",
-        "type": "physical",
-        "value": 7,
-        "predicate": [
-          "origin:effect:exploit-personal-antithesis"
+        "type": "custom",
+        "value": "floor(@item.level/2)+2",
+        "definition": [
+          "action:strike",
+          "origin:signature:{item|origin.signature}"
         ],
+        "applyOnce": true,
+        "label": "Personal Antithesis ({item|origin.name})",
         "slug": "personal-antithesis-weapons"
       }
     ],
@@ -69,12 +72,13 @@
   },
   "_stats": {
     "systemId": "pf2e",
-    "systemVersion": "6.1.1",
-    "coreVersion": "12.329",
+    "systemVersion": "7.4.2",
+    "coreVersion": "13.346",
     "createdTime": 1675062551886,
-    "modifiedTime": 1721825633150,
+    "modifiedTime": 1756275970369,
     "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.dNpf1EDKJ6fgNL42",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "folder": null,
   "sort": 700000,
