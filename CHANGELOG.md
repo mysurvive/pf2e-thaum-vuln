@@ -2,10 +2,20 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-08-29
+
 ### Added
 
 - Add additional localization strings (@Cuingamehtar)
 - Add Esoteric Lore localization setting (@Cuingamehtar)
+
+### Fixed
+
+- Only send regalia reminders if at least one actor is frightened (@maplealmond)
+
+### Changed
+
+= Use the new custom weakness in the system for Personal Antithesis (@xyzzy42)
 
 ## [1.1.0] - 2025-07-16
 
