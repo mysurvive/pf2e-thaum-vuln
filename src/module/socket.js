@@ -161,22 +161,17 @@ async function _socketCreateEffectsOnActors(
 
 async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
   const a = await fromUuid(aID);
+  // We can't use effect.sourceId because this isn't an EffectPF2e object
+  // yet and doesn't have that getter.
+  const eID = effect._stats.compendiumSource;
+  effect.system.level.value = a.level;
   if (effect.system.rules.length != 0) {
-    if (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID) {
+    if (eID === MORTAL_WEAKNESS_TARGET_UUID) {
       effect.system.rules[0].value = iwrData;
-      a.setFlag(
-        "pf2e-thaum-vuln",
-        "EVValue",
-        `${effect.system.rules[0].value}`
-      );
-    } else if (effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_UUID) {
-      effect.system.rules[0].value = Math.floor(a.level / 2) + 2;
-      a.setFlag(
-        "pf2e-thaum-vuln",
-        "EVValue",
-        `${effect.system.rules[0].value}`
-      );
+    } else if (eID === PERSONAL_ANTITHESIS_TARGET_UUID) {
+      iwrData = Math.floor(a.level / 2) + 2;
     }
+    a.setFlag("pf2e-thaum-vuln", "EVValue", iwrData);
   }
 
   effect.name = effect.name + ` (${a.name})`;
@@ -187,9 +182,9 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
     }
 
     if (
-      (effect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID ||
-        effect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_UUID ||
-        effect.flags.core.sourceId === BREACHED_DEFENSES_TARGET_UUID) &&
+      (eID === MORTAL_WEAKNESS_TARGET_UUID ||
+        eID === PERSONAL_ANTITHESIS_TARGET_UUID ||
+        eID === BREACHED_DEFENSES_TARGET_UUID) &&
       a.getFlag("pf2e-thaum-vuln", "primaryEVTarget") === targ
     ) {
       const primaryEVTargetEffect = await createEffectData(
@@ -199,15 +194,12 @@ async function _socketCreateEffectOnTarget(aID, effect, evTargets, iwrData) {
       primaryEVTargetEffect.system.slug +=
         "-" + game.pf2e.system.sluggify(a.name);
       primaryEVTargetEffect.name += ": " + a.name;
-      primaryEVTargetEffect.flags["pf2e-thaum-vuln"] = { EffectOrigin: aID };
 
       let primaryEffect = Object.assign({}, effect);
-      if (primaryEffect.flags.core.sourceId === MORTAL_WEAKNESS_TARGET_UUID) {
+      if (eID === MORTAL_WEAKNESS_TARGET_UUID) {
         primaryEffect.img =
           "modules/pf2e-thaum-vuln/assets/mortal-weakness-primary.webp";
-      } else if (
-        primaryEffect.flags.core.sourceId === PERSONAL_ANTITHESIS_TARGET_UUID
-      ) {
+      } else if (eID === PERSONAL_ANTITHESIS_TARGET_UUID) {
         primaryEffect.img =
           "modules/pf2e-thaum-vuln/assets/personal-antithesis-primary.webp";
       } else {

@@ -101,7 +101,7 @@ function targetEVPrimaryTarget(a) {
 // module code bypasses that step.
 async function createEffectData(uuid, origin = null) {
   const effect = (await fromUuid(uuid)).toObject();
-  (effect.flags.core ??= {}).sourceId = uuid;
+  effect._stats.compendiumSource = uuid;
   if (origin !== null) {
     // If context is set, then all these properties are non-optional, but can be null
     effect.system.context = {
