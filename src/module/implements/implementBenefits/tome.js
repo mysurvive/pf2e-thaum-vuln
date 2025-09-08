@@ -348,7 +348,7 @@ class Tome extends Implement {
     if (!game.combats.active?.started) return;
 
     const oldEffect = sa.itemTypes.effect.find(
-      (e) => e.flags.core?.sourceId === TOME_ADEPT_RK_EFFECT_UUID
+      (e) => e.sourceId === TOME_ADEPT_RK_EFFECT_UUID
     );
     if (oldEffect) {
       // Already used RK this turn? Use an unexpired effect to tell us.
@@ -360,7 +360,6 @@ class Tome extends Implement {
     let effect = await createEffectData(TOME_ADEPT_RK_EFFECT_UUID, {
       actor: this.actor.uuid,
     });
-    (effect.flags.core ??= {}).sourceId = TOME_ADEPT_RK_EFFECT_UUID;
     effect.name += ` (${targ.name})`;
     let re = effect.system.rules.find(
       (r) => r.key === "TokenMark" && r.slug === "tome-adept-rk-success"

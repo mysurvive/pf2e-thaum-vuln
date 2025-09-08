@@ -36,8 +36,8 @@ class Amulet extends Implement {
     const thaums = message.actor.itemTypes.effect
       .filter(
         (e) =>
-          e.flags.core?.sourceId === PRIMARY_TARGET_EFFECT_UUID ||
-          e.flags.core?.sourceId === GLIMPSE_VULNERABILITY_TARGET_UUID
+          e.sourceId === PRIMARY_TARGET_EFFECT_UUID ||
+          e.sourceId === GLIMPSE_VULNERABILITY_TARGET_UUID
       )
       .map((e) => e.origin);
     if (thaums.length == 0) return;
