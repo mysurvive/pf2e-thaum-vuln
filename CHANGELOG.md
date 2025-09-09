@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.2.1] - 2025-09-09
+
+### Fixed
+
+- Fixed several lingering core.sourceId flags that were causing mayhem (@xyzzy42)
+
 ## [1.2.0] - 2025-08-29
 
 ### Added
