@@ -420,7 +420,7 @@ async function _createRKDialog(userId, saUuid, targUuid) {
       "pf2e-thaum-vuln.recallKnowledge.name"
     )} (${game.i18n.localize("PF2E.TraitThaumaturge")}): ${sa.name}`,
     content: parseHTML(
-      await renderTemplate(
+      await foundry.applications.handlebars.renderTemplate(
         "modules/pf2e-thaum-vuln/templates/rkDialog.hbs",
         dgContent
       )

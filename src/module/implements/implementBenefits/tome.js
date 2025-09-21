@@ -497,7 +497,8 @@ Hooks.once("ready", () => {
   });
 });
 
-Hooks.on("renderChatMessage", (message, html) => {
+Hooks.on("renderChatMessageHTML", (message, html) => {
+  html = $(html);
   const RKButtonText = `<hr><p>${game.i18n.localize(
     "pf2e-thaum-vuln.implements.tome.applyRecallKnowledgeResultButton"
   )}:</p>

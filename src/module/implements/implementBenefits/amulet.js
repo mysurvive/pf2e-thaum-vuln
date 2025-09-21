@@ -125,7 +125,7 @@ class Amulet extends Implement {
       title: game.i18n.localize(
         "pf2e-thaum-vuln.implements.amulet.abeyance.dialog.title"
       ),
-      content: await renderTemplate(
+      content: await foundry.applications.handlebars.renderTemplate(
         "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
         dgContent
       ),
@@ -199,8 +199,8 @@ class Amulet extends Implement {
   }
 }
 
-Hooks.on("renderChatMessage", (message, html) => {
-  Amulet.addAbeyanceButton(message, html);
+Hooks.on("renderChatMessageHTML", (message, html) => {
+  Amulet.addAbeyanceButton(message, $(html));
 });
 
 // Add the hook on init so that it's after the hooks.js hooks

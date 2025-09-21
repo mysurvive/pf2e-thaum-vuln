@@ -32,7 +32,7 @@ export async function manageImplements(event) {
         "pf2e-thaum-vuln.manageImplements.dialog.header"
       ),
       content: parseHTML(
-        await renderTemplate(
+        await foundry.applications.handlebars.renderTemplate(
           "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
           { implements: passImps }
         )
@@ -76,7 +76,7 @@ export async function manageImplements(event) {
       },
       default: "complete",
       render: (html) => {
-        const dd = new DragDrop({
+        const dd = new foundry.applications.ux.DragDrop.implementation({
           dropSelector: ".dropbox",
           callbacks: { drop: handleDrop },
         });
