@@ -40,7 +40,7 @@ async function intensifyImplement(actor) {
     title: game.i18n.localize(
       "pf2e-thaum-vuln.dialog.intensifyImplement.title"
     ),
-    content: await renderTemplate(
+    content: await foundry.applications.handlebars.renderTemplate(
       "modules/pf2e-thaum-vuln/templates/intensifyImplement.hbs"
     ),
     buttons: dialogButtons,

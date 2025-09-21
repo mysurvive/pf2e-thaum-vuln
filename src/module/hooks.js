@@ -22,9 +22,9 @@ import { manageImplements, clearImplements } from "./implements/implements.js";
 //If the thaumaturge makes an attack-roll, the target's weakness updates with the correct amount
 //If it's not the thaumaturge that makes the attack-roll, it changes the weakness to 0
 Hooks.on(
-  "renderChatMessage",
+  "renderChatMessageHTML",
   async (message, html) => {
-    createChatCardButton(message, html);
+    createChatCardButton(message, $(html));
   },
   { once: false }
 );
