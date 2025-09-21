@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.2.2] - 2025-09-21
+
 ### Fixed
 
 - Address several v13 deprecation warnings.
