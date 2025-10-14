@@ -11,42 +11,46 @@
       },
       "esotericLoreModifier": {
         "name": "Modificateur de DD de Connaissance ésotérique",
-        "hint": "Fice un modificateur global pour le DD de Connaissance ésotérique. S'il est changé, il est typiquement fixé à -2 pour faire s'aligner Connaissance ésotérique avec une compétence de connaissance applicable pour Se souvenir."
+        "hint": "Fixe un modificateur global pour le DD de Connaissance ésotérique. S'il est changé, il est typiquement fixé à -2 pour faire s'aligner Connaissance ésotérique avec une compétence de connaissance applicable pour Se souvenir."
+      },
+      "esotericLoreCustomName": {
+        "name": "Nom personnalisé pour Connaissance ésotérique",
+        "hint": "Le nom sera utilisé pour Connaissance ésotérique si les variations par défaut ne sont pas reconnues. Utile pour les localisations."
       },
       "enforceHeldImplement": {
-        "hint": "",
-        "name": ""
+        "hint": "Impose la règle selon laquelle un implément doit être tenu pour utiliser Exploiter la vulnérabilité",
+        "name": "Imposer la tenu de l'implément"
       },
       "reactionCheckerHandlesAmulet": {
-        "hint": "",
-        "name": ""
+        "hint": "Permet à PF2e Reaction Checker de gérer Évitement de l'amulette.",
+        "name": "Gestion de l'amulette par PF2e Reaction Checker"
       },
       "dailiesHandlesTome": {
-        "name": "",
-        "hint": ""
+        "name": "Gestion de la préparation journalière du Tome par PF2e Dailies",
+        "hint": "Permet à PF2e Dailies de gérer les choix de compétence journaliers de l'implément du Tome."
       },
       "moduleHandles": {
-        "wand": "",
-        "weapon": "",
-        "amulet": "",
-        "chalice": "",
-        "hint": "",
-        "lantern": "",
-        "bell": "",
-        "regalia": "",
-        "mirror": "",
-        "tome": ""
+        "wand": "Le module prend en compte les Baguettes",
+        "weapon": "Le module prend en compte les Armes",
+        "amulet": "Le module prend en compte les Amulets",
+        "chalice": "Le module prend en compte les Calice",
+        "hint": "Si cette option est activée, le module Exploit Vulnerability gérera les effets de cet implément et il est recommandé de supprimer les impléments générés par le système. Si cette option est désactivée, le module Exploit Vulnerability ne créera pas d'effets sur cet implément lorsqu'il sera géré et il est recommandé d'utiliser les impléments générés par le système lors de la gestion des impléments.",
+        "lantern": "Le module prend en compte les Lanternes",
+        "bell": "Le module prend en compte les Cloche",
+        "regalia": "Le module prend en compte les Regalia",
+        "mirror": "Le module prend en compte les Miroir",
+        "tome": "Le module prend en compte les Tome"
       }
     },
     "notifications": {
       "warn": {
         "exploitVulnerability": {
-          "targetCount": "Sélectionnez un pion Thaumaturge et ciblez une créature.",
+          "targetCount": "Sélectionnez un token Thaumaturge et ciblez une créature.",
           "noExploitVulnerability": "Cet acteur n'a pas la capacité Exploiter la vulnérabilité",
           "noEsotericLoreSkill": "Cet acteur n'a pas la connaissance \"Esoteric Lore\" (Ne fonctionne qu'avec le nom en VO)",
           "noMatchingDC": "Aucun DD correspondant pour la cible",
-          "noHeldImplement": "",
-          "noImplements": ""
+          "noHeldImplement": "Vous devez tenir l'un de vos impléments afin de pouvoir Exploiter la vulnérabilité.",
+          "noImplements": "Vous n'avez pas d'implément sélectionné. Allez dans l'onglet inventaire de votre feuille de personnage, cliquez gérer les implémetns, et assignez des objets à vos impléments."
         },
         "cursedEffigy": {
           "noAbility": "Vous n'avez pas la capacité pour créé une effigie maudite",
@@ -70,26 +74,26 @@
           "noWeakness": "Il n'y a pas de faiblesses sur cette créature pour exploiter une Faiblesse mortelle."
         },
         "strike": {
-          "invalidDamageType": "Le type de dégâts de l'arme est défini sur Untyped, ce qui est un type de dégâts non valide dans le cadre de Exploit Vulnerability. La faiblesse ne sera pas appliquée."
+          "invalidDamageType": "Le type de dégâts de l'arme est configuré sur Non Défini, ce qui est un type de dégâts non valide dans le cadre d'Exploiter la vulnérabilité. La faiblesse ne sera pas appliquée."
         },
         "intensifyImplement": {
-          "invalid": "",
-          "noIntensify": "",
-          "notHeld": ""
+          "invalid": "La capacité de l'implément intensifé n'est pas encore prise en charge par PF2e Exploit Vulnerability.",
+          "noIntensify": "Vous ne possédez pas la capacité Intensifier la vulnérabilité. Vérifiez votre feuille de personnage et assurez vous d'avoir le don Intensifier la vulnérabilité.",
+          "notHeld": "Vous devez tenir votre implément pour utiliser Intensifier la vulnérabilité"
         },
         "rootToLife": {
-          "noAbility": "",
-          "selectOne": "",
-          "notDying": ""
+          "noAbility": "L'acteur sélectionné ne possède pas Enraciné à la vie",
+          "selectOne": "Sélectionnez uniquement une seule cible pour Enraciné à la vie",
+          "notDying": "La cible n'est pas Mourante"
         },
-        "noToken": "",
+        "noToken": "Aucun token n'est sélectionné",
         "glimpseVulnerability": {
-          "noGlimpseVulnerability": ""
+          "noGlimpseVulnerability": "Cet acteur ne possède pas la capacité d'Entrevoir une vulnérabilité."
         }
       },
       "info": {
         "recallKnowledge": {
-          "requestSent": ""
+          "requestSent": "La requête pour Se souvenir a été envoyée  au MJ"
         }
       }
     },
@@ -115,10 +119,10 @@
       },
       "flavor": "Vous fouillez dans vos expériences et votre apprentissage pour identifier quelque chose qui pourrait repousser votre ennemi. Vous récupérez un objet parmi vos ésotéricas avec les qualités surnaturelles appropriées puis utilisez votre implément pour rallumer les vestiges de son pouvoir et en faire un brasier. Sélectionnez une créature que vous pouvez voir et tentez un test de Connaissance ésotérique contre un DD standard pour son niveau tout en récupérant le bon objet parmi vos ésotéricas et utilisez votre implément pour lui donner du pouvoir. Vous bénéficiez des effets suivants jusqu'à ce que vous Exploitiez les vulnérabilités de nouveau.",
       "degreeOfSuccess": {
-        "success": "",
-        "failure": "",
-        "criticalFailure": "",
-        "criticalSuccess": ""
+        "success": "Vous Vous souvenez d'un fait important sur la créature, apprenant ainsi sa plus grande faiblesse (ou l'une de ses plus grandes faiblesses si elle en a plusieurs ayant la même valeur) mais pas ses autres faiblesses, résistances ou immunités. Vous pouvez exploiter soit la faiblesse mortelle de la créature, soit son antithèse personnelle. Vos frappes à mains nues et avec une arme contre la créature deviennent également magiques si elles ne l'étaient pas déjà.",
+        "failure": "Bien que vous ne parveniez pas à Vous souvenir d'une faiblesse importante de cette créature, vous tentez d'exploiter une vulnérabilité plus intime. Vous ne pouvez exploiter que l'antithèse personnelle de la créature. Vos frappes à mains nues et avec une arme contre la créature deviennent également magiques si elles ne l'étaient pas déjà.",
+        "criticalFailure": "Vous n'avez pas réussi à Vous souvenir du bon objet à utiliser et vous êtes distrait pendant que vous fouillez parmi vos ésotéricas. Vous êtes Pris au dépourvu jusqu'au début de votre prochain tour.",
+        "criticalSuccess": "Vous Vous souvenez des faiblesses de la créature et lorsque vous renforcez votre ésotérica, vous avez un éclair de compréhension qui vous donne encore plus de connaissances sur la créature. Vous apprenez toutes les résistances, faiblesses et immunités de la créature, y compris le montant des résistances et des faiblesses et n'importe quelle faiblesse ou vulnérabilité inhabituelle comme les sorts qui franchiront la résistance à la magie d'un golem. Vous pouvez exploiter soit la faiblesse mortelle de la créature, soit son antithèse personnelle (voir la capacité de classe Exploiter la vulnérabilité). Vos frappes à mains nues et avec une arme contre la créature deviennent également magiques si elles ne l'étaient pas déjà."
       }
     },
     "personalAntithesis": {
@@ -131,13 +135,21 @@
       "name": "Brèche dans la défense",
       "bypassableLabel": "Résistance la plus élevée contournable : ",
       "bypassLine": "{type}, contourné par {exception}",
-      "bypassedBy": ""
+      "bypassedBy": "Contourné par"
+    },
+    "divineDisharmony": {
+      "name": "Désaccord divin",
+      "flavor":  "De votre collection de babioles religieuses, vous tirez des objets divins opposés - comme les symboles religieux de deux divinités qui sont des ennemis jurés - et vous les combinez dans une démonstration qui provoque des chocs discordants d'énergie divine qui sont spécialement distrayantes pour les fidèles. Lancez à votre choix un test de Duperie ou d' Intimidation contre le DD de Volonté d'une créature que vous pouvez voir dans les 18 m avec les résultats suivants. Si la créature est particulièrement dévouée à une divinité, comme l'est un prêtre, un céleste, un veilleur ou un fiélon ou toute autre créature lançant des sorts divins, vous obtenez un bonus de circonstances de +2 à votre test de compétence. À l'inverse, le MJ peut décider qu'une créature qui méprise toutes les divinités comme un alghollthu ne sera pas affectée.",
+      "degreeOfSuccess": {
+        "criticalSuccess": "<strong>Réussite Critique</strong> La créature est Prise au dépourvu contre vos attaques jusqu'à la fin de votre prochain tour. @UUID[Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.1Qg5deHGd0ou1EWY]{Effet : Désaccord divin (Réussite Critique)}",
+        "success": "<strong>Réussite</strong> La créature est prise au dépourvu contre vos attaques jusqu'à la fin de votre tour actuel. @UUID[Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lrc7YZ0FrfbljICC]{Effet : Désaccord divin}"
+      }
     },
     "esotericWarden": {
       "name": "Gardien ésotérique",
       "flavor": "Lorsque vous appliquez avec succès une matière antithétique contre une créature, vous vous prémunissez également contre ses prochaines attaques. Lorsque vous réussissez votre test pour Exploiter la vulnérabilité, vous obtenez un bonus de statut de +1 à la CA contre la prochaine attaque de la créature et un bonus de statut de +1 à votre prochain jet de sauvegarde contre la créature. Si vous obtenez un succès critique, ces bonus sont de +2 à la place. Vous ne pouvez gagner ces bonus qu'une fois par jour contre une créature particulière et cet avantage prend fin si vous Exploitez la vulnérabilité de nouveau.",
       "effect": {
-        "name": ""
+        "name": "Effet : Gardien ésotérique"
       }
     },
     "diverseLore": {
@@ -172,106 +184,155 @@
       "cancel": "Annuler",
       "none": "Aucun",
       "amuletsAbeyance": {
-        "description": "",
-        "adeptBenefitLabel": "",
-        "paragonBenefitLabel": "",
-        "lingeringResistanceValue": "",
-        "name": "",
-        "resistanceValueLabel": "",
-        "allTriggeringDamage": "",
-        "selectAllies": "",
-        "selectDamageType": "",
-        "noResistances": ""
+        "description": "Vous présentez ostensiblement votre amulette pour détourner le mal. Vous ou un allié ciblé dans un rayon de 4,50 mètres obtenez une résistance à tous les dégâts contre les dégâts déclencheurs. La résistance est égale à 2 + votre niveau.",
+        "adeptBenefitLabel": "Avantage de l'adepte",
+        "paragonBenefitLabel": "Avantage du parangon",
+        "lingeringResistanceValue": "Valeur de la résistance prolongée",
+        "name": "Évitement de l'amulette",
+        "resistanceValueLabel": "Valeur de l'Évitement de l'amulette :",
+        "allTriggeringDamage": "À tous les dégâts déclencheurs",
+        "selectAllies": "Cliquez une icône pour sélectionner qui devrait avoir les bénéfices de l'Évitement de l'amulette",
+        "selectDamageType": "Sélectionnez un type de dégâts pour appliquer une résistance prolongée",
+        "noResistances": "Aucune résistance prolongée aux dégâts à appliquer"
       },
       "intensifyImplement": {
-        "title": "",
-        "content": ""
+        "title": "Intensifier l'implément",
+        "content": "Choisissez lequel de vos impléments vous voulez intensifier"
       },
-      "oneAction": "",
-      "twoAction": "",
-      "character": "",
-      "target": "",
+      "oneAction": "Une Action",
+      "twoAction": "Deux Actions",
+      "character": "Personnage",
+      "target": "Cible",
       "manageImplements": {
-        "dragItem": "",
-        "implement": ""
+        "dragItem": "Faîtes glisser un objet ici pour le désigner comme étant un implément.",
+        "implement": "Implément"
       }
     },
     "chatCard": {
       "use": "Utiliser {action}"
     },
     "rootToLife": {
-      "selectActionCount": "",
-      "outcome": "",
-      "title": "",
-      "twoActionOutcome": ""
+      "selectActionCount": "Choisissez si vous voulez utiliser une ou deux actions.",
+      "outcome": "La créature n'est plus mourante et est inconsciente à 0 Point de vie.",
+      "title": "Enraciné à la vie",
+      "twoActionOutcome": "Vous pouvez faire des tests nus pour supprimer chaque source de dégâts persistants affectant la cible."
     },
     "esotericLore": {
-      "name": ""
+      "name": "Connaissance ésotérique"
     },
     "dubiousKnowledge": {
-      "name": "",
+      "name": "Savoir douteux",
       "degreeOfSuccess": {
-        "failure": ""
+        "failure": "Quand vous obtenez un échec (mais pas un échec critique) sur un test pour Vous souvenir en utilisant n'importe quelle compétence, vous apprenez la réponse correcte et une fausse information, mais n'avez aucun moyen de les différencier entre elles. Cela peut conduire à connaître quelque chose d'important, mais pas si c'est bon ou mauvais."
       }
     },
     "recallKnowledge": {
-      "name": "",
+      "name": "Se souvenir",
       "dialog": {
-        "featRefLabel": "",
-        "targetTypeLabelDefault": "",
-        "rawDC": "",
-        "rollSettings": "",
-        "request": "",
-        "dcRefLabel": "",
-        "targetTypeLabelDL": ""
+        "featRefLabel": "Référence Action/Don",
+        "targetTypeLabelDefault": "Hantise, Malédiction, ou Créature",
+        "rawDC": "DD pur (sans prendre en compte les modificateur ci-dessus) :",
+        "rollSettings": "Paramètres du jet",
+        "request": "Quelqu'un demande à Se souvenir en utilisant la compétence Connaissance ésotérique.",
+        "dcRefLabel": "Références du DD",
+        "targetTypeLabelDL": "Tout"
       },
       "degreeOfSuccess": {
-        "criticalSuccess": "",
-        "criticalFailure": "",
-        "success": ""
+        "criticalSuccess": "Vous vous souvenez avec précision de vos connaissances. Le MJ répond sincèrement et soit vous donne une information ou du contexte supplémentaire, soit répond à une autre question.",
+        "criticalFailure": "Vous vous souvenez d'une information incorrecte. Le MJ répond à votre question de manière inexacte (ou décide de ne pas vous donner d'information, comme en cas d'échec).",
+        "success": "Vous vous souvenez avec précision de vos connaissances. Le MJ répond à votre question sincèrement."
       },
-      "esotericKnowledgeLabel": ""
+      "esotericKnowledgeLabel": "Se souvenir de Savoir ésotérique :"
     },
     "manageImplements": {
-      "implementHeader": "",
-      "manageImplementsButton": "",
-      "clearImplementsButton": ""
+      "implementHeader": "Impléments du Thaumaturge",
+      "manageImplementsButton": "Gérer les Impléments",
+      "clearImplementsButton": "Effacer tous les Impléments",
+      "dialog": {
+        "header": "Gérer les Impléments",
+        "confirmButton": "Confirmer les modifications",
+        "cancelButton": "Annuler les modifications"
+      }
     },
     "targetManagement": {
-      "evActive": "",
-      "evMode": "",
-      "inactive": "",
-      "notOnScene": "",
-      "evPrimaryTargetButton": "",
-      "active": ""
+      "evActive": "EV Active :",
+      "evMode": "EV Mode :",
+      "inactive": "Inactive",
+      "notOnScene": "La cible principale de l'EV n'est pas dans la scène courante",
+      "evPrimaryTargetButton": "Cibler la cible principale de l'EV",
+      "active": "Active"
     },
     "implements": {
-      "weapon": {
-        "implementsInterruption": {
-          "title": {
-            "success": "",
-            "failure": ""
+      "amulet": {
+        "abeyance": {
+          "button": {
+            "label": "Utiliser Évitement de l'amulette",
+            "title": "Réaction Évitement de l'amulette"
           },
-          "text": {
-            "failure": "",
-            "success": ""
+          "dialog": {
+            "title": "Évitement de l'amulette"
           }
         }
       },
+      "weapon": {
+        "implementsInterruption": {
+          "label": "Attaque de l'Interruption de l'implément",
+          "title": {
+            "success": "Arme : Interruption de l'implément",
+            "failure": "Échec de l'Interruption de l'implément"
+          },
+          "text": {
+            "failure": "Vous infligez des dégâts à la cible :",
+            "success": "Vous interrompez l'action déclencheuse."
+          }
+        }
+      },
+      "lantern": {
+        "ruleElements": {
+          "light": "Lumière de l'implément Lanterne",
+          "brightLight": "Indicateur de lumière vive",
+          "isLit": "L'implément Lanterne est allumé",
+          "inLight": "Dans la lumière de la Lanterne"
+        }        
+      },
       "regalia": {
-        "frightenedReminder": ""
+        "frightenedReminder": "Réduisez l'état Effrayé de 1 dû à l'aura du Regalia du Thaumaturge.",
+        "ruleElements": {
+          "initiate": "Avantage de l'initié de l'implément Regalia",
+          "adept": "Avantage de l'adepte de l'implément Regalia",
+          "auraInitiate": "Aura de l'implément Regalia - Initié",
+          "auraAdept": "Aura de l'implément Regalia - Adepte",
+          "auraParagon": "Aura de l'implément Regalia - Parangon"
+        }
+      },
+      "tome": {
+        "ruleElements": {
+          "recallKnowledge": "Se souvenir en utilisant l'implément du Tome",
+          "recallKnowledgeParagon": "Se souvenir en utilisant l'implément du Tome - Paragon",
+          "recallKnowledgeAdeptSuccess": "Résussite de Se souvenir en utilisant l'implément du Tome - Adepte",
+          "esotericLoreInitiative": "Initiave lancée avec Connaissance ésotorique de l'implément du Tome",
+          "dailyPreparationFirstSkill": "Premiére maitrise de Compétence",
+          "dailyPreparationSecondSkill": "Seconde maitrise de Compétence"
+        },
+        "dailyPreparationDialog": {
+          "title": "Préparation journalière de l'implément du Tome",
+          "prompt": "Voulez vous changer vos compétences liées à l'implément du Tome ?",
+          "warningNoTome": "Aucun implément du Tome n'a été sélectionné."
+        },
+        "intensifyFlavor": "<strong>Intensifier la vulnérabilité: Tome.</strong><br>Le pouvoir de votre tome ne se limite pas seulement au présent d'une créature mais contient même ses actions futures. Lorsque vous utilisez Intensifier la vulnérabilité, lancez un d20 et conservez le résultat. À tout moment jusqu'au début de votre prochain tour, vous pouvez utiliser le résultat du d20 conserver pour un jet d'attaque pour frapper la cible de votre capacité Exploiter la vulnérabilité, au lieu de lancer un nouveau d20. C'est un effet de fortune.",
+        "applyRecallKnowledgeResultButton": "Appliquer le résultat de l'adepte du Tome"
       },
       "chalice": {
         "drink": {
           "dialog": {
-            "title": "",
-            "cooldown": "",
-            "choose": ""
+            "title": "Boire au calice",
+            "cooldown": "Temps de recharge du remplissage du calice",
+            "choose": "Choisissez entre prendre une petite gorgée ou de vider le contenu. Ciblez un token allié pour lui administrez le liquide, ou ne ciblez aucun token pour boire le liquide vous-même. "
           },
           "chat": {
-            "reduceStunned": "",
-            "counteractLevel": "",
-            "counteract": ""
+            "reduceStunned": "Réduisez la valeur de l'état stupéfié s'il a une valeur d'état mais aucune duré. Vous pouvez également réduire l'état drainé de 1 une seul fois par jour quand vous buvez au calice.",
+            "counteractLevel": "Fait un jet de Contre pour chaque poison, maladie et malédiction affectant le buveur.",
+            "counteract": "Rang de Contre du calice :"
           }
         }
       }
