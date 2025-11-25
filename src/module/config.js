@@ -13,7 +13,11 @@ import {
   THAUMATURGE_DEDICATION_FEAT_UUID,
 } from "./utils/index.js";
 import { glimpseVulnerability } from "./feats/glimpseVulnerability.js";
-import { getEsotericLoreSlugs } from "./utils/helpers.js";
+import {
+  hasFeat,
+  isThaumaturge,
+  getEsotericLoreSlugs,
+} from "./utils/helpers.js";
 
 Hooks.on("init", async () => {
   const ADJUSTMENT_TYPES = {
@@ -77,13 +81,8 @@ Hooks.on("init", async () => {
     "CONFIG.PF2E.Actor.documentClasses.character.prototype.prepareDerivedData",
     function (wrapped, ...args) {
       if (
-        this.class?.name &&
-        (this.class?.name
-          .split(" ")
-          .includes(game.i18n.localize("PF2E.TraitThaumaturge")) ||
-          this.itemTypes.feat.some(
-            (f) => f.sourceId === THAUMATURGE_DEDICATION_FEAT_UUID
-          ))
+        isThaumaturge(this) ||
+        hasFeat(this, THAUMATURGE_DEDICATION_FEAT_UUID)
       ) {
         const selectedImplements = this.getFlag(
           "pf2e-thaum-vuln",
