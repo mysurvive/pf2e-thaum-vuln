@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+## [1.2.3] - 2025-11-25
+
+### Fixed
+
+- Change class detection to work with translation modules better (@xyzzy42)
+
+### Added
+
+- French localizations (@RadicalBlue)
+
 ## [1.2.2] - 2025-09-21
 
 ### Fixed
