@@ -10,7 +10,6 @@ import { constructChildImplement } from "./implements/impDict.js";
 import {
   EXPLOIT_VULNERABILITY_DC_UUID,
   EXPLOIT_VULNERABILITY_DC_PWOL_UUID,
-  THAUMATURGE_DEDICATION_FEAT_UUID,
 } from "./utils/index.js";
 import { glimpseVulnerability } from "./feats/glimpseVulnerability.js";
 import {
@@ -80,10 +79,7 @@ Hooks.on("init", async () => {
     "pf2e-thaum-vuln",
     "CONFIG.PF2E.Actor.documentClasses.character.prototype.prepareDerivedData",
     function (wrapped, ...args) {
-      if (
-        isThaumaturge(this) ||
-        hasFeat(this, THAUMATURGE_DEDICATION_FEAT_UUID)
-      ) {
+      if (isThaumaturge(this) || hasFeat(this, "thaumaturge-dedication")) {
         const selectedImplements = this.getFlag(
           "pf2e-thaum-vuln",
           "selectedImplements"
