@@ -498,33 +498,36 @@ Hooks.once("ready", () => {
 });
 
 Hooks.on("renderChatMessageHTML", (message, html) => {
-  html = $(html);
-  const RKButtonText = `<hr><p>${game.i18n.localize(
-    "pf2e-thaum-vuln.implements.tome.applyRecallKnowledgeResultButton"
-  )}:</p>
-<div class="message-buttons">
-  <button type="button" class="success tome-adept-rk" data-outcome="success">${game.i18n.localize(
-    "PF2E.Check.Result.Degree.Check.success"
-  )}</button>
-  <button type="button" class="failure tome-adept-rk" data-outcome="failure">${game.i18n.localize(
-    "PF2E.Check.Result.Degree.Check.failure"
-  )}</button>
-</div>`;
-
   if (message.getFlag("pf2e-thaum-vuln", "tomeAdeptRK")) {
     const target =
       message.target?.token?.uuid ??
       message.getFlag("pf2e-thaum-vuln", "targets")?.[0].tokenUuid;
     if (target) {
-      html.find("div.message-content").append(RKButtonText);
-      html.find("button.tome-adept-rk")?.on("click", (event) => {
-        const degreeOfSuccess =
-          event.target.dataset.outcome == "success" ? 2 : 1;
-        RKCallback(message.author.id, message.actor.uuid, target, {
-          degreeOfSuccess,
-        });
-        return false;
-      });
+      const RKButtonText = `<hr><p>${game.i18n.localize(
+        "pf2e-thaum-vuln.implements.tome.applyRecallKnowledgeResultButton"
+      )}:</p>
+        <div class="message-buttons">
+          <button type="button" class="success tome-adept-rk" data-outcome="success">${game.i18n.localize(
+            "PF2E.Check.Result.Degree.Check.success"
+          )}</button>
+          <button type="button" class="failure tome-adept-rk" data-outcome="failure">${game.i18n.localize(
+            "PF2E.Check.Result.Degree.Check.failure"
+          )}</button>
+        </div>`;
+
+      html
+        .querySelector("div.message-content")
+        .insertAdjacentHTML("beforeend", RKButtonText);
+      html.querySelectorAll("button.tome-adept-rk").forEach((b) =>
+        b.addEventListener("click", (event) => {
+          const degreeOfSuccess =
+            event.target.dataset.outcome == "success" ? 2 : 1;
+          RKCallback(message.author.id, message.actor.uuid, target, {
+            degreeOfSuccess,
+          });
+          return false;
+        })
+      );
     }
   }
 });
