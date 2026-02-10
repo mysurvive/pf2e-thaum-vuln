@@ -5,6 +5,7 @@
 ### Fixed
 
 - Fix an issue where Breached Defenses was showing all resistances instead of just the highest bypassable
+- Fix an issue where Tome implement skill preparation was not working properly
 
 ## [1.2.3] - 2025-11-25
 
