@@ -2,10 +2,19 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-2-10
+
 ### Fixed
 
 - Fix an issue where Breached Defenses was showing all resistances instead of just the highest bypassable
 - Fix an issue where Tome implement skill preparation was not working properly
+- Fix Thaumaturge Dedication check (@xyzzy42)
+- Fix issue with null sourceId and Sympathetic Vulnerabilities (@xyzzy42)
+
+### Changed
+
+- Minimum PF2e System Version is 7.6.0
+- Stop using jquery in tome render chat message hook (@xyzzy42)
 
 ## [1.2.3] - 2025-11-25
 
