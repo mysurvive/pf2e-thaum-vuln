@@ -175,40 +175,14 @@ class Tome extends Implement {
         mode: "upgrade",
         predicate: ["feature:tome"],
         path: "{item|flags.pf2e.rulesSelections.effectTomeFirstSkill}",
-        value: {
-          brackets: [
-            {
-              start: 1,
-              end: 2,
-              value: 1,
-            },
-            {
-              start: 3,
-              end: 20,
-              value: 2,
-            },
-          ],
-        },
+        value: "ternary(gte(@actor.level,3),2,1)",
       },
       {
         key: "ActiveEffectLike",
         mode: "upgrade",
         predicate: ["feature:tome"],
         path: "{item|flags.pf2e.rulesSelections.effectTomeSecondSkill}",
-        value: {
-          brackets: [
-            {
-              start: 1,
-              end: 4,
-              value: 1,
-            },
-            {
-              start: 5,
-              end: 20,
-              value: 2,
-            },
-          ],
-        },
+        value: "ternary(gte(@actor.level,5),2,1)",
       },
       {
         key: "ActiveEffectLike",
@@ -224,20 +198,7 @@ class Tome extends Implement {
         mode: "upgrade",
         predicate: ["adept:tome"],
         path: "{item|flags.pf2e.rulesSelections.effectTomeSecondSkill}",
-        value: {
-          brackets: [
-            {
-              start: 1,
-              end: 8,
-              value: 2,
-            },
-            {
-              start: 9,
-              end: 20,
-              value: 3,
-            },
-          ],
-        },
+        value: "ternary(gte(@actor.level,9),3,2)",
         priority: 50,
         phase: "beforeDerived",
       },
