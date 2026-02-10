@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix an issue where Breached Defenses was showing all resistances instead of just the highest bypassable
+
 ## [1.2.3] - 2025-11-25
 
 ### Fixed
