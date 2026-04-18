@@ -1,0 +1,28 @@
+{
+  "name": "Check For Abandoned Tokens",
+  "type": "script",
+  "_id": "QchbwrLMrrKGYG1A",
+  "author": "o29bm85va79jJPjh",
+  "img": "icons/svg/dice-target.svg",
+  "scope": "global",
+  "command": "const abandonedTokens = game.scenes.map(\n  s => s.tokens.map(\n    t => {\n      if(!t.actor)return t.uuid\n    }\n  ).filter(t => t !== undefined)\n).filter(s => s.length !== 0)\nconsole.warn(\"The following abandoned tokens were found: \" + abandonedTokens)",
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "o29bm85va79jJPjh": 3
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.360",
+    "systemId": "pf2e",
+    "systemVersion": "8.0.2",
+    "createdTime": 1776498527308,
+    "modifiedTime": 1776499274804,
+    "lastModifiedBy": "o29bm85va79jJPjh",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "_key": "!macros!QchbwrLMrrKGYG1A"
+}

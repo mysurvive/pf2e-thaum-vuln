@@ -64,9 +64,12 @@ async function updateWeaknessType(message) {
       damageType = strike.traits.value.find((t) =>
         ["acid", "cold", "fire", "electricity"].includes(t)
       );
-    } else if (strike.traits.toggles.versatile.selected) {
+    } else if (
+      strike.traits.toggles.versatile &&
+      strike.traits.toggles.versatile.selected
+    ) {
       damageType = strike.traits.toggles.versatile.selected;
-    } else if (strike.traits.toggles.modular.selected) {
+    } else if (strike.traits.toggles.modular && strike.traits.toggles.modular) {
       damageType = strike.traits.toggles.modular.selected;
     } else {
       damageType = strike.damage.damageType;

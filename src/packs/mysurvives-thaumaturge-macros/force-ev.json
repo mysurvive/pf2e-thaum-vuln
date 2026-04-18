@@ -14,11 +14,13 @@
   "_stats": {
     "systemId": "pf2e",
     "systemVersion": "4.6.8",
-    "coreVersion": "12.327",
+    "coreVersion": "13.351",
     "createdTime": 1674521780250,
     "modifiedTime": 1675096450539,
     "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.TILYwPmRAg2HJ3JO",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "lastModifiedBy": null,
+    "exportSource": null
   },
   "folder": null,
   "sort": 0,

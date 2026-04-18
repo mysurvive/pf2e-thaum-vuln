@@ -112,6 +112,7 @@ class Implement {
 
     if (implement) this.deleteEffectsOnItem();
 
+    console.log(this.slug);
     if (
       game.settings.get("pf2e-thaum-vuln", `moduleHandles-${this.slug}`) ===
       false
@@ -138,6 +139,8 @@ class Implement {
         value: true,
       });
     }
+
+    console.log(implementRules);
 
     implement.update({ _id: implement._id, "system.rules": implementRules });
     this.itemId = implement.id;

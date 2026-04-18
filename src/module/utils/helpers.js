@@ -82,7 +82,7 @@ function BDGreatestBypassableResistance(t) {
 function targetEVPrimaryTarget(a) {
   const primaryTargetUuid = a.getFlag("pf2e-thaum-vuln", "primaryEVTarget");
   const primaryTarget = canvas.scene.tokens.filter(
-    (token) => token.actor.uuid === primaryTargetUuid
+    (token) => token.actor?.uuid === primaryTargetUuid
   )[0]._object;
   if (primaryTarget) {
     for (const target of game.user.targets) {
