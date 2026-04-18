@@ -15,11 +15,13 @@
   "_stats": {
     "systemId": "pf2e",
     "systemVersion": "5.15.4",
-    "coreVersion": "12.327",
+    "coreVersion": "13.351",
     "createdTime": 1716581770915,
     "modifiedTime": 1716581861960,
     "compendiumSource": "Compendium.pf2e-thaum-vuln.mysurvives-thaumaturge-macros.Macro.OjbmMO3RrNE0t78D",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "lastModifiedBy": null,
+    "exportSource": null
   },
   "_key": "!macros!OjbmMO3RrNE0t78D"
 }

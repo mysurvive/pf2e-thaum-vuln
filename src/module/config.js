@@ -330,6 +330,18 @@ Hooks.on("init", async () => {
     },
   });
 
+  game.settings.register("pf2e-thaum-vuln", "moduleHandles-shield", {
+    name: game.i18n.format("pf2e-thaum-vuln.settings.moduleHandles.shield"),
+    hint: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.hint"),
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      !value;
+    },
+  });
+
   game.settings.register("pf2e-thaum-vuln", "moduleHandles-tome", {
     name: game.i18n.format("pf2e-thaum-vuln.settings.moduleHandles.tome"),
     hint: game.i18n.localize("pf2e-thaum-vuln.settings.moduleHandles.hint"),

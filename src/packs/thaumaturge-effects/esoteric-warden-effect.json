@@ -79,11 +79,13 @@
   "_stats": {
     "systemId": "pf2e",
     "systemVersion": "6.1.1",
-    "coreVersion": "12.329",
+    "coreVersion": "13.351",
     "createdTime": 1676928897209,
     "modifiedTime": 1721825741289,
     "compendiumSource": "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.fufcXy1CEMvxmgWt",
-    "duplicateSource": null
+    "duplicateSource": null,
+    "lastModifiedBy": null,
+    "exportSource": null
   },
   "folder": null,
   "sort": 800000,

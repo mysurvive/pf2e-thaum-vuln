@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-04-18
+
+### Changed
+
+- FVTT v14 compatibility
+- pf2e v8.0.0+ compatibility
+
+### Added
+
+- Macro to find abandoned tokens in all scenes
+- Initial shield implement (no automation yet)
+
 ## [1.3.0] - 2026-02-10
 
 ### Fixed
