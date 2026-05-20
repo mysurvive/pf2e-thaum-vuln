@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Moved Recall Knowledge dialog to DialogV2
+- PF2e v8.1.2 verified
+
+### Fixed
+
+- Fixed some broken journal entries in the Recall Knowledge dialog
+
 ## [2.0.0] - 2026-04-18
 
 ### Changed
