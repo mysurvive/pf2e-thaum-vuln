@@ -275,16 +275,16 @@ export function RKCallback(userId, saUuid, targUuid, roll) {
 }
 
 async function _RKCallback(saUuid, targUuid, degreeOfSuccess) {
-  const sa = await fromUuid(saUuid);
+  const selectedActor = await fromUuid(saUuid);
   const targ = await fromUuid(targUuid);
-  Hooks.callAll("RKResult", sa, targ, degreeOfSuccess);
+  Hooks.callAll("RKResult", selectedActor, targ, degreeOfSuccess);
 }
 
 async function _createRKDialog(userId, saUuid, targUuid) {
-  const sa = await fromUuid(saUuid);
-  const skill = getEsotericLore(sa);
+  const selectedActor = await fromUuid(saUuid);
+  const skill = getEsotericLore(selectedActor);
   const targ = await fromUuid(targUuid);
-  const hasDiverseLore = sa.itemTypes.feat.some(
+  const hasDiverseLore = selectedActor.itemTypes.feat.some(
     (i) => i.slug === "diverse-lore"
   );
   const esotericLoreModifier = game.settings.get(
@@ -292,8 +292,10 @@ async function _createRKDialog(userId, saUuid, targUuid) {
     "esotericLoreModifier"
   );
 
+  //new RKDialog(userId, selectedActor, targ).render(true);
+
   let dgContent = {
-    name: sa.name,
+    name: selectedActor.name,
     esotericLoreModifier: esotericLoreModifier,
     targ: {
       name: targ?.name,
@@ -304,16 +306,24 @@ async function _createRKDialog(userId, saUuid, targUuid) {
     dgContent = { ...dgContent, hasDiverseLore: true };
   }
 
-  const dgButtons = {
-    roll: {
+  const dgButtons = [
+    {
       label: "Roll",
+      action: "roll",
+      default: true,
       callback: async (html) => {
-        const rollELModifier = $(html).find(`[id="el-modifier"]`)[0].value ?? 0;
-        const rollTarget = $(html).find(`[id="target"]`)[0].value ?? 0;
-        const rollDC = $(html).find(`[id="dc"]`)[0].value ?? null;
-        const hasDiverseLore = sa.items.some((i) => i.slug === "diverse-lore");
+        const rollELModifier =
+          $(html).find(`[id="el-modifier"]`)[0]?.value ?? 0;
+        const rollTarget = $(html).find(`[id="target"]`)[0]?.value ?? 0;
+        const rollDC = $(html).find(`[id="dc"]`)[0]?.value ?? null;
+        const hasDiverseLore = selectedActor.items.some(
+          (i) => i.slug === "diverse-lore"
+        );
         let traits = ["concentrate", "secret"];
-        const rollOptions = sa.getRollOptions(["skill-check", skill.slug]);
+        const rollOptions = selectedActor.getRollOptions([
+          "skill-check",
+          skill.slug,
+        ]);
         const diverseLoreModifier = new game.pf2e.Modifier({
           slug: "diverse-lore-penalty",
           label: game.i18n.localize("pf2e-thaum-vuln.diverseLore.penalty"),
@@ -328,7 +338,7 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         // Add TokenMark roll option to roll options
         if (targ) {
           const tokenMark = targ.uuid
-            ? sa.synthetics.tokenMarks.get(targ.uuid)
+            ? selectedActor.synthetics.tokenMarks.get(targ.uuid)
             : null;
           tokenMark ? rollOptions.push(`target:mark:${tokenMark}`) : null;
         }
@@ -381,7 +391,7 @@ async function _createRKDialog(userId, saUuid, targUuid) {
           diverseLoreModifier
         );
         let rollData = {
-          actor: sa,
+          actor: selectedActor,
           type: "skill-check",
           options: [
             ...rollOptions,
@@ -410,21 +420,27 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         RKCallback(userId, saUuid, targUuid, roll);
       },
     },
-    cancel: {
+    {
       label: game.i18n.localize("pf2e-thaum-vuln.dialog.cancel"),
+      action: "cancel",
       callback: () => {},
     },
-  };
-  new Dialog({
-    title: `${game.i18n.localize(
-      "pf2e-thaum-vuln.recallKnowledge.name"
-    )} (${game.i18n.localize("PF2E.TraitThaumaturge")}): ${sa.name}`,
+  ];
+  new foundry.applications.api.DialogV2({
+    window: {
+      title: `${game.i18n.localize(
+        "pf2e-thaum-vuln.recallKnowledge.name"
+      )} (${game.i18n.localize("PF2E.TraitThaumaturge")}): ${
+        selectedActor.name
+      }`,
+    },
     content: parseHTML(
       await foundry.applications.handlebars.renderTemplate(
         "modules/pf2e-thaum-vuln/templates/rkDialog.hbs",
         dgContent
       )
     ),
+
     buttons: dgButtons,
     default: "roll",
   }).render(true);

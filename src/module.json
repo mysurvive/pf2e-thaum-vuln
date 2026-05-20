@@ -21,7 +21,7 @@
         "type": "system",
         "compatibility": {
           "minimum": "8.0.0",
-          "verified": "8.0.2"
+          "verified": "8.1.2"
         }
       }
     ],
