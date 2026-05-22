@@ -92,28 +92,31 @@ class Tome extends Implement {
       return;
     const tome = this.item;
     if (tome) {
-      new Dialog(
+      new foundry.applications.api.DialogV2(
         {
-          title: game.i18n.localize(
-            "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.title"
+          window: {
+            title: game.i18n.localize(
+              "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.title"
+            ),
+          },
+          content: game.i18n.localize(
+            "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.prompt"
           ),
-          content: () =>
-            `<p>${game.i18n.localize(
-              "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.prompt"
-            )}</p>`,
-          buttons: {
-            yes: {
+          buttons: [
+            {
               label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
+              default: true,
+              action: "yes",
               callback: () => {
                 this.dailyPreparation();
               },
             },
-            no: {
+            {
               label: game.i18n.localize("pf2e-thaum-vuln.dialog.no"),
+              action: "no",
               callback: () => {},
             },
-          },
-          default: "yes",
+          ],
         },
         this.actor,
         tome
@@ -390,8 +393,8 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
     const user =
       game.users.find((u) => {
         u.character?.uuid === actor.uuid && u.active;
-      }) ?? game.users.activeGm;
-    const tome = getImplement(actor, "tome");
+      }) ?? game.users.activeGM;
+    console.log(user);
     tomeDailyPrep(user.id, actor.uuid);
   }
 });
