@@ -5,11 +5,13 @@
 ### Changed
 
 - Moved Recall Knowledge dialog to DialogV2
+- Added item id to actor.flags["pf2e-thaum-vuln"].selectedImplements
 - PF2e v8.1.2 verified
 
 ### Fixed
 
 - Fixed some broken journal entries in the Recall Knowledge dialog
+- Removed some lingering console logs
 
 ## [2.0.0] - 2026-04-18
 

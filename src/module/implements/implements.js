@@ -20,6 +20,7 @@ export async function manageImplements(event) {
       name: imp.name,
       slug: imp.slug,
       uuid: imp.item?.uuid,
+      id: imp.itemId,
       image: imp.item?.img,
       trueName: imp.item?.name,
       flavor: new Handlebars.SafeString(imp.baseFeat?.description), // This doesn't work for dedication
@@ -45,17 +46,20 @@ export async function manageImplements(event) {
           callback: async (dgEndContent) => {
             const imps =
               a.getFlag("pf2e-thaum-vuln", "selectedImplements") ?? {};
-
             const impDelta = {};
-            for (const [slug, uuid] of Object.entries(
+
+            for (const implement of Object.values(
               confirmImplements(dgEndContent)
             )) {
-              const changed = imps[slug]?.uuid !== uuid;
+              const changed =
+                imps[implement.slug]?.uuid !== implement.uuid ||
+                imps[implement.slug]?.id !== implement.id;
               if (changed) {
-                (imps[slug] ??= {}).uuid = uuid;
+                (imps[implement.slug] ??= {}).uuid = implement.uuid;
+                (imps[implement.slug] ??= {}).id = implement.id;
               }
-              console.log(`${slug} changed: ${changed}`);
-              impDelta[slug] = changed;
+              console.log(`${implement.slug} changed: ${changed}`);
+              impDelta[implement.slug] = changed;
             }
 
             await a.setFlag("pf2e-thaum-vuln", "selectedImplements", imps);
@@ -111,8 +115,8 @@ async function handleDrop(event) {
 
   // gets the span for the item, which is inside the drop area div somewhere
   const itemSpan = event.currentTarget.querySelector("[data-item-uuid]");
-
   itemSpan.dataset.itemUuid = dropData.uuid;
+  itemSpan.dataset.itemId = chosenItem.id;
   itemSpan.querySelector("img").src = chosenItem.img;
   itemSpan.querySelector("#implementLabel").textContent = chosenItem.name;
 }
@@ -122,9 +126,14 @@ function confirmImplements(dgEndContent) {
   const itemUuids = $(dgEndContent).find(".item-content-wrapper");
   itemUuids.each(function () {
     if (this.dataset.itemUuid !== undefined && this.dataset.itemUuid !== "") {
-      uuidCollection[this.dataset.implementSlug] = this.dataset.itemUuid;
+      uuidCollection[this.dataset.implementSlug] = {
+        uuid: this.dataset.itemUuid,
+        id: this.dataset.itemId,
+        slug: this.dataset.implementSlug,
+      };
     }
   });
+
   return uuidCollection;
 }
 

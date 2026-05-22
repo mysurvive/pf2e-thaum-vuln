@@ -1,0 +1,78 @@
+{
+  "folder": "Xu7gtZlu2amPuec5",
+  "name": "Effect: Shield Intensified",
+  "type": "effect",
+  "effects": [],
+  "system": {
+    "_migration": {
+      "version": 0.955,
+      "previous": null
+    },
+    "description": {
+      "value": "",
+      "gm": ""
+    },
+    "publication": {
+      "title": "",
+      "authors": "",
+      "license": "OGL",
+      "remaster": false
+    },
+    "rules": [
+      {
+        "itemType": "shield",
+        "mode": "add",
+        "property": "hardness",
+        "value": "@actor.system.abilities.cha.mod",
+        "key": "ItemAlteration",
+        "predicate": [
+          "item:id:{actor|flags.pf2e-thaum-vuln.selectedImplements.shield.id}",
+          "shield-full-hp"
+        ]
+      }
+    ],
+    "slug": null,
+    "traits": {
+      "otherTags": [],
+      "value": []
+    },
+    "level": {
+      "value": 1
+    },
+    "duration": {
+      "value": 1,
+      "unit": "rounds",
+      "expiry": "turn-start",
+      "sustained": false
+    },
+    "tokenIcon": {
+      "show": false
+    },
+    "unidentified": false,
+    "start": {
+      "value": 0,
+      "initiative": null
+    },
+    "badge": null,
+    "fromSpell": false,
+    "context": null
+  },
+  "_id": "DQSD4KUhieZmqPWr",
+  "img": "systems/pf2e/icons/equipment/shields/specific-shields/reflecting-shield.webp",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.360",
+    "systemId": "pf2e",
+    "systemVersion": "8.0.2",
+    "createdTime": 1779391137991,
+    "modifiedTime": 1779405486513,
+    "compendiumSource": "Compendium.undefined.thaumaturge-effects.Item.DQSD4KUhieZmqPWr",
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "_key": "!items!DQSD4KUhieZmqPWr"
+}
