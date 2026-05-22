@@ -394,7 +394,6 @@ Hooks.on("pf2e.restForTheNight", (actor) => {
       game.users.find((u) => {
         u.character?.uuid === actor.uuid && u.active;
       }) ?? game.users.activeGM;
-    console.log(user);
     tomeDailyPrep(user.id, actor.uuid);
   }
 });
