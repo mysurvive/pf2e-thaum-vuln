@@ -73,6 +73,8 @@ const GLIMPSE_VULNERABILITY_EFFECT_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.yEiGotvU2nQwYzYU";
 const GLIMPSE_VULNERABILITY_TARGET_UUID =
   "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.wygfR5F8KfPmicoA";
+const INTENSIFY_VULNERABILITY_SHIELD_EFFECT_UUID =
+  "Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.1VALNTPWbaw78ktr";
 
 const SupportedActions = [
   "exploit-vulnerability",
@@ -138,4 +140,5 @@ export {
   THAUMATURGE_DEDICATION_FEAT_UUID,
   GLIMPSE_VULNERABILITY_EFFECT_UUID,
   GLIMPSE_VULNERABILITY_TARGET_UUID,
+  INTENSIFY_VULNERABILITY_SHIELD_EFFECT_UUID,
 };

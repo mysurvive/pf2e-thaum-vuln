@@ -1,0 +1,22 @@
+{
+  "type": "Item",
+  "folder": "A5LcQoSo0NG6WhAR",
+  "name": "Shield",
+  "color": null,
+  "sorting": "a",
+  "_id": "Xu7gtZlu2amPuec5",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "coreVersion": "14.360",
+    "systemId": "pf2e",
+    "systemVersion": "8.0.2",
+    "createdTime": 1779390307216,
+    "modifiedTime": 1779390307216,
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null
+  },
+  "_key": "!folders!Xu7gtZlu2amPuec5"
+}
