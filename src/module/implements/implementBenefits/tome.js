@@ -11,7 +11,7 @@ import {
 } from "../../utils/helpers";
 import { getImplement } from "../helpers";
 import { Implement } from "../implement";
-import { RKCallback } from "../../socket";
+import { RKCallback, tomeDailyPrep } from "../../socket";
 
 class Tome extends Implement {
   static slug = "tome";
@@ -380,13 +380,19 @@ Hooks.on("RKResult", (actor, targetDoc, degreeOfSuccess) => {
   }
 });
 
+// This needs to be run as another user because some modules call Rest for the Night as GM,
+// which forces the GM to choose the daily prep.
 Hooks.on("pf2e.restForTheNight", (actor) => {
   if (
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome") &&
     getImplement(actor, "tome")
   ) {
+    const user =
+      game.users.find((u) => {
+        u.character?.uuid === actor.uuid && u.active;
+      }) ?? game.users.activeGm;
     const tome = getImplement(actor, "tome");
-    tome.createDailyPreparationDialog(actor);
+    tomeDailyPrep(user.id, actor.uuid);
   }
 });
 
