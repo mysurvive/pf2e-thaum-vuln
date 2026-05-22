@@ -18,44 +18,41 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "gulp build",
-    "build:watch": "gulp watch",
-    "link-project": "gulp link",
-    "clean": "gulp clean",
-    "clean:link": "gulp link --clean",
-    "lint": "eslint --ext .js,.cjs,.mjs .",
+    "build": "npm run clean && npm run buildPacks && vite build",
+    "build:watch": "npm run clean && npm run buildPacks && vite build --watch --mode development",
+    "clean": "node ./build/clean.js",
+    "link": "node ./build/link-foundry.js",
+    "lint": "eslint ./build ./src --ext .js",
     "lint:fix": "eslint --ext .js,.cjs,.mjs --fix .",
     "format": "prettier --write \"./**/*.(js|cjs|mjs|json|yml|css)\"",
-    "postinstall": "husky install",
     "extractPacks": "node ./build/extractPacks.js",
-    "buildPacks": "node -e \"import('./build/buildPacks.js').then((e) => e.buildModulePacks())\""
+    "buildPacks": "node -e \"import('./build/buildPacks.js').then((e) => e.buildModulePacks())\"",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^9.39.4",
     "@foundryvtt/foundryvtt-cli": "^1.0.2",
-    "@rollup/plugin-node-resolve": "^14.0.0",
-    "@rollup/stream": "^2.0.0",
     "@typhonjs-fvtt/eslint-config-foundry.js": "^0.8.0",
-    "eslint": "^8.23.0",
+    "esbuild": "^0.28.0",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "fs": "^0.0.1-security",
     "fs-extra": "^10.1.0",
-    "gulp": "^5.0.0",
-    "gulp-sass": "^6.0.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "husky": "^8.0.1",
+    "globals": "^17.6.0",
+    "husky": "^9.1.7",
     "lint-staged": "^13.0.3",
+    "path": "^0.12.7",
     "prettier": "^2.7.1",
-    "rollup": "^2.79.0",
+    "prompts": "^2.4.2",
     "sass": "^1.83.4",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0",
-    "yargs": "^17.5.1"
+    "vite": "^8.0.14",
+    "vite-plugin-checker": "^0.13.0",
+    "vite-plugin-static-copy": "^4.1.0"
   },
   "lint-staged": {
     "*.(js|cjs|mjs)": "eslint --fix",
     "*.(json|yml|css)": "prettier --write"
-  },
-  "dependencies": {
-    "electron": "^27.0.0"
   }
 }

@@ -17,6 +17,12 @@
 - Fixed some broken journal entries in the Recall Knowledge dialog
 - Removed some lingering console logs
 
+### Development
+
+- Migrated from Gulp to Vite
+- Fixed all dependency vulnerabilities
+- Reorganized some folders
+
 ## [2.0.0] - 2026-04-18
 
 ### Changed

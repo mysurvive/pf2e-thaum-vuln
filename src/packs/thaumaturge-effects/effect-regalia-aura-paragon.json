@@ -13,9 +13,7 @@
         "selector": "saving-throw",
         "value": 1,
         "type": "status",
-        "predicate": [
-          "mental"
-        ]
+        "predicate": ["mental"]
       },
       {
         "key": "FlatModifier",
@@ -53,9 +51,7 @@
         "mode": "override",
         "path": "system.attributes.flanking.offGuardable",
         "value": false,
-        "predicate": [
-          "regalia-not-offGuardable"
-        ]
+        "predicate": ["regalia-not-offGuardable"]
       }
     ],
     "slug": "effect-regalia-aura-paragon",
