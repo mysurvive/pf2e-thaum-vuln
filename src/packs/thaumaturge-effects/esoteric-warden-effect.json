@@ -13,18 +13,14 @@
         "value": 1,
         "type": "status",
         "slug": "esoteric-warden-ac",
-        "predicate": [
-          "origin:mark:exploit-vulnerability"
-        ]
+        "predicate": ["origin:mark:exploit-vulnerability"]
       },
       {
         "key": "FlatModifier",
         "selector": "saving-throw",
         "value": 1,
         "slug": "esoteric-warden-save",
-        "predicate": [
-          "origin:mark:exploit-vulnerability"
-        ]
+        "predicate": ["origin:mark:exploit-vulnerability"]
       }
     ],
     "slug": "esoteric-warden-effect",

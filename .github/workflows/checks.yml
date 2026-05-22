@@ -5,8 +5,10 @@
 name: Checks
 
 on:
-  - push
-  - pull_request
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 env:
   node_version: latest

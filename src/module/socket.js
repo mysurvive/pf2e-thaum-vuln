@@ -548,6 +548,7 @@ async function revertDamageSources(target) {
       });
       damage.unsetFlag("pf2e-thaum-vuln", "recoveryDC");
     } catch (error) {
+      console.warn(error);
       continue;
     }
   }

@@ -12,9 +12,7 @@
         "mode": "add",
         "property": "weapon-traits",
         "value": "magical",
-        "predicate": [
-          "target:mark:exploit-vulnerability"
-        ],
+        "predicate": ["target:mark:exploit-vulnerability"],
         "slug": "breached-defenses-magical"
       },
       {

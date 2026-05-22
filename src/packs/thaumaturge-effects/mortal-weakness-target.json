@@ -11,9 +11,7 @@
         "key": "Weakness",
         "type": "physical",
         "value": 7,
-        "predicate": [
-          "origin:effect:exploit-mortal-weakness"
-        ],
+        "predicate": ["origin:effect:exploit-mortal-weakness"],
         "slug": "mortal-weakness-weapons"
       }
     ],

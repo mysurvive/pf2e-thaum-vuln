@@ -139,7 +139,7 @@
     },
     "divineDisharmony": {
       "name": "Désaccord divin",
-      "flavor":  "De votre collection de babioles religieuses, vous tirez des objets divins opposés - comme les symboles religieux de deux divinités qui sont des ennemis jurés - et vous les combinez dans une démonstration qui provoque des chocs discordants d'énergie divine qui sont spécialement distrayantes pour les fidèles. Lancez à votre choix un test de Duperie ou d' Intimidation contre le DD de Volonté d'une créature que vous pouvez voir dans les 18 m avec les résultats suivants. Si la créature est particulièrement dévouée à une divinité, comme l'est un prêtre, un céleste, un veilleur ou un fiélon ou toute autre créature lançant des sorts divins, vous obtenez un bonus de circonstances de +2 à votre test de compétence. À l'inverse, le MJ peut décider qu'une créature qui méprise toutes les divinités comme un alghollthu ne sera pas affectée.",
+      "flavor": "De votre collection de babioles religieuses, vous tirez des objets divins opposés - comme les symboles religieux de deux divinités qui sont des ennemis jurés - et vous les combinez dans une démonstration qui provoque des chocs discordants d'énergie divine qui sont spécialement distrayantes pour les fidèles. Lancez à votre choix un test de Duperie ou d' Intimidation contre le DD de Volonté d'une créature que vous pouvez voir dans les 18 m avec les résultats suivants. Si la créature est particulièrement dévouée à une divinité, comme l'est un prêtre, un céleste, un veilleur ou un fiélon ou toute autre créature lançant des sorts divins, vous obtenez un bonus de circonstances de +2 à votre test de compétence. À l'inverse, le MJ peut décider qu'une créature qui méprise toutes les divinités comme un alghollthu ne sera pas affectée.",
       "degreeOfSuccess": {
         "criticalSuccess": "<strong>Réussite Critique</strong> La créature est Prise au dépourvu contre vos attaques jusqu'à la fin de votre prochain tour. @UUID[Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.1Qg5deHGd0ou1EWY]{Effet : Désaccord divin (Réussite Critique)}",
         "success": "<strong>Réussite</strong> La créature est prise au dépourvu contre vos attaques jusqu'à la fin de votre tour actuel. @UUID[Compendium.pf2e-thaum-vuln.thaumaturge-effects.Item.lrc7YZ0FrfbljICC]{Effet : Désaccord divin}"
@@ -293,7 +293,7 @@
           "brightLight": "Indicateur de lumière vive",
           "isLit": "L'implément Lanterne est allumé",
           "inLight": "Dans la lumière de la Lanterne"
-        }        
+        }
       },
       "regalia": {
         "frightenedReminder": "Réduisez l'état Effrayé de 1 dû à l'aura du Regalia du Thaumaturge.",

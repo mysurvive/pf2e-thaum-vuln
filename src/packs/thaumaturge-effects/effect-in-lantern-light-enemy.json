@@ -10,15 +10,10 @@
     "rules": [
       {
         "key": "FlatModifier",
-        "selector": [
-          "deception-check",
-          "stealth-check"
-        ],
+        "selector": ["deception-check", "stealth-check"],
         "value": -2,
         "type": "status",
-        "predicate": [
-          "origin:effect:intensify-vulnerability-lantern"
-        ]
+        "predicate": ["origin:effect:intensify-vulnerability-lantern"]
       }
     ],
     "slug": "in-lantern-light-enemy",

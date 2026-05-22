@@ -104,6 +104,7 @@ async function handleDrop(event) {
       try {
         return JSON.parse(null != dataString ? dataString : "");
       } catch (_a) {
+        console.warn(_a);
         return null;
       }
     })();

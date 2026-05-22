@@ -5,5 +5,5 @@ pf2e-thaum-vuln.code-workspace
 node_modules/
 dist/
 .vscode/
-.husky/
+.husky/_
 config.yml

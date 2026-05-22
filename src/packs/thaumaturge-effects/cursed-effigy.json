@@ -12,9 +12,7 @@
         "selector": "saving-throw",
         "value": "-2",
         "type": "status",
-        "predicate": [
-          "thaumaturge"
-        ]
+        "predicate": ["thaumaturge"]
       }
     ],
     "slug": "cursed-effigy",
