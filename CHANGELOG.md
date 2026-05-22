@@ -8,6 +8,10 @@
 - Added item id to actor.flags["pf2e-thaum-vuln"].selectedImplements
 - PF2e v8.1.2 verified
 
+### Added
+
+- Added full support for Shield implement. The PF2e system handles the shield implement really well, so the module only fills in the gaps.
+
 ### Fixed
 
 - Fixed some broken journal entries in the Recall Knowledge dialog
