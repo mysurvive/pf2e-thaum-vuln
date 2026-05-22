@@ -11,7 +11,7 @@ import {
 } from "../../utils/helpers";
 import { getImplement } from "../helpers";
 import { Implement } from "../implement";
-import { RKCallback } from "../../socket";
+import { RKCallback, tomeDailyPrep } from "../../socket";
 
 class Tome extends Implement {
   static slug = "tome";
@@ -92,28 +92,31 @@ class Tome extends Implement {
       return;
     const tome = this.item;
     if (tome) {
-      new Dialog(
+      new foundry.applications.api.DialogV2(
         {
-          title: game.i18n.localize(
-            "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.title"
+          window: {
+            title: game.i18n.localize(
+              "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.title"
+            ),
+          },
+          content: game.i18n.localize(
+            "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.prompt"
           ),
-          content: () =>
-            `<p>${game.i18n.localize(
-              "pf2e-thaum-vuln.implements.tome.dailyPreparationDialog.prompt"
-            )}</p>`,
-          buttons: {
-            yes: {
+          buttons: [
+            {
               label: game.i18n.localize("pf2e-thaum-vuln.dialog.yes"),
+              default: true,
+              action: "yes",
               callback: () => {
                 this.dailyPreparation();
               },
             },
-            no: {
+            {
               label: game.i18n.localize("pf2e-thaum-vuln.dialog.no"),
+              action: "no",
               callback: () => {},
             },
-          },
-          default: "yes",
+          ],
         },
         this.actor,
         tome
@@ -380,13 +383,19 @@ Hooks.on("RKResult", (actor, targetDoc, degreeOfSuccess) => {
   }
 });
 
+// This needs to be run as another user because some modules call Rest for the Night as GM,
+// which forces the GM to choose the daily prep.
 Hooks.on("pf2e.restForTheNight", (actor) => {
   if (
     !game.settings.get("pf2e-thaum-vuln", "dailiesHandlesTome") &&
     getImplement(actor, "tome")
   ) {
-    const tome = getImplement(actor, "tome");
-    tome.createDailyPreparationDialog(actor);
+    const user =
+      game.users.find((u) => {
+        u.character?.uuid === actor.uuid && u.active;
+      }) ?? game.users.activeGM;
+    console.log(user);
+    tomeDailyPrep(user.id, actor.uuid);
   }
 });
 

@@ -6,6 +6,8 @@
 
 - Moved Recall Knowledge dialog to DialogV2
 - Added item id to actor.flags["pf2e-thaum-vuln"].selectedImplements
+- Move Tome implement's Daily Preparation to a socket call to ensure other modules which are calling Rest for the Night give the prompt to the thaumaturge correctly to do their daily preparation
+- Move Tome Daily Preparation dialog to DialogV2
 - PF2e v8.1.2 verified
 
 ### Added

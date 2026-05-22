@@ -12,6 +12,7 @@ import {
   getEsotericLore,
   getTargetRollOptions,
 } from "./utils/helpers.js";
+import { getImplement } from "./implements/helpers.js";
 
 let socket;
 
@@ -28,6 +29,7 @@ Hooks.once("socketlib.ready", () => {
   socket.register("applyRootToLife", _socketApplyRootToLife);
   socket.register("createEffectsOnActors", _socketCreateEffectsOnActors);
   socket.register("chaliceParagonDecrement", _socketChaliceParagonDecrement);
+  socket.register("tomeDailyPrep", _tomeDailyPrep);
 });
 
 export function applyRootToLife(actor, target, actionCount) {
@@ -98,6 +100,10 @@ export function createRKDialog(sa, targ) {
 
 export function applyAbeyanceEffects(a, abeyanceData) {
   return socket.executeAsGM(_socketApplyAbeyanceEffects, a, abeyanceData);
+}
+
+export function tomeDailyPrep(player, actor) {
+  return socket.executeAsUser(_tomeDailyPrep, player, actor);
 }
 
 /**
@@ -566,4 +572,10 @@ async function _socketChaliceParagonDecrement(target) {
   for (const condition of targetConditions) {
     await target.decreaseCondition(condition.slug);
   }
+}
+
+async function _tomeDailyPrep(actor) {
+  actor = await fromUuid(actor);
+  const tome = getImplement(actor, "tome");
+  tome.createDailyPreparationDialog(actor);
 }
