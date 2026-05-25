@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-05-25
+
 ### Changed
 
 - Moved Recall Knowledge dialog to DialogV2
