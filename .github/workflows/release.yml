@@ -57,7 +57,7 @@ jobs:
         id: sub_manifest_link_version
         uses: devops-actions/variable-substitution@v1.2
         with:
-          files: "src/${{ env.package_type }}.json"
+          files: "static/${{ env.package_type }}.json"
         env:
           version: ${{ steps.get_version.outputs.version-without-v }}
           url: https://github.com/${{ github.repository }}
