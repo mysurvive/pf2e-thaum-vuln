@@ -13,6 +13,11 @@
 ### Added
 
 - Added full support for Shield implement. The PF2e system handles the shield implement really well, so the module only fills in the gaps.
+- Added migration script to add id property to the implements in the selectedImplements flag on thaumaturges. This function is exposed under game.pf2eThaumVuln.migrate210() in case it needs to be run manually, but it will run on the ready hook once automatically.
+
+### Removed
+
+- Removed old 1.5.0 migration script
 
 ### Fixed
 

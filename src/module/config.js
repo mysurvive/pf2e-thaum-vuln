@@ -17,6 +17,7 @@ import {
   isThaumaturge,
   getEsotericLoreSlugs,
 } from "./utils/helpers.js";
+import { migrate210 } from "../scripts/210-migration.js";
 
 Hooks.on("init", async () => {
   const ADJUSTMENT_TYPES = {
@@ -67,6 +68,7 @@ Hooks.on("init", async () => {
     intensifyImplement,
     glimpseVulnerability,
     ADJUSTMENTS: { ADJUSTMENT_TYPES },
+    migrate210,
   };
 
   loadTemplates([
@@ -176,8 +178,8 @@ Hooks.on("init", async () => {
   });
 
   //game settings
-  game.settings.register("pf2e-thaum-vuln", "0150migration", {
-    name: "0.15.0 migration",
+  game.settings.register("pf2e-thaum-vuln", "210-migration", {
+    name: "2.1.0 migration",
     scope: "world",
     config: false,
     type: Boolean,
@@ -365,4 +367,9 @@ Hooks.on("init", async () => {
       !value;
     },
   });
+});
+
+Hooks.on("ready", () => {
+  if (game.settings.get("pf2e-thaum-vuln", "210-migration") === false)
+    migrate210();
 });
