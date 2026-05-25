@@ -14,6 +14,10 @@
 
 - Added full support for Shield implement. The PF2e system handles the shield implement really well, so the module only fills in the gaps.
 
+### Removed
+
+- Removed old 1.5.0 migration script
+
 ### Fixed
 
 - Fixed some broken journal entries in the Recall Knowledge dialog
