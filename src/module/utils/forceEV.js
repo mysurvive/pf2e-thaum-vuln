@@ -8,10 +8,7 @@ import { createEffectData } from "./helpers";
 
 //macro that allows GMs to apply the same exploit vulnerability on a target
 async function forceEVTarget() {
-  let a = canvas.tokens.controlled[0];
-  const sa = a.actor;
-  let tar = Array.from(game.user.targets);
-  if (canvas.tokens.controlled.length != 1 || tar.length === 0) {
+  if (canvas.tokens.controlled.length != 1 || game.user.targets.length === 0) {
     return ui.notifications.warn(
       game.i18n.localize(
         "pf2e-thaum-vuln.notifications.warn.forceEV.invalidTargets"
@@ -19,11 +16,17 @@ async function forceEVTarget() {
     );
   }
 
+  const controlledToken = canvas.tokens.controlled[0];
+  const controlledActor = controlledToken.actor;
+  let targets = Array.from(game.user.targets);
+
   const effectUuids = {
     "mortal-weakness": MORTAL_WEAKNESS_TARGET_UUID,
     "personal-antithesis": PERSONAL_ANTITHESIS_TARGET_UUID,
   };
-  const uuid = effectUuids[sa.getFlag("pf2e-thaum-vuln", "EVMode")];
+
+  const uuid =
+    effectUuids[controlledActor.getFlag("pf2e-thaum-vuln", "EVMode")];
   if (!uuid) {
     return ui.notifications.warn(
       game.i18n.localize(
@@ -31,21 +34,29 @@ async function forceEVTarget() {
       )
     );
   }
+
   const eff = await createEffectData(uuid, {
-    actor: sa,
-    token: a,
+    actor: controlledActor.uuid,
+    token: controlledToken.uuid,
   });
-  eff.system.rules[0].value = a.actor.getFlag("pf2e-thaum-vuln", "EVValue");
-  eff.name += " (" + a.actor.name + ")";
-  for (let targ of tar) {
+
+  eff.system.rules[0].value = controlledToken.actor.getFlag(
+    "pf2e-thaum-vuln",
+    "EVValue"
+  );
+
+  eff.name += " (" + controlledToken.actor.name + ")";
+
+  for (let target of targets) {
     const effects =
-      targ.actor?.itemTypes.effect.filter(
-        (e) => e.origin === sa && EVEffectsSourceIDs.has(e.sourceId)
+      target.actor?.itemTypes.effect.filter(
+        (e) =>
+          e.origin === controlledActor && EVEffectsSourceIDs.has(e.sourceId)
       ) ?? [];
     if (effects.length != 0) {
-      deleteEVEffect(effects.map((e) => e.id));
+      deleteEVEffect(effects.map((e) => e.uuid));
     } else {
-      await targ.actor.createEmbeddedDocuments("Item", [eff]);
+      await target.actor.createEmbeddedDocuments("Item", [eff]);
     }
   }
 }
