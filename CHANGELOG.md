@@ -23,6 +23,7 @@
 
 - Fixed some broken journal entries in the Recall Knowledge dialog
 - Removed some lingering console logs
+- Fixed Force EV macro
 
 ### Development
 
