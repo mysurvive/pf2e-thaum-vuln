@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-06-02
+
+### Fixed
+
+- Fixed the Recall Knowledge macro not correctly gathering DCs and EL modifiers from the Dialog.
+
 ## [2.1.0] - 2026-05-25
 
 ### Changed
