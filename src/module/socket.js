@@ -298,8 +298,6 @@ async function _createRKDialog(userId, saUuid, targUuid) {
     "esotericLoreModifier"
   );
 
-  //new RKDialog(userId, selectedActor, targ).render(true);
-
   let dgContent = {
     name: selectedActor.name,
     esotericLoreModifier: esotericLoreModifier,
@@ -317,7 +315,8 @@ async function _createRKDialog(userId, saUuid, targUuid) {
       label: "Roll",
       action: "roll",
       default: true,
-      callback: async (html) => {
+      callback: async (event) => {
+        const html = event.target.form;
         const rollELModifier =
           $(html).find(`[id="el-modifier"]`)[0]?.value ?? 0;
         const rollTarget = $(html).find(`[id="target"]`)[0]?.value ?? 0;
