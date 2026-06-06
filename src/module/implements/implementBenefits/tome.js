@@ -437,7 +437,8 @@ Hooks.on("preCreateChatMessage", (message) => {
     message.flags.pf2e?.context?.type === "attack-roll" &&
     message.flags.pf2e?.context?.options?.some(
       (o) => o === "target:mark:tome-adept-rk-success"
-    )
+    ) &&
+    !message.actor.attributes.implements["tome"]?.paragon
   ) {
     message.actor.itemTypes.effect
       .find((i) => i.sourceId === TOME_ADEPT_RK_EFFECT_UUID)
