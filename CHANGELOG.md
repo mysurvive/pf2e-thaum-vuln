@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [2.1.2] - 2026-06-05
+
+### Fixed
+
+- Fixed a bug where the Tome Implement Recall Knowledge effect granted by the Adept benefit would disappear after the first strike on a turn.
+
 ## [2.1.1] - 2026-06-02
 
 ### Fixed
