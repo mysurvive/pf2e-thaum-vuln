@@ -1,5 +1,4 @@
 import { checkImplements, checkFeatValidity } from "./helpers";
-import { parseHTML } from "../utils/utils.js";
 
 export async function manageImplements(event) {
   const a = event?.data.actor ?? event;
@@ -32,12 +31,13 @@ export async function manageImplements(event) {
       title: game.i18n.localize(
         "pf2e-thaum-vuln.manageImplements.dialog.header"
       ),
-      content: parseHTML(
-        await foundry.applications.handlebars.renderTemplate(
-          "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
-          { implements: passImps }
-        )
-      ),
+      content:
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          await foundry.applications.handlebars.renderTemplate(
+            "modules/pf2e-thaum-vuln/templates/manageImplements.hbs",
+            { implements: passImps }
+          )
+        ),
       buttons: {
         complete: {
           label: game.i18n.localize(

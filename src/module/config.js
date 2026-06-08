@@ -74,6 +74,7 @@ Hooks.on("init", async () => {
   loadTemplates([
     "modules/pf2e-thaum-vuln/templates/implementPartial.hbs",
     "modules/pf2e-thaum-vuln/templates/amuletsAbeyanceDialog.hbs",
+    "modules/pf2e-thaum-vuln/templates/dialog.hbs",
   ]);
 
   /** Wraps the prepareDerivedData function on actors to add implement classes to the actor. */
