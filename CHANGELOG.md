@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced all instances of custom parseHTML function with foundry.applications.ux.TextEditor.implementation.enrichHTML
+
 ## [2.1.2] - 2026-06-05
 
 ### Fixed
