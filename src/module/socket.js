@@ -6,7 +6,6 @@ import {
   PERSONAL_ANTITHESIS_TARGET_UUID,
   PRIMARY_TARGET_EFFECT_UUID,
 } from "./utils/index.js";
-import { parseHTML } from "./utils/utils.js";
 import {
   createEffectData,
   getEsotericLore,
@@ -439,7 +438,7 @@ async function _createRKDialog(userId, saUuid, targUuid) {
         selectedActor.name
       }`,
     },
-    content: parseHTML(
+    content: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
       await foundry.applications.handlebars.renderTemplate(
         "modules/pf2e-thaum-vuln/templates/rkDialog.hbs",
         dgContent

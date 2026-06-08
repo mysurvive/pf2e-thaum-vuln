@@ -1,7 +1,6 @@
-import { parseHTML } from "../utils/utils";
 import { applyRootToLife } from "../socket";
 
-function rootToLife() {
+async function rootToLife() {
   const actor = game.user.character ?? canvas.tokens.controlled[0]?.actor;
   if (!actor) {
     return ui.notifications.warn(
@@ -31,31 +30,38 @@ function rootToLife() {
       )
     );
   }
-  new Dialog(
+  new foundry.applications.api.DialogV2(
     {
-      title: game.i18n.localize("pf2e-thaum-vuln.rootToLife.title"),
-      content: parseHTML(
-        `${game.i18n.localize(
-          "pf2e-thaum-vuln.rootToLife.selectActionCount"
-        )} @UUID[Compendium.pf2e.feats-srd.Item.oQVp2UhXVBcELma5]{Root to Life}`
-      ),
-      buttons: {
-        oneAction: {
+      window: { title: game.i18n.localize("pf2e-thaum-vuln.rootToLife.title") },
+      content:
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+          await foundry.applications.handlebars.renderTemplate(
+            "/modules/pf2e-thaum-vuln/templates/dialog.hbs",
+            {
+              content: `${game.i18n.localize(
+                "pf2e-thaum-vuln.rootToLife.selectActionCount"
+              )} @UUID[Compendium.pf2e.feats-srd.Item.oQVp2UhXVBcELma5]{Root to Life}`,
+            }
+          )
+        ),
+      buttons: [
+        {
           label: game.i18n.localize("pf2e-thaum-vuln.dialog.oneAction"),
+          action: "oneAction",
+          default: true,
           callback: () => {
             applyRootToLife(actor, target, 1);
           },
         },
-        twoAction: {
+        {
           label: game.i18n.localize("pf2e-thaum-vuln.dialog.twoAction"),
+          action: "twoAction",
           callback: () => {
             applyRootToLife(actor, target, 2);
           },
         },
-      },
+      ],
       default: "oneAction",
-      render: () => {},
-      close: () => {},
     },
     actor,
     target
